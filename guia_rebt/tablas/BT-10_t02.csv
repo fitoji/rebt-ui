@@ -1,0 +1,7 @@
+Tipo de aparato elevador,Carga (kg),Nº de personas,Velocidad (m/s),Potencia (kW)
+ITA-1,400,5,"0,63","4,5"
+ITA-2,400,5,"1,00","7,5"
+ITA-3,630,8,"1,00","11,5"
+ITA-4,630,8,"1,60","18,5"
+ITA-5,1000,13,"1,60","29,5"
+ITA-6,1000,13,"2,50","46,0"

@@ -1,0 +1,612 @@
+{
+  "fuente": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Paginas/guia-tecnica-aplicacion.aspx",
+  "convertido": "2026-10-18",
+  "documentos": [
+    {
+      "id": "00-Introduccion",
+      "md": "md/00-Introduccion.md",
+      "tablas": 0,
+      "imgs": [],
+      "titulo": "Introducción",
+      "edicion": "",
+      "revision": "",
+      "paginas": 2,
+      "sha256": "9e6146f446cd92ae8eeb5d1572f658f94fe7a86e99ff5a0205b04d07c884f555",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_introduccion.pdf"
+    },
+    {
+      "id": "01-Indice-unidades-tematicas",
+      "md": "md/01-Indice-unidades-tematicas.md",
+      "tablas": 0,
+      "imgs": [],
+      "titulo": "Índice de Unidades Temáticas",
+      "edicion": "",
+      "revision": "",
+      "paginas": 2,
+      "sha256": "49c0e30d073e4ec06466995e6d44061ae669b6ec2de1ecb55e67d9aea46bdbe6",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_indice_jul19R8.pdf"
+    },
+    {
+      "id": "BT-RD-842-02",
+      "md": "md/BT-RD-842-02.md",
+      "tablas": 4,
+      "imgs": [
+        "imgs/BT-RD-842-02_p12_i01.png",
+        "imgs/BT-RD-842-02_p13_i01.png",
+        "imgs/BT-RD-842-02_p13_i02.png",
+        "imgs/BT-RD-842-02_p15_i01.png",
+        "imgs/BT-RD-842-02_p15_i02.png",
+        "imgs/BT-RD-842-02_p15_i03.png",
+        "imgs/BT-RD-842-02_p15_i04.png",
+        "imgs/BT-RD-842-02_p16_i01.png",
+        "imgs/BT-RD-842-02_p16_i02.png"
+      ],
+      "titulo": "Guía Técnica de Aplicación RD 842/2002, de 2 de agosto",
+      "edicion": "Sep 03",
+      "revision": "1",
+      "paginas": 21,
+      "sha256": "3007b67404f0eb51b2f34be8c290cb319fb74389f0dde8a933a012f3af9f9a79",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_rd_842_02_sep03R1.pdf"
+    },
+    {
+      "id": "BT-03",
+      "md": "md/BT-03.md",
+      "tablas": 12,
+      "imgs": [],
+      "titulo": "BT-03. Instaladores autorizados en baja tensión",
+      "edicion": "Sep 03",
+      "revision": "1",
+      "paginas": 16,
+      "sha256": "866e3da88c847867a7e4640a92d63110f67b41053bc7d3c7b6c717b8f0f786e9",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_03_sep03R1.pdf"
+    },
+    {
+      "id": "BT-04",
+      "md": "md/BT-04.md",
+      "tablas": 10,
+      "imgs": [
+        "imgs/BT-04_p06_tabla.png"
+      ],
+      "titulo": "BT-04. Documentación y puesta en servicio de las instalaciones",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 17,
+      "sha256": "8847632f2e9b3df0b55d169d3b538d4013040b85927e873ff5c0cf1a5d53797f",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_04_sep03R1.pdf"
+    },
+    {
+      "id": "BT-05",
+      "md": "md/BT-05.md",
+      "tablas": 0,
+      "imgs": [
+        "imgs/BT-05_p05_i01.png",
+        "imgs/BT-05_p06_i01.png"
+      ],
+      "titulo": "BT-05. Verificaciones e Inspecciones",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 11,
+      "sha256": "a580e73f93387fbf232be5e2b519a8114efb6169a8de9934820b16223505386e",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_05_sep03R1.pdf"
+    },
+    {
+      "id": "BT-10",
+      "md": "md/BT-10.md",
+      "tablas": 4,
+      "imgs": [],
+      "titulo": "BT-10. Previsión de cargas para suministros en baja tensión",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 6,
+      "sha256": "bf5bcfcf5560e4053c21971f68ae6ef2af08da10878897bd8d01905dddae3f6c",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_10_sep03R1.pdf"
+    },
+    {
+      "id": "BT-12",
+      "md": "md/BT-12.md",
+      "tablas": 2,
+      "imgs": [
+        "imgs/BT-12_p08_tabla.png"
+      ],
+      "titulo": "BT-12. Esquemas",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 8,
+      "sha256": "0c90d06a5af9d4f9886d1e4550e4267e8158814c5f3c0cd9709bebf9196e8426",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_12_sep03R1.pdf"
+    },
+    {
+      "id": "BT-13",
+      "md": "md/BT-13.md",
+      "tablas": 3,
+      "imgs": [],
+      "titulo": "BT-13. Cajas generales de protección",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 8,
+      "sha256": "f9ff6dab1b5c6b3e237a931f923eb93838cc85cf9e826aca3d63179cb1dd92e6",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_13_sep03R1.pdf"
+    },
+    {
+      "id": "BT-14",
+      "md": "md/BT-14.md",
+      "tablas": 6,
+      "imgs": [],
+      "titulo": "BT-14. Línea general de alimentación",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 9,
+      "sha256": "d9750599747c8f95adf8933ece2953d0c2a285293d40966e585506e32fbd6b47",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_14_sep03R1.pdf"
+    },
+    {
+      "id": "BT-15",
+      "md": "md/BT-15.md",
+      "tablas": 13,
+      "imgs": [],
+      "titulo": "BT-15. Derivaciones Individuales",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 15,
+      "sha256": "d4566ca0fc20d3ecd1887cc3df0646b52012c8ca6dcea1f3fd4f7343935373a5",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_15_sep03R1.pdf"
+    },
+    {
+      "id": "BT-16",
+      "md": "md/BT-16.md",
+      "tablas": 5,
+      "imgs": [
+        "imgs/BT-16_p12_i01.png"
+      ],
+      "titulo": "BT-16. Contadores: Ubicación y sistemas de Instalación",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 13,
+      "sha256": "52728955300704a1257a124ca161673eb8f0642759b19677a58251286aadb36f",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_16_sep03R1.pdf"
+    },
+    {
+      "id": "BT-17",
+      "md": "md/BT-17.md",
+      "tablas": 3,
+      "imgs": [],
+      "titulo": "BT-17. Dispositivos generales e individuales de mando y protección",
+      "edicion": "sep 20",
+      "revision": "2",
+      "paginas": 8,
+      "sha256": "eb206f03c5053d2da1d346146a815e09ba4216a211ac661e44d852e4d87843d9",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/ITC-BT-17_guia_E_Sep_20_R2.pdf"
+    },
+    {
+      "id": "BT-19",
+      "md": "md/BT-19.md",
+      "tablas": 15,
+      "imgs": [
+        "imgs/BT-19_p07_i01.png",
+        "imgs/BT-19_p23_i01.png",
+        "imgs/BT-19_p23_i02.png",
+        "imgs/BT-19_p23_i03.png"
+      ],
+      "titulo": "BT-19. Instalaciones interiores o receptoras. Prescripciones generales",
+      "edicion": "feb 09",
+      "revision": "2",
+      "paginas": 26,
+      "sha256": "b238228eee206caf2851d320ffe578731a2bf7bd89525086f34606c28e5977ee",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_19_feb09R2.pdf"
+    },
+    {
+      "id": "BT-20",
+      "md": "md/BT-20.md",
+      "tablas": 7,
+      "imgs": [],
+      "titulo": "BT-20. Instalaciones interiores o receptoras. Sistemas de instalación",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 14,
+      "sha256": "aea8eb90d9058efb2130ec722295963fe6ca5acf10b1650341fc4e1535bf5618",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_20_sep03R1.pdf"
+    },
+    {
+      "id": "BT-21",
+      "md": "md/BT-21.md",
+      "tablas": 16,
+      "imgs": [
+        "imgs/BT-21_p13_i01.png",
+        "imgs/BT-21_p16_tabla.png"
+      ],
+      "titulo": "BT-21. Tubos y canales protectoras",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 20,
+      "sha256": "840d6c6de47555581c2114b2dc15a18f3eac4a6f45ed8128e2edede74b002122",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_21_sep03R1.pdf"
+    },
+    {
+      "id": "BT-25",
+      "md": "md/BT-25.md",
+      "tablas": 30,
+      "imgs": [
+        "imgs/BT-25_p08_pagina.png",
+        "imgs/BT-25_p16_i01.png",
+        "imgs/BT-25_p18_i01.png",
+        "imgs/BT-25_p19_i01.png",
+        "imgs/BT-25_p20_i01.png",
+        "imgs/BT-25_p21_i01.png",
+        "imgs/BT-25_p22_i01.png",
+        "imgs/BT-25_p23_i01.png",
+        "imgs/BT-25_p24_i01.png"
+      ],
+      "titulo": "BT-25. Instalaciones interiores en viviendas. Número de circuitos y características",
+      "edicion": "jul 12",
+      "revision": "2",
+      "paginas": 24,
+      "sha256": "2169a94f063e335306acee5da8e4757b160a6f7cf6e4e322a5ebf149ea8f23c4",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_25_jul12R2.pdf"
+    },
+    {
+      "id": "BT-26",
+      "md": "md/BT-26.md",
+      "tablas": 13,
+      "imgs": [
+        "imgs/BT-26_p04_i01.png"
+      ],
+      "titulo": "BT-26. Instalaciones interiores en viviendas. Prescripciones generales de instalaciones",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 13,
+      "sha256": "9030b8dd64c037a7f42eeb89c3fd5dd0e09ee01b7ece5d652cd8f5822533e227",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_26_sep03R1.pdf"
+    },
+    {
+      "id": "BT-27",
+      "md": "md/BT-27.md",
+      "tablas": 2,
+      "imgs": [
+        "imgs/BT-27_p08_tabla.png",
+        "imgs/BT-27_p10_tabla.png"
+      ],
+      "titulo": "BT-27. Locales que contienen una bañera o ducha",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 10,
+      "sha256": "99e30e5a1d80f36813d9af4238d762ab51dde3128db499af3145368a1c78e140",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_27_sep03R1.pdf"
+    },
+    {
+      "id": "BT-49",
+      "md": "md/BT-49.md",
+      "tablas": 3,
+      "imgs": [],
+      "titulo": "BT-49. Instalaciones eléctricas en muebles",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 5,
+      "sha256": "9ca642d3566ff70b3b9b3afbddffb7fbbdab1b89fcb6a5475532444eb67362fc",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_49_sep03R1.pdf"
+    },
+    {
+      "id": "BT-28",
+      "md": "md/BT-28.md",
+      "tablas": 9,
+      "imgs": [
+        "imgs/BT-28_p21_i01.png",
+        "imgs/BT-28_p22_tabla.png"
+      ],
+      "titulo": "BT-28. Instalaciones en locales de pública concurrencia",
+      "edicion": "mar 15",
+      "revision": "3",
+      "paginas": 26,
+      "sha256": "f320da42097df87e375f9b765f819cc6a30cd0783d16b219030b6377efff084b",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_28_mar15R3.pdf"
+    },
+    {
+      "id": "BT-09",
+      "md": "md/BT-09.md",
+      "tablas": 8,
+      "imgs": [
+        "imgs/BT-09_p13_i01.png",
+        "imgs/BT-09_p13_i02.png",
+        "imgs/BT-09_p24_i01.png",
+        "imgs/BT-09_p24_i02.png",
+        "imgs/BT-09_p28_i01.png",
+        "imgs/BT-09_p28_i02.png",
+        "imgs/BT-09_p30_i01.png",
+        "imgs/BT-09_p31_i01.png"
+      ],
+      "titulo": "BT-09. Instalaciones de alumbrado exterior",
+      "edicion": "jul 2020",
+      "revision": "2",
+      "paginas": 31,
+      "sha256": "90717a0e4225a5fb906401336dfd1cb2e11dc94279b9f358fd6acd1ad313f263",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/ITC-BT-09_guia_E_jul_20_R2.pdf"
+    },
+    {
+      "id": "BT-08",
+      "md": "md/BT-08.md",
+      "tablas": 0,
+      "imgs": [
+        "imgs/BT-08_p04_i01.png",
+        "imgs/BT-08_p04_i02.png",
+        "imgs/BT-08_p04_i03.png",
+        "imgs/BT-08_p05_i01.png",
+        "imgs/BT-08_p06_i01.png"
+      ],
+      "titulo": "BT-08. Sistema de conexión del neutro y de las masas en redes de distribución de energía eléctrica",
+      "edicion": "Oct 05",
+      "revision": "1",
+      "paginas": 7,
+      "sha256": "8ae9ace97519a8949c3a1e6994c0d52749a3f36bb911dc16ed7a9bc97a449da3",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_08_oct05R1.pdf"
+    },
+    {
+      "id": "BT-18",
+      "md": "md/BT-18.md",
+      "tablas": 16,
+      "imgs": [
+        "imgs/BT-18_p03_i01.png",
+        "imgs/BT-18_p06_i01.png",
+        "imgs/BT-18_p14_i01.png"
+      ],
+      "titulo": "BT-18. Instalaciones de puesta a tierra",
+      "edicion": "Oct 05",
+      "revision": "1",
+      "paginas": 20,
+      "sha256": "1c56c7981a05258a37e3b6339ce4aa152dd2fcef616f3a5b1925c999806cea9c",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_18_oct05R1.pdf"
+    },
+    {
+      "id": "BT-22",
+      "md": "md/BT-22.md",
+      "tablas": 11,
+      "imgs": [],
+      "titulo": "BT-22. Protección contra sobreintensidades",
+      "edicion": "Oct 05",
+      "revision": "1",
+      "paginas": 14,
+      "sha256": "af652337c46dad37b1c230670f0c475854d8a5081e0bffe811b74315c036adb8",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_22_oct05R1.pdf"
+    },
+    {
+      "id": "BT-23",
+      "md": "md/BT-23.md",
+      "tablas": 5,
+      "imgs": [
+        "imgs/BT-23_p06_i01.png",
+        "imgs/BT-23_p08_tabla.png"
+      ],
+      "titulo": "BT-23. Protección contra sobretensiones",
+      "edicion": "nov 19",
+      "revision": "4",
+      "paginas": 11,
+      "sha256": "f2c7e5c407711f0318c5f389446ab1054b2c4b409676d741a0f76179f3e136b3",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_23_nov19R4.pdf"
+    },
+    {
+      "id": "BT-24",
+      "md": "md/BT-24.md",
+      "tablas": 37,
+      "imgs": [
+        "imgs/BT-24_p05_i01.png",
+        "imgs/BT-24_p10_i01.png",
+        "imgs/BT-24_p11_i01.png",
+        "imgs/BT-24_p13_i01.png",
+        "imgs/BT-24_p14_i01.png",
+        "imgs/BT-24_p15_i01.png",
+        "imgs/BT-24_p18_i01.png",
+        "imgs/BT-24_p18_i02.png",
+        "imgs/BT-24_p20_i01.png",
+        "imgs/BT-24_p21_i01.png"
+      ],
+      "titulo": "BT-24. Protección contra los contactos directos e indirectos",
+      "edicion": "junio",
+      "revision": "2",
+      "paginas": 33,
+      "sha256": "47c7b683b1751c19cc0988f3187e9566168bab543fb3d740ce520aa73bb79f89",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_24_jun19R2.pdf"
+    },
+    {
+      "id": "BT-29",
+      "md": "md/BT-29.md",
+      "tablas": 52,
+      "imgs": [
+        "imgs/BT-29_p29_tabla.png"
+      ],
+      "titulo": "BT-29. Instalaciones eléctricas de los locales con riesgo de incendio o explosión",
+      "edicion": "nov 19",
+      "revision": "4",
+      "paginas": 36,
+      "sha256": "333c9651850a5bd775528c1fa32034c8b69adaf5c6de29d4e666d6ad5cc36420",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_29_nov19R4.pdf"
+    },
+    {
+      "id": "BT-30",
+      "md": "md/BT-30.md",
+      "tablas": 15,
+      "imgs": [],
+      "titulo": "BT-30. Instalaciones en locales de características especiales",
+      "edicion": "feb 09",
+      "revision": "1",
+      "paginas": 12,
+      "sha256": "75fd152249f4bc2f8ca1f0026579ece31d17b3755ea9f085014a9cde40cb4552",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_30_feb09R1.pdf"
+    },
+    {
+      "id": "BT-33",
+      "md": "md/BT-33.md",
+      "tablas": 22,
+      "imgs": [],
+      "titulo": "BT-33. Instalaciones provisionales y temporales de obras",
+      "edicion": "ene 24",
+      "revision": "2",
+      "paginas": 10,
+      "sha256": "f49b729f87ccd88d19b0507216d423963ddbf3fea5098b077a2898c6b59541a3",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/ITC-BT-33%20guia%20E%20ene%2024%20R2.pdf"
+    },
+    {
+      "id": "BT-40",
+      "md": "md/BT-40.md",
+      "tablas": 31,
+      "imgs": [
+        "imgs/BT-40_p06_i01.png",
+        "imgs/BT-40_p10_i01.png",
+        "imgs/BT-40_p13_i01.png",
+        "imgs/BT-40_p15_tabla.png",
+        "imgs/BT-40_p17_i01.png",
+        "imgs/BT-40_p18_i01.png",
+        "imgs/BT-40_p19_i01.png",
+        "imgs/BT-40_p20_i01.png",
+        "imgs/BT-40_p21_i01.png",
+        "imgs/BT-40_p22_i01.png",
+        "imgs/BT-40_p23_i01.png",
+        "imgs/BT-40_p24_i01.png",
+        "imgs/BT-40_p25_i01.png",
+        "imgs/BT-40_p26_i01.png",
+        "imgs/BT-40_p27_i01.png",
+        "imgs/BT-40_p29_i01.png",
+        "imgs/BT-40_p30_i01.png",
+        "imgs/BT-40_p31_i01.png",
+        "imgs/BT-40_p40_i01.png",
+        "imgs/BT-40_p41_i01.png",
+        "imgs/BT-40_p44_i01.png",
+        "imgs/BT-40_p48_i01.png",
+        "imgs/BT-40_p52_i01.png"
+      ],
+      "titulo": "BT-40. Instalaciones generadoras de baja tensión",
+      "edicion": "sept",
+      "revision": "1",
+      "paginas": 54,
+      "sha256": "069fd128c87f2e52efc60a3df816310a0ee13e7d03f7917d86f91b006c3513a4",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/Guia_bt_40_sep13R1.pdf"
+    },
+    {
+      "id": "BT-52",
+      "md": "md/BT-52.md",
+      "tablas": 11,
+      "imgs": [
+        "imgs/BT-52_p02_i01.png",
+        "imgs/BT-52_p08_i01.png",
+        "imgs/BT-52_p09_i01.png",
+        "imgs/BT-52_p10_i01.png",
+        "imgs/BT-52_p10_i02.png",
+        "imgs/BT-52_p17_i01.png",
+        "imgs/BT-52_p18_i01.png",
+        "imgs/BT-52_p18_i02.png",
+        "imgs/BT-52_p19_i01.png",
+        "imgs/BT-52_p21_i01.png",
+        "imgs/BT-52_p22_i01.png",
+        "imgs/BT-52_p23_i01.png",
+        "imgs/BT-52_p39_i01.png",
+        "imgs/BT-52_p46_i01.png"
+      ],
+      "titulo": "BT-52. Infraestructuras para la recarga de vehículos eléctricos",
+      "edicion": "septiembre 2024",
+      "revision": "2",
+      "paginas": 46,
+      "sha256": "296f24abda546b38283b23fcaf4b3286a1bb81d9de104eb770105c1cd32c5c15",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_52_nov17R1.pdf"
+    },
+    {
+      "id": "BT-51",
+      "md": "md/BT-51.md",
+      "tablas": 2,
+      "imgs": [
+        "imgs/BT-51_p03_i01.png",
+        "imgs/BT-51_p11_i01.png",
+        "imgs/BT-51_p11_i02.png",
+        "imgs/BT-51_p12_i01.png",
+        "imgs/BT-51_p12_i02.png",
+        "imgs/BT-51_p13_i01.png",
+        "imgs/BT-51_p13_i02.png",
+        "imgs/BT-51_p14_i01.png",
+        "imgs/BT-51_p14_i02.png",
+        "imgs/BT-51_p16_i01.png",
+        "imgs/BT-51_p16_i02.png",
+        "imgs/BT-51_p17_i01.png",
+        "imgs/BT-51_p17_i02.png",
+        "imgs/BT-51_p18_i01.png",
+        "imgs/BT-51_p18_i02.png",
+        "imgs/BT-51_p19_i01.png",
+        "imgs/BT-51_p19_i02.png",
+        "imgs/BT-51_p20_i01.png",
+        "imgs/BT-51_p20_i02.png"
+      ],
+      "titulo": "BT-51. Instalaciones de sistemas de automatización, gestión técnica de la energía y seguridad para viviendas y edificios",
+      "edicion": "Feb 07",
+      "revision": "1",
+      "paginas": 20,
+      "sha256": "79e1fa2e6160cfd03a9772de16b79cc4fb386452260e5d70a78da8dcd82a67a1",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_51_feb07R1.pdf"
+    },
+    {
+      "id": "BT-Anexo-1",
+      "md": "md/BT-Anexo-1.md",
+      "tablas": 3,
+      "imgs": [],
+      "titulo": "Significado y explicación de los códigos IP, IK",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 5,
+      "sha256": "3fa27ca3e55b202dba27cfe46375286f87b17ade87ebb0b3e9b0c2be3ad215c8",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_1_sep03R1.pdf"
+    },
+    {
+      "id": "BT-Anexo-2",
+      "md": "md/BT-Anexo-2.md",
+      "tablas": 8,
+      "imgs": [
+        "imgs/BT-Anexo-2_p06_tabla.png"
+      ],
+      "titulo": "Cálculos de caídas de tensión",
+      "edicion": "",
+      "revision": "2",
+      "paginas": 14,
+      "sha256": "a74a5690b4e3c89327b6161f6dbdfea57b1cfb416bb76a3470347a16bbf905a5",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_2_sep03R1.pdf"
+    },
+    {
+      "id": "BT-Anexo-3",
+      "md": "md/BT-Anexo-3.md",
+      "tablas": 0,
+      "imgs": [],
+      "titulo": "Cálculo de corrientes de cortocircuito",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 1,
+      "sha256": "9607cad276e569bccafa88fc2842bf03bc58a88ff4ba9dbc4e24cd1f94d9816e",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_3_sep03R1.pdf"
+    },
+    {
+      "id": "BT-Anexo-4",
+      "md": "md/BT-Anexo-4.md",
+      "tablas": 3,
+      "imgs": [
+        "imgs/BT-Anexo-4_p09_i01.png"
+      ],
+      "titulo": "Verificación de las instalaciones eléctricas",
+      "edicion": "sep 03",
+      "revision": "1",
+      "paginas": 11,
+      "sha256": "e462f0990576010abdb8eedc93c12bc527961c5bdbbb66f615a249eb6287076d",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_4_sep03R1.pdf"
+    },
+    {
+      "id": "ZZ-Nota-interpretacion-separacion-galvanica",
+      "md": "md/ZZ-Nota-interpretacion-separacion-galvanica.md",
+      "tablas": 0,
+      "imgs": [
+        "imgs/ZZ-Nota-interpretacion-separacion-galvanica_p03_i01.png",
+        "imgs/ZZ-Nota-interpretacion-separacion-galvanica_p03_i02.png"
+      ],
+      "titulo": "Nota de Interpretación Técnica de la Equivalencia de la Separación Galvánica",
+      "edicion": "",
+      "revision": "",
+      "paginas": 4,
+      "sha256": "1750c37bafc9ec8463c34b35ccc83d63752709958c9b91c0bca9989c36fcbe25",
+      "fuente_pdf": "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/notas/nota_interpretacion_separacion_galvanica.pdf"
+    }
+  ],
+  "total_documentos": 38,
+  "total_paginas": 603,
+  "total_tablas": 381,
+  "total_imgs": 123
+}

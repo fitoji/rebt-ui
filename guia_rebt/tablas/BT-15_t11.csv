@@ -1,0 +1,17 @@
+Sección nominal conductor (mm2),Sección eficaz mínima canales protectoras (mm2),,,Diámetro exterior de los tubos (mm),,,,,,,
+,,,,Montaje superficial,,,Empotrado,,,Enterrado,
+,ES07Z1-K,RZ1-K,,ES07Z1-K,RZ1-K,,ES07Z1-K,RZ1-K,,RZ1-K,
+,5U,5U,1P(*),5U,5U,1P,5U,5U,1P,5U,1P
+6,393,933,865,32,40,40,32,50,40,50,50
+10,647,1.240,1.128,40,50,50,40,50,50,63,63
+16,919,1.625,1.695,50,63,63,50,63,63,63,63
+25,1.457,2.139,2.304,63,63,75,63,63,75,75,90
+35,1.916,2.635,3.007,63,75,,75,75,75,90,90
+50,2.705,3.478,4.211,75,,,,,,110,110
+70,3.584,4.724,,,,,,,,125,
+95,4.637,5.639,,,,,,,,125,
+120,,7.272,,,,,,,,140,
+150,,9.275,,,,,,,,160,
+185,,10.893,,,,,,,,180,
+240,,13.514,,,,,,,,200,
+"Nota: U: Cable unipolar P: Cable 5 conductores (*) Para este sistema particular de instalación, por coincidencia en su trazado se pueden colocar varias derivaciones individuales en el interior del mismo canal protector, en cuyo caso se multiplica la sección eficaz por el número de derivaciones individuales.",,,,,,,,,,,

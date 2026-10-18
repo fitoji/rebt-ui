@@ -1,0 +1,31 @@
+,11. SEPARACIÓN ENTRE LAS TOMAS DE TIERRA DE LAS MASAS DE LAS
+,INSTALACIONES DE UTILIZACIÓN Y DE LAS MASAS DE UN CENTRO DE
+,TRANSFORMACIÓN
+,"Se verificará que las masas puestas a tierra en una instalación de utilización, así como los"
+,"conductores de protección asociados a estas masas o a los relés de protección de masa, no"
+,"están unidas a la toma de tierra de las masas de un centro de transformación, para evitar que"
+,"durante la evacuación de un defecto a tierra en el centro de transformación, las masas de la"
+,instalación de utilización puedan quedar sometidas a tensiones de contacto peligrosas. Si no
+,"se hace el control de independencia del punto 10, entre las puesta a tierra de las masas de las"
+,instalaciones de utilización respecto a la puesta a tierra de protección o masas del centro de
+,"transformación, se considerará que las tomas de tierra son eléctricamente independientes"
+,cuando se cumplan todas y cada una de las condiciones siguientes:
+,a) No exista canalización metálica conductora (cubierta metálica de cable no aislada
+,"especialmente, canalización de agua, gas, etc.) que una la zona de tierras del centro de"
+,transformación con la zona en donde se encuentran los aparatos de utilización.
+,b) La distancia entre las tomas de tierra del centro de transformación y las tomas de tierra u
+,otros elementos conductores enterrados en los locales de utilización es al menos igual a 15
+,metros para terrenos cuya resistividad no sea elevada (<100 ohmios.m). Cuando el terreno
+,"sea muy mal conductor, la distancia se calculará, aplicando la fórmula :"
+,ρI D = d 2πU
+,siendo:
+,"D : distancia entre electrodos, en metros"
+,ρ : resistividad media del terreno en ohmios.metro
+,"I : intensidad de defecto a tierra, en amperios, para el lado de alta tensión, que será d"
+,facilitado por la empresa eléctrica
+,"U : 1200 V para sistemas de distribución TT, siempre que el tiempo de eliminación del"
+,"defecto en la instalación de alta tensión sea menor o igual a 5 segundos y 250 V, en"
+,"caso contrario. Para redes TN, U será inferior a dos veces la tensión de contacto"
+,máxima admisible de la instalación definida en el punto 1.1 de la MIE-RAT 13 del
+,Reglamento sobre Condiciones Técnicas y Garantía de Seguridad en Centrales
+,"Eléctricas, Subestaciones y Centros de Transformación."

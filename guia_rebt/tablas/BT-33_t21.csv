@@ -1,0 +1,18 @@
+,6. APARAMENTA
+,6.1 Aparamenta de mando y seccionamiento
+,En el origen de cada instalación debe existir un conjunto que incluya el cuadro general
+,de mando y los dispositivos de protección principales.
+,En la alimentación de cada sector de distribución debe existir uno o varios dispositivos
+,que aseguren las funciones de seccionamiento y de corte omnipolar en carga.
+,En la alimentación de todos los aparatos de utilización deben existir medios de
+,seccionamiento y corte omnipolar en carga.
+,Los dispositivos de seccionamiento y de protección de los circuitos de distribución
+,pueden estar incluidos en el cuadro principal o en cuadros distintos del principal.
+,Los dispositivos de seccionamiento de las alimentaciones de cada sector deben poder
+,"ser bloqueados en posición abierta (por ejemplo, por enclavamiento o ubicación en el"
+,interior de una envolvente cerrada con llave).
+,La alimentación de los aparatos de utilización debe realizarse a partir de cuadros de
+,"distribución, en los que se integren:"
+,- Dispositivos de protección contra las sobreintensidades
+,- Dispositivos de protección contra los contactos indirectos
+,- Bases de toma de corriente

@@ -1,0 +1,6 @@
+,Diagrama del circuito con localización del defecto,Forma de la corriente de carga I L,Forma de la corriente de defecto a tierra I F,Protección proporcionada por un DDR con característica de disparo
+1,Control de fase IEC,IEC,IEC,"AC, A, F, B"
+2,Control de arranque IEC,IEC,IEC,"AC, A, F, B"
+3,Monofásico IEC,IEC,IEC,"A, F, B"
+4,Puente de dos pulsos IEC,IEC,IEC,"A, F, B"
+5,"Puente de dos pulsos, con control medio IEC",IEC,IEC,"A, F, B"

@@ -1,0 +1,6 @@
+,Sección de los conductores de,,,Sección mínima de los conductores de
+,fase de la instalación,,,protección
+,S (mm2),,,S (mm2) p
+,S ≤ 16,,,S = S p
+,16 < S ≤ 35,,,S = 16 p
+,S > 35,,,S = S/2 p

@@ -1,0 +1,8 @@
+Cifra,Grado de protección,
+,Descripción abreviada,Tipo de protección proporcionada por la envolvente
+0,No protegida,Sin protección particular
+1,Protegida contra la caída vertical de gotas de agua,La caída vertical de gotas de agua no deberán tener efectos perjudiciales
+2,Protegida contra la caída de gotas de agua con una inclinación máxima de 15º,Las caídas verticales de gotas de agua no deberán tener efectos perjudiciales cuando la envolvente está inclinada hasta 15º con respecto a la posición normal
+3,Protegida contra la lluvia fina (pul- verizada),"El agua pulverizada de lluvia que cae en una dirección que forma un ángulo de hasta 60º con la vertical, no deberá tener efectos perjudiciales"
+4,Protegida contra las proyecciones de agua,El agua proyectada en todas las direcciones sobre la envolvente no deberá tener efectos perjudiciales
+5,Protegida contra los chorros de agua,"El agua proyectada con la ayuda de una boquilla, en todas las direcciones, sobre la envolvente, no deberá tener efectos perju- diciales"

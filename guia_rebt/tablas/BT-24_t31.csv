@@ -1,0 +1,25 @@
+,Esta medida de protección está destinada a impedir en caso de fallo del aislamiento principal de
+,"las partes activas, el contacto simultáneo con partes que pueden ser puestas a tensiones"
+,diferentes. Se admite la utilización de materiales de la clase 0 a condición que se respete el
+,conjunto de las condiciones siguientes:
+,"Las masas deben estar dispuestas de manera que, en condiciones normales, las personas no"
+,"hagan contacto simultáneo: bien con dos masas, bien con una masa y cualquier elemento"
+,"conductor, si estos elementos pueden encontrarse a tensiones diferentes en caso de un fallo del"
+,aislamiento principal de las partes activas
+,"En estos locales (o emplazamientos), no debe estar previsto ningún conductor de protección."
+,Las prescripciones del apartado anterior se consideran satisfechas si el emplazamiento posee
+,paredes aislantes y si se cumplen una o varias de las condiciones siguientes:
+,"a) Alejamiento respectivo de las masas y de los elementos conductores, así como de las"
+,masas entre sí. Este alejamiento se considera suficiente si la distancia entre dos
+,"elementos es de 2 m como mínimo, pudiendo ser reducida esta distancia a 1,25 m por"
+,fuera del volumen de accesibilidad.
+,b) Interposición de obstáculos eficaces entre las masas o entre las masas y los elementos
+,conductores. Estos obstáculos son considerados como suficientemente eficaces si dejan
+,la distancia a franquear en los valores indicados en el punto a). No deben conectarse ni a
+,"tierra ni a las masas y, en la medida de lo posible, deben ser de material aislante."
+,c) Aislamiento o disposición aislada de los elementos conductores. El aislamiento debe
+,tener una rigidez mecánica suficiente y poder soportar una tensión de ensayo de un
+,mínimo de 2.000 V. La corriente de fuga no debe ser superior a 1 mA en las condiciones
+,normales de empleo.
+,Las figuras siguientes contienen ejemplos explicativos de las disposiciones anteriores.
+,Figura 9.

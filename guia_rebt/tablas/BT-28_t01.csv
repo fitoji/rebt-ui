@@ -1,0 +1,12 @@
+TIPOS DE LOCAL,,EJEMPLOS,SERÁ LOCAL DE PÚBLICA CONCURRENCIA
+1. Espectáculos y actividades recreativas,,"Cines, teatros, auditorios, estadios, pabellones de deportes, plazas de toros, hipódromos, parques de atracciones, ferias, salas de fiesta, discotecas, salas de juegos de azar.",siempre
+"2. Locales de reunión, trabajo y usos sanitarios",2.1. Locales de reunión,"Templos, salas de conferencias y congresos, bares, cafeterías, restaurantes, museos, casinos, hoteles, hostales, zonas comunes de centros comerciales, aeropuertos, estaciones de viajeros, parking de uso público cerrado de más de 5 vehículos, asilos, guarderías,",siempre
+,,"centros de enseñanza, bibliotecas, establecimientos comerciales, residencias de estudiantes, gimnasios, salas de exposiciones, centros culturales, clubes sociales y deportivos",Ocupación > 50 personas ajenas al local
+,2.2. Locales de trabajo,"Oficinas con presencia de público,",Ocupación > 50 personas ajenas al local
+,2.3. Locales de uso sanitario,"Hospitales, ambulatorios, sanatorios,",siempre
+,,"consultorios médicos, clínicas",Ocupación > 50 personas ajenas al local
+3. Según dificultad de evacuación de cualquier local,"3.1. BD2 (baja densidad de ocupación, difícil evacuación)","Edificios de gran altura, sótanos.",siempre
+,"3.2. BD3 (alta densidad de ocupación, fácil evacuación)",Locales abiertos al público: grandes almacenes,
+,"3.3. BD4 (alta densidad de ocupación, difícil evacuación)","Edificios de gran altura abiertos al público. Locales en sótanos, abiertos al público.",
+4. Otros locales,,Cualquier local no incluido en los otros epígrafes con capacidad superior a 100 personas ajenas al local,siempre
+"Nota 1: Cuando un local pueda estar considerado bajo dos epígrafes, uno de ellos “siempre obligatorio” y el otro “dependa de la ocupación”, se tomará la condición de “siempre obligatorio”. Nota 2: Cuando en un local sea difícil evaluar el número de personas ajenas al mismo o la dificultad de evacuación en caso de emergencia, se considerará el local como de pública concurrencia.",,,

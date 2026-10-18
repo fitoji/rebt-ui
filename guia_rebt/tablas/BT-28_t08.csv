@@ -1,0 +1,11 @@
+,Alumbrado ambiente,Alumbrado de evacuación,
+,,Origen,Final
+Salón de actos,Toda la sala,extremos de las filas de butacas,Salida exterior
+Aseos de público,Todo el espacio,"En el interior, sobre la puerta de salida",Salida exterior
+"Todos los recorridos, pasillos, escaleras, cambios de nivel y dirección..",Todo el espacio,Inicio del recorrido,Salida exterior
+"Camerinos y recintos de uso de los empleados, Almacenes...",Todo el espacio,"En el interior, sobre la puerta de salida",Salida exterior
+vestíbulos,Todo el espacio,"En el interior, sobre la puerta de salida",Salida exterior
+"cuadros de distribución de alumbrado, equipos manuales de prevención y extinción de incendios",,Sobre el punto indicado (5 lux),
+Local con equipo general de la instalación de protección,Todo el espacio,,
+Bar,Toda la sala,"En el interior, sobre la puerta de salida",Salida exterior
+aparcamiento,Todo el espacio,Cada plaza de aparcamiento,Salida exterior

@@ -1,0 +1,14 @@
+,5. CABLES DE CONEXION
+,Los cables de conexión deberán estar dimensionados para una intensidad no inferior
+,al 125% de la máxima intensidad del generador y la caída de tensión entre el
+,generador y el punto de interconexión a la Red de Distribución Pública o a la
+,"instalación interior, no será superior al 1,5%, para la intensidad nominal."
+,6. FORMA DE LA ONDA
+,"La tensión generada será prácticamente senoidal, con una tasa máxima de armónicos,"
+,en cualquier condición de funcionamiento de:
+,Armónicos de orden par: 4/n
+,Armónicos de orden 3: 5
+,Armónicos de orden impar (≥5) 25/n
+,Extender a cualquier frecuencia para cubrir frecuencias de conmutación.
+,"La tasa de armónicos es la relación, en % , entre el valor eficaz del armónico de orden"
+,n y el valor eficaz del fundamental.

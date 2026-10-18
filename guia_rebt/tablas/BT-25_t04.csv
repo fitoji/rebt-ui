@@ -1,0 +1,10 @@
+,- Uno o varios interruptores diferenciales que garanticen la protección contra contactos
+,"indirectos de todos los circuitos, con una intensidad diferencial-residual máxima de 30 mA e"
+,intensidad asignada superior o igual que la del interruptor general. Cuando se usen
+,"interruptores diferenciales en serie, habrá que garantizar que todos los circuitos quedan"
+,"protegidos frente a intensidades diferenciales-residuales de 30 mA como máximo, pudiéndose"
+,"instalar otros diferenciales de intensidad superior a 30 mA en serie, siempre que se cumpla lo"
+,anterior.
+,"Para instalaciones de viviendas alimentadas con redes diferentes a las de tipo TT, que"
+,"eventualmente pudieran autorizarse, la protección contra contactos indirectos se realizará"
+,según se indica en el apartado 4.1 de la ITC-BT-24.

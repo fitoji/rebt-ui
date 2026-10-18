@@ -1,0 +1,28 @@
+,"3. DETERMINACIÓN DEL NÚMERO DE CIRCUITOS, SECCIÓN DE LOS CONDUCTORES"
+,Y DE LAS CAIDAS DE TENSIÓN
+,En la Tabla 1 se relacionan los circuitos mínimos previstos con sus características eléctricas.
+,La sección mínima indicada por circuito está calculada para un número limitado de puntos de
+,"utilización. De aumentarse el número de puntos de utilización, será necesaria la instalación de"
+,circuitos adicionales correspondientes.
+,"Cada accesorio o elemento del circuito en cuestión tendrá una corriente asignada, no inferior al"
+,valor de la intensidad prevista del receptor o receptores a conectar.
+,El valor de la intensidad de corriente prevista en cada circuito se calculará de acuerdo con la
+,fórmula:
+,I = n x I x Fs x Fu a
+,N nº de tomas o receptores
+,Ia Intensidad prevista por toma o receptor
+,Fs (factor de simultaneidad) Relación de receptores conectados
+,simultáneamente sobre el total
+,Fu (factor de utilización) Factor medio de utilización de la potencia
+,máxima del receptor
+,Los dispositivos automáticos de protección tanto para el valor de la intensidad asignada como
+,para la Intensidad máxima de cortocircuito se corresponderá con la intensidad admisible del
+,circuito y la de cortocircuito en ese punto respectivamente.
+,"Los conductores serán de cobre y su sección será como mínimo la indicada en la Tabla 1, y"
+,además estará condicionada a que la caída de tensión sea como máximo el 3 %. Esta caída de
+,tensión se calculará para una intensidad de funcionamiento del circuito igual a la intensidad
+,nominal del interruptor automático de dicho circuito y para una distancia correspondiente a la
+,del punto de utilización mas alejado del origen de la instalación interior. El valor de la caída de
+,tensión podrá compensarse entre la de la instalación interior y la de las derivaciones
+,"individuales, de forma que la caída de tensión total sea inferior a la suma de los valores límite"
+,"especificados para ambas, según el tipo de esquema utilizado."

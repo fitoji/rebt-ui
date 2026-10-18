@@ -1,0 +1,12 @@
+,Las protecciones mínimas a disponer serán las siguientes:
+,"- De sobreintensidad, mediante relés directos magnetotérmicos o solución"
+,equivalente.
+,"- De mínima tensión instantáneos, conectados entre las tres fases y neutro y"
+,"que actuarán, en un tiempo inferior a 0,5 segundos, a partir de que la tensión"
+,llegue al 85% de su valor asignado.
+,"- De sobretensión, conectado entre una fase y neutro, y cuya actuación debe"
+,"producirse en un tiempo inferior a 0,5 segundos, a partir de que la tensión"
+,llegue al 110% de su valor asignado.
+,"- De máxima y mínima frecuencia, conectado entre fases, y cuya actuación"
+,debe producirse cuando la frecuencia sea inferior a 49 Hz o superior a 51 Hz
+,durante más de 5 períodos.

@@ -32,6 +32,19 @@ quedan en disco y fuera de git (son la fuente y el intermedio, regenerables).
 | T9 | `guia_rebt/README.md` + README raíz | S5,S8 | inline | 4 |
 | T10 | Verificación independiente y cierre | — | gentle-ai-verify | — |
 
+## Slices (para revisar)
+
+La rama `feat/guia-rebt` lleva tres rebanadas, en este orden:
+
+| Rebanada | Commit | Qué contiene | Cómo se revisa |
+|---|---|---|---|
+| 1. Conversor | `636a206` | `convert_guia_to_markdown.py`, `auditar_cobertura.py`, tests, `requirements.txt`, `.gitignore` | Revisión de código normal: 1.500 líneas con 100 tests |
+| 2. Arreglos de auditoría | `30a7f54` | Banda de una página, páginas ilegibles como imagen, clasificador del audit tool + tests | Revisión de código: es la unidad con riesgo, se puede mirar sola |
+| 3. Corpus generado | (el commit del corpus) | `md/` (38), `tablas/` (381 CSV), `imgs/` (123 PNG), `indice.json`, READMEs | No se revisa línea por línea: es dato regenerable. Se verifica con la auditoría de cobertura y el spot-check de tablas |
+
+Pasar de ~400 líneas en las dos primeras es inevitable: el conversor no se puede partir sin dejarlo
+sin uso. La rebanada 2 es la única con riesgo real y se puede revisar aislada de las otras dos.
+
 ## Log
 
 - **L1** (2026-10-17 22:47) — *"quiero bajar informacion desde este link que tiene muchos pdf y pasarlos a markdown de la misma forma que hicimos con rebt https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalaciones…"* (registro truncado en Engram; URL reconstruida hoy y verificada con HTTP 200).

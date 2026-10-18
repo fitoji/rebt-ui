@@ -1,0 +1,9 @@
+Situaciones,Ejemplos,Requisitos
+Línea de alimentación de baja tensión total o parcialmente aérea o cuando la instalación incluye líneas aéreas.,"Todas las instalaciones, ya sean industriales, terciarias viviendas, etc.",Obligatorio
+Riesgo de fallo afectando la vida humana,"Los servicios de seguridad, centros de emergencias, equipo médico en hospitales.",Obligatorio
+Riesgo de fallo afectando la vida de los animales,"Las explotaciones ganaderas, piscifactorías, etc.",Obligatorio
+Riesgo de fallo afectando los servicios públicos,"La pérdida de servicios para el público, centros informáticos, sistemas de telecomunicación.",Obligatorio
+Riesgo de fallo afectando actividades agrícolas o industriales no interrumpibles,Industrias con hornos o en general procesos industriales continuos no interrumpibles,Obligatorio
+Riesgo de fallo afectando las instalaciones y equipos de los locales de pública concurrencia que tengan servicios de seguridad no autónomos,"Sistemas de alumbrado de emergencia no autónomos, ascensores, sistemas de extracción de aire, etc.",Obligatorio
+"Instalaciones en edificios con sistemas de protección externa contra descargas atmosféricas o contra rayos tales como: Pararrayos, puntas Franklin, jaulas de Faraday instalados en el mismo edificio","Todas las instalaciones, ya sean industriales, terciarias, viviendas, etc.",Obligatorio según CTE-SUA: Sección 8 y Anejo B
+Las instalaciones para la recarga de vehículos eléctricos cubiertas por la ITC- BT-52,Instalaciones de recarga de vehículos eléctricos.,Obligatorio

@@ -1,0 +1,22 @@
+,8. INSTALACIONES DE PUESTA A TIERRA
+,8.1 Generalidades
+,Las centrales de instalaciones generadoras deberán estar provistas de sistemas de
+,"puesta a tierra que, en todo momento, aseguren que las tensiones que se puedan"
+,presentar en las masas metálicas de la instalación no superen los valores
+,establecidos en la MIE-RAT 13 del Reglamento sobre Condiciones Técnicas y
+,"Garantías de Seguridad en Centrales Eléctricas, Subestaciones y Centros de"
+,Transformación.
+,Los sistemas de puesta a tierra de las centrales de instalaciones generadoras
+,deberán tener las condiciones técnicas adecuadas para que no se produzcan
+,transferencias de defectos a la Red de Distribución Pública ni a las instalaciones
+,"privadas, cualquiera que sea su funcionamiento respecto a ésta: aisladas, asistidas o"
+,interconectadas.
+,8.2 Características de la puesta a tierra según el funcionamiento de la
+,instalación generadora respecto a la Red de Distribución Pública.
+,8.2.1 Instalaciones generadoras aisladas conectadas a instalaciones receptoras que
+,son alimentadas de forma exclusiva por dichos grupos.
+,La red de tierras de la instalación conectada a la generación será independiente de
+,cualquier otra red de tierras. Se considerará que las redes de tierra son
+,"independientes cuando el paso de la corriente máxima de defecto por una de ellas, no"
+,"provoca en la otra diferencias de tensión, respecto a la tierra de referencia, superiores"
+,a 50 V.

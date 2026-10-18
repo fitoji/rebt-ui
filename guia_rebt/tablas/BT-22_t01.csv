@@ -1,0 +1,23 @@
+,1. PROTECCIÓN DE LAS INSTALACIONES
+,1.1 Protección contra sobreintensidades
+,Todo circuito estará protegido contra los efectos de las sobreintensidades que puedan
+,"presentarse en el mismo, para lo cual la interrupción de este circuito se realizará en un tiempo"
+,conveniente o estará dimensionado para las sobreintensidades previsibles.
+,Las sobreintensidades pueden estar motivadas por:
+,- Sobrecargas debidas a los aparatos de utilización o defectos de aislamiento de gran
+,impedancia.
+,- Cortocircuitos.
+,- Descargas eléctricas atmosféricas
+,a) Protección contra sobrecargas. El límite de intensidad de corriente admisible en un
+,conductor ha de quedar en todo caso garantizada por el dispositivo de protección
+,utilizado.
+,El dispositivo de protección podrá estar constituido por un interruptor automático de
+,"corte omnipolar con curva térmica de corte, o por cortacircuitos fusibles calibrados de"
+,características de funcionamiento adecuadas.
+,b) Protección contra cortocircuitos. En el origen de todo circuito se establecerá un
+,dispositivo de protección contra cortocircuitos cuya capacidad de corte estará de
+,acuerdo con la intensidad de cortocircuito que pueda presentarse en el punto de su
+,"conexión. Se admite, no obstante, que cuando se trate de circuitos derivados de uno"
+,"principal, cada uno de estos circuitos derivados disponga de protección contra"
+,"sobrecargas, mientras que un solo dispositivo general pueda asegurar la protección"
+,contra cortocircuitos para todos los circuitos derivados.

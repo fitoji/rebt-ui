@@ -1,0 +1,27 @@
+"Una puesta a tierra múltiple, en puntos repartidos con regularidad, puede ser necesaria para",,,,,
+"asegurarse de que el potencial del conductor de protección se mantiene, en caso de fallo, lo",,,,,
+"más próximo posible al de tierra. Por la misma razón, se recomienda conectar el conductor de",,,,,
+protección a tierra en el punto de entrada de cada edificio o establecimiento.,,,,,
+Las características de los dispositivos de protección y las secciones de los conductores se,,,,,
+"eligen de manera que, si se produce en un lugar cualquiera un fallo, de impedancia",,,,,
+"despreciable, entre un conductor de fase y el conductor de protección o una masa, el corte",,,,,
+"automático se efectúe en un tiempo igual, como máximo, al valor especificado, y se cumpla la",,,,,
+condición siguiente:,,,,,
+Z x I  U s a 0,,,,,
+donde,,,,,
+"Z es la impedancia del bucle de defecto, incluyendo la de la fuente, la del conductor activo s",,,,,
+"hasta el punto de defecto y la del conductor de protección, desde el punto de defecto",,,,,
+hasta la fuente.,,,,,
+I es la corriente que asegura el funcionamiento del dispositivo de corte automático en un a,,,,,
+tiempo como máximo igual al definido en la tabla 1 para tensión nominal igual a U . En 0,,,,,
+"caso de utilización de un dispositivo de corriente diferencial-residual, I es la corriente a",,,,,
+diferencial asignada,,,,,
+"U es la tensión nominal entre fase y tierra, valor eficaz en corriente alterna. 0",,,,,
+Tabla 1,,,,,
+,,U 0,,,Tiempos de interrupción
+,,(V),,,(s)
+,,230,,,"0,4"
+,,400,,,"0,2"
+,,> 400,,,"0,1"
+En la norma UNE 20.460 -4-41 se indican las condiciones especiales que deben cumplirse,,,,,
+para permitir tiempos de interrupción mayores o condiciones especiales de instalación.,,,,,

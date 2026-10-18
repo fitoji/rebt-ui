@@ -1,0 +1,13 @@
+,4.3.4 Control de la energía reactiva.
+,"En las instalaciones con generadores asíncronos, el factor de potencia de la"
+,"instalación no será inferior a 0,86 a la potencia nominal y para ello, cuando sea"
+,"necesario, se instalarán las baterías de condensadores precisas."
+,Las instalaciones anteriores dispondrán de dispositivos de protección adecuados que
+,aseguren la desconexión en un tiempo inferior a 1 segundo cuando se produzca una
+,interrupción en la Red de Distribución Pública.
+,La empresa distribuidora de energía eléctrica podrá eximir de la compensación del
+,factor de potencia en el caso de que pueda suministrar la energía reactiva.
+,Los generadores síncronos deberán tener una capacidad de generación de energía
+,"reactiva suficiente para mantener el factor de potencia entre 0,8 y 1 en adelanto o"
+,retraso. Con objeto de mantener estable la energía reactiva suministrada se instalará
+,un control de la excitación que permita regular la misma.

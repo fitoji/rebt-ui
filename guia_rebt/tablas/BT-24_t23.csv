@@ -1,0 +1,13 @@
+,Con miras a la selectividad pueden instalarse dispositivos de corriente diferencial-residual
+,temporizada (por ejemplo del tipo “S”) en serie con dispositivos de protección diferencial-residual
+,"de tipo general, con un tiempo de funcionamiento como máximo igual a 1 s."
+,Figura 4 Esquema TT
+,4.1.3 Esquemas IT. Características y prescripciones de los dispositivos de protección
+,"En el esquema IT, la instalación debe estar aislada de tierra o conectada a tierra a través de"
+,una impedancia de valor suficientemente alto. Esta conexión se efectúa bien sea en el punto
+,"neutro de la instalación, si está montada en estrella, o en un punto neutro artificial. Cuando no"
+,"exista ningún punto de neutro, un conductor de fase puede conectarse a tierra a través de una"
+,impedancia.
+,"En caso de que exista un sólo defecto a masa o a tierra, la corriente de fallo es de poca"
+,"intensidad y no es imperativo el corte. Sin embargo, se deben tomar medidas para evitar"
+,cualquier peligro en caso de aparición de dos fallos simultáneos.

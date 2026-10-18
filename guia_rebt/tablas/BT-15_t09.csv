@@ -1,0 +1,8 @@
+tipo de instalación,,Intensidad max. admisible en el conductor (A),,,,,,,,,,,
+,,Sección nominal del conductor (Cu) (mm2),,,,,,,,,,,
+,,6,10,16,25,35,50,70,95,120,150,185,240
+tubos enterrados (1),sm,71,94,122,157,186,-,-,-,-,-,-,-
+,st,58,77,100,128,152,184,224,268,304,340,384,440
+"tubos empotrados, tubos en montaje superficial, canales protectoras, conductos cerrados de obra de fábrica (2)",sm,49,68,91,116,144,-,-,-,-,-,-,-
+,st,44,60,80,106,131,159,202,245,284,338,386,455
+"Nota 1: Basada en ITC-BT 07, 3.1.3, temperatura terreno 25 ºC, Nota 2: Según tabla 1 de la ITC-19, método B, columna 8, temperatura ambiente 40 ºC, Nota 3: sm: suministro monofásico; st: suministro trifásico",,,,,,,,,,,,,

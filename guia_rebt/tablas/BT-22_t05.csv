@@ -1,0 +1,10 @@
+,Aislamiento de los conductores,,,,,,,
+,PVC 70°C ≤ 300 mm²,PVC 70°C > 300 mm²,PVC 90°C ≤ 300 mm²,PVC 90°C > 300 mm²,PR/EPR,Goma 60 °C,Mineral,Mineral
+,,,,,,,Con PVC,Desnudo
+Temperatura inicial °C,70,70,90,90,90,60,70,105
+Temperatura final °C,160,140,160,140,250,200,160,250
+Material del conductor,,,,,,,,
+Cobre,115,103,100,86,143,141,115 *),135
+Aluminio,76,68,66,57,94,93,-,-
+Conexiones soldadas con estaño para conductores de cobre,115,-,-,-,-,-,-,-
+"*) Este valor se debe utilizar para cables desnudos expuestos al contacto. NOTA 1 Para duraciones muy cortas (< 0,1 s) donde la asimetría de la intensidad es importante y para dispositivos limitadores de la intensidad, k2S2 debe ser superior a la energía (I2t) que deja pasar el dispositivo de protección, indicada por el fabricante. NOTA 2 Otros valores de k están en estudio para: - los conductores de pequeña sección (especialmente para secciones inferiores a 10mm2); - las duraciones de cortocircuitos superiores a 5s; - otros tipos de conexiones en los conductores; - los conductores desnudos. NOTA 3 La corriente nominal del dispositivo de protección contra los cortocircuitos puede ser superior a la corriente admisible de los conductores del circuito. NOTA 4 Los valores de esta tabla están basados en la norma UNE 211003-1.",,,,,,,,

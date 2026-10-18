@@ -1,0 +1,11 @@
+Resistividad térmica del terreno (K.m/W),Naturaleza del terreno y grado de humedad
+"0,40",Inundado
+"0,50",Muy húmedo
+"0,70",Húmedo
+"0,85",Poco húmedo
+"1,00",Seco
+"1,20",Arcilloso muy seco
+"1,50",Arenoso muy seco
+"2,00",De piedra arenisca
+"2,50",De piedra caliza
+"3,00",De piedra granítica

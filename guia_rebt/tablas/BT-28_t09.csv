@@ -1,0 +1,5 @@
+,Alumbrado ambiente,Alumbrado de evacuación,
+,,Origen,Final
+habitaciones,Todo el espacio,Exterior de la puerta de la habitación,Salida exterior
+"Todos los recorridos, pasillos, escaleras, cambios de nivel y dirección..",Todo el espacio,Inicio del recorrido,Salida exterior
+Recintos uso empleados,Todo el espacio,"En el interior, sobre la puerta de salida",Salida exterior
