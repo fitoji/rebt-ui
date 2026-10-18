@@ -1,0 +1,5 @@
+"Duración, t, de la sobretensión",Valor admisible de la sobretensión instantánea (% Un pico)
+0< t < 1 ms,200
+1 ms ≤ t < 3 ms,140
+3 ms ≤ t < 500 ms,120
+t ≥ 500 ms,110

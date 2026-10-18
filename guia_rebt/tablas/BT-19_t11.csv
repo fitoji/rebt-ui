@@ -1,0 +1,19 @@
+Tabla 2.,,,,
+,Secciones de los conductores de fase o,,,Secciones mínimas de los conductores de
+,polares de la instalación,,,protección
+,(mm2),,,(mm2)
+,S < 16,,,S (*)
+,16< S < 35,,,16
+,S > 35,,,S/2
+,(*) Con un mínimo de:,,,
+,"2,5 mm2 si los conductores de protección no forman parte de la canalización de alimentación",,,
+,y tienen una protección mecánica,,,
+,4 mm2 si los conductores de protección no forman parte de la canalización de alimentación y,,,
+,no tienen una protección mecánica,,,
+"Para otras condiciones se aplicará la norma UNE 20.460 -5-54, apartado 543.",,,,
+En la instalación de los conductores de protección se tendrá en cuenta:,,,,
+"- Si se aplican diferentes sistemas de protección en instalaciones próximas, se empleará",,,,
+para cada uno de los sistemas un conductor de protección distinto. Los sistemas a,,,,
+utilizar estarán de acuerdo con los indicados en la norma UNE 20.460-3. En los pasos a,,,,
+través de paredes o techos estarán protegidos por un tubo de adecuada resistencia,,,,
+"mecánica, según ITC-BT 21 para canalizaciones empotradas.",,,,

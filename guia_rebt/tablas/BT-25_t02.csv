@@ -1,0 +1,8 @@
+,2. CIRCUITOS INTERIORES
+,2.1 Protección general
+,Los circuitos de protección privados se ejecutarán según lo dispuesto en la ITC-BT-17 y
+,constarán como mínimo de:
+,"- Un interruptor general automático de corte omnipolar con accionamiento manual, de"
+,intensidad nominal mínima de 25 A y dispositivos de protección contra sobrecargas y
+,cortocircuitos. El interruptor general es independiente del interruptor para el control de potencia
+,(ICP) y no puede ser sustituido por éste.

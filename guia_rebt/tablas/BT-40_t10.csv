@@ -1,0 +1,18 @@
+,En el caso en el que esté previsto realizar maniobras de transferencia de carga sin
+,"corte, la conexión de la instalación generadora asistida con la Red de Distribución"
+,Pública se hará en un punto único y deberán cumplirse los siguientes requisitos:
+,- Sólo podrán realizar maniobras de transferencia de carga sin corte los
+,generadores de potencia superior a 100 kVA
+,- En el momento de interconexión entre el generador y la red de distribución
+,"pública, se desconectará el neutro del generador de tierra."
+,- El sistema de conmutación deberá instalarse junto a los aparatos de
+,"medida de la Red de Distribución pública, con accesibilidad para la"
+,empresa distribuidora.
+,- Deberá incluirse un sistema de protección que imposibilite el envío de
+,potencia del generador a la red.
+,- Deberán incluirse sistemas de protección por tensión del generador fuera
+,"de límites, frecuencia fuera de límites, sobrecarga y cortocircuito,"
+,enclavamiento para no poder energizar la línea sin tensión y protección por
+,fuera de sincronismo.
+,- Dispondrá de un equipo de sincronización y no se podrá mantener la
+,interconexión más de 5 segundos.

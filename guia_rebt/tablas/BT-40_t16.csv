@@ -1,0 +1,21 @@
+,"La conexión de un generador asíncrono a la red no se realizará hasta que,"
+,"accionados por la turbina o el motor, éste haya adquirido una velocidad entre el 90 y"
+,el 100% de la velocidad de sincronismo.
+,4.3.2.2 Generadores síncronos.
+,La utilización de generadores síncronos en instalaciones que deben interconectarse a
+,"Redes de Distribución Pública, deberá ser acordada con la empresa distribuidora de"
+,"energía eléctrica, atendiendo a la necesidad de funcionamiento independiente de la"
+,red y a las condiciones de explotación de ésta.
+,"La central deberá poseer un equipo de sincronización, automático o manual."
+,Podrá prescindirse de este equipo si la conexión pudiera efectuarse como generador
+,asíncrono. En este caso las características del arranque deberán cumplir lo indicado
+,para este tipo de generadores.
+,La conexión de la central a la red de distribución pública deberá efectuarse cuando en
+,la operación de sincronización las diferencias entre las magnitudes eléctricas del
+,generador y la red no sean superiores a las siguientes:
+,- Diferencia de tensiones ± 8 %
+,"- Diferencia de frecuencia ± 0,1Hz"
+,- Diferencia de fase ± 10o
+,Los puntos donde no exista equipo de sincronismo y sea posible la puesta en
+,"paralelo, entre la generación y la Red de Distribución Pública, dispondrán de un"
+,enclavamiento que impida la puesta en paralelo.

@@ -1,0 +1,10 @@
+,"Cuando el conductor neutro y el conductor de protección sean comunes (esquemas TN-C), no"
+,podrá utilizarse dispositivos de protección de corriente diferencial-residual.
+,Cuando se utilice un dispositivo de protección de corriente diferencial-residual en esquemas
+,"TN-C-S, no debe utilizarse un conductor CPN aguas abajo. La conexión del conductor de"
+,protección al conductor CPN debe efectuarse aguas arriba del dispositivo de protección de
+,corriente diferencial-residual.
+,Con miras a la selectividad pueden instalarse dispositivos de corriente diferencial-residual
+,temporizada (por ejemplo del tipo “S”) en serie con dispositivos de protección diferencial-
+,residual de tipo general.
+,Figura 2. Esquema TN-C.

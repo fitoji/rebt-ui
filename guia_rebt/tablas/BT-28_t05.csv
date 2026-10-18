@@ -1,0 +1,5 @@
+,,CON TENSIÓN DE RED,CON FALLO DE RED
+"PERMANENTE Las lámparas para alumbrado de emergencia están alimentadas permanentemente, ya se requiera el alumbrado normal o el de emergencia.",,,
+NO PERMANENTE Las lámparas para alumbrado de emergencia están en funcionamiento únicamente cuando falla la alimentación del alumbrado normal.,,,
+"COMBINADO contiene 2 o más lámparas, de las que al menos una está alimentada a partir de la alimentación de alumbrado de emergencia y las otras a partir de la alimentación de alumbrado normal.",ETNENAMREP,,
+,-AMREP ETNEN ON,,

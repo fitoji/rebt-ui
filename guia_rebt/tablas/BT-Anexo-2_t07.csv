@@ -1,0 +1,10 @@
+Parte de la instalación,Para alimentar a :,Caída de tensión máxima en % de la tensión de suministro.,e=U ,e=U 
+LGA: (Línea General de Alimentación),Suministros de un único usuario,No existe LGA,--,--
+,Contadores totalmente concentrados,"0,5%",2 V,--
+,Centralizaciones parciales de contadores,"1,0%",4 V,--
+DI (Derivación Individual),Suministros de un único usuario,"1,5%",6 V,"3,45 V"
+,Contadores totalmente concentrados,"1,0%",4 V,"2,3 V"
+,Centralizaciones parciales de contadores,"0,5%",2 V,"1,15 V"
+Circuitos interiores,Circuitos interiores en viviendas,3%,12 V,"6,9 V"
+,Circuitos de alumbrado que no sean viviendas,3%,12 V,"6,9 V"
+,Circuitos de fuerza que no sean viviendas,5%,20 V,"11,5 V"

@@ -1,0 +1,8 @@
+Ref.,Disposición de cables contiguos,Número de circuitos o cables multiconductores,,,,,,,,
+,,1,2,3,4,6,9,12,16,20
+1,Empotrados o embutidos,"1,00","0,80","0,70","0,70","0,55","0,50","0,45","0,40","0,40"
+2,"Capa única sobre pared, suelo o superficie sin perforar","1,00","0,85","0,80","0,75","0,70","0,70",Sin reducción adicional para más de 9 circuitos o cables multiconductores.,,
+3,Capa única fijada bajo techo,"0,95","0,80","0,70","0,70","0,65","0,60",,,
+4,Capa única en una bandeja perforada vertical u horizontal,"1,00","0,90","0,80","0,75","0,75","0,70",,,
+5,Capa única con apoyo de bandeja escalera o abrazaderas (collarines) etc.,"1,00","0,85","0,80","0,80","0,80","0,8",,,
+"Nota 1. Estos factores son aplicables a grupos homogéneos de cables cargados por igual. Nota 2. Cuando la distancia horizontal entre cables adyacentes es superior al doble de su diámetro exterior, no es necesario factor de reducción alguno. Nota 3. Los mismos factores se aplican para grupos de dos o tres cables unipolares que para cables multiconductores. Nota 4. Si un sistema se compone de cables de dos o tres conductores, se toma el número total de cables como el número de circuitos, y se aplica el factor correspondiente a las tablas de dos conductores cargados para los cables de dos conductores y a las tablas de tres conductores cargados para los cables de tres conductores. Nota 5. Si la instalación se compone de “n” conductores unipolares cargados, también pueden considerarse como “n/2” circuitos de dos conductores o “n/3” circuitos de tres conductores cargados.",,,,,,,,,,

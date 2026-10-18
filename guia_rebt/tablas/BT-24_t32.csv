@@ -1,0 +1,24 @@
+,"El circuito debe alimentarse a través de una fuente de separación, es decir:"
+,"- un transformador de aislamiento,"
+,- una fuente que asegure un grado de seguridad equivalente al transformador de
+,"aislamiento anterior, por ejemplo un grupo motor generador que posea una separación"
+,equivalente.
+,La norma UNE 20.460 -4-41 enuncia el conjunto de prescripciones que debe garantizar esta
+,protección.
+,"En el caso de que el circuito separado no alimente más que un solo aparato, las masas del"
+,circuito no deben ser conectadas a un conductor de protección.
+,"En el caso de un circuito separado que alimente muchos aparatos, se satisfarán las siguientes"
+,prescripciones:
+,a) Las masas del circuito separado deben conectarse entre sí mediante conductores de
+,"equipotencialidad aislados, no conectados a tierra. Tales conductores, no deben"
+,"conectarse ni a conductores de protección, ni a masas de otros circuitos ni a elementos"
+,conductores.
+,b) Todas las bases de tomas de corriente deben estar previstas de un contacto de tierra
+,que debe estar conectado al conductor de equipotencialidad descrito en el apartado
+,anterior.
+,"c) Todos los cables flexibles de equipos que no sean de clase II, deben tener un conductor"
+,de protección utilizado como conductor de equipotencialidad.
+,d) En el caso de dos fallos francos que afecten a dos masas y alimentados por dos
+,"conductores de polaridad diferente, debe existir un dispositivo de protección que garantice"
+,el corte en un tiempo como máximo igual al indicado en la tabla 1 incluida en el apartado
+,"4.1.1, para esquemas TN."

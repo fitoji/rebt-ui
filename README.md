@@ -35,3 +35,19 @@ npm run dev:mock     # terminal 2
 
 Todo el conocimiento del XML está en `src/parse.js`. Si algo sale vacío o mal agrupado, guarda la respuesta de
 `/boe-api/legislacion-consolidada/id/BOE-A-2002-18099/texto/indice` y de un bloque, y ajusta ahí.
+
+## Corpus de la Guía Técnica (`guia_rebt/`)
+
+Al lado del lector vive `guia_rebt/`: un corpus en Markdown de las Guías Técnicas de aplicación del
+REBT publicadas por Industria (38 documentos, 603 páginas), generado desde los PDF oficiales por
+`guia_rebt/convert_guia_to_markdown.py` y con la misma forma que el corpus REBT de `boe-rebt`
+(`md/` + `tablas/*.csv` + `imgs/` + `indice.json`). Los PDF se descargan a `guia_rebt/pdf/`, que no
+se versiona.
+
+```bash
+python3 -m pip install -r guia_rebt/requirements.txt
+python3 guia_rebt/convert_guia_to_markdown.py            # todo
+python3 guia_rebt/convert_guia_to_markdown.py --solo BT-19
+```
+
+Decisiones de conversión, límites conocidos y cómo se auditó la cobertura: `guia_rebt/README.md`.

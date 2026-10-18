@@ -1,0 +1,24 @@
+SECCIÓN mm2,3 XLPE (3 cables unipolares o 1 tripolar),,2 XLPE (2 cables unipolares o 1 bipolar),
+,Cobre,Aluminio,Cobre,Aluminio
+"1,5",23,--,27,--
+"2,5",30,23,36,27
+4,39,30,46,36
+6,48,37,58,44
+10,64,49,77,58
+16,82,62,100,77
+25,105,82,130,98
+35,130,98,155,120
+50,155,115,183,139
+70,190,145,225,170
+95,225,175,265,205
+120,260,200,305,230
+150,300,230,340,265
+185,335,260,385,295
+240,400,305,440,340
+300,455,350,500,385
+400,530,405,570,445
+500,610,465,660,510
+630,710,530,735,575
+Condiciones de cálculo,"Resistividad térmica del terreno: 1,5 K.m/W",,,
+,Temperatura del terreno: 25ºC,,,
+,Profundidad de la instalación: 70 cm,,,

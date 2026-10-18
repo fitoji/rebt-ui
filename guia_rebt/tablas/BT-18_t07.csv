@@ -1,0 +1,9 @@
+Materiales del conductor,Condiciones,,
+,Visible y en los emplazamientos reservados,Condiciones normales,Riesgo de incendio
+Temperatura máxima,500ºC,200ºC,150ºC
+Cobre (valor de k),228,159,138
+Temperatura máxima,300ºC,200ºC,150ºC
+Aluminio(valor de k),125,105,91
+Temperatura máxima,500ºC,200ºC,150ºC
+Acero (valor de k),82,58,50
+Nota: La temperatura inicial del conductor se considera que es de 30ºC,,,

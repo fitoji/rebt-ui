@@ -1,0 +1,4 @@
+Tipo de dispositivo,Sección mínima del conductor (mm2),Conexión entre el dispositivo y
+Tipo 1,16,el borne principal de tierra o punto de puesta a tierra del edificio
+Tipo 2,4,el borne de entrada de tierra de la instalación interior
+Tipo 3,"2,5 o lo especificado por el fabricante",un borne de tierra de la instalación interior

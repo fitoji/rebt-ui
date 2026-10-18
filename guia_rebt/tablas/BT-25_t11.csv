@@ -1,0 +1,22 @@
+,,,,,,,,,,,,,,,,,,,Máximo nº de,,,Conductores,,,
+,,,,Potencia,,,,,,,,,,,,,,,,,,,,,Tubo o conducto
+,,,,,,,Factor,,,Factor,,,,,,Interruptor,,,puntos de,,,sección,,,
+,Circuito de,,,prevista,,,,,,,,,Tipo de toma,,,,,,,,,,,,Diámetro
+,,,,,,,simultaneidad,,,utilización,,,,,,Automático,,,utilización o,,,mínima,,,
+,utilización,,,por toma,,,,,,,,,(7),,,,,,,,,,,,mm
+,,,,,,,Fs,,,Fu,,,,,,(A),,,tomas por,,,mm2,,,
+,,,,(W),,,,,,,,,,,,,,,,,,,,,(3)
+,,,,,,,,,,,,,,,,,,,circuito,,,(5),,,
+,C1 Iluminación,,,200,,,"0,75",,,"0,5",,,Punto de luz(9),,,10,,,30,,,"1,5",,,16
+,C2 Tomas de uso general,,,3.450,,,"0,2",,,"0,25",,,Base 16A 2p+T,,,16,,,20,,,"2,5",,,20
+,C3 Cocina y horno,,,5.400,,,"0,5",,,"0,75",,,Base 25 A 2p+T,,,25,,,2,,,6,,,25
+,,,,,,,,,,,,,Base 16A 2p+T,,,,,,,,,,,,
+,"C4 Lavadora, lavavajillas y",,,,,,,,,,,,,,,,,,,,,,,,
+,,,,3.450,,,"0,66",,,"0,75",,,combinadas con,,,20,,,3,,,4 (6),,,20
+,termo eléctrico,,,,,,,,,,,,fusibles o interruptores,,,,,,,,,,,,
+,,,,,,,,,,,,,automáticos de 16 A (8),,,,,,,,,,,,
+,"C5 Baño, cuarto de cocina",,,3.450,,,"0,4",,,"0,5",,,Base 16A 2p+T,,,16,,,6,,,"2,5",,,20
+,C8 Calefacción,,,(2),,,---,,,---,,,---,,,25,,,---,,,6,,,25
+,C9 Aire acondicionado,,,(2),,,---,,,---,,,---,,,25,,,---,,,6,,,25
+,C10 Secadora,,,3.450,,,1,,,"0,75",,,Base 16A 2p+T,,,16,,,1,,,"2,5",,,20
+,C11 Automatización,,,(4),,,---,,,---,,,---,,,10,,,---,,,"1,5",,,16

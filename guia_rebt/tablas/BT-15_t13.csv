@@ -1,0 +1,8 @@
+Cable,,450/750V,,"0,6/1kV (3 unipolares)",,"0,6/1kV (1 tripolar)",
+Longitud DI (m),Sección (mm2),φ tubo (mm),S* efectiva canal (mm2),φ tubo (mm),S* efectiva Canal (mm2),φ tubo (mm),S* efectiva Canal (mm2)
+≤8,6,40,236,40,560,40,618
+≤14,10,40,388,40,744,40,789
+≤23,16,40,551,40,975,50,1.179
+≤37,25,50,874,50,1.283,50,1.558
+≤52,35,50,1.150,50,1.581,63,2.005
+* Sección efectiva mínima de la canal o del compartimiento de la canal en donde se ubica la DI,,,,,,,
