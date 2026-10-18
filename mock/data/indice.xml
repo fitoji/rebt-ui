@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status><code>200</code><text>ok</text></status>
+  <data>
+    <bloque><id>pr</id><titulo>Preámbulo</titulo><fecha_actualizacion>20020918</fecha_actualizacion></bloque>
+    <bloque><id>a1</id><titulo>Artículo 1. Objeto</titulo><fecha_actualizacion>20020918</fecha_actualizacion></bloque>
+    <bloque><id>i01</id><titulo>ITC-BT-01. Terminología</titulo><fecha_actualizacion>20020918</fecha_actualizacion></bloque>
+    <bloque><id>i19</id><titulo>ITC-BT-19. Instalaciones interiores o receptoras. Prescripciones generales</titulo><fecha_actualizacion>20140101</fecha_actualizacion></bloque>
+    <bloque><id>anx</id><titulo>ITC-BT-20. Instalaciones interiores. Sistemas de instalación</titulo><fecha_actualizacion>20140101</fecha_actualizacion></bloque>
+  </data>
+</response>

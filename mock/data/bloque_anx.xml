@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response><status><code>200</code></status><data>
+<bloque id="anx" tipo="precepto" titulo="ITC-BT-20. Instalaciones interiores. Sistemas de instalación">
+  <version id_norma="BOE-A-2002-18099" fecha_publicacion="20020918" fecha_vigencia="20140101">
+    <p class="parrafo">Los sistemas de instalación se eligen según la ITC-BT-19 y las condiciones del local.</p>
+    <p class="parrafo_2">Conductores aislados bajo tubos protectores.</p>
+    <p class="parrafo_2">Cables aislados con cubierta, fijados directamente sobre paredes.</p>
+  </version>
+</bloque></data></response>

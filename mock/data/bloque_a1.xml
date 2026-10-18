@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response><status><code>200</code></status><data>
+<bloque id="a1" tipo="precepto" titulo="Artículo 1. Objeto">
+  <version id_norma="BOE-A-2002-18099" fecha_publicacion="20020918" fecha_vigencia="20020918">
+    <p class="articulo">Artículo 1. Objeto.</p>
+    <p class="parrafo">El presente Reglamento tiene por objeto establecer condiciones de seguridad.</p>
+  </version>
+</bloque></data></response>

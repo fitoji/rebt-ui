@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response><status><code>200</code></status><data>
+<bloque id="pr" tipo="preambulo" titulo="Preámbulo">
+  <version id_norma="BOE-A-2002-18099" fecha_publicacion="20020918" fecha_vigencia="20020918">
+    <p class="parrafo">Texto del preámbulo antiguo.</p>
+  </version>
+  <version id_norma="BOE-A-2002-18099" fecha_publicacion="20020918" fecha_vigencia="20140101">
+    <p class="parrafo">Texto del preámbulo vigente.</p>
+  </version>
+</bloque></data></response>

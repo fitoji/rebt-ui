@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response><status><code>200</code></status><data>
+<bloque id="i19" tipo="precepto" titulo="ITC-BT-19. Instalaciones interiores o receptoras. Prescripciones generales">
+  <version id_norma="BOE-A-2002-18099" fecha_publicacion="20020918" fecha_vigencia="20020918">
+    <p class="parrafo">Texto original: la caída de tensión máxima será del 3 %.</p>
+  </version>
+  <version id_norma="BOE-A-2002-18099" fecha_publicacion="20140101" fecha_vigencia="20140101">
+    <p class="articulo">2. Prescripciones de carácter general</p>
+    <p class="parrafo">La caída de tensión entre el origen de la instalación interior y cualquier punto de utilización será, salvo lo prescrito en las Instrucciones particulares, menor del 3 % de la tensión nominal para alumbrado y del 5 % para los demás usos.</p>
+    <p class="parrafo_2">Para instalaciones con sección de 10 mm<sup>2</sup> o superior se tendrá en cuenta el valor R = 1,72 Ω·mm<sup>2</sup>/m a 20 °C.</p>
+    <p class="centro_negrita">Tabla 1. Intensidades admisibles (A) al aire a 40 °C</p>
+    <table>
+      <thead>
+        <tr><th rowspan="2">Sección (mm<sup>2</sup>)</th><th colspan="2">Cobre</th><th colspan="2">Aluminio</th></tr>
+        <tr><th>PVC</th><th>XLPE</th><th>PVC</th><th>XLPE</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1,5</td><td>15</td><td>19</td><td>–</td><td>–</td></tr>
+        <tr><td>2,5</td><td>21</td><td>26</td><td>–</td><td>–</td></tr>
+        <tr><td>4</td><td>27</td><td>35</td><td>–</td><td>–</td></tr>
+        <tr><td>6</td><td>36</td><td>46</td><td>–</td><td>–</td></tr>
+        <tr><td>10</td><td>50</td><td>64</td><td>39</td><td>49</td></tr>
+        <tr><td>16</td><td>66</td><td>85</td><td>51</td><td>66</td></tr>
+        <tr><td>25</td><td>84</td><td>107</td><td>66</td><td>83</td></tr>
+        <tr><td>35</td><td>104</td><td>134</td><td>82</td><td>103</td></tr>
+        <tr><td>50</td><td>125</td><td>162</td><td>98</td><td>124</td></tr>
+        <tr><td>70</td><td>160</td><td>208</td><td>126</td><td>160</td></tr>
+      </tbody>
+    </table>
+    <p class="nota">Valores de ejemplo: no usar para cálculo real.</p>
+  </version>
+</bloque></data></response>
