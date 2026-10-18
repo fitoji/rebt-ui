@@ -169,7 +169,8 @@ class TestCache(unittest.TestCase):
 
 # ------------------------------------------------------- cabeceras y pies
 def palabra(text, top, bottom):
-    return {"text": text, "top": top, "bottom": bottom}
+    return {"text": text, "top": top, "bottom": bottom,
+            "x0": 50.0, "x1": 50.0 + 7 * len(text)}
 
 
 ALTO = 800.0
@@ -637,6 +638,65 @@ class TestRegionFigura(unittest.TestCase):
         a = g.region_figura((131, 101, 464, 325), 100.0, 40.0, 595.0, 842.0)
         b = g.region_figura((100, 439, 496, 631), 100.0, 40.0, 595.0, 842.0)
         self.assertNotEqual(a, b)
+
+
+class TestPaginaIlegible(unittest.TestCase):
+    """Tablas que pdfplumber lee como caracteres sueltos: se muestran como imagen."""
+
+    @staticmethod
+    def lineas(n, texto):
+        return [{"text": texto, "top": i * 10, "bottom": i * 10 + 8} for i in range(n)]
+
+    def test_tabla_partida_en_cientos_de_lineas(self):
+        self.assertTrue(g.es_pagina_ilegible(self.lineas(213, "0 ,5")))  # BT-Anexo-2 pág. 6
+
+    def test_ochenta_lineas_cortas(self):
+        self.assertTrue(g.es_pagina_ilegible(self.lineas(80, "21")))     # BT-21 pág. 16
+
+    def test_densidad_baja_con_treinta_lineas(self):
+        self.assertTrue(g.es_pagina_ilegible(self.lineas(30, "12")))
+
+    def test_pagina_normal_no_es_ilegible(self):
+        self.assertFalse(g.es_pagina_ilegible(self.lineas(42, "x" * 60)))
+
+    def test_pagina_con_pocas_lineas_no_se_marca(self):
+        self.assertFalse(g.es_pagina_ilegible(self.lineas(20, "12")))
+
+    def test_pagina_sin_lineas_no_se_marca(self):
+        self.assertFalse(g.es_pagina_ilegible([]))
+
+    def test_nombre_y_marca_apuntan_a_la_pagina(self):
+        self.assertEqual(g.nombre_pagina_ilegible("BT-Anexo-2", 6), "BT-Anexo-2_p06_tabla.png")
+        marca = g.marca_pagina_ilegible(6, "BT-Anexo-2")
+        self.assertIn("no se puede extraer como texto", marca)
+        self.assertIn("pdf/BT-Anexo-2.pdf#page=6", marca)
+
+
+class TestBandasUnaPagina(unittest.TestCase):
+    """Con una sola página no hay repetición: la cabecera son las primeras filas etiquetadas."""
+
+    PALABRAS = [
+        palabra("MINISTERIO", 30, 42), palabra("DE", 30, 60), palabra("CIENCIA", 30, 90),
+        palabra("GUÍA", 45, 57), palabra("TÉCNICA", 45, 70), palabra("APLICACIÓN:", 45, 115),
+        palabra("GUÍA-BT-ANEXO", 60, 72), palabra("3", 60, 104),
+        palabra("Edición:", 75, 87), palabra("sep", 75, 110),
+        palabra("Revisión:", 90, 102), palabra("1", 90, 115),
+        palabra("CÁLCULO", 105, 117), palabra("DE", 105, 140),
+        palabra("impedancia", 300, 312), palabra("red", 300, 330),
+    ]
+
+    def test_no_se_come_un_tercio_del_cuerpo(self):
+        corte_sup, _ = g.detectar_bandas([self.PALABRAS], ALTO)
+        self.assertLess(corte_sup, 200)      # la regla de repetición cortaba 252 pt (30%)
+        self.assertGreaterEqual(corte_sup, 40)  # y la cabecera igual se quita
+
+    def test_el_cuerpo_queda_intacto(self):
+        corte_sup, corte_inf = g.detectar_bandas([self.PALABRAS], ALTO)
+        que_queda = [p["text"] for p in self.PALABRAS
+                     if p["bottom"] > corte_sup + 1 and p["top"] < ALTO - corte_inf - 1]
+        self.assertIn("impedancia", que_queda)
+        self.assertIn("red", que_queda)
+        self.assertNotIn("MINISTERIO", que_queda)
 
 
 class TestExtras(unittest.TestCase):

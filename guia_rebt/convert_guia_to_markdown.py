@@ -83,6 +83,12 @@ DPI_RENDER = 110
 # un párrafo nuevo empieza cuando el hueco vertical supera este factor del alto de línea
 FACTOR_SALTO_PARRAFO = 1.35
 
+# página cuyo texto sale partido en cientos de líneas de pocos caracteres: pdfplumber
+# lee las tablas de esas páginas como caracteres sueltos y no hay tabla que extraer
+MIN_LINEAS_PAGINA_ILEGIBLE = 70
+MIN_LINEAS_DENSIDAD_BAJA = 30
+MIN_CARACTERES_POR_LINEA = 15.0
+
 HEADER_RE = re.compile(
     r"^(?:GU[ÍI]A|MINISTERIO|DE INDUSTRIA|TURISMO|COMERCIO|Edici[óo]n|Revisi[óo]n|APLICACI[ÓO]N)",
     re.IGNORECASE,
@@ -293,6 +299,14 @@ def lineas_de_banda(palabras: list[dict], max_top: float, tolerancia: float = 3.
     return lineas
 
 
+def _filas_por_altura(palabras: list[dict], tolerancia: float = 4.0) -> list[list[dict]]:
+    """Agrupa palabras en filas por su altura (top redondeado)."""
+    filas: dict[int, list[dict]] = collections.defaultdict(list)
+    for p in sorted(palabras, key=lambda p: (p["top"], p["x0"])):
+        filas[round(p["top"] / tolerancia)].append(p)
+    return [filas[clave] for clave in sorted(filas)]
+
+
 def detectar_bandas(paginas_palabras: list[list[dict]], alto: float,
                     umbral: float = UMBRAL_REPETIDO) -> tuple[float, float]:
     """Altura de la cabecera y del pie repetidos, en puntos, para recortarlos.
@@ -301,28 +315,40 @@ def detectar_bandas(paginas_palabras: list[list[dict]], alto: float,
     consideran cabecera las palabras de la franja superior que se repiten en
     varias páginas o que coinciden con las etiquetas fijas de la guía; nunca se
     recorta por encima de la primera palabra de la franja que no es cabecera.
+
+    Con **una sola página** no hay repetición que valga: todo lo de la franja
+    contaría como cabecera y se comería un tercio del cuerpo (medido en
+    BT-Anexo-3). Ahí la cabecera son las primeras filas que arrancan con una
+    etiqueta conocida.
     """
     n = max(1, len(paginas_palabras))
-    minimo = max(2, math.ceil(umbral * n)) if n > 1 else 1
     zona_sup = alto * FRACCION_SUPERIOR
     zona_inf = alto * (1 - FRACCION_INFERIOR)
 
-    conteo: collections.Counter = collections.Counter()
-    for pagina in paginas_palabras:
-        for texto in {_normaliza(p["text"]) for p in pagina
-                      if p["bottom"] <= zona_sup and _normaliza(p["text"])}:
-            conteo[texto] += 1
-    repetidos = {t for t, c in conteo.items() if c >= minimo}
-
     corte_sup = 0.0
-    cabecera = [p for pagina in paginas_palabras for p in pagina
-                if p["bottom"] <= zona_sup and _es_cabecera(_normaliza(p["text"]), repetidos)]
-    if cabecera:
-        corte_sup = min(max(p["bottom"] for p in cabecera) + 2, zona_sup)
-        ajenas = [p["top"] for pagina in paginas_palabras for p in pagina
-                  if p["bottom"] <= zona_sup and not _es_cabecera(_normaliza(p["text"]), repetidos)]
-        if ajenas:
-            corte_sup = min(corte_sup, min(ajenas))
+    if n == 1:
+        for fila in _filas_por_altura(paginas_palabras[0]):
+            if fila[0]["top"] > zona_sup or not any(
+                    HEADER_RE.match(_normaliza(p["text"])) for p in fila):
+                break
+            corte_sup = max(corte_sup, max(p["bottom"] for p in fila))
+        corte_sup = min(corte_sup + 2, zona_sup) if corte_sup else 0.0
+    else:
+        minimo = max(2, math.ceil(umbral * n))
+        conteo: collections.Counter = collections.Counter()
+        for pagina in paginas_palabras:
+            for texto in {_normaliza(p["text"]) for p in pagina
+                          if p["bottom"] <= zona_sup and _normaliza(p["text"])}:
+                conteo[texto] += 1
+        repetidos = {t for t, c in conteo.items() if c >= minimo}
+        cabecera = [p for pagina in paginas_palabras for p in pagina
+                    if p["bottom"] <= zona_sup and _es_cabecera(_normaliza(p["text"]), repetidos)]
+        if cabecera:
+            corte_sup = min(max(p["bottom"] for p in cabecera) + 2, zona_sup)
+            ajenas = [p["top"] for pagina in paginas_palabras for p in pagina
+                      if p["bottom"] <= zona_sup and not _es_cabecera(_normaliza(p["text"]), repetidos)]
+            if ajenas:
+                corte_sup = min(corte_sup, min(ajenas))
 
     corte_inf = 0.0
     pie = [p for pagina in paginas_palabras for p in pagina
@@ -592,6 +618,35 @@ def es_pagina_solo_figura(texto: str, trazos: int) -> bool:
     return len(texto.strip()) < MAX_TEXTO_PAGINA_FIGURA and trazos >= MIN_TRAZOS_FIGURA
 
 
+def es_pagina_ilegible(lineas: list[dict], min_lineas: int = MIN_LINEAS_PAGINA_ILEGIBLE,
+                       min_lineas_densas: int = MIN_LINEAS_DENSIDAD_BAJA,
+                       min_chars: float = MIN_CARACTERES_POR_LINEA) -> bool:
+    """Detecta páginas cuyo texto sale partido en pedazos y no se puede leer.
+
+    Medido en el corpus: una página normal tiene 30-50 líneas de 50 caracteres o
+    más; las tablas que pdfplumber lee como caracteres sueltos dan 80-213 líneas
+    de 6 a 22 caracteres (BT-Anexo-2 pág. 6, BT-21 pág. 16, BT-27 pág. 10,
+    BT-40 pág. 15). En esas páginas conviene mostrar la imagen de la página.
+    """
+    if len(lineas) >= min_lineas:
+        return True
+    if len(lineas) >= min_lineas_densas:
+        caracteres = sum(len(l.get("text") or "") for l in lineas)
+        return caracteres / max(1, len(lineas)) < min_chars
+    return False
+
+
+def nombre_pagina_ilegible(doc_id: str, pagina: int) -> str:
+    return f"{doc_id}_p{pagina:02d}_tabla.png"
+
+
+def marca_pagina_ilegible(pagina: int, doc_id: str) -> str:
+    return (f"<!-- tabla no extraíble en la pág. {pagina} -->\n"
+            f"> La tabla de esta página no se puede extraer como texto (pdfplumber la lee como\n"
+            f"> caracteres sueltos): se muestra la imagen de la página. "
+            f"También está en [pdf/{doc_id}.pdf](../pdf/{doc_id}.pdf#page={pagina}).")
+
+
 def nombre_imagen(doc_id: str, pagina: int, indice: int | None = None) -> str:
     if indice is None:
         return f"{doc_id}_p{pagina:02d}_pagina.png"
@@ -744,20 +799,33 @@ def convertir_documento(pdf_path: Path, doc: dict, dirs: dict, debug: bool = Fal
             print(f"[debug] {doc['id']}: {len(paginas)} páginas, corte_sup={corte_sup:.1f}, "
                   f"corte_inf={corte_inf:.1f}, cabecera={meta_cab}", file=sys.stderr)
 
-        for num, pagina in enumerate(paginas, 1):
-            alto = pagina.height
-            lineas = [{"text": l["text"], "top": l["top"], "bottom": l["bottom"]}
-                      for l in pagina.extract_text_lines()
-                      if l["bottom"] > corte_sup + 1 and l["top"] < alto - corte_inf - 1]
-            tablas = rejillas_de_pagina(
-                [{"bbox": t.bbox, "filas": t.extract()} for t in pagina.find_tables()
-                 if t.bbox[1] >= corte_sup - 1 and t.bbox[3] <= alto - corte_inf + 1])
-            md_pagina, n_tablas = md_de_pagina(combinar_contenido(lineas, tablas), doc["id"],
-                                               tab_dir, n_tablas)
-            lineas_md.extend(md_pagina)
-            if con_figuras:
-                lineas_md.extend(figuras_de_pagina(mu[num - 1], num, doc, img_dir,
-                                                   corte_sup, corte_inf, imgs, debug))
+            for num, pagina in enumerate(paginas, 1):
+                alto = pagina.height
+                lineas = [{"text": l["text"], "top": l["top"], "bottom": l["bottom"]}
+                          for l in pagina.extract_text_lines()
+                          if l["bottom"] > corte_sup + 1 and l["top"] < alto - corte_inf - 1]
+                tablas = rejillas_de_pagina(
+                    [{"bbox": t.bbox, "filas": t.extract()} for t in pagina.find_tables()
+                     if t.bbox[1] >= corte_sup - 1 and t.bbox[3] <= alto - corte_inf + 1])
+                ilegible = es_pagina_ilegible(lineas)
+                if ilegible:
+                    # esas líneas son pedazos de tabla: la página va como imagen
+                    lineas = []
+                md_pagina, n_tablas = md_de_pagina(combinar_contenido(lineas, tablas), doc["id"],
+                                                   tab_dir, n_tablas)
+                lineas_md.extend(md_pagina)
+                if ilegible:
+                    lineas_md.append("\n" + marca_pagina_ilegible(num, doc["id"]) + "\n")
+                    if con_figuras:
+                        nombre = nombre_pagina_ilegible(doc["id"], num)
+                        region = (0, corte_sup, pagina.width, alto - corte_inf)
+                        if dibujar_region(mu[num - 1], region, doc, num, img_dir, nombre,
+                                          corte_sup, corte_inf, debug):
+                            imgs.append(f"imgs/{nombre}")
+                            lineas_md.append(f"\n![tabla pág {num}](../imgs/{nombre})\n")
+                if con_figuras and not ilegible:
+                    lineas_md.extend(figuras_de_pagina(mu[num - 1], num, doc, img_dir,
+                                                       corte_sup, corte_inf, imgs, debug))
 
     meta = {
         "guia": doc["id"],
