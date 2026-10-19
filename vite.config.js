@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { guiaCorpus } from './vite/guia-corpus.js'
 
 // El navegador no puede llamar a boe.es directamente (la API no envía cabeceras CORS),
 // así que en desarrollo y en `vite preview` todo pasa por /boe-api.
@@ -16,7 +17,7 @@ const proxy = {
 }
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), guiaCorpus()],
   server: { proxy },
   preview: { proxy },
 })

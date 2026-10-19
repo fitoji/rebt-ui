@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "node --test test/",
     "mock": "node mock/server.mjs",
     "dev:mock": "BOE_TARGET=http://localhost:8787 BOE_PREFIX= vite"
   },
