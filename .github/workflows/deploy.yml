@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         run: |
-          npx wrangler pages deploy dist \
+          npx wrangler pages deploy . \
             --project-name=rebt-ui \
             --commit-dirty=true
         env:
