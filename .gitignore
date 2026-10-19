@@ -4,6 +4,9 @@ dist/
 *.log
 __pycache__/
 
+# Engram: config local de memoria persistente (identidad del proyecto), no del código
+.engram/
+
 # guia_rebt: el corpus se versiona; los PDF originales y la caché quedan en disco
 guia_rebt/pdf/
 guia_rebt/cache/
