@@ -1,4 +1,5 @@
 import { splitTitle } from './parse.js'
+import InicioBoton from './InicioBoton.jsx'
 
 function Row({ entry, active, onSelect, snippet, count }) {
   const { itc, nombre } = splitTitle(entry.titulo)
@@ -32,6 +33,7 @@ export default function Sidebar({
   progress,
   onIndexAll,
   failed,
+  onInicio,
 }) {
   const reglamento = rows.filter((r) => !splitTitle(r.entry.titulo).itc)
   const itcs = rows.filter((r) => splitTitle(r.entry.titulo).itc)
@@ -50,7 +52,10 @@ export default function Sidebar({
   return (
     <aside className="indice" aria-label="Índice del reglamento">
       <div className="indice-cab">
-        <p className="marca">REBT</p>
+        <div className="indice-cab-top">
+          <p className="marca">REBT</p>
+          <InicioBoton onInicio={onInicio} />
+        </div>
         <p className="sub">Reglamento electrotécnico para baja tensión</p>
         <input
           type="search"

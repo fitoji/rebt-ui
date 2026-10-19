@@ -4,8 +4,6 @@ import { fold, splitTitle } from './parse.js'
 import Reader from './Reader.jsx'
 import Sidebar from './Sidebar.jsx'
 
-const readHash = () => decodeURIComponent(location.hash.replace(/^#\/?/, ''))
-
 function snippetOf(text, needle) {
   const f = fold(text)
   const i = f.indexOf(needle)
@@ -21,9 +19,9 @@ function countOf(folded, needle) {
   return n
 }
 
-export default function App() {
+export default function App({ docId, onNavigate }) {
   const [index, setIndex] = useState({ status: 'loading' })
-  const [activeId, setActiveId] = useState(readHash)
+  const [activeId, setActiveId] = useState(docId ?? '')
   const [query, setQuery] = useState('')
   const [navOpen, setNavOpen] = useState(false)
   const [progress, setProgress] = useState(null)
@@ -39,21 +37,19 @@ export default function App() {
   }, [])
   useEffect(loadIndex, [loadIndex])
 
-  useEffect(() => {
-    const onHash = () => setActiveId(readHash())
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
-  }, [])
+  useEffect(() => setActiveId(docId ?? ''), [docId])
 
   const blocks = index.blocks ?? []
   const active = blocks.find((b) => b.id === activeId) ?? blocks[0]
   const at = active ? blocks.indexOf(active) : -1
 
-  const select = useCallback((id) => {
-    setNavOpen(false)
-    location.hash = `/${encodeURIComponent(id)}`
-    setActiveId(id)
-  }, [])
+  const select = useCallback(
+    (id) => {
+      setNavOpen(false)
+      onNavigate(`rebt/${encodeURIComponent(id)}`)
+    },
+    [onNavigate],
+  )
 
   const indexAll = useCallback(async () => {
     setProgress({ done: 0, total: blocks.length })
@@ -121,6 +117,7 @@ export default function App() {
         progress={progress}
         onIndexAll={indexAll}
         failed={failed}
+        onInicio={() => onNavigate('')}
       />
       {active && (
         <Reader
