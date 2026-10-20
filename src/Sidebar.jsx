@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { splitTitle } from './parse.js'
 import InicioBoton from './InicioBoton.jsx'
 import TemaBoton from './TemaBoton.jsx'
+import Accordion from './Accordion.jsx'
 
 function Row({ entry, active, onSelect, snippet, count }) {
   const { itc, nombre } = splitTitle(entry.titulo)
@@ -38,8 +40,25 @@ export default function Sidebar({
   theme,
   onToggleTheme,
 }) {
-  const reglamento = rows.filter((r) => !splitTitle(r.entry.titulo).itc)
-  const itcs = rows.filter((r) => splitTitle(r.entry.titulo).itc)
+  const [acordeonAbierto, setAcordeonAbierto] = useState('itcs') // ITCs abierto por defecto
+
+  const toggleAcordeon = (clave) => {
+    setAcordeonAbierto((actual) => (actual === clave ? null : clave))
+  }
+
+  // Clasificación:
+  // - Preámbulo: id 'pr'
+  // - Reglamento: ids que empiezan con 'a' (artículos)
+  // - ITCs: el resto (Instrucciones Técnicas Complementarias)
+  //   - Normales: ids que empiezan con 'i' o 'anx' (antes de 'da')
+  //   - Disposiciones: ids 'da' a 're' (van al final)
+  const preambulo = rows.filter((r) => r.entry.id === 'pr')
+  const articulos = rows.filter((r) => r.entry.id.startsWith('a'))
+
+  const itcNormal = rows.filter((r) => r.entry.id !== 'pr' && !r.entry.id.startsWith('a') && r.entry.id < 'da')
+  const itcDisposicion = rows.filter((r) => r.entry.id !== 'pr' && !r.entry.id.startsWith('a') && r.entry.id >= 'da')
+  const itcs = [...itcNormal, ...itcDisposicion]
+
   const renderRows = (list) =>
     list.map((r) => (
       <Row
@@ -98,18 +117,29 @@ export default function Sidebar({
           <ul>{renderRows(rows)}</ul>
         ) : (
           <>
-            {reglamento.length > 0 && (
-              <>
-                <h2>Reglamento</h2>
-                <ul>{renderRows(reglamento)}</ul>
-              </>
-            )}
-            {itcs.length > 0 && (
-              <>
-                <h2>Instrucciones técnicas complementarias</h2>
-                <ul>{renderRows(itcs)}</ul>
-              </>
-            )}
+            <Accordion
+              title="Preámbulo"
+              open={acordeonAbierto === 'preambulo'}
+              onToggle={() => toggleAcordeon('preambulo')}
+            >
+              <ul className="accordion-list">{renderRows(preambulo)}</ul>
+            </Accordion>
+
+            <Accordion
+              title="Reglamento"
+              open={acordeonAbierto === 'reglamento'}
+              onToggle={() => toggleAcordeon('reglamento')}
+            >
+              <ul className="accordion-list">{renderRows(articulos)}</ul>
+            </Accordion>
+
+            <Accordion
+              title="Instrucciones Técnicas Complementarias"
+              open={acordeonAbierto === 'itcs'}
+              onToggle={() => toggleAcordeon('itcs')}
+            >
+              <ul className="accordion-list">{renderRows(itcs)}</ul>
+            </Accordion>
           </>
         )}
       </nav>

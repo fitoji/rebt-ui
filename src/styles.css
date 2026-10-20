@@ -589,3 +589,58 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
   line-height: 1;
 }
 .tema-boton:hover { background: var(--neutro-fondo); border-color: var(--neutro); }
+
+/* ------------------------------------------------- acordeones */
+.accordion {
+  margin-bottom: 0.25rem;
+}
+
+.accordion-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  background: var(--neutro-fondo);
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  color: var(--neutro);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.accordion-toggle:hover {
+  background: var(--linea);
+}
+.accordion-toggle.abierto {
+  border-radius: 4px 4px 0 0;
+}
+
+.accordion-icon {
+  font-size: 0.65rem;
+  color: var(--tinta-2);
+}
+
+.accordion-title {
+  flex: 1;
+}
+
+.accordion-content {
+  border: 1px solid var(--linea);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background: var(--hoja);
+}
+
+.accordion-list {
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+}
+
+.accordion-list .fila {
+  border-radius: 0;
+}
