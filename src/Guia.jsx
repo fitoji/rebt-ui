@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { fold } from './parse.js'
 import InicioBoton from './InicioBoton.jsx'
+import TemaBoton from './TemaBoton.jsx'
+import { useTheme } from './useTheme.js'
 import { loadDocumento, loadIndice } from './guia/api.js'
 import { renderDocument } from './guia/markdown.js'
 import { officialPdfUrl, resolveGuiaUrl } from './guia/urls.js'
@@ -36,7 +38,7 @@ function IndicadorError({ error, onReintentar }) {
 
 /* ------------------------------------------------------------------ índice */
 
-function GuiaIndice({ indice, onSelect, onInicio }) {
+function GuiaIndice({ indice, onSelect, onInicio, theme, onToggleTheme }) {
   const [query, setQuery] = useState('')
 
   const documentos = indice.documentos ?? []
@@ -54,7 +56,10 @@ function GuiaIndice({ indice, onSelect, onInicio }) {
       <header className="guia-cab">
         <div className="guia-cab-top">
           <h1 className="marca">Guías técnicas</h1>
-          <InicioBoton onInicio={onInicio} />
+          <div className="guia-cab-acciones">
+            <InicioBoton onInicio={onInicio} />
+            <TemaBoton tema={theme} onToggle={onToggleTheme} />
+          </div>
         </div>
         <p className="sub">
           Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
@@ -99,7 +104,7 @@ function GuiaIndice({ indice, onSelect, onInicio }) {
 
 /* ---------------------------------------------------------------- documento */
 
-function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver }) {
+function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onToggleTheme }) {
   const [state, setState] = useState({ status: 'loading' })
 
   const documentos = indice.documentos ?? []
@@ -147,6 +152,7 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver }) {
           <button className="volver" onClick={onVolver}>
             Índice de guías
           </button>
+          <TemaBoton tema={theme} onToggle={onToggleTheme} />
         </div>
         <div className="guia-doc-meta">
           <span className="codigo">{id}</span>
@@ -205,9 +211,19 @@ export default function Guia({ id, onSelect, onInicio, onVolver }) {
           onSelect={onSelect}
           onInicio={onInicio}
           onVolver={onVolver}
+          theme={theme}
+          onToggleTheme={toggle}
         />
       ) : (
-        <GuiaIndice indice={state.indice} onSelect={onSelect} onInicio={onInicio} />
+        <GuiaIndice
+          indice={state.indice}
+          id={id}
+          onSelect={onSelect}
+          onInicio={onInicio}
+          onVolver={onVolver}
+          theme={theme}
+          onToggleTheme={toggle}
+        />
       )}
     </div>
   )

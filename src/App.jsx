@@ -3,6 +3,8 @@ import { getIndex, loadAll, peekBlock } from './api.js'
 import { fold, splitTitle } from './parse.js'
 import Reader from './Reader.jsx'
 import Sidebar from './Sidebar.jsx'
+import { useTheme } from './useTheme.js'
+import TemaBoton from './TemaBoton.jsx'
 
 function snippetOf(text, needle) {
   const f = fold(text)
@@ -27,6 +29,7 @@ export default function App({ docId, onNavigate }) {
   const [progress, setProgress] = useState(null)
   const [textReady, setTextReady] = useState(false)
   const [failed, setFailed] = useState([])
+  const { theme, toggle } = useTheme()
 
   const loadIndex = useCallback(() => {
     setIndex({ status: 'loading' })
@@ -118,6 +121,8 @@ export default function App({ docId, onNavigate }) {
         onIndexAll={indexAll}
         failed={failed}
         onInicio={() => onNavigate('')}
+        theme={theme}
+        onToggleTheme={toggle}
       />
       {active && (
         <Reader
