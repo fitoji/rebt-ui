@@ -172,13 +172,9 @@ code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; }
   background: repeating-linear-gradient(135deg, var(--tierra-a) 0 5px, var(--tierra-b) 5px 10px);
 }
 
-/* La estrella de favoritos. Va fuera del botón de la fila (no se puede meter un botón
-   dentro de otro), así que la fila necesita ser su contenedor posicionado. */
-.item-fila { position: relative; }
+/* La estrella de favoritos. No lleva posición: la decide el contenedor que la usa. */
 .favorito {
-  position: absolute;
-  top: 0.3rem;
-  right: 0.4rem;
+  flex: none;
   padding: 0 0.2rem;
   font-size: 1.05rem;
   line-height: 1.4;
@@ -193,6 +189,11 @@ code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; }
 .favorito:hover { opacity: 1; color: var(--fase); }
 .favorito[aria-pressed='true'] { opacity: 1; color: var(--fase); }
 .favorito:focus-visible { outline: 2px solid var(--fase); outline-offset: 1px; }
+
+/* En la sidebar del REBT la estrella va sobre la fila (que es un botón): es su hermana,
+   no su hija, así que la fila necesita ser su contenedor posicionado. */
+.item-fila { position: relative; }
+.item-fila > .favorito { position: absolute; top: 0.3rem; right: 0.4rem; }
 /* Con la cuenta de coincidencias al lado, la estrella se aparta un poco. */
 .fila:has(+ .favorito) .cuenta { margin-right: 1.2rem; }
 
@@ -505,6 +506,20 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
   font-size: 0.85rem;
 }
 .guia-vacio { padding: 2rem 0; color: var(--tinta-2); font-family: var(--serif); }
+
+/* Los favoritos de la guía: una lista arriba, con la misma estrella que en el REBT. */
+.guia-fila { display: flex; align-items: flex-start; }
+.guia-fila > .guia-item { flex: 1; min-width: 0; }
+.guia-fila > .favorito { margin-top: 0.7rem; }
+.guia-favoritos { margin: 1.2rem 0 1.4rem; }
+.guia-favoritos h2 {
+  margin: 0 0 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fase);
+}
+.guia-favoritos .guia-item { padding: 0.5rem 0.6rem; }
+.guia-favoritos .guia-item-titulo { font-size: 1rem; }
 
 .guia-doc { max-width: 62rem; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 .guia-doc-cab {

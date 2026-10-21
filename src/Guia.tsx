@@ -9,6 +9,9 @@ import type { Tema } from './useTheme.ts'
 import { loadDocumento, loadIndice } from './guia/api.ts'
 import { renderDocument } from './guia/markdown.ts'
 import { officialPdfUrl, resolveGuiaUrl } from './guia/urls.ts'
+import { CLAVE_GUIA, useFavoritos } from './favoritos.ts'
+import type { Favoritos } from './favoritos.ts'
+import BotonFavorito from './BotonFavorito.tsx'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
 
 /** El índice de la guía: cargando, cargado o con error. */
@@ -80,12 +83,14 @@ function GuiaIndice({
   onInicio,
   theme,
   onToggleTheme,
+  favoritos,
 }: {
   indice: IndiceGuia
   onSelect: (id: string) => void
   onInicio: () => void
   theme: Tema
   onToggleTheme: () => void
+  favoritos: Favoritos
 }) {
   const [query, setQuery] = useState('')
 
@@ -98,6 +103,12 @@ function GuiaIndice({
       .filter((doc) => fold(doc.titulo).includes(needle) || fold(doc.id).includes(needle))
       .map((doc) => ({ doc }))
   }, [documentos, q])
+
+  // Los documentos marcados, para tenerlos a mano arriba de la lista.
+  const favoritosDocs = useMemo(
+    () => documentos.filter((doc) => favoritos.ids.includes(doc.id)),
+    [documentos, favoritos.ids],
+  )
 
   return (
     <div className="guia-indice">
@@ -123,6 +134,33 @@ function GuiaIndice({
       </header>
 
       <div className="guia-lista">
+        {favoritosDocs.length > 0 && (
+          <section className="guia-favoritos">
+            <h2>Favoritos ({favoritosDocs.length})</h2>
+            <ul>
+              {favoritosDocs.map((doc) => (
+                <li key={doc.id}>
+                  <div className="guia-fila">
+                    <button className="guia-item" onClick={() => onSelect(doc.id)}>
+                      <span className="guia-item-titulo">{doc.titulo}</span>
+                      <span className="guia-item-meta">
+                        <span className="codigo">{doc.id}</span>
+                        {doc.paginas ? <span>{doc.paginas} pág.</span> : null}
+                        {doc.tablas ? <span>{doc.tablas} tablas</span> : null}
+                      </span>
+                    </button>
+                    <BotonFavorito
+                      id={doc.id}
+                      titulo={doc.titulo}
+                      favoritos={favoritos}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <p className="guia-cuenta" role="status">
           {rows.length === documentos.length
             ? `${documentos.length} documentos`
@@ -131,16 +169,19 @@ function GuiaIndice({
         <ul>
           {rows.map(({ doc }) => (
             <li key={doc.id}>
-              <button className="guia-item" onClick={() => onSelect(doc.id)}>
-                <span className="guia-item-titulo">{doc.titulo}</span>
-                <span className="guia-item-meta">
-                  <span className="codigo">{doc.id}</span>
-                  {doc.paginas ? <span>{doc.paginas} pág.</span> : null}
-                  {doc.tablas ? <span>{doc.tablas} tablas</span> : null}
-                  {doc.imgs?.length ? <span>{doc.imgs.length} figs.</span> : null}
-                  {doc.edicion ? <span>{doc.edicion}</span> : null}
-                </span>
-              </button>
+              <div className="guia-fila">
+                <button className="guia-item" onClick={() => onSelect(doc.id)}>
+                  <span className="guia-item-titulo">{doc.titulo}</span>
+                  <span className="guia-item-meta">
+                    <span className="codigo">{doc.id}</span>
+                    {doc.paginas ? <span>{doc.paginas} pág.</span> : null}
+                    {doc.tablas ? <span>{doc.tablas} tablas</span> : null}
+                    {doc.imgs?.length ? <span>{doc.imgs.length} figs.</span> : null}
+                    {doc.edicion ? <span>{doc.edicion}</span> : null}
+                  </span>
+                </button>
+                <BotonFavorito id={doc.id} titulo={doc.titulo} favoritos={favoritos} />
+              </div>
             </li>
           ))}
         </ul>
@@ -160,6 +201,7 @@ function GuiaDocumento({
   onVolver,
   theme,
   onToggleTheme,
+  favoritos,
 }: {
   indice: IndiceGuia
   id: string
@@ -168,6 +210,7 @@ function GuiaDocumento({
   onVolver: () => void
   theme: Tema
   onToggleTheme: () => void
+  favoritos: Favoritos
 }) {
   const [state, setState] = useState<EstadoDocumento>({ status: 'loading' })
 
@@ -262,6 +305,8 @@ function GuiaDocumento({
             Ver PDF original
           </a>
         )}
+        {/* Se puede marcar el documento mientras se lee, sin volver al índice. */}
+        <BotonFavorito id={id} titulo={doc?.titulo ?? id} favoritos={favoritos} />
       </header>
 
       {/* El HTML lo genera `guia/markdown.ts`, que escapa todo el texto y solo emite las
@@ -310,6 +355,9 @@ export default function Guia({
 }) {
   const [state, reload] = useIndice()
   const { theme, toggle } = useTheme()
+  // Los favoritos viven en la raíz para que el índice y el documento compartan el estado:
+  // marcar en el documento se ve al instante en el índice, y al revés.
+  const favoritos = useFavoritos(CLAVE_GUIA)
 
   if (state.status === 'loading') return <p className="pantalla" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
@@ -325,6 +373,7 @@ export default function Guia({
           onVolver={onVolver}
           theme={theme}
           onToggleTheme={toggle}
+          favoritos={favoritos}
         />
       ) : (
         <GuiaIndice
@@ -333,6 +382,7 @@ export default function Guia({
           onInicio={onInicio}
           theme={theme}
           onToggleTheme={toggle}
+          favoritos={favoritos}
         />
       )}
     </div>

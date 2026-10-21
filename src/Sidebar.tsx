@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
 import { splitTitle } from './parse.ts'
 import { agruparBloques } from './indice.ts'
-import { useFavoritos } from './favoritos.ts'
+import { CLAVE_REBT, useFavoritos } from './favoritos.ts'
+import type { Favoritos } from './favoritos.ts'
+import BotonFavorito from './BotonFavorito.tsx'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import Accordion from './Accordion.tsx'
@@ -16,20 +18,10 @@ interface RowProps {
   count?: number
   /** Si la fila lleva estrella para marcarla como favorita. */
   conEstrella?: boolean
-  esFavorito?: boolean
-  onAlternarFavorito?: (id: string) => void
+  favoritos: Favoritos
 }
 
-function Row({
-  entry,
-  active,
-  onSelect,
-  snippet,
-  count,
-  conEstrella,
-  esFavorito,
-  onAlternarFavorito,
-}: RowProps) {
+function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }: RowProps) {
   const { itc, nombre } = splitTitle(entry.titulo)
   return (
     <li className="item-fila">
@@ -47,19 +39,7 @@ function Row({
       </button>
       {/* La estrella es hermana de la fila, no hija: un botón dentro de otro botón es
           HTML inválido y hace que el clic nunca llegue al que está debajo. */}
-      {conEstrella && (
-        <button
-          className="favorito"
-          aria-pressed={esFavorito}
-          aria-label={
-            esFavorito ? `Quitar ${entry.titulo} de favoritos` : `Añadir ${entry.titulo} a favoritos`
-          }
-          title={esFavorito ? 'Quitar de favoritos' : 'Añadir a favoritos'}
-          onClick={() => onAlternarFavorito?.(entry.id)}
-        >
-          {esFavorito ? '★' : '☆'}
-        </button>
-      )}
+      {conEstrella && <BotonFavorito id={entry.id} titulo={entry.titulo} favoritos={favoritos} />}
     </li>
   )
 }
@@ -103,7 +83,7 @@ export default function Sidebar({
   const [favoritosAbierto, setFavoritosAbierto] = useState(true)
   // Las disposiciones son lo accesorio: van plegadas, y se abren cuando se buscan.
   const [disposicionesAbierto, setDisposicionesAbierto] = useState(false)
-  const { favoritos, esFavorito, alternar } = useFavoritos()
+  const favoritos = useFavoritos(CLAVE_REBT)
 
   const toggleAcordeon = (clave: string) => {
     setAcordeonAbierto((actual) => (actual === clave ? null : clave))
@@ -123,15 +103,14 @@ export default function Sidebar({
         snippet={r.snippet}
         count={r.count}
         conEstrella={conEstrella}
-        esFavorito={esFavorito(r.entry.id)}
-        onAlternarFavorito={alternar}
+        favoritos={favoritos}
       />
     ))
 
   // Los favoritos se listan aunque no haya búsqueda: para eso están.
   const filasFavoritas = useMemo(
-    () => rows.filter((r) => favoritos.includes(r.entry.id)),
-    [rows, favoritos],
+    () => rows.filter((r) => favoritos.ids.includes(r.entry.id)),
+    [rows, favoritos.ids],
   )
 
   return (
@@ -186,7 +165,7 @@ export default function Sidebar({
         ) : (
           <>
             <Accordion
-              title={favoritos.length ? `Favoritos (${favoritos.length})` : 'Favoritos'}
+              title={favoritos.ids.length ? `Favoritos (${favoritos.ids.length})` : 'Favoritos'}
               open={favoritosAbierto}
               onToggle={() => setFavoritosAbierto((v) => !v)}
             >

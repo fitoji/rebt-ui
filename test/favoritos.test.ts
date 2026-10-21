@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { alternaFavoritos, parseFavoritos } from '../src/favoritos.ts'
+import { CLAVE_GUIA, CLAVE_REBT, alternaFavoritos, parseFavoritos } from '../src/favoritos.ts'
 
 // Los favoritos viven en localStorage. Lo que se testea es la lógica de leer y de
 // alternar, que es lo que puede salir mal: un valor corrupto no puede romper la app.
+
+test('el REBT y la guía guardan en listas separadas', () => {
+  // Los ids son de universos distintos ('ib-19' en el REBT, 'BT-19' en la guía), pero
+  // que no compartan clave evita que uno pise al otro por accidente.
+  assert.notEqual(CLAVE_REBT, CLAVE_GUIA)
+})
 
 test('lee una lista de favoritos guardada', () => {
   assert.deepEqual(parseFavoritos('["ib-19","ib-40"]'), ['ib-19', 'ib-40'])

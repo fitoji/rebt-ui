@@ -1,4 +1,4 @@
-// Los favoritos: las ITC que el usuario marca para tenerlas a mano.
+// Los favoritos: los bloques y los documentos que el usuario marca para tenerlos a mano.
 //
 // La lista se guarda en `localStorage`, que es lo que sobrevive entre sesiones y no
 // necesita ni servidor ni cuenta. La lógica de leer y guardar está aparte del hook
@@ -6,7 +6,10 @@
 
 import { useCallback, useState } from 'react'
 
-const CLAVE = 'rebt-favoritos'
+/** Los favoritos del lector del REBT (los ids de bloque: `ib-19`, `a1`…). */
+export const CLAVE_REBT = 'rebt-favoritos'
+/** Los favoritos de la guía (los ids de documento: `BT-19`, `BT-Anexo-2`…). */
+export const CLAVE_GUIA = 'guia-favoritos'
 
 /**
  * Lee los favoritos guardados.
@@ -30,40 +33,46 @@ export function alternaFavoritos(ids: string[], id: string): string[] {
 }
 
 /** Lee los favoritos de `localStorage`, tolerando que no exista. */
-export function leerFavoritos(): string[] {
+export function leerFavoritos(clave: string): string[] {
   try {
-    return parseFavoritos(localStorage.getItem(CLAVE))
+    return parseFavoritos(localStorage.getItem(clave))
   } catch {
     return []
   }
 }
 
 /** Guarda los favoritos, tolerando que no haya espacio o que esté bloqueado. */
-export function guardarFavoritos(ids: string[]): void {
+export function guardarFavoritos(clave: string, ids: string[]): void {
   try {
-    localStorage.setItem(CLAVE, JSON.stringify(ids))
+    localStorage.setItem(clave, JSON.stringify(ids))
   } catch {
     // Modo privado o cuota llena: los favoritos viven solo en esta sesión.
   }
 }
 
 /** Los favoritos del usuario, con su lista y las dos operaciones. */
-export function useFavoritos(): {
-  favoritos: string[]
+export interface Favoritos {
+  /** Los ids marcados, en el orden en que se fueron marcando. */
+  ids: string[]
   esFavorito: (id: string) => boolean
   alternar: (id: string) => void
-} {
-  const [favoritos, setFavoritos] = useState<string[]>(leerFavoritos)
+}
 
-  const alternar = useCallback((id: string) => {
-    setFavoritos((actual) => {
-      const siguiente = alternaFavoritos(actual, id)
-      guardarFavoritos(siguiente)
-      return siguiente
-    })
-  }, [])
+export function useFavoritos(clave: string): Favoritos {
+  const [ids, setIds] = useState<string[]>(() => leerFavoritos(clave))
 
-  const esFavorito = useCallback((id: string) => favoritos.includes(id), [favoritos])
+  const alternar = useCallback(
+    (id: string) => {
+      setIds((actual) => {
+        const siguiente = alternaFavoritos(actual, id)
+        guardarFavoritos(clave, siguiente)
+        return siguiente
+      })
+    },
+    [clave],
+  )
 
-  return { favoritos, esFavorito, alternar }
+  const esFavorito = useCallback((id: string) => ids.includes(id), [ids])
+
+  return { ids, esFavorito, alternar }
 }
