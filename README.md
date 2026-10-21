@@ -11,7 +11,7 @@ Todo en TypeScript con `strict`. En producción: <https://rebt-ui.fitoji.workers
 |---|---|
 | **Lector del reglamento** | Texto del BOE con las tablas como tablas reales (cabecera fija, celdas combinadas) y **copiar a hoja de cálculo, Markdown o CSV**. Selector de redacción (el BOE guarda todas; se muestra la vigente) y búsqueda en el texto completo con las coincidencias resaltadas. La búsqueda es **progresiva**: los resultados van apareciendo a medida que se descargan los bloques, no al final. |
 | **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). |
-| **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las ITC que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano las que más usás. |
+| **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano las que más usás. |
 | **Además** | Pantalla de inicio con los dos destinos, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
 
 ## Arranque rápido

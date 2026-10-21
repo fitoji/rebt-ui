@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { splitTitle } from './parse.ts'
+import { agruparBloques } from './indice.ts'
 import { useFavoritos } from './favoritos.ts'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
@@ -100,24 +101,17 @@ export default function Sidebar({
   // Los favoritos tienen su propio estado: se quiere tenerlos a la vista mientras se
   // navega por las ITC, no en lugar de ellas.
   const [favoritosAbierto, setFavoritosAbierto] = useState(true)
+  // Las disposiciones son lo accesorio: van plegadas, y se abren cuando se buscan.
+  const [disposicionesAbierto, setDisposicionesAbierto] = useState(false)
   const { favoritos, esFavorito, alternar } = useFavoritos()
 
   const toggleAcordeon = (clave: string) => {
     setAcordeonAbierto((actual) => (actual === clave ? null : clave))
   }
 
-  // Clasificación:
-  // - Preámbulo: id 'pr'
-  // - Reglamento: ids que empiezan con 'a' (artículos)
-  // - ITCs: el resto (Instrucciones Técnicas Complementarias)
-  //   - Normales: ids que empiezan con 'i' o 'anx' (antes de 'da')
-  //   - Disposiciones: ids 'da' a 're' (van al final)
-  const preambulo = rows.filter((r) => r.entry.id === 'pr')
-  const articulos = rows.filter((r) => r.entry.id.startsWith('a'))
-
-  const itcNormal = rows.filter((r) => r.entry.id !== 'pr' && !r.entry.id.startsWith('a') && r.entry.id < 'da')
-  const itcDisposicion = rows.filter((r) => r.entry.id !== 'pr' && !r.entry.id.startsWith('a') && r.entry.id >= 'da')
-  const itcs = [...itcNormal, ...itcDisposicion]
+  // Clasificación en los cuatro grupos de la sidebar. Los ids del BOE dicen a qué
+  // grupo pertenece cada bloque (ver `indice.ts`).
+  const { preambulo, articulos, disposiciones, itcs } = agruparBloques(rows)
 
   const renderRows = (list: Fila[], conEstrella = false) =>
     list.map((r) => (
@@ -227,6 +221,16 @@ export default function Sidebar({
               onToggle={() => toggleAcordeon('itcs')}
             >
               <ul className="accordion-list">{renderRows(itcs, true)}</ul>
+              {/* Las disposiciones van debajo, plegadas: son lo accesorio. */}
+              <div className="accordion-sub">
+                <Accordion
+                  title={`Disposiciones (${disposiciones.length})`}
+                  open={disposicionesAbierto}
+                  onToggle={() => setDisposicionesAbierto((v) => !v)}
+                >
+                  <ul className="accordion-list">{renderRows(disposiciones, true)}</ul>
+                </Accordion>
+              </div>
             </Accordion>
           </>
         )}

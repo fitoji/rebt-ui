@@ -60,3 +60,16 @@ Todo inline.
   pero como la comparación es lexicográfica, `'id' < 'da'` es falso y el grupo "normales" queda
   vacío. No afecta a nada: los dos grupos se concatenan y la lista final es la misma. Queda
   anotado por si algún día se toca esa clasificación.
+- **L5** (2026-10-21) — *"podemos poner un subacordion para que esten todas las disposiciones
+  cerradas por default dentro de instrucciones"*: las disposiciones (13: adicionales,
+  transitorias, derogatoria, finales, firma y el Reglamento) van en un sub-acordeón **plegado**
+  dentro de las ITC, y la lista de ITC-BT queda arriba, que es lo que se usa todos los días.
+- **L6** (2026-10-21) — **Al tocar la clasificación, se arregla el bug de L4**: el reparto se
+  hace ahora por el id completo (`/^(da|dt|dd|df|fi|re)(-\d+)?$/`), no por una comparación con
+  `'da'` que era lexicográfica y por eso nunca cumplía lo que decía el comentario. El agrupamiento
+  sale a `src/indice.ts` como función pura, **con tests**: una clasificación rota se lleva por
+  delante la navegación entera, y antes esto no lo cubría nadie. Cuatro tests, uno de ellos
+  ficha que no se pierde ningún bloque.
+- **L7** (2026-10-21) — **Verificado en el navegador**: el sub-acordeón aparece como
+  "Disposiciones (13)" con `aria-expanded="false"`, y al abrirlo aparecen las 13 con su
+  estrella. La lista de ITCs queda arriba, con la de Favoritos y el resto igual que antes.

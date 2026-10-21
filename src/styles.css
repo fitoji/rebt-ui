@@ -196,6 +196,22 @@ code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; }
 /* Con la cuenta de coincidencias al lado, la estrella se aparta un poco. */
 .fila:has(+ .favorito) .cuenta { margin-right: 1.2rem; }
 
+/* Un acordeón dentro de otro (las disposiciones dentro de las ITC). El de dentro es un
+   encabezado de segundo nivel: sin borde propio y con el texto un punto más chico. */
+.accordion-sub { margin-top: 0.3rem; }
+.accordion-sub .accordion-toggle {
+  background: none;
+  border-color: transparent;
+  color: var(--tinta-2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.35rem 0.6rem;
+}
+.accordion-sub .accordion-toggle:hover { background: var(--plano); border-color: var(--linea); }
+.accordion-sub .accordion-toggle.abierto { border-radius: 4px; }
+.accordion-sub .accordion-content { border: none; padding: 0 0 0.3rem; }
+.accordion-sub .accordion-icon { font-size: 0.6rem; }
+
 /* ------------------------------------------------------------ lector */
 .lector { overflow-y: auto; padding: 2.2rem clamp(1.1rem, 4vw, 3.5rem) 4rem; outline: none; }
 .lector > * { max-width: 70rem; margin-inline: auto; }
