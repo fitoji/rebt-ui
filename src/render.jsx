@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import { fold, gridToCsv, gridToMarkdown, gridToTsv } from './parse.js'
+import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.js'
 
 // Texto a resaltar (lo que la persona está buscando)
 export const Highlight = createContext('')
@@ -96,13 +97,6 @@ function TableNode({ node }) {
   }
 }
 
-function download(name, text, type) {
-  const url = URL.createObjectURL(new Blob([text], { type }))
-  const a = Object.assign(document.createElement('a'), { href: url, download: name })
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
 export function Table({ item, name }) {
   const [done, setDone] = useState('')
   const flash = (msg) => {
@@ -111,22 +105,22 @@ export function Table({ item, name }) {
   }
   const copy = async (text, msg) => {
     try {
-      await navigator.clipboard.writeText(text)
+      await copiarAlPortapapeles(text)
       flash(msg)
     } catch {
-      flash('No se pudo copiar')
+      flash(AVISO_ERROR)
     }
   }
   return (
     <figure className="tabla">
       <div className="tabla-acciones">
-        <button onClick={() => copy(gridToTsv(item.grid), 'Copiada para hoja de cálculo')}>
+        <button onClick={() => copy(gridToTsv(item.grid), AVISO_COPIAR)}>
           Copiar
         </button>
-        <button onClick={() => copy(gridToMarkdown(item.grid), 'Markdown copiado')}>
+        <button onClick={() => copy(gridToMarkdown(item.grid), AVISO_MARKDOWN)}>
           Markdown
         </button>
-        <button onClick={() => download(`${name}.csv`, gridToCsv(item.grid), 'text/csv')}>
+        <button onClick={() => descargar(`${name}.csv`, gridToCsv(item.grid), 'text/csv')}>
           Descargar CSV
         </button>
         <span role="status" className="tabla-aviso">{done}</span>

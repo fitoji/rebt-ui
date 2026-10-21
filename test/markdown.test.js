@@ -103,6 +103,13 @@ test('renderiza una tabla pipe con celdas vacías', () => {
   assert.equal(
     html,
     [
+      '<div class="tabla-guia" data-tabla="1">',
+      '<div class="tabla-acciones">',
+      '<button type="button" data-accion="copiar">Copiar</button>',
+      '<button type="button" data-accion="markdown">Markdown</button>',
+      '<button type="button" data-accion="csv">Descargar CSV</button>',
+      '<span role="status" class="tabla-aviso" data-aviso></span>',
+      '</div>',
       '<div class="tabla-scroll">',
       '<table>',
       '<thead>',
@@ -114,8 +121,71 @@ test('renderiza una tabla pipe con celdas vacías', () => {
       '</tbody>',
       '</table>',
       '</div>',
+      '</div>',
     ].join('\n'),
   )
+})
+
+test('las tablas de la guía ofrecen las mismas acciones que las del REBT', () => {
+  // Sin esto, quien lee una guía no puede llevarse la tabla a una hoja de cálculo.
+  const src = ['| a | b |', '|---|---|', '| 1 | 2 |'].join('\n')
+  const { html } = renderDocument(src, { resolveUrl: keep })
+  assert.match(html, /data-accion="copiar">Copiar</)
+  assert.match(html, /data-accion="markdown">Markdown</)
+  assert.match(html, /data-accion="csv">Descargar CSV</)
+  // Y un hueco donde avisar, que es como avisa el lector del REBT.
+  assert.match(html, /<span role="status" class="tabla-aviso" data-aviso><\/span>/)
+})
+
+test('la marca del conversor deja el nombre del CSV del corpus con su tabla', () => {
+  // El conversor emite `<!-- tabla: ../tablas/BT-03_t01.csv -->` justo antes de la tabla.
+  // Ese nombre es el del archivo del corpus, así que lo que se descarga coincide con él.
+  const src = [
+    '<!-- tabla: ../tablas/BT-03_t01.csv -->',
+    '',
+    '| a | b |',
+    '|---|---|',
+    '| 1 | 2 |',
+  ].join('\n')
+  const { html } = renderDocument(src, { resolveUrl: keep })
+  assert.match(html, /data-csv="BT-03_t01\.csv"/)
+})
+
+test('la marca del conversor no se cuelga en una tabla que no le corresponde', () => {
+  // Si entre la marca y la tabla hay otro bloque, la marca se pierde: el nombre del CSV
+  // pertenece a la tabla que anuncia, no a la siguiente que aparezca.
+  const src = [
+    '<!-- tabla: ../tablas/BT-03_t01.csv -->',
+    '',
+    'Un párrafo de por medio.',
+    '',
+    '| a | b |',
+    '|---|---|',
+    '| 1 | 2 |',
+  ].join('\n')
+  const { html } = renderDocument(src, { resolveUrl: keep })
+  assert.equal(/data-csv=/.test(html), false)
+  assert.match(html, /data-tabla="1"/)
+})
+
+test('las tablas del documento se numeran en orden', () => {
+  const src = [
+    '| a |',
+    '|---|',
+    '| 1 |',
+    '',
+    '| b |',
+    '|---|',
+    '| 2 |',
+    '',
+    '| c |',
+    '|---|',
+    '| 3 |',
+  ].join('\n')
+  const { html } = renderDocument(src, { resolveUrl: keep })
+  assert.match(html, /data-tabla="1"/)
+  assert.match(html, /data-tabla="2"/)
+  assert.match(html, /data-tabla="3"/)
 })
 
 test('las celdas de tabla son texto literal: (**) es nota al pie, no negrita', () => {

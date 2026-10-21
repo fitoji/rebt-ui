@@ -10,6 +10,8 @@ de aplicación publicadas por el Ministerio de Industria y Turismo (el corpus de
 - Selector de versión (el BOE guarda todas las redacciones; se muestra la vigente por defecto).
 - Búsqueda en el texto completo (descarga los bloques una vez, 4 a la vez) con coincidencias resaltadas.
 - Visor de la guía: los 38 documentos con sus tablas reales, sus figuras y enlace al PDF oficial.
+  Las tablas del corpus también se pueden copiar a hoja de cálculo, copiar como Markdown o
+  descargar como CSV, con el nombre del CSV del corpus (`BT-19_t01.csv`).
 - Enlaces `#/{id}` para volver a cualquier bloque; tema claro y oscuro según el sistema.
 
 ## Rutas

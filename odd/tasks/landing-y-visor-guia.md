@@ -91,3 +91,20 @@ Estrategia `ask-on-risk`. **Pendiente**: la estrategia de PR encadenadas es deci
 - **L12** (2026-10-19) — Verificación visual con Firefox headless de las cuatro vistas. El lector y
   el documento hubo que capturarse embebidos en un wrapper que retiene el evento `load`, porque la
   captura headless dispara antes de que resuelvan los `fetch` en cadena.
+- **L13** (2026-10-21) — *"en /rebt cuando hay tablas tengo opcion de copiarla como planilla, como
+  markdown y como csv, quiero esas opciones en las tablas de guias"*: las tablas del corpus ya
+  salen del renderer con la barra de acciones (`Copiar` → TSV, `Markdown`, `Descargar CSV`), con el
+  mismo aspecto y los mismos mensajes que el lector del REBT. Como el HTML del corpus se inyecta
+  entero, los manejadores no pueden vivir en el renderer: un único `onClick` en el `<article>` de
+  `Guia.jsx` atiende los tres botones. El nombre del CSV sale de la marca del conversor
+  (`<!-- tabla: ../tablas/BT-19_t01.csv -->`), así que lo que se descarga tiene el nombre del
+  corpus y su contenido es idéntico al de `guia_rebt/tablas/`. Verificado en Chrome headless
+  sobre BT-19: la TSV copiada, el Markdown copiado y el CSV descargado (29 filas × 13 campos,
+  idéntico al del corpus).
+- **L14** (2026-10-21) — **Bug preexistente encontrado y corregido**: `Guia.jsx` usaba `theme` y
+  `toggle` sin definirlos (el commit del modo noche/luz los pasó como props pero nunca llamó a
+  `useTheme()` en el componente raíz). La página de guías **no renderizaba nada**: React vaciaba
+  el árbol al saltar el `ReferenceError`. Comprobado antes y después con Chrome headless: con el
+  código viejo `<div id="root"></div>`, con el arreglo la página completa.
+- **L15** (2026-10-21) — El script `test` de `package.json` (`node --test test/`) no encuentra los
+  tests en Node 24 y `npm test` fallaba. Corregido a `node --test "test/*.test.js"`.

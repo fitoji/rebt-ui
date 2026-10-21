@@ -26,6 +26,7 @@ const RE_HR = /^(?:-{3,}|\*{3,}|_{3,})\s*$/
 const RE_LIST = /^-\s+(.*)$/
 const RE_TABLE_SEP = /^\|(?:\s*:?-+:?\s*\|)+$/
 const RE_COMMENT = /^<!--[\s\S]*?-->$/
+const RE_TABLA_COMMENT = /^<!--\s*tabla:\s*(\S+)\s*-->$/
 
 /**
  * Separa el front-matter (`---` … `---`) del cuerpo.
@@ -136,7 +137,19 @@ function cells(line) {
   return s.split('|').map((c) => c.trim())
 }
 
-function renderTable(header, rows) {
+/**
+ * Nombre del CSV del corpus para la tabla que anuncia el conversor.
+ * El conversor emite `<!-- tabla: ../tablas/BT-03_t01.csv -->` justo antes de cada tabla.
+ * Se queda solo el nombre del archivo: una ruta en el atributo `download` es ruido.
+ */
+function nombreCsv(ref) {
+  const base = ref.split('/').pop() ?? ''
+  const limpio = base.replace(/[^A-Za-z0-9._-]/g, '')
+  if (!limpio) return null
+  return limpio.toLowerCase().endsWith('.csv') ? limpio : `${limpio}.csv`
+}
+
+function renderTable(header, rows, ctx, csv) {
   const width = Math.max(1, header.length, ...rows.map((r) => r.length))
   const pad = (row) => (row.length >= width ? row : [...row, ...new Array(width - row.length).fill('')])
   const cell = (tag, value) => `<${tag}>${escapeHtml(value)}</${tag}>`
@@ -144,7 +157,19 @@ function renderTable(header, rows) {
   const head = `<tr>${pad(header).map((c) => cell('th', c)).join('')}</tr>`
   const body = rows.map((r) => `<tr>${pad(r).map((c) => cell('td', c)).join('')}</tr>`)
 
+  ctx.tablas += 1
+
   return [
+    `<div class="tabla-guia" data-tabla="${ctx.tablas}"${csv ? ` data-csv="${escapeHtml(csv)}"` : ''}>`,
+    // Las mismas tres acciones que las tablas del lector del REBT. Los manejadores no
+    // viven aquí: el HTML se inyecta entero, así que `Guia.jsx` atiende el clic que sube
+    // desde el botón hasta el artículo.
+    '<div class="tabla-acciones">',
+    '<button type="button" data-accion="copiar">Copiar</button>',
+    '<button type="button" data-accion="markdown">Markdown</button>',
+    '<button type="button" data-accion="csv">Descargar CSV</button>',
+    '<span role="status" class="tabla-aviso" data-aviso></span>',
+    '</div>',
     '<div class="tabla-scroll">',
     '<table>',
     '<thead>',
@@ -154,6 +179,7 @@ function renderTable(header, rows) {
     ...body,
     '</tbody>',
     '</table>',
+    '</div>',
     '</div>',
   ].join('\n')
 }
@@ -181,11 +207,19 @@ function renderBlocks(lines, ctx) {
       continue
     }
 
-    // Los comentarios `<!-- tabla: … -->` son marcas del conversor, no contenido.
+    // Los comentarios `<!-- tabla: … -->` son marcas del conversor, no contenido. Pero el
+    // conversor emite una justo antes de cada tabla, con el nombre del CSV del corpus
+    // (`../tablas/BT-03_t01.csv`): ese nombre es el que se usa al descargar la tabla.
     if (RE_COMMENT.test(trimmed)) {
+      const marca = trimmed.match(RE_TABLA_COMMENT)
+      ctx.csvPendiente = marca ? nombreCsv(marca[1]) : null
       i++
       continue
     }
+
+    // A partir de aquí el bloque ya no es la tabla que anunciaba la marca.
+    const csv = ctx.csvPendiente
+    ctx.csvPendiente = null
 
     const heading = line.match(RE_HEADING)
     if (heading) {
@@ -209,7 +243,7 @@ function renderBlocks(lines, ctx) {
         rows.push(cells(lines[i]))
         i++
       }
-      out.push(renderTable(header, rows))
+      out.push(renderTable(header, rows, ctx, csv))
       continue
     }
 
@@ -254,5 +288,8 @@ function renderBlocks(lines, ctx) {
  */
 export function renderDocument(src, { resolveUrl } = {}) {
   const { data, body } = parseFrontMatter(src)
-  return { frontMatter: data, html: renderBlocks(body.split('\n'), { resolveUrl }) }
+  return {
+    frontMatter: data,
+    html: renderBlocks(body.split('\n'), { resolveUrl, tablas: 0, csvPendiente: null }),
+  }
 }

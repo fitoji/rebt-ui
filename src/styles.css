@@ -540,6 +540,10 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 /* Las tablas del corpus vienen en rejilla expandida: muchas celdas vacías y columnas
    sin agrupar. Se muestran tal cual y con scroll horizontal, que es lo fiel. */
 .markdown .tabla-scroll { overflow-x: auto; margin: 1.4rem 0; }
+/* La barra de acciones va dentro del bloque de la tabla, para que los botones queden
+   pegados a su caja y no floten separados por el margen del scroll. */
+.markdown .tabla-guia { margin: 1.4rem 0; }
+.markdown .tabla-guia .tabla-scroll { margin: 0; }
 .markdown table {
   border-collapse: collapse;
   font-family: var(--sans);

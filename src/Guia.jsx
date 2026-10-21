@@ -1,11 +1,32 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { fold } from './parse.js'
+import { fold, gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.js'
+import { AVISO_CSV, AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.js'
 import InicioBoton from './InicioBoton.jsx'
 import TemaBoton from './TemaBoton.jsx'
 import { useTheme } from './useTheme.js'
 import { loadDocumento, loadIndice } from './guia/api.js'
 import { renderDocument } from './guia/markdown.js'
 import { officialPdfUrl, resolveGuiaUrl } from './guia/urls.js'
+
+// El aviso de cada tabla se pinta en el HTML inyectado, que React no controla: se escribe
+// directamente en el DOM y se borra a los 1,6 s, como en el lector del REBT.
+const avisos = new WeakMap()
+
+function avisar(span, mensaje) {
+  if (!span) return
+  span.textContent = mensaje
+  clearTimeout(avisos.get(span))
+  avisos.set(span, setTimeout(() => { span.textContent = '' }, 1600))
+}
+
+// El conversor nombra cada tabla (`<!-- tabla: ../tablas/BT-03_t01.csv -->`) y ese nombre es
+// el del CSV del corpus. Si algún día faltara la marca, se cae al nombre por índice.
+function nombreCsv(caja, id) {
+  const nombre = caja.dataset.csv
+  if (nombre) return nombre
+  const n = Number(caja.dataset.tabla ?? 0)
+  return `${id}_t${String(n).padStart(2, '0')}.csv`
+}
 
 function useIndice() {
   const [state, setState] = useState({ status: 'loading' })
@@ -139,6 +160,38 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
   const next = documentos[at + 1]
   const pdf = officialPdfUrl(doc)
 
+  // Las tablas de la guía se inyectan como HTML (el renderer del corpus escapa el texto y
+  // solo emite las etiquetas que él mismo construye), así que React no les pone manejadores.
+  // Un único `onClick` en el artículo cubre los tres botones: el clic sube desde el HTML
+  // inyectado hasta el artículo, y de ahí lo recoge React.
+  const alPulsarTabla = useCallback(
+    async (evento) => {
+      const boton = evento.target.closest?.('button[data-accion]')
+      const caja = boton?.closest('[data-tabla]')
+      const tabla = caja?.querySelector('table')
+      if (!boton || !caja || !tabla) return
+
+      const grid = tableGrid(tabla)
+      const aviso = caja.querySelector('[data-aviso]')
+      const accion = boton.dataset.accion
+
+      if (accion === 'csv') {
+        descargar(nombreCsv(caja, id), gridToCsv(grid), 'text/csv')
+        avisar(aviso, AVISO_CSV)
+        return
+      }
+
+      const texto = accion === 'markdown' ? gridToMarkdown(grid) : gridToTsv(grid)
+      try {
+        await copiarAlPortapapeles(texto)
+        avisar(aviso, accion === 'markdown' ? AVISO_MARKDOWN : AVISO_COPIAR)
+      } catch {
+        avisar(aviso, AVISO_ERROR)
+      }
+    },
+    [id],
+  )
+
   if (state.status === 'loading') return <p className="pantalla" role="status">Cargando la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={onVolver} />
 
@@ -170,7 +223,11 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
       {/* El HTML lo genera `guia/markdown.js`, que escapa todo el texto y solo emite las
           etiquetas que él mismo construye; ningún href del corpus pasa sin pasar por
           `resolveGuiaUrl`. El corpus es contenido propio y estático. */}
-      <article className="markdown" dangerouslySetInnerHTML={{ __html: state.html }} />
+      <article
+        className="markdown"
+        onClick={alPulsarTabla}
+        dangerouslySetInnerHTML={{ __html: state.html }}
+      />
 
       <nav className="guia-nav" aria-label="Documentos anterior y siguiente">
         {prev ? (
