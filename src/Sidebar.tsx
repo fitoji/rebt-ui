@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { splitTitle } from './parse.ts'
+import { useFavoritos } from './favoritos.ts'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import Accordion from './Accordion.tsx'
@@ -12,12 +13,25 @@ interface RowProps {
   onSelect: (id: string) => void
   snippet?: string
   count?: number
+  /** Si la fila lleva estrella para marcarla como favorita. */
+  conEstrella?: boolean
+  esFavorito?: boolean
+  onAlternarFavorito?: (id: string) => void
 }
 
-function Row({ entry, active, onSelect, snippet, count }: RowProps) {
+function Row({
+  entry,
+  active,
+  onSelect,
+  snippet,
+  count,
+  conEstrella,
+  esFavorito,
+  onAlternarFavorito,
+}: RowProps) {
   const { itc, nombre } = splitTitle(entry.titulo)
   return (
-    <li>
+    <li className="item-fila">
       <button
         className={'fila' + (active ? ' activa' : '') + (itc ? '' : ' sin-num')}
         aria-current={active ? 'page' : undefined}
@@ -30,6 +44,21 @@ function Row({ entry, active, onSelect, snippet, count }: RowProps) {
         </span>
         {(count ?? 0) > 0 && <span className="cuenta" title={`${count} coincidencias`}>{count}</span>}
       </button>
+      {/* La estrella es hermana de la fila, no hija: un botón dentro de otro botón es
+          HTML inválido y hace que el clic nunca llegue al que está debajo. */}
+      {conEstrella && (
+        <button
+          className="favorito"
+          aria-pressed={esFavorito}
+          aria-label={
+            esFavorito ? `Quitar ${entry.titulo} de favoritos` : `Añadir ${entry.titulo} a favoritos`
+          }
+          title={esFavorito ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+          onClick={() => onAlternarFavorito?.(entry.id)}
+        >
+          {esFavorito ? '★' : '☆'}
+        </button>
+      )}
     </li>
   )
 }
@@ -68,6 +97,10 @@ export default function Sidebar({
   onToggleTheme,
 }: SidebarProps) {
   const [acordeonAbierto, setAcordeonAbierto] = useState<string | null>('itcs') // ITCs abierto por defecto
+  // Los favoritos tienen su propio estado: se quiere tenerlos a la vista mientras se
+  // navega por las ITC, no en lugar de ellas.
+  const [favoritosAbierto, setFavoritosAbierto] = useState(true)
+  const { favoritos, esFavorito, alternar } = useFavoritos()
 
   const toggleAcordeon = (clave: string) => {
     setAcordeonAbierto((actual) => (actual === clave ? null : clave))
@@ -86,7 +119,7 @@ export default function Sidebar({
   const itcDisposicion = rows.filter((r) => r.entry.id !== 'pr' && !r.entry.id.startsWith('a') && r.entry.id >= 'da')
   const itcs = [...itcNormal, ...itcDisposicion]
 
-  const renderRows = (list: Fila[]) =>
+  const renderRows = (list: Fila[], conEstrella = false) =>
     list.map((r) => (
       <Row
         key={r.entry.id}
@@ -95,8 +128,17 @@ export default function Sidebar({
         onSelect={onSelect}
         snippet={r.snippet}
         count={r.count}
+        conEstrella={conEstrella}
+        esFavorito={esFavorito(r.entry.id)}
+        onAlternarFavorito={alternar}
       />
     ))
+
+  // Los favoritos se listan aunque no haya búsqueda: para eso están.
+  const filasFavoritas = useMemo(
+    () => rows.filter((r) => favoritos.includes(r.entry.id)),
+    [rows, favoritos],
+  )
 
   return (
     <aside className="indice" aria-label="Índice del reglamento">
@@ -150,6 +192,20 @@ export default function Sidebar({
         ) : (
           <>
             <Accordion
+              title={favoritos.length ? `Favoritos (${favoritos.length})` : 'Favoritos'}
+              open={favoritosAbierto}
+              onToggle={() => setFavoritosAbierto((v) => !v)}
+            >
+              {filasFavoritas.length > 0 ? (
+                <ul className="accordion-list">{renderRows(filasFavoritas, true)}</ul>
+              ) : (
+                <p className="vacio">
+                  Marcá con la estrella las ITC que uses más y van a aparecer aquí.
+                </p>
+              )}
+            </Accordion>
+
+            <Accordion
               title="Preámbulo"
               open={acordeonAbierto === 'preambulo'}
               onToggle={() => toggleAcordeon('preambulo')}
@@ -170,7 +226,7 @@ export default function Sidebar({
               open={acordeonAbierto === 'itcs'}
               onToggle={() => toggleAcordeon('itcs')}
             >
-              <ul className="accordion-list">{renderRows(itcs)}</ul>
+              <ul className="accordion-list">{renderRows(itcs, true)}</ul>
             </Accordion>
           </>
         )}
