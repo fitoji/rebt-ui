@@ -1,18 +1,41 @@
-# Lector del REBT
+# REBT · lector del reglamento y visor de la guía técnica
 
-Interfaz React para leer el Reglamento electrotécnico para baja tensión (RD 842/2002, `boe-A-2002-18099`)
-a partir de la API de datos abiertos del BOE (legislación consolidada), y visor de las Guías Técnicas
+Aplicación web para leer el Reglamento electrotécnico para baja tensión (RD 842/2002,
+`boe-A-2002-18099`) desde la API de datos abiertos del BOE, y para consultar las Guías Técnicas
 de aplicación publicadas por el Ministerio de Industria y Turismo (el corpus de `guia_rebt/`).
+Todo en TypeScript con `strict`. En producción: <https://rebt-ui.fitoji.workers.dev>.
 
-- Pantalla de inicio con los dos destinos: el reglamento y la guía técnica.
-- Índice agrupado en reglamento e ITC-BT, con filtro por título.
-- Texto con las tablas como tablas reales: cabecera fija, celdas combinadas, copiar a hoja de cálculo, Markdown o CSV.
-- Selector de versión (el BOE guarda todas las redacciones; se muestra la vigente por defecto).
-- Búsqueda en el texto completo (descarga los bloques una vez, 4 a la vez) con coincidencias resaltadas.
-- Visor de la guía: los 38 documentos con sus tablas reales, sus figuras y enlace al PDF oficial.
-  Las tablas del corpus también se pueden copiar a hoja de cálculo, copiar como Markdown o
-  descargar como CSV, con el nombre del CSV del corpus (`BT-19_t01.csv`).
-- Enlaces `#/{id}` para volver a cualquier bloque; tema claro y oscuro según el sistema.
+## Qué hace
+
+| Vista | Qué ofrece |
+|---|---|
+| **Lector del reglamento** | Texto del BOE con las tablas como tablas reales (cabecera fija, celdas combinadas) y **copiar a hoja de cálculo, Markdown o CSV**. Selector de redacción (el BOE guarda todas; se muestra la vigente) y búsqueda en el texto completo con las coincidencias resaltadas. |
+| **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). |
+| **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. |
+| **Además** | Pantalla de inicio con los dos destinos, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
+
+## Arranque rápido
+
+```bash
+npm install
+npm run dev          # http://localhost:5173, contra el BOE real
+```
+
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de Vite. |
+| `npm run build` | **Typecheck y luego** empaqueta en `dist/`. Si hay un error de tipos, no se empaqueta. |
+| `npm run typecheck` | `tsc --noEmit`: la puerta de tipos de la aplicación y la del worker. |
+| `npm test` | `node --test` sobre los tests en TypeScript. Sin dependencias de test. |
+| `npm run check` | Typecheck + tests, que es lo que corre el CI. |
+| `npm run mock` | BOE simulado en `:8787`, con datos de ejemplo. |
+| `npm run dev:mock` | Vite contra el BOE simulado, para trabajar sin conexión. |
+
+Hace falta **Node ≥ 22.18** (en `engines`): los tests corren en TypeScript sin bundler porque Node
+hace *type stripping* (el borrado de tipos) desde esa versión.
+
+El navegador no puede llamar a `boe.es` directamente (la API no envía cabeceras CORS), así que Vite
+hace de proxy: `/boe-api/...` → `https://www.boe.es/datosabiertos/api/...` (ver `vite.config.ts`).
 
 ## Rutas
 
@@ -27,29 +50,39 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `#/guia/<id>` | una guía concreta (`BT-19`, `BT-Anexo-2`, …) |
 | `#/<bloque>` | enlace antiguo del lector, sigue funcionando |
 
-## Uso
+## Dónde está cada cosa
 
-```bash
-npm install
-npm run dev          # http://localhost:5173, usa el BOE real
-npm test             # node --test, sin dependencias de test
-npm run typecheck    # tsc --noEmit: la puerta de tipos
-```
+| Ruta | Qué contiene |
+|---|---|
+| `src/` | La aplicación. `src/tipos.ts` tiene los tipos del dominio; `src/guia/` el intérprete del corpus y sus URLs. |
+| `src/guia/markdown.ts` | El intérprete de Markdown del corpus (propio, ver más abajo). |
+| `test/` | Tests en TypeScript, con el runner nativo de Node. |
+| `vite/guia-corpus.ts` | Plugin que publica `guia_rebt/` en `/guia/*`. |
+| `worker/index.ts` | El Worker de Cloudflare: sirve `dist/` y hace de proxy hacia el BOE. |
+| `mock/server.ts` | El BOE simulado para trabajar sin conexión. |
+| `guia_rebt/` | El corpus: `md/` + `tablas/` + `imgs/` + `indice.json`, y el conversor en Python. |
+| `odd/tasks/` | Los logbooks de cada trabajo: qué se pidió, qué se decidió y cómo se verificó. |
 
-El navegador no puede llamar a `boe.es` directamente (la API no envía cabeceras CORS), así que Vite hace de proxy:
-`/boe-api/...` → `https://www.boe.es/datosabertos/api/...` (ver `vite.config.ts`).
+## TypeScript
 
-Para desarrollar sin conexión hay un BOE simulado con datos de ejemplo:
+Todo el proyecto está en TypeScript (`strict: true`): la aplicación, los tests, el plugin de Vite,
+el worker y el mock. La puerta de tipos es `npm run typecheck`, y `npm run build` la ejecuta
+**antes** de empaquetar, así que un error de tipos no llega a `dist/`. En CI corren el typecheck y
+los tests antes del despliegue.
 
-```bash
-npm run mock         # terminal 1
-npm run dev:mock     # terminal 2
-```
+Tres decisiones que conviene conocer antes de tocar el código:
 
-> **`dev:mock` está roto en `main`:** el script pasa `BOE_PREFIX=` (vacío) y el proxy responde 400,
-> porque el servidor simulado sirve bajo `/datosabertos/api`. Funciona con
-> `BOE_TARGET=http://localhost:8787 BOE_PREFIX=/datosabiertos/api npx vite`. No se tocó porque es
-> anterior a este trabajo.
+- **Los tipos del dominio viven en `src/tipos.ts`**, en un solo sitio: bloque, versión, ítem, rejilla e
+  índice de la guía. Si cambia la forma de un dato, se ve ahí y no en veinte archivos.
+- **El worker tiene su propio `tsconfig`** (`tsconfig.worker.json`): los tipos de Cloudflare y los del
+  DOM declaran los mismos globales (`Request`, `Response`, `fetch`) y chocan si comparten configuración.
+- **Los imports relativos llevan la extensión** (`./parse.ts`). Es lo que permite que Node ejecute los
+  tests en TypeScript sin bundler, y Vite resuelve igual. Por eso `erasableSyntaxOnly` y
+  `verbatimModuleSyntax` están activados: lo que no se puede borrar no se puede ejecutar, y un `import`
+  de un tipo tiene que ser `import type` o Node lo importaría en runtime.
+
+`noUncheckedIndexedAccess` está **deliberadamente apagado**: el código indexa arrays por todo y los `!`
+que obligaría a escribir taparían justo los errores que se quieren ver.
 
 ## Cómo se sirve la guía
 
@@ -67,7 +100,7 @@ Los enlaces a página del PDF que trae el corpus (`../pdf/BT-19.pdf#page=7`) **n
 reescriben a la URL oficial de `indice.json` conservando el ancla, y cada documento tiene además un
 botón «Ver PDF original». Es lo que permite leer la guía sin tener los 12 MB de PDF en el despliegue.
 
-### El renderer de Markdown es propio, y a propósito
+### El intérprete de Markdown (`renderer`) es propio, y a propósito
 
 `src/guia/markdown.ts` implementa solo el subconjunto que el corpus usa de verdad, medido sobre los
 38 documentos: encabezados, tablas pipe, imágenes, enlaces, listas, blockquotes, reglas y
@@ -82,33 +115,31 @@ Dos decisiones que parecen rarezas y no lo son:
 
 Añadir `marked` o `react-markdown` sería más fácil de escribir, pero metería un parser genérico donde
 el corpus no lo necesita y donde el riesgo real es corromper contenido. Si algún día el corpus cambia
-de forma, se amplía el renderer, no se cambia la decisión.
+de forma, se amplía el intérprete, no se cambia la decisión.
 
 ## Desplegarlo
 
-`npm run build` genera `dist/` (con el corpus en `dist/guia/`), pero en producción necesitas el mismo proxy delante
-(un Cloudflare Worker o una regla de reescritura que lleve `/boe-api/*` a `https://www.boe.es/datosabiertos/api/*`).
+Producción es un **Cloudflare Worker** (`worker/index.ts`): sirve `dist/` como archivos estáticos y hace de proxy
+de `/boe-api/*` a `https://www.boe.es/datosabertos/api/*`, que es lo que permite que el navegador
+hable con el BOE.
 
-## TypeScript
+```bash
+npm run build          # typecheck + dist/
+npx wrangler deploy    # publica el worker
+```
 
-Todo el proyecto está en TypeScript (`strict: true`): la app, los tests, el plugin de Vite, el worker de
-Cloudflare y el mock. La puerta de tipos es `npm run typecheck` (`tsc --noEmit`), y `npm run build` la
-ejecuta **antes** de empaquetar, así que un error de tipos no llega a `dist/`. En CI corren el typecheck
-y los tests antes del deploy.
+En el CI, cada push a `main` hace: typecheck → tests → build → despliegue. Para que eso funcione, el
+**entorno** de GitHub llamado `CLOUDFLARE_API_TOKEN` (en *Settings → Environments*) necesita dos
+secretos:
 
-Tres decisiones que conviene conocer antes de tocar el código:
+| Secreto | Para qué |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | El token de la API, con la plantilla *Edit Cloudflare Workers* de Cloudflare. El que hay puesto en el entorno es de la época de Pages y **no sirve para Workers**. |
+| `CLOUDFLARE_ACCOUNT_ID` | En qué cuenta está el worker. **Sin esto**, wrangler intenta listar las cuentas para averiguarlo y el despliegue falla antes de compilar. |
 
-- **Los tipos del dominio viven en `src/tipos.ts`**, en un solo sitio: bloque, versión, ítem, rejilla e
-  índice de la guía. Si cambia la forma de un dato, se ve ahí y no en veinte archivos.
-- **El worker tiene su propio `tsconfig`** (`tsconfig.worker.json`): los tipos de Cloudflare y los del
-  DOM declaran los mismos globales (`Request`, `Response`, `fetch`) y chocan si comparten configuración.
-- **Los imports relativos llevan la extensión** (`./parse.ts`). Es lo que permite que Node ejecute los
-  tests en TypeScript sin bundler, y Vite resuelve igual. Por eso `erasableSyntaxOnly` y
-  `verbatimModuleSyntax` están activados: lo que no se puede borrar no se puede ejecutar, y un `import`
-  de un tipo tiene que ser `import type` o Node lo importaría en runtime.
-
-`noUncheckedIndexedAccess` está **deliberadamente apagado**: el código indexa arrays por todo y los `!`
-que obligaría a escribir taparían justo los errores que se quieren ver.
+- Worker en producción: <https://rebt-ui.fitoji.workers.dev>
+- El proyecto viejo de **Pages** (`rebt-ui.pages.dev`) quedó atrás y sirve el código fuente crudo:
+  muestra pantalla en blanco. Se puede borrar.
 
 ## Si el BOE cambia el formato
 
