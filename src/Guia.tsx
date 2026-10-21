@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { MouseEvent } from 'react'
 import { fold, gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.ts'
 import { AVISO_CSV, AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
@@ -12,6 +12,10 @@ import { officialPdfUrl, resolveGuiaUrl } from './guia/urls.ts'
 import { CLAVE_GUIA, useFavoritos } from './favoritos.ts'
 import type { Favoritos } from './favoritos.ts'
 import BotonFavorito from './BotonFavorito.tsx'
+import BotonNota, { useSeleccion } from './BotonNota.tsx'
+import CajaNotas from './CajaNotas.tsx'
+import { aplicarResaltados, crearNota, useNotas } from './notas.ts'
+import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
 
 /** El índice de la guía: cargando, cargado o con error. */
@@ -202,6 +206,7 @@ function GuiaDocumento({
   theme,
   onToggleTheme,
   favoritos,
+  notas,
 }: {
   indice: IndiceGuia
   id: string
@@ -211,12 +216,42 @@ function GuiaDocumento({
   theme: Tema
   onToggleTheme: () => void
   favoritos: Favoritos
+  notas: ControlNotas
 }) {
   const [state, setState] = useState<EstadoDocumento>({ status: 'loading' })
+  const articulo = useRef<HTMLElement>(null)
+  const [notasAbierto, setNotasAbierto] = useState(true)
 
   const documentos: DocumentoGuia[] = indice.documentos ?? []
   const doc = documentos.find((d) => d.id === id)
   const fuentePdf = doc?.fuente_pdf
+
+  // Las notas de este documento, y el botón que aparece al seleccionar texto.
+  const notasDoc = useMemo(
+    () => notas.notas.filter((n) => n.origen === id),
+    [notas.notas, id],
+  )
+  const { seleccion, limpiar } = useSeleccion(articulo)
+
+  // El texto de la guía se inyecta como HTML y React no lo controla, así que los
+  // resaltados se aplican directamente sobre el DOM, y se vuelven a aplicar si el
+  // documento o las notas cambian.
+  useEffect(() => {
+    const contenedor = articulo.current
+    if (!contenedor) return
+    aplicarResaltados(contenedor, notasDoc)
+  }, [state.status === 'ok' ? state.html : '', notasDoc])
+
+  /** Ir al resaltado de una nota. */
+  const irANota = (nota: Nota) => {
+    const mark = articulo.current?.querySelector(`mark.nota[data-nota="${nota.id}"]`)
+    if (!(mark instanceof HTMLElement)) return
+    mark.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    mark.classList.remove('nota-aviso')
+    // Un segundo pulso para que se vea a dónde se fue.
+    void mark.offsetWidth
+    mark.classList.add('nota-aviso')
+  }
 
   // El renderer llama a `resolveUrl(href, kind)`, así que aquí hay que ligar el documento:
   // sin esto, `resolveGuiaUrl` recibiría el `kind` en lugar de `{ fuentePdf }` y descartaría
@@ -309,13 +344,31 @@ function GuiaDocumento({
         <BotonFavorito id={id} titulo={doc?.titulo ?? id} favoritos={favoritos} />
       </header>
 
+      {/* El acordeón de notas va arriba del texto: es donde se llega al resaltado. */}
+      <CajaNotas
+        notas={notasDoc}
+        abierto={notasAbierto}
+        onAlternar={() => setNotasAbierto((v) => !v)}
+        onIr={irANota}
+        onQuitar={(nota) => notas.quitar(nota.id)}
+      />
+
       {/* El HTML lo genera `guia/markdown.ts`, que escapa todo el texto y solo emite las
           etiquetas que él mismo construye; ningún href del corpus pasa sin pasar por
           `resolveGuiaUrl`. El corpus es contenido propio y estático. */}
       <article
         className="markdown"
+        ref={articulo}
         onClick={alPulsarTabla}
         dangerouslySetInnerHTML={{ __html: state.html }}
+      />
+
+      <BotonNota
+        seleccion={seleccion}
+        onGuardar={(sel) => {
+          notas.agregar(crearNota(id, sel.texto, sel.antes, sel.despues, Date.now()))
+          limpiar()
+        }}
       />
 
       <nav className="guia-nav" aria-label="Documentos anterior y siguiente">
@@ -358,6 +411,8 @@ export default function Guia({
   // Los favoritos viven en la raíz para que el índice y el documento compartan el estado:
   // marcar en el documento se ve al instante en el índice, y al revés.
   const favoritos = useFavoritos(CLAVE_GUIA)
+  // Las notas viven en la raíz para que el índice y el documento compartan el estado.
+  const notas = useNotas()
 
   if (state.status === 'loading') return <p className="pantalla" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
@@ -374,6 +429,7 @@ export default function Guia({
           theme={theme}
           onToggleTheme={toggle}
           favoritos={favoritos}
+          notas={notas}
         />
       ) : (
         <GuiaIndice

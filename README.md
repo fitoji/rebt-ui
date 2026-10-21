@@ -37,6 +37,7 @@
 |---|---|
 | **Lector del reglamento** | Texto del BOE con las tablas como tablas reales (cabecera fija, celdas combinadas) y **copiar a hoja de cálculo, Markdown o CSV**. Selector de redacción (el BOE guarda todas; se muestra la vigente) y búsqueda en el texto completo con las coincidencias resaltadas. La búsqueda es **progresiva**: los resultados van apareciendo a medida que se descargan los bloques, no al final. |
 | **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). |
+| **Notas** | Subrayás un trozo de texto con el ratón (o con el teclado) y queda **resaltado en el texto** y guardado en un acordeón «Notas», para volver a él después. Se guardan en el navegador, con el texto y su contexto: si el texto se mueve, la nota lo sigue. |
 | **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC y los documentos que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano los que más usás. |
 | **Además** | Pantalla de inicio con los dos destinos, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
 
@@ -52,6 +53,12 @@
   <img src="docs/captura-guia.png" alt="Una guía técnica con una tabla y sus tres acciones: Copiar, Markdown y Descargar CSV" width="820">
   <br>
   <sub><b>La guía</b> — cada tabla lleva sus tres acciones: <code>Copiar</code> (a hoja de cálculo), <code>Markdown</code> y <code>Descargar CSV</code>.</sub>
+</p>
+
+<p align="center">
+  <img src="docs/captura-notas.png" alt="Dos pasajes subrayados y resaltados en el texto de una guía técnica" width="820">
+  <br>
+  <sub><b>Las notas</b> — lo que subrayás queda resaltado en el texto y guardado en el acordeón «Notas».</sub>
 </p>
 
 ## 🧭 Cómo funciona
@@ -114,6 +121,7 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `src/guia/markdown.ts` | El intérprete de Markdown del corpus (propio, ver más abajo). |
 | `src/busqueda.ts` | La búsqueda de texto completo, como función pura: los resultados crecen a medida que se indexa. |
 | `src/favoritos.ts` | Los favoritos: lo que el usuario marca, guardado en `localStorage`. |
+| `src/notas.ts` | Las notas: los trozos de texto subrayados, con su contexto para poder reubicarlos. |
 | `src/indice.ts` | Cómo se agrupan los bloques en la sidebar. |
 | `test/` | Tests en TypeScript, con el runner nativo de Node. |
 | `vite/guia-corpus.ts` | Plugin que publica `guia_rebt/` en `/guia/*`. |

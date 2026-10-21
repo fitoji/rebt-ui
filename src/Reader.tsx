@@ -1,7 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import type { RefObject } from 'react'
 import { getBlock, NORMA_ID } from './api.ts'
 import { formatDate, splitTitle } from './parse.ts'
 import { Highlight, Item } from './render.tsx'
+import BotonNota, { useSeleccion } from './BotonNota.tsx'
+import { aplicarResaltados, crearNota } from './notas.ts'
+import type { ControlNotas } from './notas.ts'
 import type { Bloque, BloqueConContenido } from './tipos.ts'
 
 /** El bloque del BOE: cargando, cargado o con error. */
@@ -32,9 +36,13 @@ interface ReaderProps {
   next?: Bloque
   onSelect: (id: string) => void
   highlight: string
+  /** Las notas del usuario, para poder subrayar este bloque. */
+  notas: ControlNotas
+  /** El artículo, para resaltar el texto y para ir a una nota. Lo comparte con la barra. */
+  articulo: RefObject<HTMLElement>
 }
 
-export default function Reader({ entry, prev, next, onSelect, highlight }: ReaderProps) {
+export default function Reader({ entry, prev, next, onSelect, highlight, notas, articulo }: ReaderProps) {
   const [attempt, setAttempt] = useState(0)
   const estado = useBlock(entry.id, attempt)
   const [versionIdx, setVersionIdx] = useState(0)
@@ -55,6 +63,22 @@ export default function Reader({ entry, prev, next, onSelect, highlight }: Reade
   const versiones = estado.status === 'ok' ? estado.data.versions : []
   const version = versiones[versionIdx]
   let tableCount = 0
+
+  // Las notas de este bloque y el botón que aparece al seleccionar texto.
+  const notasDoc = useMemo(
+    () => notas.notas.filter((n) => n.origen === entry.id),
+    [notas.notas, entry.id],
+  )
+  const { seleccion, limpiar } = useSeleccion(articulo)
+
+  // El texto del lector lo renderiza React, a diferencia del de la guía. Para poder
+  // resaltarlo sin que React se entere, el artículo se re-monta al cambiar de redacción
+  // (`key`): así nunca hay que reconciliar un texto que le partimos al envolverlo.
+  useEffect(() => {
+    const contenedor = articulo.current
+    if (!contenedor) return
+    aplicarResaltados(contenedor, notasDoc)
+  }, [notasDoc, version?.vigencia])
 
   return (
     <main className="lector" ref={top} tabIndex={-1}>
@@ -104,7 +128,7 @@ export default function Reader({ entry, prev, next, onSelect, highlight }: Reade
 
       {estado.status === 'ok' && (
         <Highlight.Provider value={highlight}>
-          <article className="texto">
+          <article className="texto" ref={articulo} key={version.vigencia}>
             {version.items.length === 0 && <p className="estado">Este bloque no tiene texto.</p>}
             {version.items.map((item, i) => (
               <Item
@@ -118,6 +142,14 @@ export default function Reader({ entry, prev, next, onSelect, highlight }: Reade
           </article>
         </Highlight.Provider>
       )}
+
+      <BotonNota
+        seleccion={seleccion}
+        onGuardar={(sel) => {
+          notas.agregar(crearNota(entry.id, sel.texto, sel.antes, sel.despues, Date.now()))
+          limpiar()
+        }}
+      />
 
       <nav className="pasos" aria-label="Bloque anterior y siguiente">
         {prev ? (

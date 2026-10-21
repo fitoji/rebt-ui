@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getIndex, loadAll, peekBlock } from './api.ts'
 import { buscarEnBloques, normaliza } from './busqueda.ts'
+import { useNotas } from './notas.ts'
+import type { Nota } from './notas.ts'
 import Reader from './Reader.tsx'
 import Sidebar from './Sidebar.tsx'
 import { useTheme } from './useTheme.ts'
@@ -28,6 +30,10 @@ export default function App({ docId, onNavigate }: AppProps) {
   const [indexados, setIndexados] = useState(0)
   const [failed, setFailed] = useState<string[]>([])
   const { theme, toggle } = useTheme()
+  // Las notas y el artículo: la barra lateral muestra las notas y el lector las aplica
+  // sobre el texto, así que el estado vive aquí, en el padre de los dos.
+  const notas = useNotas()
+  const articulo = useRef<HTMLElement>(null)
 
   const loadIndex = useCallback(() => {
     setIndex({ status: 'loading' })
@@ -83,6 +89,23 @@ export default function App({ docId, onNavigate }: AppProps) {
     // nuevos. Sin él, el memo no se recalcularía y los resultados no aparecerían solos.
   }, [blocks, titulos, q, searching, indexados])
 
+  // Las notas del bloque que se está leyendo, para la barra lateral.
+  const notasDelBloque = useMemo(
+    () => (active ? notas.notas.filter((n) => n.origen === active.id) : []),
+    [notas.notas, active],
+  )
+
+  /** Ir al resaltado de una nota: el artículo es el del lector. */
+  const irANota = useCallback((nota: Nota) => {
+    const mark = articulo.current?.querySelector(`mark.nota[data-nota="${nota.id}"]`)
+    if (!(mark instanceof HTMLElement)) return
+    mark.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    mark.classList.remove('nota-aviso')
+    // Un segundo pulso para que se vea a dónde se fue.
+    void mark.offsetWidth
+    mark.classList.add('nota-aviso')
+  }, [])
+
   if (index.status === 'loading') return <p className="pantalla" role="status">Cargando el índice del BOE…</p>
   if (index.status === 'error') {
     return (
@@ -118,6 +141,9 @@ export default function App({ docId, onNavigate }: AppProps) {
         onInicio={() => onNavigate('')}
         theme={theme}
         onToggleTheme={toggle}
+        notas={notasDelBloque}
+        onIrANota={irANota}
+        onQuitarNota={(nota: Nota) => notas.quitar(nota.id)}
       />
       {active && (
         <Reader
@@ -127,6 +153,8 @@ export default function App({ docId, onNavigate }: AppProps) {
           next={blocks[at + 1]}
           onSelect={select}
           highlight={searching ? q : ''}
+          notas={notas}
+          articulo={articulo}
         />
       )}
     </div>

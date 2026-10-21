@@ -4,6 +4,8 @@ import { agruparBloques } from './indice.ts'
 import { CLAVE_REBT, useFavoritos } from './favoritos.ts'
 import type { Favoritos } from './favoritos.ts'
 import BotonFavorito from './BotonFavorito.tsx'
+import CajaNotas from './CajaNotas.tsx'
+import type { Nota } from './notas.ts'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import Accordion from './Accordion.tsx'
@@ -59,6 +61,12 @@ interface SidebarProps {
   onInicio: () => void
   theme: Tema
   onToggleTheme: () => void
+  /** Las notas del bloque que se está leyendo. */
+  notas: Nota[]
+  /** Ir al resaltado de una nota. */
+  onIrANota: (nota: Nota) => void
+  /** Borrar una nota. */
+  onQuitarNota: (nota: Nota) => void
 }
 
 export default function Sidebar({
@@ -76,11 +84,16 @@ export default function Sidebar({
   onInicio,
   theme,
   onToggleTheme,
+  notas,
+  onIrANota,
+  onQuitarNota,
 }: SidebarProps) {
   const [acordeonAbierto, setAcordeonAbierto] = useState<string | null>('itcs') // ITCs abierto por defecto
   // Los favoritos tienen su propio estado: se quiere tenerlos a la vista mientras se
   // navega por las ITC, no en lugar de ellas.
   const [favoritosAbierto, setFavoritosAbierto] = useState(true)
+  // Las notas también: son el motivo por el que se está leyendo.
+  const [notasAbierto, setNotasAbierto] = useState(true)
   // Las disposiciones son lo accesorio: van plegadas, y se abren cuando se buscan.
   const [disposicionesAbierto, setDisposicionesAbierto] = useState(false)
   const favoritos = useFavoritos(CLAVE_REBT)
@@ -150,6 +163,15 @@ export default function Sidebar({
       </div>
 
       <nav className="indice-lista">
+        {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
+        <CajaNotas
+          notas={notas}
+          abierto={notasAbierto}
+          onAlternar={() => setNotasAbierto((v) => !v)}
+          onIr={onIrANota}
+          onQuitar={onQuitarNota}
+        />
+
         {searching && rows.length === 0 && (
           <p className="vacio">
             Sin resultados para «{query}».{' '}
