@@ -1,16 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
-import { getBlock, NORMA_ID } from './api.js'
-import { formatDate, splitTitle } from './parse.js'
-import { Highlight, Item } from './render.jsx'
+import { getBlock, NORMA_ID } from './api.ts'
+import { formatDate, splitTitle } from './parse.ts'
+import { Highlight, Item } from './render.tsx'
+import type { Bloque, BloqueConContenido } from './tipos.ts'
 
-function useBlock(id, attempt) {
-  const [state, setState] = useState({ status: 'loading' })
+/** El bloque del BOE: cargando, cargado o con error. */
+type EstadoBloque =
+  | { status: 'loading' }
+  | { status: 'ok'; data: BloqueConContenido }
+  | { status: 'error'; error: Error }
+
+function useBlock(id: string, attempt: number): EstadoBloque {
+  const [state, setState] = useState<EstadoBloque>({ status: 'loading' })
   useEffect(() => {
     let live = true
     setState({ status: 'loading' })
     getBlock(id).then(
       (data) => live && setState({ status: 'ok', data }),
-      (error) => live && setState({ status: 'error', error }),
+      (error: Error) => live && setState({ status: 'error', error }),
     )
     return () => {
       live = false
@@ -19,25 +26,34 @@ function useBlock(id, attempt) {
   return state
 }
 
-export default function Reader({ entry, prev, next, onSelect, highlight }) {
+interface ReaderProps {
+  entry: Bloque
+  prev?: Bloque
+  next?: Bloque
+  onSelect: (id: string) => void
+  highlight: string
+}
+
+export default function Reader({ entry, prev, next, onSelect, highlight }: ReaderProps) {
   const [attempt, setAttempt] = useState(0)
-  const { status, data, error } = useBlock(entry.id, attempt)
+  const estado = useBlock(entry.id, attempt)
   const [versionIdx, setVersionIdx] = useState(0)
-  const top = useRef(null)
+  const top = useRef<HTMLElement | null>(null)
 
   useEffect(() => setVersionIdx(0), [entry.id])
 
   // Al abrir desde una búsqueda, lleva la vista a la primera coincidencia
   useEffect(() => {
-    if (status !== 'ok') return
+    if (estado.status !== 'ok') return
     const first = highlight.length >= 3 && top.current?.querySelector('mark')
     if (first) first.scrollIntoView({ block: 'center' })
     else top.current?.scrollTo?.(0, 0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, entry.id, versionIdx])
+  }, [estado.status, entry.id, versionIdx])
 
   const { itc, nombre } = splitTitle(entry.titulo)
-  const version = data?.versions[versionIdx]
+  const versiones = estado.status === 'ok' ? estado.data.versions : []
+  const version = versiones[versionIdx]
   let tableCount = 0
 
   return (
@@ -50,11 +66,11 @@ export default function Reader({ entry, prev, next, onSelect, highlight }) {
         <div className="meta">
           {version?.vigencia && (
             <label className="version">
-              {data.versions.length > 1 ? (
+              {versiones.length > 1 ? (
                 <>
                   <span>Versión</span>
                   <select value={versionIdx} onChange={(e) => setVersionIdx(+e.target.value)}>
-                    {data.versions.map((v, i) => (
+                    {versiones.map((v, i) => (
                       <option key={v.vigencia + i} value={i}>
                         Vigente desde {formatDate(v.vigencia)}
                         {i === 0 ? ' (actual)' : ''}
@@ -77,16 +93,16 @@ export default function Reader({ entry, prev, next, onSelect, highlight }) {
         </div>
       </header>
 
-      {status === 'loading' && <p className="estado" role="status">Cargando el texto…</p>}
-      {status === 'error' && (
+      {estado.status === 'loading' && <p className="estado" role="status">Cargando el texto…</p>}
+      {estado.status === 'error' && (
         <div className="estado error" role="alert">
           <p>No se pudo cargar este bloque.</p>
-          <p>{error.message}</p>
+          <p>{estado.error.message}</p>
           <button onClick={() => setAttempt((n) => n + 1)}>Reintentar</button>
         </div>
       )}
 
-      {status === 'ok' && (
+      {estado.status === 'ok' && (
         <Highlight.Provider value={highlight}>
           <article className="texto">
             {version.items.length === 0 && <p className="estado">Este bloque no tiene texto.</p>}

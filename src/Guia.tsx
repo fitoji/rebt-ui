@@ -1,41 +1,56 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { fold, gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.js'
-import { AVISO_CSV, AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.js'
-import InicioBoton from './InicioBoton.jsx'
-import TemaBoton from './TemaBoton.jsx'
-import { useTheme } from './useTheme.js'
-import { loadDocumento, loadIndice } from './guia/api.js'
-import { renderDocument } from './guia/markdown.js'
-import { officialPdfUrl, resolveGuiaUrl } from './guia/urls.js'
+import type { MouseEvent } from 'react'
+import { fold, gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.ts'
+import { AVISO_CSV, AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
+import InicioBoton from './InicioBoton.tsx'
+import TemaBoton from './TemaBoton.tsx'
+import { useTheme } from './useTheme.ts'
+import type { Tema } from './useTheme.ts'
+import { loadDocumento, loadIndice } from './guia/api.ts'
+import { renderDocument } from './guia/markdown.ts'
+import { officialPdfUrl, resolveGuiaUrl } from './guia/urls.ts'
+import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
+
+/** El índice de la guía: cargando, cargado o con error. */
+type EstadoIndice =
+  | { status: 'loading' }
+  | { status: 'ok'; indice: IndiceGuia }
+  | { status: 'error'; error: Error }
+
+/** Un documento de la guía, ya renderizado a HTML. */
+type EstadoDocumento =
+  | { status: 'loading' }
+  | { status: 'ok'; frontMatter: Record<string, string>; html: string }
+  | { status: 'error'; error: Error }
 
 // El aviso de cada tabla se pinta en el HTML inyectado, que React no controla: se escribe
 // directamente en el DOM y se borra a los 1,6 s, como en el lector del REBT.
-const avisos = new WeakMap()
+const avisos = new WeakMap<Element, number>()
 
-function avisar(span, mensaje) {
+function avisar(span: Element | null | undefined, mensaje: string): void {
   if (!span) return
   span.textContent = mensaje
-  clearTimeout(avisos.get(span))
-  avisos.set(span, setTimeout(() => { span.textContent = '' }, 1600))
+  window.clearTimeout(avisos.get(span))
+  avisos.set(span, window.setTimeout(() => { span.textContent = '' }, 1600))
 }
 
 // El conversor nombra cada tabla (`<!-- tabla: ../tablas/BT-03_t01.csv -->`) y ese nombre es
 // el del CSV del corpus. Si algún día faltara la marca, se cae al nombre por índice.
-function nombreCsv(caja, id) {
+function nombreCsv(caja: HTMLElement, id: string): string {
   const nombre = caja.dataset.csv
   if (nombre) return nombre
   const n = Number(caja.dataset.tabla ?? 0)
   return `${id}_t${String(n).padStart(2, '0')}.csv`
 }
 
-function useIndice() {
-  const [state, setState] = useState({ status: 'loading' })
+function useIndice(): [EstadoIndice, () => void] {
+  const [state, setState] = useState<EstadoIndice>({ status: 'loading' })
 
   const reload = useCallback(() => {
     setState({ status: 'loading' })
     loadIndice().then(
       (indice) => setState({ status: 'ok', indice }),
-      (error) => setState({ status: 'error', error }),
+      (error: Error) => setState({ status: 'error', error }),
     )
   }, [])
 
@@ -43,7 +58,7 @@ function useIndice() {
   return [state, reload]
 }
 
-function IndicadorError({ error, onReintentar }) {
+function IndicadorError({ error, onReintentar }: { error: Error; onReintentar: () => void }) {
   return (
     <div className="pantalla error" role="alert">
       <h1>No se pudo leer el índice de la guía</h1>
@@ -59,10 +74,22 @@ function IndicadorError({ error, onReintentar }) {
 
 /* ------------------------------------------------------------------ índice */
 
-function GuiaIndice({ indice, onSelect, onInicio, theme, onToggleTheme }) {
+function GuiaIndice({
+  indice,
+  onSelect,
+  onInicio,
+  theme,
+  onToggleTheme,
+}: {
+  indice: IndiceGuia
+  onSelect: (id: string) => void
+  onInicio: () => void
+  theme: Tema
+  onToggleTheme: () => void
+}) {
   const [query, setQuery] = useState('')
 
-  const documentos = indice.documentos ?? []
+  const documentos: DocumentoGuia[] = indice.documentos ?? []
   const q = query.trim()
   const rows = useMemo(() => {
     if (q.length < 2) return documentos.map((doc) => ({ doc }))
@@ -125,10 +152,26 @@ function GuiaIndice({ indice, onSelect, onInicio, theme, onToggleTheme }) {
 
 /* ---------------------------------------------------------------- documento */
 
-function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onToggleTheme }) {
-  const [state, setState] = useState({ status: 'loading' })
+function GuiaDocumento({
+  indice,
+  id,
+  onSelect,
+  onInicio,
+  onVolver,
+  theme,
+  onToggleTheme,
+}: {
+  indice: IndiceGuia
+  id: string
+  onSelect: (id: string) => void
+  onInicio: () => void
+  onVolver: () => void
+  theme: Tema
+  onToggleTheme: () => void
+}) {
+  const [state, setState] = useState<EstadoDocumento>({ status: 'loading' })
 
-  const documentos = indice.documentos ?? []
+  const documentos: DocumentoGuia[] = indice.documentos ?? []
   const doc = documentos.find((d) => d.id === id)
   const fuentePdf = doc?.fuente_pdf
 
@@ -136,7 +179,7 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
   // sin esto, `resolveGuiaUrl` recibiría el `kind` en lugar de `{ fuentePdf }` y descartaría
   // todos los enlaces a página del PDF oficial.
   const resolveUrl = useMemo(
-    () => (href, kind) => resolveGuiaUrl(href, { fuentePdf }),
+    () => (href: string, _kind: 'link' | 'image') => resolveGuiaUrl(href, { fuentePdf }),
     [fuentePdf],
   )
 
@@ -148,7 +191,7 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
         if (!vivo) return
         setState({ status: 'ok', ...renderDocument(src, { resolveUrl }) })
       },
-      (error) => vivo && setState({ status: 'error', error }),
+      (error: Error) => vivo && setState({ status: 'error', error }),
     )
     return () => {
       vivo = false
@@ -165,9 +208,10 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
   // Un único `onClick` en el artículo cubre los tres botones: el clic sube desde el HTML
   // inyectado hasta el artículo, y de ahí lo recoge React.
   const alPulsarTabla = useCallback(
-    async (evento) => {
-      const boton = evento.target.closest?.('button[data-accion]')
-      const caja = boton?.closest('[data-tabla]')
+    async (evento: MouseEvent<HTMLElement>) => {
+      const objetivo = evento.target as Element | null
+      const boton = objetivo?.closest<HTMLElement>('button[data-accion]')
+      const caja = boton?.closest<HTMLElement>('[data-tabla]')
       const tabla = caja?.querySelector('table')
       if (!boton || !caja || !tabla) return
 
@@ -220,7 +264,7 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
         )}
       </header>
 
-      {/* El HTML lo genera `guia/markdown.js`, que escapa todo el texto y solo emite las
+      {/* El HTML lo genera `guia/markdown.ts`, que escapa todo el texto y solo emite las
           etiquetas que él mismo construye; ningún href del corpus pasa sin pasar por
           `resolveGuiaUrl`. El corpus es contenido propio y estático. */}
       <article
@@ -253,7 +297,17 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
 
 /* --------------------------------------------------------------------- raíz */
 
-export default function Guia({ id, onSelect, onInicio, onVolver }) {
+export default function Guia({
+  id,
+  onSelect,
+  onInicio,
+  onVolver,
+}: {
+  id: string | null
+  onSelect: (id: string) => void
+  onInicio: () => void
+  onVolver: () => void
+}) {
   const [state, reload] = useIndice()
   const { theme, toggle } = useTheme()
 
@@ -275,10 +329,8 @@ export default function Guia({ id, onSelect, onInicio, onVolver }) {
       ) : (
         <GuiaIndice
           indice={state.indice}
-          id={id}
           onSelect={onSelect}
           onInicio={onInicio}
-          onVolver={onVolver}
           theme={theme}
           onToggleTheme={toggle}
         />

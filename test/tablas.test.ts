@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { gridToCsv, gridToMarkdown, gridToTsv } from '../src/parse.js'
+import { gridToCsv, gridToMarkdown, gridToTsv } from '../src/parse.ts'
 
 // El contenido que se copia o se descarga sale de estas tres conversiones, que comparten
 // el lector del REBT y las tablas de la guía. Aquí queda fijado el formato exacto.

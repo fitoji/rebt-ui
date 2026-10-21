@@ -1,9 +1,14 @@
 /**
  * Cloudflare Worker — sirve la app REBT + proxy /boe-api → boe.es
  */
+interface Env {
+  /** Los estáticos que publica wrangler (`assets = { directory = "dist" }`). */
+  ASSETS: Fetcher
+}
+
 export default {
-  async fetch(request, env) {
-    let url
+  async fetch(request: Request, env: Env): Promise<Response> {
+    let url: URL
     try {
       url = new URL(request.url)
     } catch {
@@ -32,7 +37,8 @@ export default {
 
         return new Response(body, { status: response.status, headers })
       } catch (err) {
-        return new Response(JSON.stringify({ error: 'Proxy error', detail: err.message }), {
+        const detalle = err instanceof Error ? err.message : String(err)
+        return new Response(JSON.stringify({ error: 'Proxy error', detail: detalle }), {
           status: 502,
           headers: { 'Content-Type': 'application/json' },
         })
@@ -42,4 +48,4 @@ export default {
     // Servir archivos estáticos
     return env.ASSETS.fetch(request)
   },
-}
+} satisfies ExportedHandler<Env>

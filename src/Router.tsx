@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import App from './App.jsx'
-import Guia from './Guia.jsx'
-import Landing from './Landing.jsx'
-import { parseRoute } from './route.js'
+import App from './App.tsx'
+import Guia from './Guia.tsx'
+import Landing from './Landing.tsx'
+import { parseRoute } from './route.ts'
 
 export default function Router() {
   const [route, setRoute] = useState(() => parseRoute(location.hash))
@@ -13,7 +13,7 @@ export default function Router() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
-  const ir = useCallback((destino) => {
+  const ir = useCallback((destino: string) => {
     location.hash = `/${destino.replace(/^\/+/, '')}`
   }, [])
 
@@ -28,5 +28,5 @@ export default function Router() {
       />
     )
   }
-  return <App docId={route.id} onNavigate={ir} />
+  return <App docId={route.id ?? undefined} onNavigate={ir} />
 }

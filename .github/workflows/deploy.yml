@@ -20,13 +20,21 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          # Node 24 es el mínimo para ejecutar los tests en TypeScript sin flags:
+          # el type stripping viene activo desde 22.18 y el proyecto lo pide en `engines`.
+          node-version: '24'
 
       - name: Install pnpm
         run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Tests
+        run: pnpm run test
 
       - name: Build
         run: pnpm run build

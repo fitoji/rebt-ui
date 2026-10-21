@@ -8,9 +8,10 @@ const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data')
 
 http
   .createServer(async (req, res) => {
-    const m = new URL(req.url, 'http://x').pathname.match(/\/texto\/(indice|bloque\/([^/]+))$/)
+    const m = new URL(req.url ?? '/', 'http://x').pathname.match(/\/texto\/(indice|bloque\/([^/]+))$/)
     if (!m) return res.writeHead(404).end('not found')
-    const file = m[1] === 'indice' ? 'indice.xml' : `bloque_${path.basename(decodeURIComponent(m[2]))}.xml`
+    const id = m[2] ?? ''
+    const file = m[1] === 'indice' ? 'indice.xml' : `bloque_${path.basename(decodeURIComponent(id))}.xml`
     try {
       const body = await readFile(path.join(dir, file))
       res.writeHead(200, { 'Content-Type': 'application/xml; charset=utf-8' }).end(body)

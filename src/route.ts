@@ -7,7 +7,9 @@
 //   #/guia             índice de las guías
 //   #/guia/<id>        una guía concreta
 //   #/<bloque>         enlace antiguo del lector, sigue funcionando
-export function parseRoute(hash) {
+import type { Ruta } from './tipos.ts'
+
+export function parseRoute(hash?: string | null): Ruta {
   let raw = (hash ?? '').replace(/^#\/?/, '')
   try {
     raw = decodeURIComponent(raw)

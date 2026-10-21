@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { officialPdfUrl, resolveGuiaUrl } from '../src/guia/urls.js'
+import { officialPdfUrl, resolveGuiaUrl } from '../src/guia/urls.ts'
 
 const PDF = 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_19_feb09R2.pdf'
 

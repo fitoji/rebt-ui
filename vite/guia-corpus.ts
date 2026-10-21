@@ -1,5 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import type { IncomingMessage, ServerResponse } from 'node:http'
+import type { Plugin } from 'vite'
 
 // `guia_rebt/` vive en la raíz del repo, fuera de `publicDir`, así que Vite no lo sirve.
 // Este plugin lo publica en `/guia/*` durante `dev`, `preview` y lo copia a `dist/guia/`
@@ -11,7 +13,7 @@ import path from 'node:path'
 
 const EXPOSED = ['indice.json', 'md', 'imgs']
 
-const MIME = {
+const MIME: Record<string, string> = {
   '.json': 'application/json; charset=utf-8',
   '.md': 'text/markdown; charset=utf-8',
   '.png': 'image/png',
@@ -20,12 +22,12 @@ const MIME = {
   '.svg': 'image/svg+xml',
 }
 
-export const corpusRoot = () => path.resolve(process.cwd(), 'guia_rebt')
+export const corpusRoot = (): string => path.resolve(process.cwd(), 'guia_rebt')
 
 // El corpus no cambia de forma mientras el servidor está vivo, así que la raíz real se
 // resuelve una vez y se reutiliza en cada petición.
-let realRootCache = null
-const realRoot = () => (realRootCache ??= fs.realpathSync(corpusRoot()))
+let realRootCache: string | null = null
+const realRoot = (): string => (realRootCache ??= fs.realpathSync(corpusRoot()))
 
 /**
  * Traduce la URL de una petición a una ruta absoluta dentro del corpus.
@@ -33,7 +35,7 @@ const realRoot = () => (realRootCache ??= fs.realpathSync(corpusRoot()))
  * (`../`, rutas absolutas, bytes nulos, symlinks que salen). Es el único punto por el que
  * pasa todo acceso al disco, así que todas las comprobaciones están aquí.
  */
-export function resolveCorpusPath(urlPath, root = corpusRoot()) {
+export function resolveCorpusPath(urlPath: string, root: string = corpusRoot()): string | null {
   let decoded
   try {
     decoded = decodeURIComponent(urlPath.split('?')[0].split('#')[0])
@@ -64,7 +66,7 @@ export function resolveCorpusPath(urlPath, root = corpusRoot()) {
   return abs
 }
 
-function serveFile(req, res, next) {
+function serveFile(req: IncomingMessage, res: ServerResponse, next: () => void): void {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next()
 
   const abs = resolveCorpusPath(req.url ?? '/')
@@ -74,7 +76,7 @@ function serveFile(req, res, next) {
     return
   }
 
-  let stat
+  let stat: fs.Stats
   try {
     stat = fs.statSync(abs)
   } catch {
@@ -102,7 +104,7 @@ function serveFile(req, res, next) {
 }
 
 /** Copia lo expuesto a `dist/guia/` para que `vite preview` y el despliegue sirvan el corpus. */
-function copyToDist(outDir) {
+function copyToDist(outDir: string): void {
   const root = corpusRoot()
   if (!fs.existsSync(root)) return
   const dest = path.resolve(outDir, 'guia')
@@ -115,7 +117,7 @@ function copyToDist(outDir) {
   }
 }
 
-export function guiaCorpus() {
+export function guiaCorpus(): Plugin {
   let outDir = 'dist'
   return {
     name: 'guia-corpus',

@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 /**
  * Acordeón simple para la sidebar del REBT.
  * Props:
@@ -6,7 +8,14 @@
  *   onToggle — callback al hacer clic
  *   children — contenido a mostrar/ocultar
  */
-export default function Accordion({ title, open, onToggle, children }) {
+interface Props {
+  title: string
+  open: boolean
+  onToggle: () => void
+  children: ReactNode
+}
+
+export default function Accordion({ title, open, onToggle, children }: Props) {
   return (
     <div className="accordion">
       <button

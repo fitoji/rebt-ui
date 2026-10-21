@@ -14,7 +14,7 @@ export const AVISO_CSV = 'CSV descargado'
 export const AVISO_ERROR = 'No se pudo copiar'
 
 /** Pega texto en el portapapeles. Lanza si el navegador lo denies. */
-export async function copiarAlPortapapeles(texto) {
+export async function copiarAlPortapapeles(texto: string): Promise<void> {
   await navigator.clipboard.writeText(texto)
 }
 
@@ -23,7 +23,7 @@ export async function copiarAlPortapapeles(texto) {
  * El anchor se cuelga del `body` y se retira enseguida: si no, algunos navegadores
  * ignoran el clic y no descarga nada.
  */
-export function descargar(nombre, texto, tipo) {
+export function descargar(nombre: string, texto: string, tipo: string): void {
   const url = URL.createObjectURL(new Blob([texto], { type: tipo }))
   const a = Object.assign(document.createElement('a'), { href: url, download: nombre })
   document.body.appendChild(a)

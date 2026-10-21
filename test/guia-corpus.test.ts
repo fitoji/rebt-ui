@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import path from 'node:path'
-import { resolveCorpusPath } from '../vite/guia-corpus.js'
+import { resolveCorpusPath } from '../vite/guia-corpus.ts'
 
 const ROOT = path.resolve(process.cwd(), 'guia_rebt')
 

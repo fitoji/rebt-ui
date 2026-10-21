@@ -7,11 +7,14 @@ const ABSOLUTE = /^https?:\/\//i
 
 /**
  * Traduce un href del `.md` a algo que se pueda abrir en el navegador.
- * @param {string} href href tal cual aparece en el Markdown
- * @param {{fuentePdf?: string}} doc documento que contiene el enlace
- * @returns {string|null} href final, o null si no se puede enlazar
+ * @param href href tal cual aparece en el Markdown
+ * @param doc documento que contiene el enlace
+ * @returns href final, o null si no se puede enlazar
  */
-export function resolveGuiaUrl(href, { fuentePdf } = {}) {
+export function resolveGuiaUrl(
+  href: string,
+  { fuentePdf }: { fuentePdf?: string } = {},
+): string | null {
   if (!href) return null
 
   if (href.startsWith('../imgs/')) return '/guia/' + href.slice('../'.length)
@@ -30,6 +33,6 @@ export function resolveGuiaUrl(href, { fuentePdf } = {}) {
 }
 
 /** Enlace de página del PDF oficial, sin ancla: es el botón "ver PDF original". */
-export function officialPdfUrl(doc) {
+export function officialPdfUrl(doc: { fuente_pdf?: string } | null | undefined): string | null {
   return doc?.fuente_pdf && ABSOLUTE.test(doc.fuente_pdf) ? doc.fuente_pdf : null
 }

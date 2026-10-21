@@ -1,8 +1,10 @@
+import type { Tema } from './useTheme.ts'
+
 /**
  * Botón de alternar modo claro/oscuro. Se coloca en cualquier header de la app.
  * Icono: ☀️ (light) / 🌙 (dark).
  */
-export default function TemaBoton({ tema, onToggle }) {
+export default function TemaBoton({ tema, onToggle }: { tema: Tema; onToggle: () => void }) {
   return (
     <button
       className="tema-boton"

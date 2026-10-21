@@ -1,18 +1,19 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { parseFrontMatter, renderDocument } from '../src/guia/markdown.js'
-import { resolveGuiaUrl } from '../src/guia/urls.js'
+import { parseFrontMatter, renderDocument } from '../src/guia/markdown.ts'
+import { resolveGuiaUrl } from '../src/guia/urls.ts'
 
 // resolveUrl de mentira: no toca el disco, solo deja ver qué href pide el renderer.
-const keep = (href) => (href.startsWith('/guia/') || href.startsWith('https://') ? href : null)
+const keep = (href: string): string | null =>
+  href.startsWith('/guia/') || href.startsWith('https://') ? href : null
 
 test('el renderer pasa el tipo del href como segundo argumento', () => {
-  // Contrato con `guia/urls.js`: recibe (href, 'link' | 'image'). Si el renderer no lo
+  // Contrato con `guia/urls.ts`: recibe (href, 'link' | 'image'). Si el renderer no lo
   // pasara, `resolveGuiaUrl` recibiría el tipo donde espera `{ fuentePdf }` y descartaría
   // los enlaces al PDF oficial sin avisar.
-  const vistos = []
+  const vistos: [string, string][] = []
   renderDocument('![a](/guia/imgs/x.png) y [b](/guia/md/y.md)', {
-    resolveUrl: (href, kind) => {
+    resolveUrl: (href: string, kind: 'link' | 'image') => {
       vistos.push([href, kind])
       return keep(href)
     },
@@ -27,7 +28,7 @@ test('los enlaces a página del PDF sobreviven cuando el resolver va ligado al d
   // Este es el camino que usa la app: ligar `resolveGuiaUrl` con el `fuente_pdf` del
   // documento. Si el enlace se pierde, el "ver en el PDF" del corpus desaparece en silencio.
   const PDF = 'https://industria.gob.es/x/guia_bt_19_feb09R2.pdf'
-  const ligado = (href) => resolveGuiaUrl(href, { fuentePdf: PDF })
+  const ligado = (href: string): string | null => resolveGuiaUrl(href, { fuentePdf: PDF })
 
   const src = '> Figura en la pág. 7 del PDF original: [ver en el PDF](../pdf/BT-19.pdf#page=7)'
   const { html } = renderDocument(src, { resolveUrl: ligado })

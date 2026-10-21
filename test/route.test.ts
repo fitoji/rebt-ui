@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { parseRoute } from '../src/route.js'
+import { parseRoute } from '../src/route.ts'
 
 test('sin hash o con hash vacío se muestra la landing', () => {
   for (const hash of ['', '#', '#/', '#//']) {

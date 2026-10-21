@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { loadIndice } from './guia/api.js'
+import { loadIndice } from './guia/api.ts'
+import type { IndiceGuia } from './tipos.ts'
 
 const FUENTE =
   'Ministerio de Industria y Turismo · Reglamento Electrotécnico para Baja Tensión (RD 842/2002)'
@@ -11,8 +12,8 @@ const FUENTE =
  * Las cifras del corpus son un extra: si `indice.json` no carga, la landing sigue sirviendo
  * los dos botones.
  */
-export default function Landing({ onIr }) {
-  const [totales, setTotales] = useState(null)
+export default function Landing({ onIr }: { onIr: (destino: string) => void }) {
+  const [totales, setTotales] = useState<IndiceGuia | null>(null)
 
   useEffect(() => {
     let vivo = true

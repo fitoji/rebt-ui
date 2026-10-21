@@ -2,14 +2,26 @@
 // Nota: se ha escrito contra la estructura documentada de la API (data > bloque > version > p/table);
 // si el BOE cambia nombres de etiquetas, este es el único archivo que hay que tocar.
 
-const tag = (el) => (el.localName || el.nodeName).toLowerCase()
-const kids = (el, name) => Array.from(el.children).filter((c) => tag(c) === name)
-const attrOrChild = (el, name) => el.getAttribute(name) ?? kids(el, name)[0]?.textContent ?? ''
+import type {
+  Bloque,
+  BloqueConContenido,
+  Item,
+  ItemKind,
+  Rejilla,
+  TituloPartido,
+  Version,
+} from './tipos.ts'
 
-export const fold = (s) =>
+const tag = (el: Element): string => (el.localName || el.nodeName).toLowerCase()
+const kids = (el: Element, name: string): Element[] =>
+  Array.from(el.children).filter((c) => tag(c) === name)
+const attrOrChild = (el: Element, name: string): string =>
+  el.getAttribute(name) ?? kids(el, name)[0]?.textContent ?? ''
+
+export const fold = (s: string): string =>
   s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 
-export function formatDate(yyyymmdd) {
+export function formatDate(yyyymmdd: string): string {
   const m = /^(\d{4})(\d{2})(\d{2})$/.exec(yyyymmdd || '')
   if (!m) return ''
   return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString('es-ES', {
@@ -20,7 +32,7 @@ export function formatDate(yyyymmdd) {
 }
 
 // ---------------------------------------------------------------- índice
-export function parseIndex(doc) {
+export function parseIndex(doc: Document): Bloque[] {
   const code = doc.getElementsByTagName('code')[0]?.textContent
   if (code && code !== '200') {
     const text = doc.getElementsByTagName('text')[0]?.textContent || ''
@@ -39,20 +51,20 @@ export function parseIndex(doc) {
 
 // Separa "ITC-BT-19. Instalaciones interiores" en { itc: 'BT-19', nombre: 'Instalaciones interiores' }
 const ITC_RE = /^(?:instrucci[óo]n t[ée]cnica complementaria\s+)?ITC[-\s]*BT[-\s]*0?(\d{1,2})\b[.\s:–-]*(.*)$/i
-export function splitTitle(titulo) {
+export function splitTitle(titulo: string): TituloPartido {
   const m = ITC_RE.exec(titulo)
   if (!m) return { itc: null, nombre: titulo }
   return { itc: `BT-${String(+m[1]).padStart(2, '0')}`, nombre: m[2] || titulo }
 }
 
 // ---------------------------------------------------------------- texto
-export function inlineText(el) {
-  const out = []
-  const walk = (node) => {
+export function inlineText(el: Element): string {
+  const out: string[] = []
+  const walk = (node: Node) => {
     for (const n of node.childNodes) {
-      if (n.nodeType === 3) out.push(n.nodeValue)
+      if (n.nodeType === 3) out.push(n.nodeValue ?? '')
       else if (n.nodeType === 1) {
-        const t = tag(n)
+        const t = tag(n as Element)
         if (t === 'sup') out.push('^' + n.textContent)
         else if (t === 'sub') out.push('_' + n.textContent)
         else if (t === 'br') out.push(' ')
@@ -65,16 +77,16 @@ export function inlineText(el) {
 }
 
 // Rejilla rectangular con colspan/rowspan expandidos (para copiar a hoja de cálculo, CSV o Markdown)
-export function tableGrid(table) {
+export function tableGrid(table: Element): Rejilla {
   const rows = Array.from(table.getElementsByTagName('tr'))
-  const grid = []
-  const pending = new Map()
+  const grid: Rejilla = []
+  const pending = new Map<string, string>()
   rows.forEach((tr, r) => {
-    const row = []
+    const row: string[] = []
     let c = 0
     const take = () => {
       while (pending.has(`${r},${c}`)) {
-        row.push(pending.get(`${r},${c}`))
+        row.push(pending.get(`${r},${c}`) ?? '')
         pending.delete(`${r},${c}`)
         c++
       }
@@ -97,18 +109,18 @@ export function tableGrid(table) {
   return grid.map((r) => r.concat(Array(width - r.length).fill('')))
 }
 
-export const gridToTsv = (g) => g.map((r) => r.join('\t')).join('\n')
-export const gridToCsv = (g) =>
+export const gridToTsv = (g: Rejilla): string => g.map((r) => r.join('\t')).join('\n')
+export const gridToCsv = (g: Rejilla): string =>
   g.map((r) => r.map((c) => (/[",\n;]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c)).join(',')).join('\n')
-export function gridToMarkdown(g) {
+export function gridToMarkdown(g: Rejilla): string {
   if (!g.length) return ''
-  const esc = (s) => s.replace(/\|/g, '\\|')
-  const line = (r) => `| ${r.map(esc).join(' | ')} |`
+  const esc = (s: string) => s.replace(/\|/g, '\\|')
+  const line = (r: string[]) => `| ${r.map(esc).join(' | ')} |`
   return [line(g[0]), `|${g[0].map(() => '---').join('|')}|`, ...g.slice(1).map(line)].join('\n')
 }
 
 // ---------------------------------------------------------------- bloque
-function paragraphKind(cls) {
+function paragraphKind(cls: string | null): ItemKind {
   const c = (cls || '').toLowerCase()
   if (/articulo/.test(c)) return 'art'
   if (/(titulo|capitulo|seccion|libro|anexo|centro)/.test(c)) return 'head'
@@ -117,7 +129,7 @@ function paragraphKind(cls) {
   return 'body'
 }
 
-function collectItems(parent, out = []) {
+function collectItems(parent: Element, out: Item[] = []): Item[] {
   for (const el of Array.from(parent.children)) {
     const t = tag(el)
     if (t === 'p') {
@@ -136,11 +148,11 @@ function collectItems(parent, out = []) {
   return out
 }
 
-export function parseBlock(doc, id) {
+export function parseBlock(doc: Document, id: string): BloqueConContenido {
   const b = doc.getElementsByTagName('bloque')[0]
   if (!b) throw new Error(`El bloque ${id} llegó sin contenido.`)
   const vs = kids(b, 'version')
-  const versions = (vs.length ? vs : [b])
+  const versions: Version[] = (vs.length ? vs : [b])
     .map((v) => {
       const items = collectItems(v)
       return {

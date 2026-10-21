@@ -1,12 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { getIndex, loadAll, peekBlock } from './api.js'
-import { fold, splitTitle } from './parse.js'
-import Reader from './Reader.jsx'
-import Sidebar from './Sidebar.jsx'
-import { useTheme } from './useTheme.js'
-import TemaBoton from './TemaBoton.jsx'
+import { getIndex, loadAll, peekBlock } from './api.ts'
+import { fold } from './parse.ts'
+import Reader from './Reader.tsx'
+import Sidebar from './Sidebar.tsx'
+import { useTheme } from './useTheme.ts'
+import type { Bloque, Fila } from './tipos.ts'
 
-function snippetOf(text, needle) {
+/** El índice del BOE: cargando, cargado o con error. */
+type EstadoIndice =
+  | { status: 'loading' }
+  | { status: 'ok'; blocks: Bloque[] }
+  | { status: 'error'; error: Error }
+
+function snippetOf(text: string, needle: string): string {
   const f = fold(text)
   const i = f.indexOf(needle)
   if (i < 0 || f.length !== text.length) return ''
@@ -15,39 +21,44 @@ function snippetOf(text, needle) {
   return (a > 0 ? '…' : '') + text.slice(a, b).replace(/\s+/g, ' ') + (b < text.length ? '…' : '')
 }
 
-function countOf(folded, needle) {
+function countOf(folded: string, needle: string): number {
   let n = 0
   for (let i = folded.indexOf(needle); i !== -1; i = folded.indexOf(needle, i + needle.length)) n++
   return n
 }
 
-export default function App({ docId, onNavigate }) {
-  const [index, setIndex] = useState({ status: 'loading' })
+interface AppProps {
+  docId?: string
+  onNavigate: (destino: string) => void
+}
+
+export default function App({ docId, onNavigate }: AppProps) {
+  const [index, setIndex] = useState<EstadoIndice>({ status: 'loading' })
   const [activeId, setActiveId] = useState(docId ?? '')
   const [query, setQuery] = useState('')
   const [navOpen, setNavOpen] = useState(false)
-  const [progress, setProgress] = useState(null)
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [textReady, setTextReady] = useState(false)
-  const [failed, setFailed] = useState([])
+  const [failed, setFailed] = useState<string[]>([])
   const { theme, toggle } = useTheme()
 
   const loadIndex = useCallback(() => {
     setIndex({ status: 'loading' })
     getIndex().then(
       (blocks) => setIndex({ status: 'ok', blocks }),
-      (error) => setIndex({ status: 'error', error }),
+      (error: Error) => setIndex({ status: 'error', error }),
     )
   }, [])
   useEffect(loadIndex, [loadIndex])
 
   useEffect(() => setActiveId(docId ?? ''), [docId])
 
-  const blocks = index.blocks ?? []
+  const blocks = index.status === 'ok' ? index.blocks : []
   const active = blocks.find((b) => b.id === activeId) ?? blocks[0]
   const at = active ? blocks.indexOf(active) : -1
 
   const select = useCallback(
-    (id) => {
+    (id: string) => {
       setNavOpen(false)
       onNavigate(`rebt/${encodeURIComponent(id)}`)
     },
@@ -58,7 +69,7 @@ export default function App({ docId, onNavigate }) {
     setProgress({ done: 0, total: blocks.length })
     const bad = await loadAll(
       blocks.map((b) => b.id),
-      { onProgress: (done) => setProgress({ done, total: blocks.length }) },
+      { onProgress: (done: number) => setProgress({ done, total: blocks.length }) },
     )
     setFailed(bad)
     setProgress(null)
@@ -67,12 +78,12 @@ export default function App({ docId, onNavigate }) {
 
   const q = query.trim()
   const searching = q.length >= 3
-  const rows = useMemo(() => {
+  const rows = useMemo<Fila[]>(() => {
     if (!searching) return blocks.map((entry) => ({ entry }))
     const needle = fold(q)
     if (textReady) {
       return blocks
-        .map((entry) => {
+        .map((entry): Fila | null => {
           const b = peekBlock(entry.id)
           const inTitle = fold(entry.titulo).includes(needle)
           const count = b ? countOf(b.folded, needle) : 0
@@ -80,10 +91,10 @@ export default function App({ docId, onNavigate }) {
           return {
             entry,
             count,
-            snippet: count ? snippetOf(b.versions[0].text, needle) : '',
+            snippet: count ? snippetOf(b?.versions[0].text ?? '', needle) : '',
           }
         })
-        .filter(Boolean)
+        .filter((r): r is Fila => r !== null)
     }
     return blocks.filter((e) => fold(e.titulo).includes(needle)).map((entry) => ({ entry }))
   }, [blocks, q, searching, textReady])

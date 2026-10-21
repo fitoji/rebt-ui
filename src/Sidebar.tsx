@@ -1,10 +1,20 @@
 import { useState } from 'react'
-import { splitTitle } from './parse.js'
-import InicioBoton from './InicioBoton.jsx'
-import TemaBoton from './TemaBoton.jsx'
-import Accordion from './Accordion.jsx'
+import { splitTitle } from './parse.ts'
+import InicioBoton from './InicioBoton.tsx'
+import TemaBoton from './TemaBoton.tsx'
+import Accordion from './Accordion.tsx'
+import type { Tema } from './useTheme.ts'
+import type { Bloque, Fila } from './tipos.ts'
 
-function Row({ entry, active, onSelect, snippet, count }) {
+interface RowProps {
+  entry: Bloque
+  active: boolean
+  onSelect: (id: string) => void
+  snippet?: string
+  count?: number
+}
+
+function Row({ entry, active, onSelect, snippet, count }: RowProps) {
   const { itc, nombre } = splitTitle(entry.titulo)
   return (
     <li>
@@ -18,10 +28,27 @@ function Row({ entry, active, onSelect, snippet, count }) {
           {nombre}
           {snippet && <span className="frag">{snippet}</span>}
         </span>
-        {count > 0 && <span className="cuenta" title={`${count} coincidencias`}>{count}</span>}
+        {(count ?? 0) > 0 && <span className="cuenta" title={`${count} coincidencias`}>{count}</span>}
       </button>
     </li>
   )
+}
+
+interface SidebarProps {
+  blocks: Bloque[]
+  rows: Fila[]
+  searching: boolean
+  activeId?: string
+  onSelect: (id: string) => void
+  query: string
+  setQuery: (query: string) => void
+  textReady: boolean
+  progress: { done: number; total: number } | null
+  onIndexAll: () => void
+  failed: string[]
+  onInicio: () => void
+  theme: Tema
+  onToggleTheme: () => void
 }
 
 export default function Sidebar({
@@ -39,10 +66,10 @@ export default function Sidebar({
   onInicio,
   theme,
   onToggleTheme,
-}) {
-  const [acordeonAbierto, setAcordeonAbierto] = useState('itcs') // ITCs abierto por defecto
+}: SidebarProps) {
+  const [acordeonAbierto, setAcordeonAbierto] = useState<string | null>('itcs') // ITCs abierto por defecto
 
-  const toggleAcordeon = (clave) => {
+  const toggleAcordeon = (clave: string) => {
     setAcordeonAbierto((actual) => (actual === clave ? null : clave))
   }
 
@@ -59,7 +86,7 @@ export default function Sidebar({
   const itcDisposicion = rows.filter((r) => r.entry.id !== 'pr' && !r.entry.id.startsWith('a') && r.entry.id >= 'da')
   const itcs = [...itcNormal, ...itcDisposicion]
 
-  const renderRows = (list) =>
+  const renderRows = (list: Fila[]) =>
     list.map((r) => (
       <Row
         key={r.entry.id}

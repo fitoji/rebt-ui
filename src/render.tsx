@@ -1,13 +1,14 @@
 import { createContext, useContext, useState } from 'react'
-import { fold, gridToCsv, gridToMarkdown, gridToTsv } from './parse.js'
-import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.js'
+import { fold, gridToCsv, gridToMarkdown, gridToTsv } from './parse.ts'
+import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
+import type { Item as ItemBloque } from './tipos.ts'
 
 // Texto a resaltar (lo que la persona está buscando)
 export const Highlight = createContext('')
 
-const tag = (n) => (n.localName || n.nodeName).toLowerCase()
+const tag = (n: Element): string => (n.localName || n.nodeName).toLowerCase()
 
-function Marked({ text }) {
+function Marked({ text }: { text: string }) {
   const q = useContext(Highlight)
   if (q.length < 3) return text
   const f = fold(text)
@@ -23,16 +24,16 @@ function Marked({ text }) {
   return parts
 }
 
-function boeSrc(src) {
+function boeSrc(src: string | null): string {
   if (!src) return ''
   return /^https?:/.test(src) ? src : `https://www.boe.es${src.startsWith('/') ? '' : '/'}${src}`
 }
 
-export function Inline({ node }) {
+export function Inline({ node }: { node: Node }) {
   return Array.from(node.childNodes).map((n, i) => {
-    if (n.nodeType === 3) return <Marked key={i} text={n.nodeValue} />
+    if (n.nodeType === 3) return <Marked key={i} text={n.nodeValue ?? ''} />
     if (n.nodeType !== 1) return null
-    switch (tag(n)) {
+    switch (tag(n as Element)) {
       case 'sup':
         return <sup key={i}><Inline node={n} /></sup>
       case 'sub':
@@ -46,7 +47,7 @@ export function Inline({ node }) {
       case 'br':
         return <br key={i} />
       case 'img':
-        return <Figure key={i} node={n} />
+        return <Figure key={i} node={n as Element} />
       default:
         return <Inline key={i} node={n} />
     }
@@ -54,7 +55,7 @@ export function Inline({ node }) {
 }
 
 // Las fórmulas del reglamento vienen como imágenes alojadas en boe.es
-export function Figure({ node }) {
+export function Figure({ node }: { node: Element }) {
   return (
     <img
       className="figura"
@@ -65,7 +66,7 @@ export function Figure({ node }) {
   )
 }
 
-function TableNode({ node }) {
+function TableNode({ node }: { node: Element }) {
   const t = tag(node)
   const children = () =>
     Array.from(node.children).map((c, i) => <TableNode key={i} node={c} />)
@@ -82,7 +83,7 @@ function TableNode({ node }) {
       return <caption><Inline node={node} /></caption>
     case 'th':
     case 'td': {
-      const Cell = t
+      const Cell = t as 'th' | 'td'
       return (
         <Cell
           colSpan={parseInt(node.getAttribute('colspan') || '1', 10) || 1}
@@ -97,13 +98,13 @@ function TableNode({ node }) {
   }
 }
 
-export function Table({ item, name }) {
+export function Table({ item, name }: { item: ItemBloque; name: string }) {
   const [done, setDone] = useState('')
-  const flash = (msg) => {
+  const flash = (msg: string) => {
     setDone(msg)
-    setTimeout(() => setDone(''), 1600)
+    window.setTimeout(() => setDone(''), 1600)
   }
-  const copy = async (text, msg) => {
+  const copy = async (text: string, msg: string) => {
     try {
       await copiarAlPortapapeles(text)
       flash(msg)
@@ -111,16 +112,18 @@ export function Table({ item, name }) {
       flash(AVISO_ERROR)
     }
   }
+  // Una tabla siempre trae su rejilla; el `?? []` solo appease al type checker.
+  const grid = item.grid ?? []
   return (
     <figure className="tabla">
       <div className="tabla-acciones">
-        <button onClick={() => copy(gridToTsv(item.grid), AVISO_COPIAR)}>
+        <button onClick={() => copy(gridToTsv(grid), AVISO_COPIAR)}>
           Copiar
         </button>
-        <button onClick={() => copy(gridToMarkdown(item.grid), AVISO_MARKDOWN)}>
+        <button onClick={() => copy(gridToMarkdown(grid), AVISO_MARKDOWN)}>
           Markdown
         </button>
-        <button onClick={() => descargar(`${name}.csv`, gridToCsv(item.grid), 'text/csv')}>
+        <button onClick={() => descargar(`${name}.csv`, gridToCsv(grid), 'text/csv')}>
           Descargar CSV
         </button>
         <span role="status" className="tabla-aviso">{done}</span>
@@ -136,7 +139,7 @@ export function Table({ item, name }) {
   )
 }
 
-export function Item({ item, tableName }) {
+export function Item({ item, tableName }: { item: ItemBloque; tableName: string }) {
   if (item.kind === 'table') return <Table item={item} name={tableName} />
   if (item.kind === 'img') return <Figure node={item.node} />
   const body = <Inline node={item.node} />

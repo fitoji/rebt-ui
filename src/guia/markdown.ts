@@ -18,8 +18,13 @@
 // Lo único que se interpreta en línea son enlaces `[texto](url)` e imágenes `![alt](url)`,
 // y siempre a través de `resolveUrl`, que es quien decide si un href llega al DOM.
 
-const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }
-const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ESCAPES[c])
+const ESCAPES: Record<string, string | undefined> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+}
+const escapeHtml = (s: string): string => s.replace(/[&<>"]/g, (c) => ESCAPES[c] ?? c)
 
 const RE_HEADING = /^(#{1,6})\s+(.*?)\s*#*\s*$/
 const RE_HR = /^(?:-{3,}|\*{3,}|_{3,})\s*$/
@@ -28,11 +33,23 @@ const RE_TABLE_SEP = /^\|(?:\s*:?-+:?\s*\|)+$/
 const RE_COMMENT = /^<!--[\s\S]*?-->$/
 const RE_TABLA_COMMENT = /^<!--\s*tabla:\s*(\S+)\s*-->$/
 
+/** Cómo se resuelve un href del corpus: el visor decide si llega al DOM o no. */
+export type ResolverUrl = (href: string, kind: 'link' | 'image') => string | null
+
+/** Estado que se lleva el renderizado de un documento. */
+interface Ctx {
+  resolveUrl?: ResolverUrl
+  /** Cuántas tablas se han emitido: cada una lleva su número. */
+  tablas: number
+  /** El nombre del CSV del corpus que anuncia la marca del conversor, si la hay. */
+  csvPendiente: string | null
+}
+
 /**
  * Separa el front-matter (`---` … `---`) del cuerpo.
  * Devuelve los metadatos como strings; el visor los usa para el título, la edición y el PDF.
  */
-export function parseFrontMatter(src) {
+export function parseFrontMatter(src: string): { data: Record<string, string>; body: string } {
   const lines = src.split('\n')
   if (lines[0]?.trim() !== '---') return { data: {}, body: src }
 
@@ -45,7 +62,7 @@ export function parseFrontMatter(src) {
   }
   if (end === -1) return { data: {}, body: src }
 
-  const data = {}
+  const data: Record<string, string> = {}
   for (const line of lines.slice(1, end)) {
     const at = line.indexOf(':')
     if (at === -1) continue
@@ -61,7 +78,7 @@ export function parseFrontMatter(src) {
 }
 
 /** Busca `[etiqueta](destino)` terminando en `start`. Devuelve null si no cierra bien. */
-function matchLink(text, start) {
+function matchLink(text: string, start: number): { label: string; href: string; end: number } | null {
   let depth = 1
   let i = start + 1
   while (i < text.length) {
@@ -89,7 +106,7 @@ function matchLink(text, start) {
   return { label: text.slice(start + 1, i), href: text.slice(i + 2, j).trim(), end: j + 1 }
 }
 
-function safeHref(href, ctx, kind) {
+function safeHref(href: string, ctx: Ctx, kind: 'link' | 'image'): string | null {
   const resolved = ctx.resolveUrl ? ctx.resolveUrl(href, kind) : href
   if (!resolved || typeof resolved !== 'string') return null
   // Cinturón y tirantes: aunque resolveUrl diga que sí, ningún esquema peligroso pasa.
@@ -98,7 +115,7 @@ function safeHref(href, ctx, kind) {
 }
 
 /** Contenido en línea: solo enlaces e imágenes, todo el resto escapado como texto. */
-function inline(text, ctx) {
+function inline(text: string, ctx: Ctx): string {
   let out = ''
   let i = 0
   while (i < text.length) {
@@ -130,7 +147,7 @@ function inline(text, ctx) {
   return out
 }
 
-function cells(line) {
+function cells(line: string): string[] {
   let s = line.trim()
   if (s.startsWith('|')) s = s.slice(1)
   if (s.endsWith('|')) s = s.slice(0, -1)
@@ -142,17 +159,18 @@ function cells(line) {
  * El conversor emite `<!-- tabla: ../tablas/BT-03_t01.csv -->` justo antes de cada tabla.
  * Se queda solo el nombre del archivo: una ruta en el atributo `download` es ruido.
  */
-function nombreCsv(ref) {
+function nombreCsv(ref: string): string | null {
   const base = ref.split('/').pop() ?? ''
   const limpio = base.replace(/[^A-Za-z0-9._-]/g, '')
   if (!limpio) return null
   return limpio.toLowerCase().endsWith('.csv') ? limpio : `${limpio}.csv`
 }
 
-function renderTable(header, rows, ctx, csv) {
+function renderTable(header: string[], rows: string[][], ctx: Ctx, csv: string | null): string {
   const width = Math.max(1, header.length, ...rows.map((r) => r.length))
-  const pad = (row) => (row.length >= width ? row : [...row, ...new Array(width - row.length).fill('')])
-  const cell = (tag, value) => `<${tag}>${escapeHtml(value)}</${tag}>`
+  const pad = (row: string[]): string[] =>
+    row.length >= width ? row : [...row, ...new Array(width - row.length).fill('')]
+  const cell = (tag: string, value: string): string => `<${tag}>${escapeHtml(value)}</${tag}>`
 
   const head = `<tr>${pad(header).map((c) => cell('th', c)).join('')}</tr>`
   const body = rows.map((r) => `<tr>${pad(r).map((c) => cell('td', c)).join('')}</tr>`)
@@ -185,7 +203,7 @@ function renderTable(header, rows, ctx, csv) {
 }
 
 /** ¿La línea en `i` abre otro bloque? Si es así, el párrafo anterior tiene que terminar ahí. */
-function startsBlock(lines, i) {
+function startsBlock(lines: string[], i: number): boolean {
   const line = lines[i]
   const trimmed = line.trim()
   if (!trimmed) return true
@@ -195,7 +213,7 @@ function startsBlock(lines, i) {
   return false
 }
 
-function renderBlocks(lines, ctx) {
+function renderBlocks(lines: string[], ctx: Ctx): string {
   const out = []
   let i = 0
 
@@ -283,10 +301,13 @@ function renderBlocks(lines, ctx) {
 
 /**
  * Convierte un documento del corpus en HTML.
- * @param {string} src texto del .md tal cual está en guia_rebt/md/
- * @param {{resolveUrl?: (href: string, kind: 'link'|'image') => string|null}} opts
+ * @param src texto del .md tal cual está en guia_rebt/md/
+ * @param opts cómo se resuelven los href del corpus
  */
-export function renderDocument(src, { resolveUrl } = {}) {
+export function renderDocument(
+  src: string,
+  { resolveUrl }: { resolveUrl?: ResolverUrl } = {},
+): { frontMatter: Record<string, string>; html: string } {
   const { data, body } = parseFrontMatter(src)
   return {
     frontMatter: data,

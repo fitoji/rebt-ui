@@ -33,10 +33,11 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 npm install
 npm run dev          # http://localhost:5173, usa el BOE real
 npm test             # node --test, sin dependencias de test
+npm run typecheck    # tsc --noEmit: la puerta de tipos
 ```
 
 El navegador no puede llamar a `boe.es` directamente (la API no envía cabeceras CORS), así que Vite hace de proxy:
-`/boe-api/...` → `https://www.boe.es/datosabiertos/api/...` (ver `vite.config.js`).
+`/boe-api/...` → `https://www.boe.es/datosabertos/api/...` (ver `vite.config.ts`).
 
 Para desarrollar sin conexión hay un BOE simulado con datos de ejemplo:
 
@@ -53,7 +54,7 @@ npm run dev:mock     # terminal 2
 ## Cómo se sirve la guía
 
 `guia_rebt/` vive en la raíz del repo, fuera de `publicDir`, así que Vite no lo sirve. Lo publica un
-plugin propio, `vite/guia-corpus.js`:
+plugin propio, `vite/guia-corpus.ts`:
 
 - En `dev` y `preview`, un middleware sirve `/guia/indice.json`, `/guia/md/*.md` y `/guia/imgs/*`.
 - En `build`, copia lo mismo a `dist/guia/` (~9,7 MB).
@@ -68,7 +69,7 @@ botón «Ver PDF original». Es lo que permite leer la guía sin tener los 12 MB
 
 ### El renderer de Markdown es propio, y a propósito
 
-`src/guia/markdown.js` implementa solo el subconjunto que el corpus usa de verdad, medido sobre los
+`src/guia/markdown.ts` implementa solo el subconjunto que el corpus usa de verdad, medido sobre los
 38 documentos: encabezados, tablas pipe, imágenes, enlaces, listas, blockquotes, reglas y
 front-matter. **Cero** código en línea, **cero** vallas y **cero** HTML crudo.
 
@@ -88,9 +89,30 @@ de forma, se amplía el renderer, no se cambia la decisión.
 `npm run build` genera `dist/` (con el corpus en `dist/guia/`), pero en producción necesitas el mismo proxy delante
 (un Cloudflare Worker o una regla de reescritura que lleve `/boe-api/*` a `https://www.boe.es/datosabiertos/api/*`).
 
+## TypeScript
+
+Todo el proyecto está en TypeScript (`strict: true`): la app, los tests, el plugin de Vite, el worker de
+Cloudflare y el mock. La puerta de tipos es `npm run typecheck` (`tsc --noEmit`), y `npm run build` la
+ejecuta **antes** de empaquetar, así que un error de tipos no llega a `dist/`. En CI corren el typecheck
+y los tests antes del deploy.
+
+Tres decisiones que conviene conocer antes de tocar el código:
+
+- **Los tipos del dominio viven en `src/tipos.ts`**, en un solo sitio: bloque, versión, ítem, rejilla e
+  índice de la guía. Si cambia la forma de un dato, se ve ahí y no en veinte archivos.
+- **El worker tiene su propio `tsconfig`** (`tsconfig.worker.json`): los tipos de Cloudflare y los del
+  DOM declaran los mismos globales (`Request`, `Response`, `fetch`) y chocan si comparten configuración.
+- **Los imports relativos llevan la extensión** (`./parse.ts`). Es lo que permite que Node ejecute los
+  tests en TypeScript sin bundler, y Vite resuelve igual. Por eso `erasableSyntaxOnly` y
+  `verbatimModuleSyntax` están activados: lo que no se puede borrar no se puede ejecutar, y un `import`
+  de un tipo tiene que ser `import type` o Node lo importaría en runtime.
+
+`noUncheckedIndexedAccess` está **deliberadamente apagado**: el código indexa arrays por todo y los `!`
+que obligaría a escribir taparían justo los errores que se quieren ver.
+
 ## Si el BOE cambia el formato
 
-Todo el conocimiento del XML está en `src/parse.js`. Si algo sale vacío o mal agrupado, guarda la respuesta de
+Todo el conocimiento del XML está en `src/parse.ts`. Si algo sale vacío o mal agrupado, guarda la respuesta de
 `/boe-api/legislacion-consolidada/id/BOE-A-2002-18099/texto/indice` y de un bloque, y ajusta ahí.
 
 ## Corpus de la Guía Técnica (`guia_rebt/`)
