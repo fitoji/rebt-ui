@@ -348,6 +348,29 @@ mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
 .pagina-notas-cab .marca { margin: 0.6rem 0 0.3rem; font-size: 2.2rem; }
 .pagina-notas-cab .sub { margin: 0; color: var(--tinta-2); }
 .pagina-notas-lista { margin: 1.4rem 0 0; padding: 0; list-style: none; }
+
+/* El filtro por color de la página de notas. */
+.notas-filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.2rem 0 0;
+}
+.nota-ficha {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+  color: var(--tinta-2);
+  background: var(--hoja);
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.nota-ficha:hover { color: var(--tinta); border-color: var(--neutro); }
+.nota-ficha.activa { color: var(--tinta); background: var(--plano); border-color: var(--neutro); }
+.nota-ficha .nota-color { width: 0.7rem; height: 0.7rem; }
 .pagina-notas-lista > li {
   margin-bottom: 1rem;
   padding: 0.9rem 1rem;

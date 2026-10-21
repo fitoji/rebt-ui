@@ -97,3 +97,7 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
 - **L11** (2026-10-21) — **Verificado**: la paleta del botón flotante muestra los tres
   colores con su fondo real; guardar con el verde deja el resaltado `nota nota-verde`; desde
   la página se cambia a rojo y el resaltado del texto pasa a `nota nota-rojo`.
+- **L12** (2026-10-21) — **Filtro por color** (21/10/2026, pedido del usuario): *"ahora
+  cuando voy a notas me gustaria un filtro para ver las de un color u otro"*. Arriba de la lista
+  hay una ficha por color, con el punto del color y **cuántas hay de cada uno** ("Verdes (2)"),
+  más la de "Todas". Con el color ya en la nota, el filtro es casi obvio.
