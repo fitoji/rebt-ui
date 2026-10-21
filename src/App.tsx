@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getIndex, loadAll, peekBlock } from './api.ts'
-import { fold } from './parse.ts'
+import { buscarEnBloques, normaliza } from './busqueda.ts'
 import Reader from './Reader.tsx'
 import Sidebar from './Sidebar.tsx'
 import { useTheme } from './useTheme.ts'
@@ -11,21 +11,6 @@ type EstadoIndice =
   | { status: 'loading' }
   | { status: 'ok'; blocks: Bloque[] }
   | { status: 'error'; error: Error }
-
-function snippetOf(text: string, needle: string): string {
-  const f = fold(text)
-  const i = f.indexOf(needle)
-  if (i < 0 || f.length !== text.length) return ''
-  const a = Math.max(0, i - 50)
-  const b = Math.min(text.length, i + needle.length + 70)
-  return (a > 0 ? '…' : '') + text.slice(a, b).replace(/\s+/g, ' ') + (b < text.length ? '…' : '')
-}
-
-function countOf(folded: string, needle: string): number {
-  let n = 0
-  for (let i = folded.indexOf(needle); i !== -1; i = folded.indexOf(needle, i + needle.length)) n++
-  return n
-}
 
 interface AppProps {
   docId?: string
@@ -39,6 +24,8 @@ export default function App({ docId, onNavigate }: AppProps) {
   const [navOpen, setNavOpen] = useState(false)
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [textReady, setTextReady] = useState(false)
+  /** Cuántos bloques van descargados. Es la señal de que hay texto nuevo que buscar. */
+  const [indexados, setIndexados] = useState(0)
   const [failed, setFailed] = useState<string[]>([])
   const { theme, toggle } = useTheme()
 
@@ -69,7 +56,15 @@ export default function App({ docId, onNavigate }: AppProps) {
     setProgress({ done: 0, total: blocks.length })
     const bad = await loadAll(
       blocks.map((b) => b.id),
-      { onProgress: (done: number) => setProgress({ done, total: blocks.length }) },
+      {
+        onProgress: (done: number) => {
+          setProgress({ done, total: blocks.length })
+          // Cada bloque que llega dispara un recálculo de la búsqueda: los resultados
+          // aparecen mientras se indexa, no al final. El primero tarda ~200 ms, así que
+          // el usuario ve coincidencias casi enseguida en vez de esperar 5,6 s a ciegas.
+          setIndexados(done)
+        },
+      },
     )
     setFailed(bad)
     setProgress(null)
@@ -78,26 +73,15 @@ export default function App({ docId, onNavigate }: AppProps) {
 
   const q = query.trim()
   const searching = q.length >= 3
+  // Los títulos normalizados se calculan una vez: normalizar 98 títulos en cada
+  // recálculo de la búsqueda es trabajo de más.
+  const titulos = useMemo(() => blocks.map((b) => normaliza(b.titulo)), [blocks])
   const rows = useMemo<Fila[]>(() => {
     if (!searching) return blocks.map((entry) => ({ entry }))
-    const needle = fold(q)
-    if (textReady) {
-      return blocks
-        .map((entry): Fila | null => {
-          const b = peekBlock(entry.id)
-          const inTitle = fold(entry.titulo).includes(needle)
-          const count = b ? countOf(b.folded, needle) : 0
-          if (!inTitle && !count) return null
-          return {
-            entry,
-            count,
-            snippet: count ? snippetOf(b?.versions[0].text ?? '', needle) : '',
-          }
-        })
-        .filter((r): r is Fila => r !== null)
-    }
-    return blocks.filter((e) => fold(e.titulo).includes(needle)).map((entry) => ({ entry }))
-  }, [blocks, q, searching, textReady])
+    return buscarEnBloques(blocks, q, titulos, peekBlock)
+    // `indexados` no se usa dentro del memo: es la señal de que han llegado bloques
+    // nuevos. Sin él, el memo no se recalcularía y los resultados no aparecerían solos.
+  }, [blocks, titulos, q, searching, indexados])
 
   if (index.status === 'loading') return <p className="pantalla" role="status">Cargando el índice del BOE…</p>
   if (index.status === 'error') {

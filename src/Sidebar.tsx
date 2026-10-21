@@ -125,7 +125,7 @@ export default function Sidebar({
               <i style={{ width: `${(progress.done / progress.total) * 100}%` }} />
             </div>
             <span>
-              Descargando {progress.done} de {progress.total}
+              Indexando {progress.done} de {progress.total}
             </span>
           </div>
         )}
@@ -137,7 +137,12 @@ export default function Sidebar({
       <nav className="indice-lista">
         {searching && rows.length === 0 && (
           <p className="vacio">
-            Sin resultados para «{query}». {textReady ? 'Prueba con otra palabra.' : 'Busca también en el texto completo.'}
+            Sin resultados para «{query}».{' '}
+            {progress
+              ? 'Se sigue buscando en el texto completo…'
+              : textReady
+                ? 'Prueba con otra palabra.'
+                : 'Busca también en el texto completo.'}
           </p>
         )}
         {searching ? (
