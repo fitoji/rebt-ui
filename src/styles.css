@@ -665,6 +665,52 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
   font-weight: 600;
 }
 
+/* La guía: la barra lateral es la del lector y la columna de la derecha, el documento. */
+.guia-panel { overflow-y: auto; min-height: 0; }
+.guia-bienvenida { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.guia-bienvenida h1 { margin: 1.2rem 0 0.3rem; font-size: 2.4rem; font-weight: 600; line-height: 1.05; }
+.guia-bienvenida .sub {
+  max-width: 40rem;
+  margin: 0 0 1rem;
+  color: var(--tinta-2);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.guia-bienvenida .cifras { margin: 0 0 1.4rem; color: var(--neutro); font-size: 0.95rem; }
+.guia-bienvenida .pista {
+  max-width: 38rem;
+  margin: 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--linea);
+  color: var(--tinta-2);
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+/* El título de una sección dentro de la barra lateral. */
+.indice-titulo {
+  margin: 1.1rem 1.1rem 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fase);
+}
+/* Los favoritos, dentro de la barra lateral de la guía. */
+.guia-favoritos { margin: 0.9rem 0 0; }
+.guia-favoritos h2 {
+  margin: 0 0 0.2rem;
+  padding: 0 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fase);
+}
+.guia-favoritos .fila { padding-left: 1.1rem; padding-right: 2.2rem; }
+.guia-favoritos .fila .tit { font-size: 0.95rem; }
+/* La fila de un documento de la guía: el título arriba, el código abajo y un hueco a la
+   derecha para la estrella. */
+.guia-fila .tit { padding-right: 1.6rem; }
+.codigo-doc { font-variant-numeric: tabular-nums; }
+
 .guia-indice { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
 .guia-cab h1 { margin: 1.2rem 0 0.3rem; font-size: 2.4rem; font-weight: 600; line-height: 1.05; }
 .guia-cab .sub {

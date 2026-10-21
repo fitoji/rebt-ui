@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { MouseEvent } from 'react'
-import { fold, gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.ts'
+import type { MouseEvent, RefObject } from 'react'
+import { gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.ts'
 import { AVISO_CSV, AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
@@ -14,6 +14,7 @@ import type { Favoritos } from './favoritos.ts'
 import BotonFavorito from './BotonFavorito.tsx'
 import BotonNota, { useSeleccion } from './BotonNota.tsx'
 import CajaNotas from './CajaNotas.tsx'
+import SidebarGuia from './SidebarGuia.tsx'
 import { aplicarResaltados, crearNota } from './notas.ts'
 import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
@@ -81,116 +82,40 @@ function IndicadorError({ error, onReintentar }: { error: Error; onReintentar: (
 
 /* ------------------------------------------------------------------ índice */
 
-function GuiaIndice({
+function GuiaInicio({
   indice,
-  onSelect,
   onInicio,
   theme,
   onToggleTheme,
-  favoritos,
 }: {
   indice: IndiceGuia
-  onSelect: (id: string) => void
   onInicio: () => void
   theme: Tema
   onToggleTheme: () => void
-  favoritos: Favoritos
 }) {
-  const [query, setQuery] = useState('')
-
-  const documentos: DocumentoGuia[] = indice.documentos ?? []
-  const q = query.trim()
-  const rows = useMemo(() => {
-    if (q.length < 2) return documentos.map((doc) => ({ doc }))
-    const needle = fold(q)
-    return documentos
-      .filter((doc) => fold(doc.titulo).includes(needle) || fold(doc.id).includes(needle))
-      .map((doc) => ({ doc }))
-  }, [documentos, q])
-
-  // Los documentos marcados, para tenerlos a mano arriba de la lista.
-  const favoritosDocs = useMemo(
-    () => documentos.filter((doc) => favoritos.ids.includes(doc.id)),
-    [documentos, favoritos.ids],
-  )
-
+  const documentos = indice.documentos ?? []
   return (
-    <div className="guia-indice">
-      <header className="guia-cab">
-        <div className="guia-cab-top">
-          <h1 className="marca">Guías técnicas</h1>
-          <div className="guia-cab-acciones">
-            <InicioBoton onInicio={onInicio} />
-            <TemaBoton tema={theme} onToggle={onToggleTheme} />
-          </div>
-        </div>
-        <p className="sub">
-          Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
-          Industria y Turismo, convertidas a texto buscable.
-        </p>
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Filtrar por título o código…"
-          aria-label="Filtrar documentos de la guía"
-        />
-      </header>
-
-      <div className="guia-lista">
-        {favoritosDocs.length > 0 && (
-          <section className="guia-favoritos">
-            <h2>Favoritos ({favoritosDocs.length})</h2>
-            <ul>
-              {favoritosDocs.map((doc) => (
-                <li key={doc.id}>
-                  <div className="guia-fila">
-                    <button className="guia-item" onClick={() => onSelect(doc.id)}>
-                      <span className="guia-item-titulo">{doc.titulo}</span>
-                      <span className="guia-item-meta">
-                        <span className="codigo">{doc.id}</span>
-                        {doc.paginas ? <span>{doc.paginas} pág.</span> : null}
-                        {doc.tablas ? <span>{doc.tablas} tablas</span> : null}
-                      </span>
-                    </button>
-                    <BotonFavorito
-                      id={doc.id}
-                      titulo={doc.titulo}
-                      favoritos={favoritos}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <p className="guia-cuenta" role="status">
-          {rows.length === documentos.length
-            ? `${documentos.length} documentos`
-            : `${rows.length} de ${documentos.length} documentos`}
-        </p>
-        <ul>
-          {rows.map(({ doc }) => (
-            <li key={doc.id}>
-              <div className="guia-fila">
-                <button className="guia-item" onClick={() => onSelect(doc.id)}>
-                  <span className="guia-item-titulo">{doc.titulo}</span>
-                  <span className="guia-item-meta">
-                    <span className="codigo">{doc.id}</span>
-                    {doc.paginas ? <span>{doc.paginas} pág.</span> : null}
-                    {doc.tablas ? <span>{doc.tablas} tablas</span> : null}
-                    {doc.imgs?.length ? <span>{doc.imgs.length} figs.</span> : null}
-                    {doc.edicion ? <span>{doc.edicion}</span> : null}
-                  </span>
-                </button>
-                <BotonFavorito id={doc.id} titulo={doc.titulo} favoritos={favoritos} />
-              </div>
-            </li>
-          ))}
-        </ul>
-        {rows.length === 0 && <p className="guia-vacio">Ningún documento coincide con «{q}».</p>}
+    <div className="guia-bienvenida">
+      <div className="guia-cab-top">
+        <InicioBoton onInicio={onInicio} />
+        <TemaBoton tema={theme} onToggle={onToggleTheme} />
       </div>
+      <h1>Guías técnicas</h1>
+      <p className="sub">
+        Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
+        Industria y Turismo, convertidas a texto buscable.
+      </p>
+      {(indice.total_paginas || indice.total_tablas) && (
+        <p className="cifras">
+          {indice.total_documentos ?? documentos.length} documentos ·{' '}
+          {indice.total_paginas} páginas · {indice.total_tablas} tablas
+        </p>
+      )}
+      <p className="pista">
+        Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede
+        copiar a hoja de cálculo, copiar como Markdown o descargar como CSV, y lo que subrayes
+        queda guardado como nota.
+      </p>
     </div>
   )
 }
@@ -201,6 +126,7 @@ function GuiaDocumento({
   indice,
   id,
   nota,
+  articulo,
   onSelect,
   onInicio,
   onVolver,
@@ -214,6 +140,8 @@ function GuiaDocumento({
   id: string
   /** La nota a la que hay que llevar la vista, si viene de la página de notas. */
   nota?: string
+  /** El artículo, compartido con la barra lateral para poder ir a una nota. */
+  articulo: RefObject<HTMLElement>
   onSelect: (id: string) => void
   onInicio: () => void
   onVolver: () => void
@@ -225,7 +153,6 @@ function GuiaDocumento({
   onVerNotas: () => void
 }) {
   const [state, setState] = useState<EstadoDocumento>({ status: 'loading' })
-  const articulo = useRef<HTMLElement>(null)
   const [notasAbierto, setNotasAbierto] = useState(true)
 
   const documentos: DocumentoGuia[] = indice.documentos ?? []
@@ -447,36 +374,89 @@ export default function Guia({
   const favoritos = useFavoritos(CLAVE_GUIA)
   // Las notas las trae el Router: es el único que las tiene, así que la página con todas
   // las ve al día sin importar desde dónde se guardó una.
+  // El cajón de la barra lateral, en el móvil.
+  const [navAbierto, setNavAbierto] = useState(false)
+  // El filtro del índice de la guía.
+  const [query, setQuery] = useState('')
+  // El artículo, para poder ir a una nota desde la barra lateral.
+  const articulo = useRef<HTMLElement>(null)
+
+  /** Ir a una nota: si es de este documento, al resaltado; si no, a su documento. */
+  const irANota = useCallback(
+    (nota: Nota) => {
+      const mark = articulo.current?.querySelector(`mark.nota[data-nota="${nota.id}"]`)
+      if (mark instanceof HTMLElement) {
+        mark.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        mark.classList.remove('nota-aviso')
+        // Un segundo pulso para que se vea a dónde se fue.
+        void mark.offsetWidth
+        mark.classList.add('nota-aviso')
+        return
+      }
+      // La nota es de otro documento: se abre.
+      onSelect(nota.origen)
+    },
+    [onSelect],
+  )
 
   if (state.status === 'loading') return <p className="pantalla" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
 
+  const documentos = state.indice.documentos ?? []
+  // Las notas del documento abierto; y si no hay ninguno abierto, todas: desde la barra
+  // lateral sirven para consultarlas.
+  const notasVisibles = id ? notas.notas.filter((n) => n.origen === id) : notas.notas
+
   return (
-    <div className="app app-guia">
-      {id ? (
-        <GuiaDocumento
-          indice={state.indice}
-          id={id}
-          nota={nota}
-          onSelect={onSelect}
-          onInicio={onInicio}
-          onVolver={onVolver}
-          theme={theme}
-          onToggleTheme={toggle}
-          favoritos={favoritos}
-          notas={notas}
-          onVerNotas={onVerNotas}
-        />
-      ) : (
-        <GuiaIndice
-          indice={state.indice}
-          onSelect={onSelect}
-          onInicio={onInicio}
-          theme={theme}
-          onToggleTheme={toggle}
-          favoritos={favoritos}
-        />
-      )}
+    <div className={'app' + (navAbierto ? ' nav-abierta' : '')}>
+      <button
+        className="abrir-indice"
+        onClick={() => setNavAbierto((v) => !v)}
+        aria-expanded={navAbierto}
+      >
+        Índice
+      </button>
+      <SidebarGuia
+        documentos={documentos}
+        activo={id ?? undefined}
+        onSelect={onSelect}
+        query={query}
+        setQuery={setQuery}
+        onInicio={onInicio}
+        theme={theme}
+        onToggleTheme={toggle}
+        favoritos={favoritos}
+        notas={notasVisibles}
+        totalNotas={notas.notas.length}
+        onIrANota={irANota}
+        onQuitarNota={(n) => notas.quitar(n.id)}
+        onVerTodasNotas={onVerNotas}
+      />
+      <main className="guia-panel">
+        {id ? (
+          <GuiaDocumento
+            indice={state.indice}
+            id={id}
+            nota={nota}
+            articulo={articulo}
+            onSelect={onSelect}
+            onInicio={onInicio}
+            onVolver={onVolver}
+            theme={theme}
+            onToggleTheme={toggle}
+            favoritos={favoritos}
+            notas={notas}
+            onVerNotas={onVerNotas}
+          />
+        ) : (
+          <GuiaInicio
+            indice={state.indice}
+            onInicio={onInicio}
+            theme={theme}
+            onToggleTheme={toggle}
+          />
+        )}
+      </main>
     </div>
   )
 }

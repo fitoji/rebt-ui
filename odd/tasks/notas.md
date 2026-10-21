@@ -101,3 +101,14 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   cuando voy a notas me gustaria un filtro para ver las de un color u otro"*. Arriba de la lista
   hay una ficha por color, con el punto del color y **cuántas hay de cada uno** ("Verdes (2)"),
   más la de "Todas". Con el color ya en la nota, el filtro es casi obvio.
+- **L13** (2026-10-21) — **La guía también tiene barra lateral** (21/10/2026, pedido del
+  usuario): *"si, con el indice de guias, favoritos y notas"*. Antes la guía era a columna
+  completa (`.app-guia` pisaba la grilla de dos columnas) y sus notas y favoritos estaban
+  sueltos: las notas arriba del texto y los favoritos en la página de índice. Con la barra, las
+  dos vistas se parecen y la navegación no cambia de sitio.
+  - `src/SidebarGuia.tsx`: el índice de los 38 documentos, los favoritos y las notas.
+  - El título va arriba y el código abajo: los ids de la guía son largos ("01-Indice-unidades-
+    tematicas") y no entran al lado del título en 22rem.
+  - `#/guia` sin documento deja de ser la lista grande y pasa a ser la bienvenida (con las
+    cifras del corpus), porque la lista ahora está en la barra y no hacía falta duplicarla.
+  - En el móvil, el cajón: es el mismo botón «Índice» y el mismo comportamiento que el lector.
