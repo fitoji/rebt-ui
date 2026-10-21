@@ -40,9 +40,20 @@ interface ReaderProps {
   notas: ControlNotas
   /** El artículo, para resaltar el texto y para ir a una nota. Lo comparte con la barra. */
   articulo: RefObject<HTMLElement>
+  /** La nota a la que hay que llevar la vista, si viene de la página de notas. */
+  nota?: string
 }
 
-export default function Reader({ entry, prev, next, onSelect, highlight, notas, articulo }: ReaderProps) {
+export default function Reader({
+  entry,
+  prev,
+  next,
+  onSelect,
+  highlight,
+  notas,
+  articulo,
+  nota,
+}: ReaderProps) {
   const [attempt, setAttempt] = useState(0)
   const estado = useBlock(entry.id, attempt)
   const [versionIdx, setVersionIdx] = useState(0)
@@ -77,8 +88,14 @@ export default function Reader({ entry, prev, next, onSelect, highlight, notas, 
   useEffect(() => {
     const contenedor = articulo.current
     if (!contenedor) return
-    aplicarResaltados(contenedor, notasDoc)
-  }, [notasDoc, version?.vigencia])
+    const marcas = aplicarResaltados(contenedor, notasDoc)
+    // Si se viene de la página de notas, se lleva la vista al resaltado.
+    if (!nota) return
+    const mark = marcas.find((m) => m.dataset.nota === nota)
+    if (!mark) return
+    mark.scrollIntoView({ block: 'center' })
+    mark.classList.add('nota-aviso')
+  }, [notasDoc, version?.vigencia, nota])
 
   return (
     <main className="lector" ref={top} tabIndex={-1}>
@@ -146,7 +163,9 @@ export default function Reader({ entry, prev, next, onSelect, highlight, notas, 
       <BotonNota
         seleccion={seleccion}
         onGuardar={(sel) => {
-          notas.agregar(crearNota(entry.id, sel.texto, sel.antes, sel.despues, Date.now()))
+          notas.agregar(
+            crearNota('rebt', entry.id, entry.titulo, sel.texto, sel.antes, sel.despues, Date.now()),
+          )
           limpiar()
         }}
       />

@@ -9,6 +9,8 @@ import type { Nota } from '../src/notas.ts'
 const NOTA: Nota = {
   id: 'BT-19-abc-1',
   origen: 'BT-19',
+  vista: 'guia',
+  titulo: 'BT-19. Verificaciones e Inspecciones',
   texto: 'un trozo de texto',
   antes: 'lo que hay antes ',
   despues: ' lo que hay después',
@@ -38,8 +40,10 @@ test('descarta las notas que les falta algún campo', () => {
 test('crear una nota guarda el contexto recortado', () => {
   // El contexto no puede ser infinito: si no, la nota pesa lo que el documento.
   const largo = 'x'.repeat(200)
-  const nota = crearNota('BT-19', 'el texto', largo, largo, 1_700_000_000_000)
+  const nota = crearNota('guia', 'BT-19', 'BT-19. Verificaciones', 'el texto', largo, largo, 1_700_000_000_000)
   assert.equal(nota.origen, 'BT-19')
+  assert.equal(nota.vista, 'guia')
+  assert.equal(nota.titulo, 'BT-19. Verificaciones')
   assert.equal(nota.texto, 'el texto')
   assert.equal(nota.antes.length, CONTEXTO)
   assert.equal(nota.despues.length, CONTEXTO)
@@ -47,9 +51,21 @@ test('crear una nota guarda el contexto recortado', () => {
 })
 
 test('dos notas no comparten id', () => {
-  const a = crearNota('BT-19', 'texto', '', '', 1_700_000_000_000)
-  const b = crearNota('BT-19', 'texto', '', '', 1_700_000_000_000)
+  const a = crearNota('guia', 'BT-19', 'BT-19', 'texto', '', '', 1_700_000_000_000)
+  const b = crearNota('guia', 'BT-19', 'BT-19', 'texto', '', '', 1_700_000_000_000)
   assert.notEqual(a.id, b.id)
+})
+
+test('una nota vieja, sin vista ni título, se deduce del id', () => {
+  // Las notas guardadas antes de que existieran esos campos: el REBT usa ids en minúsculas
+  // y la guía en mayúsculas, así que el id dice de qué viene.
+  const vieja = { ...NOTA, vista: undefined, titulo: undefined } as unknown as Nota
+  const [nota] = parseNotas(JSON.stringify([vieja]))
+  assert.equal(nota.vista, 'guia')
+  assert.equal(nota.titulo, 'BT-19')
+
+  const [delRebt] = parseNotas(JSON.stringify([{ ...NOTA, origen: 'ib-19', vista: undefined }]))
+  assert.equal(delRebt.vista, 'rebt')
 })
 
 test('las notas se filtran por el documento de origen', () => {

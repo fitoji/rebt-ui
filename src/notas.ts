@@ -19,6 +19,10 @@ export interface Nota {
   id: string
   /** De qué viene: el id del documento de la guía o el del bloque del REBT. */
   origen: string
+  /** De qué vista viene, para saber a dónde saltar. */
+  vista: 'guia' | 'rebt'
+  /** Cómo se llama ese documento o bloque, para poder leer la lista. */
+  titulo: string
   /** El texto subrayado. */
   texto: string
   /** Hasta `CONTEXTO` caracteres antes del texto. */
@@ -48,7 +52,14 @@ export function parseNotas(valor: string | null): Nota[] {
         typeof nota.despues === 'string' &&
         typeof nota.creado === 'number'
       )
-    })
+    }).map((n) => ({
+      ...n,
+      // Las notas guardadas antes de que existieran la vista y el título: se deducen
+      // del id, porque los dos universos de ids no se cruzan (el REBT usa minúsculas y
+      // la guía, mayúsculas).
+      vista: n.vista ?? (n.origen[0] === n.origen[0]?.toLowerCase() ? 'rebt' : 'guia'),
+      titulo: n.titulo ?? n.origen,
+    }))
   } catch {
     return []
   }
@@ -74,7 +85,9 @@ export function guardarNotas(notas: Nota[]): void {
 
 /** Crea una nota a partir del texto subrayado y de su contexto. */
 export function crearNota(
+  vista: 'guia' | 'rebt',
   origen: string,
+  titulo: string,
   texto: string,
   antes: string,
   despues: string,
@@ -84,6 +97,8 @@ export function crearNota(
     // El azar va en el id porque dos notas pueden guardarse en el mismo milisegundo.
     id: `${origen}-${ahora.toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
     origen,
+    vista,
+    titulo,
     texto,
     antes: antes.slice(-CONTEXTO),
     despues: despues.slice(0, CONTEXTO),

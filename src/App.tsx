@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getIndex, loadAll, peekBlock } from './api.ts'
 import { buscarEnBloques, normaliza } from './busqueda.ts'
-import { useNotas } from './notas.ts'
 import type { Nota } from './notas.ts'
+import type { ControlNotas } from './notas.ts'
 import Reader from './Reader.tsx'
 import Sidebar from './Sidebar.tsx'
 import { useTheme } from './useTheme.ts'
@@ -16,10 +16,14 @@ type EstadoIndice =
 
 interface AppProps {
   docId?: string
+  /** La nota a la que hay que llevar la vista, si viene de la página de notas. */
+  nota?: string
   onNavigate: (destino: string) => void
+  /** Las notas del usuario: las tiene el Router, para que las vistas las compartan. */
+  notas: ControlNotas
 }
 
-export default function App({ docId, onNavigate }: AppProps) {
+export default function App({ docId, nota, onNavigate, notas }: AppProps) {
   const [index, setIndex] = useState<EstadoIndice>({ status: 'loading' })
   const [activeId, setActiveId] = useState(docId ?? '')
   const [query, setQuery] = useState('')
@@ -30,9 +34,8 @@ export default function App({ docId, onNavigate }: AppProps) {
   const [indexados, setIndexados] = useState(0)
   const [failed, setFailed] = useState<string[]>([])
   const { theme, toggle } = useTheme()
-  // Las notas y el artículo: la barra lateral muestra las notas y el lector las aplica
-  // sobre el texto, así que el estado vive aquí, en el padre de los dos.
-  const notas = useNotas()
+  // El artículo: la barra lateral muestra las notas y el lector las aplica sobre el
+  // texto. Las notas las tiene el Router, que es el padre de los dos.
   const articulo = useRef<HTMLElement>(null)
 
   const loadIndex = useCallback(() => {
@@ -142,8 +145,10 @@ export default function App({ docId, onNavigate }: AppProps) {
         theme={theme}
         onToggleTheme={toggle}
         notas={notasDelBloque}
+        totalNotas={notas.notas.length}
         onIrANota={irANota}
         onQuitarNota={(nota: Nota) => notas.quitar(nota.id)}
+        onVerTodasNotas={() => onNavigate('notas')}
       />
       {active && (
         <Reader
@@ -155,6 +160,7 @@ export default function App({ docId, onNavigate }: AppProps) {
           highlight={searching ? q : ''}
           notas={notas}
           articulo={articulo}
+          nota={nota}
         />
       )}
     </div>

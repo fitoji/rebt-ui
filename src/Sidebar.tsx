@@ -63,10 +63,14 @@ interface SidebarProps {
   onToggleTheme: () => void
   /** Las notas del bloque que se está leyendo. */
   notas: Nota[]
+  /** Cuántas hay en total, en las dos vistas. */
+  totalNotas: number
   /** Ir al resaltado de una nota. */
   onIrANota: (nota: Nota) => void
   /** Borrar una nota. */
   onQuitarNota: (nota: Nota) => void
+  /** Abrir la página con todas las notas. */
+  onVerTodasNotas: () => void
 }
 
 export default function Sidebar({
@@ -85,8 +89,10 @@ export default function Sidebar({
   theme,
   onToggleTheme,
   notas,
+  totalNotas,
   onIrANota,
   onQuitarNota,
+  onVerTodasNotas,
 }: SidebarProps) {
   const [acordeonAbierto, setAcordeonAbierto] = useState<string | null>('itcs') // ITCs abierto por defecto
   // Los favoritos tienen su propio estado: se quiere tenerlos a la vista mientras se
@@ -166,10 +172,12 @@ export default function Sidebar({
         {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
         <CajaNotas
           notas={notas}
+          total={totalNotas}
           abierto={notasAbierto}
           onAlternar={() => setNotasAbierto((v) => !v)}
           onIr={onIrANota}
           onQuitar={onQuitarNota}
+          onVerTodas={onVerTodasNotas}
         />
 
         {searching && rows.length === 0 && (

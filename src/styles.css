@@ -287,6 +287,74 @@ mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
   cursor: pointer;
 }
 .nota-quitar:hover { color: var(--fase); background: var(--plano); }
+/* El enlace a la página con todas las notas, al final del acordeón. */
+.notas-todas {
+  margin-top: 0.4rem;
+  padding: 0.2rem 0.35rem;
+  font-size: 0.85rem;
+  color: var(--neutro);
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+}
+.notas-todas:hover { color: var(--fase); background: var(--plano); }
+
+/* ------------------------------------------------------------------ la página */
+
+.pagina-notas {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+.pagina-notas-cab { padding-bottom: 1.2rem; border-bottom: 1px solid var(--linea); }
+.pagina-notas-cab .marca { margin: 0.6rem 0 0.3rem; font-size: 2.2rem; }
+.pagina-notas-cab .sub { margin: 0; color: var(--tinta-2); }
+.pagina-notas-lista { margin: 1.4rem 0 0; padding: 0; list-style: none; }
+.pagina-notas-lista > li {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--hoja);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+}
+.nota-citada {
+  margin: 0 0 0.5rem;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.45;
+}
+.nota-contexto {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--tinta-2);
+}
+.nota-contexto mark.nota { background: none; color: var(--tinta); font-weight: 600; }
+.nota-pie {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--linea);
+}
+.nota-ir {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  font-size: 0.9rem;
+  text-align: left;
+  color: var(--neutro);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nota-ir:hover { color: var(--fase); text-decoration: underline; }
+.nota-cuando { flex: none; font-size: 0.8rem; color: var(--tinta-2); }
 
 /* ------------------------------------------------------------ lector */
 .lector { overflow-y: auto; padding: 2.2rem clamp(1.1rem, 4vw, 3.5rem) 4rem; outline: none; }

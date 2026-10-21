@@ -41,3 +41,23 @@ test('un hash roto no deja la app en blanco', () => {
   assert.deepEqual(parseRoute(undefined), { name: 'landing' })
   assert.deepEqual(parseRoute(null), { name: 'landing' })
 })
+
+test('la página de todas las notas', () => {
+  assert.deepEqual(parseRoute('#/notas'), { name: 'notas' })
+})
+
+test('una nota puede ir en la ruta, para saltar a ella desde la página', () => {
+  // Es lo que hace el enlace «Ir al texto» de la página de notas.
+  assert.deepEqual(parseRoute('#/guia/BT-19?nota=abc-123'), {
+    name: 'guia',
+    id: 'BT-19',
+    nota: 'abc-123',
+  })
+  assert.deepEqual(parseRoute('#/rebt/ib-19?nota=abc-123'), {
+    name: 'rebt',
+    id: 'ib-19',
+    nota: 'abc-123',
+  })
+  // Y sin nota, la ruta es la de siempre.
+  assert.deepEqual(parseRoute('#/guia/BT-19'), { name: 'guia', id: 'BT-19' })
+})

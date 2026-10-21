@@ -14,7 +14,7 @@ import type { Favoritos } from './favoritos.ts'
 import BotonFavorito from './BotonFavorito.tsx'
 import BotonNota, { useSeleccion } from './BotonNota.tsx'
 import CajaNotas from './CajaNotas.tsx'
-import { aplicarResaltados, crearNota, useNotas } from './notas.ts'
+import { aplicarResaltados, crearNota } from './notas.ts'
 import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
 
@@ -200,6 +200,7 @@ function GuiaIndice({
 function GuiaDocumento({
   indice,
   id,
+  nota,
   onSelect,
   onInicio,
   onVolver,
@@ -207,9 +208,12 @@ function GuiaDocumento({
   onToggleTheme,
   favoritos,
   notas,
+  onVerNotas,
 }: {
   indice: IndiceGuia
   id: string
+  /** La nota a la que hay que llevar la vista, si viene de la página de notas. */
+  nota?: string
   onSelect: (id: string) => void
   onInicio: () => void
   onVolver: () => void
@@ -217,6 +221,8 @@ function GuiaDocumento({
   onToggleTheme: () => void
   favoritos: Favoritos
   notas: ControlNotas
+  /** Abrir la página con todas las notas. */
+  onVerNotas: () => void
 }) {
   const [state, setState] = useState<EstadoDocumento>({ status: 'loading' })
   const articulo = useRef<HTMLElement>(null)
@@ -239,8 +245,14 @@ function GuiaDocumento({
   useEffect(() => {
     const contenedor = articulo.current
     if (!contenedor) return
-    aplicarResaltados(contenedor, notasDoc)
-  }, [state.status === 'ok' ? state.html : '', notasDoc])
+    const marcas = aplicarResaltados(contenedor, notasDoc)
+    // Si se viene de la página de notas, se lleva la vista al resaltado.
+    if (!nota) return
+    const mark = marcas.find((m) => m.dataset.nota === nota)
+    if (!mark) return
+    mark.scrollIntoView({ block: 'center' })
+    mark.classList.add('nota-aviso')
+  }, [state.status === 'ok' ? state.html : '', notasDoc, nota])
 
   /** Ir al resaltado de una nota. */
   const irANota = (nota: Nota) => {
@@ -347,10 +359,12 @@ function GuiaDocumento({
       {/* El acordeón de notas va arriba del texto: es donde se llega al resaltado. */}
       <CajaNotas
         notas={notasDoc}
+        total={notas.notas.length}
         abierto={notasAbierto}
         onAlternar={() => setNotasAbierto((v) => !v)}
         onIr={irANota}
         onQuitar={(nota) => notas.quitar(nota.id)}
+        onVerTodas={onVerNotas}
       />
 
       {/* El HTML lo genera `guia/markdown.ts`, que escapa todo el texto y solo emite las
@@ -366,7 +380,17 @@ function GuiaDocumento({
       <BotonNota
         seleccion={seleccion}
         onGuardar={(sel) => {
-          notas.agregar(crearNota(id, sel.texto, sel.antes, sel.despues, Date.now()))
+          notas.agregar(
+            crearNota(
+              'guia',
+              id,
+              doc?.titulo ?? id,
+              sel.texto,
+              sel.antes,
+              sel.despues,
+              Date.now(),
+            ),
+          )
           limpiar()
         }}
       />
@@ -397,22 +421,31 @@ function GuiaDocumento({
 
 export default function Guia({
   id,
+  nota,
   onSelect,
   onInicio,
   onVolver,
+  onVerNotas,
+  notas,
 }: {
   id: string | null
+  /** La nota a la que hay que llevar la vista, si viene de la página de notas. */
+  nota?: string
   onSelect: (id: string) => void
   onInicio: () => void
   onVolver: () => void
+  /** Abrir la página con todas las notas. */
+  onVerNotas: () => void
+  /** Las notas del usuario: las tiene el Router, para que las vistas las compartan. */
+  notas: ControlNotas
 }) {
   const [state, reload] = useIndice()
   const { theme, toggle } = useTheme()
   // Los favoritos viven en la raíz para que el índice y el documento compartan el estado:
   // marcar en el documento se ve al instante en el índice, y al revés.
   const favoritos = useFavoritos(CLAVE_GUIA)
-  // Las notas viven en la raíz para que el índice y el documento compartan el estado.
-  const notas = useNotas()
+  // Las notas las trae el Router: es el único que las tiene, así que la página con todas
+  // las ve al día sin importar desde dónde se guardó una.
 
   if (state.status === 'loading') return <p className="pantalla" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
@@ -423,6 +456,7 @@ export default function Guia({
         <GuiaDocumento
           indice={state.indice}
           id={id}
+          nota={nota}
           onSelect={onSelect}
           onInicio={onInicio}
           onVolver={onVolver}
@@ -430,6 +464,7 @@ export default function Guia({
           onToggleTheme={toggle}
           favoritos={favoritos}
           notas={notas}
+          onVerNotas={onVerNotas}
         />
       ) : (
         <GuiaIndice

@@ -72,3 +72,18 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   rompe en cuanto el corpus se regenera. Con 40 caracteres de contexto a cada lado, un texto
   que se repite (que en un reglamento técnico pasa con cada «conectable») se desambigua, y si
   el texto ya no está, la nota simplemente no se resalta.
+- **L7** (2026-10-21) — **Una página con todas las notas** (21/10/2026, pedido del usuario):
+  *"me gustaria si cliequeo en el acorderon de notas se abra una pagina con todas las notas,
+  pra poder visualizarlas mejor"*. La ruta nueva `#/notas` las lista todas, de la guía y del
+  lector, con el texto entero, el contexto en el que quedó y el documento del que salen; desde
+  ahí se salta al texto (la ruta lleva `?nota=<id>`, así que el enlace se puede compartir) o se
+  borran.
+- **L8** (2026-10-21) — **Un bug que salió al hacerlo**: las notas tenían **tres** instancias
+  del hook (la guía, el lector y la nueva página), cada una con su estado, así que la página
+  veía la lista vacía aunque las notas estuvieran guardadas. Ahora el estado es **uno solo**, en
+  el Router, que es el padre de las tres vistas. Es el mismo error que el de los favoritos, y
+  por eso las dos features lo resuelven igual: el estado arriba.
+- **L9** (2026-10-21) — **La nota guarda de qué vista y de qué documento viene** (el título
+  incluido), para que la página se pueda leer sin tener que cargar los índices. Las notas
+  guardadas antes, sin esos campos, se deducen del id: el REBT usa ids en minúsculas y la
+  guía en mayúsculas, y los dos universos no se cruzan.

@@ -8,21 +8,27 @@ import type { Nota } from './notas.ts'
 
 export default function CajaNotas({
   notas,
+  total,
   abierto,
   onAlternar,
   onIr,
   onQuitar,
+  onVerTodas,
 }: {
   notas: Nota[]
+  /** Cuántas hay en total, en las dos vistas: el enlace va a la página con todas. */
+  total: number
   abierto: boolean
   onAlternar: () => void
   /** Ir al resaltado del texto. */
   onIr: (nota: Nota) => void
   /** Borrar la nota (y su resaltado). */
   onQuitar: (nota: Nota) => void
+  /** Abrir la página con todas las notas. */
+  onVerTodas: () => void
 }) {
   return (
-    <Accordion title={`Notas (${notas.length})`} open={abierto} onToggle={onAlternar}>
+    <Accordion title={`Notas (${total})`} open={abierto} onToggle={onAlternar}>
       {notas.length === 0 ? (
         <p className="vacio">Subrayá un trozo del texto y guardalo como nota.</p>
       ) : (
@@ -48,6 +54,9 @@ export default function CajaNotas({
           ))}
         </ul>
       )}
+      <button className="notas-todas" onClick={onVerTodas}>
+        Ver todas las notas →
+      </button>
     </Accordion>
   )
 }

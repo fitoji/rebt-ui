@@ -91,5 +91,6 @@ export interface IndiceGuia {
 /** La ruta de la app, tal como la devuelve `parseRoute`. */
 export type Ruta =
   | { name: 'landing' }
-  | { name: 'guia'; id: string | null }
-  | { name: 'rebt'; id: string | null }
+  | { name: 'notas' }
+  | { name: 'guia'; id: string | null; nota?: string }
+  | { name: 'rebt'; id: string | null; nota?: string }
