@@ -1,20 +1,75 @@
-# REBT · lector del reglamento y visor de la guía técnica
+<p align="center">
+  <img src="docs/logo.svg" alt="" width="96">
+</p>
 
-Aplicación web para leer el Reglamento electrotécnico para baja tensión (RD 842/2002,
-`boe-A-2002-18099`) desde la API de datos abiertos del BOE, y para consultar las Guías Técnicas
-de aplicación publicadas por el Ministerio de Industria y Turismo (el corpus de `guia_rebt/`).
-Todo en TypeScript con `strict`. En producción: <https://rebt-ui.fitoji.workers.dev>.
+<h1 align="center">REBT · lector del reglamento y visor de la guía técnica</h1>
 
-## Qué hace
+<p align="center">
+  Lee el Reglamento electrotécnico para baja tensión (RD 842/2002) desde la API de datos
+  abiertos del BOE, y consulta las Guías Técnicas de aplicación publicadas por el
+  Ministerio de Industria y Turismo.
+</p>
+
+<p align="center">
+  <a href="https://github.com/fitoji/rebt-ui/actions/workflows/deploy.yml">
+    <img src="https://img.shields.io/badge/deploy-cloudflare%20workers-orange?logo=cloudflare&logoColor=orange" alt="deploy">
+  </a>
+  <img src="https://img.shields.io/badge/TypeScript-7.0.2-3178c6?logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/React-18.3.1-61dafb?logo=react&logoColor=black" alt="React">
+  <img src="https://img.shields.io/badge/Vite-5.4.11-646cff?logo=vite&logoColor=white" alt="Vite">
+  <img src="https://img.shields.io/badge/Node-%E2%89%A522.18-5fa04e?logo=node.js&logoColor=5fa04e" alt="Node">
+  <img src="https://img.shields.io/badge/corpus-38%20gu%C3%ADas%20%C2%B7%20603%20p%C3%A1gs-0075b5" alt="corpus">
+</p>
+
+<p align="center">
+  <a href="https://rebt-ui.fitoji.workers.dev"><b>👉 rebt-ui.fitoji.workers.dev</b></a>
+</p>
+
+<p align="center">
+  <img src="docs/captura-inicio.png" alt="La pantalla de inicio: el logotipo REBT y los dos destinos, el reglamento y la guía técnica" width="900">
+</p>
+
+---
+
+## 📖 Qué hace
 
 | Vista | Qué ofrece |
 |---|---|
 | **Lector del reglamento** | Texto del BOE con las tablas como tablas reales (cabecera fija, celdas combinadas) y **copiar a hoja de cálculo, Markdown o CSV**. Selector de redacción (el BOE guarda todas; se muestra la vigente) y búsqueda en el texto completo con las coincidencias resaltadas. La búsqueda es **progresiva**: los resultados van apareciendo a medida que se descargan los bloques, no al final. |
 | **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). |
-| **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano las que más usás. |
+| **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC y los documentos que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano los que más usás. |
 | **Además** | Pantalla de inicio con los dos destinos, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
 
-## Arranque rápido
+## 🖼️ Las dos vistas
+
+<p align="center">
+  <img src="docs/captura-lector.png" alt="El lector del REBT: el índice con los acordeones a la izquierda y el texto a la derecha" width="820">
+  <br>
+  <sub><b>El lector</b> — el índice con los acordeones, los favoritos y las estrellas; el texto con las tablas reales.</sub>
+</p>
+
+<p align="center">
+  <img src="docs/captura-guia.png" alt="Una guía técnica con una tabla y sus tres acciones: Copiar, Markdown y Descargar CSV" width="820">
+  <br>
+  <sub><b>La guía</b> — cada tabla lleva sus tres acciones: <code>Copiar</code> (a hoja de cálculo), <code>Markdown</code> y <code>Descargar CSV</code>.</sub>
+</p>
+
+## 🧭 Cómo funciona
+
+```mermaid
+flowchart LR
+  persona([La persona]) -->|navega| worker[["Worker de Cloudflare"]]
+  worker -->|estáticos| dist["dist/"]
+  worker -->|/guia| corpus["guia_rebt/ · 38 documentos"]
+  worker -->|/boe-api| boe["API de datos abiertos del BOE"]
+  conversor["convert_guia_to_markdown.py"] -->|genera| corpus
+```
+
+El navegador no puede llamar a `boe.es` directamente (la API no envía cabeceras CORS), así que
+el Worker hace de proxy. Y el corpus de la guía se publica como estáticos, con una lista blanca
+de lo que se expone.
+
+## ⚡ Arranque rápido
 
 ```bash
 npm install
@@ -31,13 +86,14 @@ npm run dev          # http://localhost:5173, contra el BOE real
 | `npm run mock` | BOE simulado en `:8787`, con datos de ejemplo. |
 | `npm run dev:mock` | Vite contra el BOE simulado, para trabajar sin conexión. |
 
+> [!TIP]
+> `npm run mock` en una terminal y `npm run dev:mock` en otra te deja trabajar **sin conexión**
+> a internet, contra un BOE de mentira con datos de ejemplo.
+
 Hace falta **Node ≥ 22.18** (en `engines`): los tests corren en TypeScript sin bundler porque Node
 hace *type stripping* (el borrado de tipos) desde esa versión.
 
-El navegador no puede llamar a `boe.es` directamente (la API no envía cabeceras CORS), así que Vite
-hace de proxy: `/boe-api/...` → `https://www.boe.es/datosabiertos/api/...` (ver `vite.config.ts`).
-
-## Rutas
+## 🗺️ Rutas
 
 Todo va por hash, para que servir el build no necesite reglas de reescritura.
 
@@ -50,25 +106,30 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `#/guia/<id>` | una guía concreta (`BT-19`, `BT-Anexo-2`, …) |
 | `#/<bloque>` | enlace antiguo del lector, sigue funcionando |
 
-## Dónde está cada cosa
+## 🏗️ Dónde está cada cosa
 
 | Ruta | Qué contiene |
 |---|---|
 | `src/` | La aplicación. `src/tipos.ts` tiene los tipos del dominio; `src/guia/` el intérprete del corpus y sus URLs. |
 | `src/guia/markdown.ts` | El intérprete de Markdown del corpus (propio, ver más abajo). |
+| `src/busqueda.ts` | La búsqueda de texto completo, como función pura: los resultados crecen a medida que se indexa. |
+| `src/favoritos.ts` | Los favoritos: lo que el usuario marca, guardado en `localStorage`. |
+| `src/indice.ts` | Cómo se agrupan los bloques en la sidebar. |
 | `test/` | Tests en TypeScript, con el runner nativo de Node. |
 | `vite/guia-corpus.ts` | Plugin que publica `guia_rebt/` en `/guia/*`. |
 | `worker/index.ts` | El Worker de Cloudflare: sirve `dist/` y hace de proxy hacia el BOE. |
+| `worker/cache.ts` | La política de caché del proxy y el ETag que la hace barata. |
 | `mock/server.ts` | El BOE simulado para trabajar sin conexión. |
 | `guia_rebt/` | El corpus: `md/` + `tablas/` + `imgs/` + `indice.json`, y el conversor en Python. |
 | `odd/tasks/` | Los logbooks de cada trabajo: qué se pidió, qué se decidió y cómo se verificó. |
+| `docs/` | El logo y las capturas de este README. |
 
-## TypeScript
+## 🔷 TypeScript
 
 Todo el proyecto está en TypeScript (`strict: true`): la aplicación, los tests, el plugin de Vite,
 el worker y el mock. La puerta de tipos es `npm run typecheck`, y `npm run build` la ejecuta
 **antes** de empaquetar, así que un error de tipos no llega a `dist/`. En CI corren el typecheck y
-los tests antes del despliegue.
+los tests antes del deploy.
 
 Tres decisiones que conviene conocer antes de tocar el código:
 
@@ -81,10 +142,11 @@ Tres decisiones que conviene conocer antes de tocar el código:
   `verbatimModuleSyntax` están activados: lo que no se puede borrar no se puede ejecutar, y un `import`
   de un tipo tiene que ser `import type` o Node lo importaría en runtime.
 
-`noUncheckedIndexedAccess` está **deliberadamente apagado**: el código indexa arrays por todo y los `!`
-que obligaría a escribir taparían justo los errores que se quieren ver.
+> [!NOTE]
+> `noUncheckedIndexedAccess` está **deliberadamente apagado**: el código indexa arrays por todo y los
+> `!` que obligaría a escribir taparían justo los errores que se quieren ver.
 
-## Cómo se sirve la guía
+## 📚 Cómo se sirve la guía
 
 `guia_rebt/` vive en la raíz del repo, fuera de `publicDir`, así que Vite no lo sirve. Lo publica un
 plugin propio, `vite/guia-corpus.ts`:
@@ -117,11 +179,11 @@ Añadir `marked` o `react-markdown` sería más fácil de escribir, pero meterí
 el corpus no lo necesita y donde el riesgo real es corromper contenido. Si algún día el corpus cambia
 de forma, se amplía el intérprete, no se cambia la decisión.
 
-## Desplegarlo
+## ☁️ Desplegarlo
 
-Producción es un **Cloudflare Worker** (`worker/index.ts`): sirve `dist/` como archivos estáticos y hace de proxy
-de `/boe-api/*` a `https://www.boe.es/datosabertos/api/*`, que es lo que permite que el navegador
-hable con el BOE.
+Producción es un **Cloudflare Worker** (`worker/index.ts`): sirve `dist/` como archivos estáticos y
+hace de proxy de `/boe-api/*` a `https://www.boe.es/datosabiertos/api/*`, que es lo que permite que
+el navegador hable con el BOE.
 
 ```bash
 npm run build          # typecheck + dist/
@@ -137,9 +199,10 @@ secretos:
 | `CLOUDFLARE_API_TOKEN` | El token de la API, con la plantilla *Edit Cloudflare Workers* de Cloudflare. El que hay puesto en el entorno es de la época de Pages y **no sirve para Workers**. |
 | `CLOUDFLARE_ACCOUNT_ID` | En qué cuenta está el worker. **Sin esto**, wrangler intenta listar las cuentas para averiguarlo y el despliegue falla antes de compilar. |
 
-- Worker en producción: <https://rebt-ui.fitoji.workers.dev>
-- El proyecto viejo de **Pages** (`rebt-ui.pages.dev`) quedó atrás y sirve el código fuente crudo:
-  muestra pantalla en blanco. Se puede borrar.
+> [!WARNING]
+> El proyecto viejo de **Pages** (`rebt-ui.pages.dev`) quedó atrás y sirve el código fuente crudo:
+> muestra pantalla en blanco. Se puede borrar. La URL buena es
+> [`rebt-ui.fitoji.workers.dev`](https://rebt-ui.fitoji.workers.dev).
 
 ### La caché del proxy
 
@@ -156,12 +219,7 @@ sirviéndose una semana en vez de dejar al usuario en blanco.
 La ventana es ancha a propósito: el REBT consolidado cambia unas pocas veces al año (77 de sus
 98 bloques no se tocan desde 2002).
 
-## Si el BOE cambia el formato
-
-Todo el conocimiento del XML está en `src/parse.ts`. Si algo sale vacío o mal agrupado, guarda la respuesta de
-`/boe-api/legislacion-consolidada/id/BOE-A-2002-18099/texto/indice` y de un bloque, y ajusta ahí.
-
-## Corpus de la Guía Técnica (`guia_rebt/`)
+## 🗃️ El corpus de la Guía Técnica (`guia_rebt/`)
 
 Al lado del lector vive `guia_rebt/`: un corpus en Markdown de las Guías Técnicas de aplicación del
 REBT publicadas por Industria (38 documentos, 603 páginas), generado desde los PDF oficiales por
@@ -176,3 +234,9 @@ python3 guia_rebt/convert_guia_to_markdown.py --solo BT-19
 ```
 
 Decisiones de conversión, límites conocidos y cómo se auditó la cobertura: `guia_rebt/README.md`.
+
+## 🔧 Si el BOE cambia el formato
+
+Todo el conocimiento del XML está en `src/parse.ts`. Si algo sale vacío o mal agrupado, guarda la
+respuesta de `/boe-api/legislacion-consolidada/id/BOE-A-2002-18099/texto/indice` y de un bloque, y
+ajusta ahí.

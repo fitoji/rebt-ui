@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="REBT">
+  <title>REBT</title>
+  <desc>La franja verde y amarilla del conductor de protección sobre fondo oscuro</desc>
+  <defs>
+    <!-- La misma franja que marca la fila activa en la app: verde y amarillo a 45°. -->
+    <pattern id="conductor" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="12" fill="#f2c500"/>
+      <rect width="6" height="12" fill="#6fae00"/>
+    </pattern>
+    <clipPath id="recorte">
+      <rect width="64" height="64" rx="14"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#recorte)">
+    <rect width="64" height="64" fill="#17252e"/>
+    <rect x="-16" y="24" width="96" height="16" fill="url(#conductor)"/>
+  </g>
+</svg>

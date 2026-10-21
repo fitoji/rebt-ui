@@ -4,6 +4,9 @@ Corpus en Markdown de las **Guías Técnicas de aplicación del Reglamento Elect
 Tensión** que publica el Ministerio de Industria y Turismo, generado desde los PDF oficiales de
 `industria.gob.es`, con la misma forma que el corpus REBT del proyecto `boe-rebt`.
 
+> Esto es el corpus. La aplicación que lo publica está en el
+> [README del proyecto](../README.md).
+
 ## Qué hay
 
 | Carpeta / archivo | Contenido | ¿En git? |
