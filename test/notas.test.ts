@@ -11,6 +11,7 @@ const NOTA: Nota = {
   origen: 'BT-19',
   vista: 'guia',
   titulo: 'BT-19. Verificaciones e Inspecciones',
+  color: 'verde',
   texto: 'un trozo de texto',
   antes: 'lo que hay antes ',
   despues: ' lo que hay después',
@@ -66,6 +67,12 @@ test('una nota vieja, sin vista ni título, se deduce del id', () => {
 
   const [delRebt] = parseNotas(JSON.stringify([{ ...NOTA, origen: 'ib-19', vista: undefined }]))
   assert.equal(delRebt.vista, 'rebt')
+})
+
+test('una nota vieja, sin color, se pone del color de siempre', () => {
+  const vieja = { ...NOTA, color: undefined } as unknown as Nota
+  const [nota] = parseNotas(JSON.stringify([vieja]))
+  assert.equal(nota.color, 'amarillo')
 })
 
 test('las notas se filtran por el documento de origen', () => {

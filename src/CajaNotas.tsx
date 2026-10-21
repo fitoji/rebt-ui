@@ -36,7 +36,7 @@ export default function CajaNotas({
           {notas.map((nota) => (
             <li key={nota.id}>
               <button
-                className="nota-texto"
+                className={`nota-texto nota-texto-${nota.color}`}
                 onClick={() => onIr(nota)}
                 title="Ir al resaltado en el texto"
               >

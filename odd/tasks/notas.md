@@ -87,3 +87,13 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   incluido), para que la página se pueda leer sin tener que cargar los índices. Las notas
   guardadas antes, sin esos campos, se deducen del id: el REBT usa ids en minúsculas y la
   guía en mayúsculas, y los dos universos no se cruzan.
+- **L10** (2026-10-21) — **Las notas tienen color** (21/10/2026, pedido del usuario):
+  *"me gustaria que el sistema de resaltado de notas, le pueda cambiar el color, que se pueda
+  en rojo, amarillo o verde"*. El color se elige **al guardar** (el botón flotante lleva los
+  tres) y se cambia después desde la página de notas, que tiene los tres puntos por nota.
+  Amarillo, verde y rojo son de la familia de la paleta de la app, con su versión para el
+  tema oscuro. El color le dice de un vistazo **para qué** es un pasaje: notable, importante,
+  ojo.
+- **L11** (2026-10-21) — **Verificado**: la paleta del botón flotante muestra los tres
+  colores con su fondo real; guardar con el verde deja el resaltado `nota nota-verde`; desde
+  la página se cambia a rojo y el resaltado del texto pasa a `nota nota-rojo`.

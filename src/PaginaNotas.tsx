@@ -2,7 +2,8 @@
 // y saltar a cada una.
 
 import InicioBoton from './InicioBoton.tsx'
-import type { Nota } from './notas.ts'
+import { COLORES } from './notas.ts'
+import type { ColorNota, Nota } from './notas.ts'
 
 /** "hace 3 días", "hoy"… para la fecha de cada nota. */
 function cuando(creado: number): string {
@@ -18,12 +19,15 @@ export default function PaginaNotas({
   onInicio,
   onIr,
   onQuitar,
+  onColor,
 }: {
   notas: Nota[]
   onInicio: () => void
   /** Saltar al texto de la nota. */
   onIr: (nota: Nota) => void
   onQuitar: (nota: Nota) => void
+  /** Cambiar el color del resaltado. */
+  onColor: (nota: Nota, color: ColorNota) => void
 }) {
   // De más reciente a más antigua.
   const ordenadas = [...notas].sort((a, b) => b.creado - a.creado)
@@ -50,12 +54,12 @@ export default function PaginaNotas({
       ) : (
         <ul className="pagina-notas-lista">
           {ordenadas.map((nota) => (
-            <li key={nota.id}>
+            <li key={nota.id} className={`nota-fila nota-fila-${nota.color}`}>
               <blockquote className="nota-citada">{nota.texto}</blockquote>
               {(nota.antes || nota.despues) && (
                 <p className="nota-contexto">
                   {nota.antes && <span className="nota-antes">…{nota.antes}</span>}
-                  <mark className="nota">{nota.texto}</mark>
+                  <mark className={`nota nota-${nota.color}`}>{nota.texto}</mark>
                   {nota.despues && <span className="nota-despues">{nota.despues}…</span>}
                 </p>
               )}
@@ -63,6 +67,18 @@ export default function PaginaNotas({
                 <button className="nota-ir" onClick={() => onIr(nota)} title="Ir al texto">
                   {nota.titulo || nota.origen} ↗
                 </button>
+                <span className="nota-colores" role="group" aria-label="Color de la nota">
+                  {COLORES.map((color) => (
+                    <button
+                      key={color}
+                      className={`nota-color nota-color-${color}`}
+                      aria-pressed={nota.color === color}
+                      aria-label={`Poner la nota en ${color}`}
+                      title={color}
+                      onClick={() => onColor(nota, color)}
+                    />
+                  ))}
+                </span>
                 <span className="nota-cuando">{cuando(nota.creado)}</span>
                 <button
                   className="nota-quitar"

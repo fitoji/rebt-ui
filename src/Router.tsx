@@ -28,6 +28,7 @@ export default function Router() {
         onInicio={() => ir('')}
         onIr={(nota) => ir(`${nota.vista}/${nota.origen}?nota=${nota.id}`)}
         onQuitar={(nota) => notas.quitar(nota.id)}
+        onColor={(nota, color) => notas.color(nota.id, color)}
       />
     )
   }

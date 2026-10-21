@@ -6,7 +6,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import type { RefObject } from 'react'
-import { CONTEXTO, type Seleccion } from './notas.ts'
+import { COLORES, COLOR_POR_DEFECTO, CONTEXTO } from './notas.ts'
+import type { ColorNota, Seleccion } from './notas.ts'
 
 /** El texto que hay alrededor de la selección, para poder reubicarla más tarde. */
 function contextoDe(texto: string, desde: number, hasta: number): { antes: string; despues: string } {
@@ -91,23 +92,34 @@ export default function BotonNota({
   onGuardar,
 }: {
   seleccion: Seleccion | null
-  onGuardar: (seleccion: Seleccion) => void
+  onGuardar: (seleccion: Seleccion, color: ColorNota) => void
 }) {
   if (!seleccion) return null
   return (
-    <button
+    <div
       className="boton-nota"
       style={{ left: seleccion.x, top: seleccion.y }}
       // `mousedown` en lugar de `click`: si no, el clic borra la selección antes de
       // llegar al botón, y no hay forma de saber qué se submarcó.
       onMouseDown={(e) => {
         e.preventDefault()
-        onGuardar(seleccion)
+        onGuardar(seleccion, COLOR_POR_DEFECTO)
       }}
-      aria-label="Guardar esta selección como nota"
-      title="Guardar como nota"
     >
-      ✎ Nota
-    </button>
+      <span className="boton-nota-texto">✎ Nota</span>
+      {COLORES.map((color) => (
+        <button
+          key={color}
+          className={`nota-color nota-color-${color}`}
+          title={`Guardar como nota ${color}`}
+          aria-label={`Guardar como nota ${color}`}
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onGuardar(seleccion, color)
+          }}
+        />
+      ))}
+    </div>
   )
 }

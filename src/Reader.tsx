@@ -162,9 +162,9 @@ export default function Reader({
 
       <BotonNota
         seleccion={seleccion}
-        onGuardar={(sel) => {
+        onGuardar={(sel, color) => {
           notas.agregar(
-            crearNota('rebt', entry.id, entry.titulo, sel.texto, sel.antes, sel.despues, Date.now()),
+            crearNota('rebt', entry.id, entry.titulo, sel.texto, sel.antes, sel.despues, Date.now(), color),
           )
           limpiar()
         }}

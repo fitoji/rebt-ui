@@ -379,7 +379,7 @@ function GuiaDocumento({
 
       <BotonNota
         seleccion={seleccion}
-        onGuardar={(sel) => {
+        onGuardar={(sel, color) => {
           notas.agregar(
             crearNota(
               'guia',
@@ -389,6 +389,7 @@ function GuiaDocumento({
               sel.antes,
               sel.despues,
               Date.now(),
+              color,
             ),
           )
           limpiar()

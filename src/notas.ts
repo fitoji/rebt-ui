@@ -14,6 +14,14 @@ export const CLAVE_NOTAS = 'rebt-notas'
 /** Cuánto contexto se guarda a cada lado, para desambiguar un texto que se repite. */
 export const CONTEXTO = 40
 
+/** El color de un resaltado. Sirve para distinguir de un vistazo de qué es cada nota. */
+export type ColorNota = 'amarillo' | 'verde' | 'rojo'
+
+export const COLORES: ColorNota[] = ['amarillo', 'verde', 'rojo']
+
+/** El color con el que se marca si no se elige otro. */
+export const COLOR_POR_DEFECTO: ColorNota = 'amarillo'
+
 export interface Nota {
   /** Id único de la nota. */
   id: string
@@ -23,6 +31,8 @@ export interface Nota {
   vista: 'guia' | 'rebt'
   /** Cómo se llama ese documento o bloque, para poder leer la lista. */
   titulo: string
+  /** El color del resaltado. */
+  color: ColorNota
   /** El texto subrayado. */
   texto: string
   /** Hasta `CONTEXTO` caracteres antes del texto. */
@@ -54,11 +64,12 @@ export function parseNotas(valor: string | null): Nota[] {
       )
     }).map((n) => ({
       ...n,
-      // Las notas guardadas antes de que existieran la vista y el título: se deducen
-      // del id, porque los dos universos de ids no se cruzan (el REBT usa minúsculas y
-      // la guía, mayúsculas).
+      // Las notas guardadas antes de que existieran la vista, el título y el color: se
+      // deducen del id, porque los dos universos de ids no se cruzan (el REBT usa
+      // minúsculas y la guía, mayúsculas), y el color es el de siempre.
       vista: n.vista ?? (n.origen[0] === n.origen[0]?.toLowerCase() ? 'rebt' : 'guia'),
       titulo: n.titulo ?? n.origen,
+      color: n.color ?? COLOR_POR_DEFECTO,
     }))
   } catch {
     return []
@@ -92,6 +103,7 @@ export function crearNota(
   antes: string,
   despues: string,
   ahora: number,
+  color: ColorNota = COLOR_POR_DEFECTO,
 ): Nota {
   return {
     // El azar va en el id porque dos notas pueden guardarse en el mismo milisegundo.
@@ -99,6 +111,7 @@ export function crearNota(
     origen,
     vista,
     titulo,
+    color,
     texto,
     antes: antes.slice(-CONTEXTO),
     despues: despues.slice(0, CONTEXTO),
@@ -210,7 +223,7 @@ export function resaltar(contenedor: Element, nota: Nota): HTMLElement | null {
   const rango = hallarRango(contenedor, nota)
   if (!rango) return null
   const mark = document.createElement('mark')
-  mark.className = 'nota'
+  mark.className = `nota nota-${nota.color}`
   mark.dataset.nota = nota.id
   mark.title = nota.texto
   mark.appendChild(rango.extractContents())
@@ -242,14 +255,16 @@ export function aplicarResaltados(contenedor: Element, notas: Nota[]): HTMLEleme
 
 /* ---------------------------------------------------------------------- el hook */
 
-/** El control de las notas: la lista y las dos operaciones. */
+/** El control de las notas: la lista y las operaciones. */
 export interface ControlNotas {
   notas: Nota[]
   agregar: (nota: Nota) => void
   quitar: (id: string) => void
+  /** Cambiar el color de una nota. */
+  color: (id: string, color: ColorNota) => void
 }
 
-/** Las notas del navegador, con las operaciones de agregar y quitar. */
+/** Las notas del navegador, con las operaciones de agregar, quitar y recolorear. */
 export function useNotas(): ControlNotas {
   const [notas, setNotas] = useState<Nota[]>(leerNotas)
 
@@ -269,5 +284,13 @@ export function useNotas(): ControlNotas {
     })
   }, [])
 
-  return { notas, agregar, quitar }
+  const color = useCallback((id: string, tono: ColorNota) => {
+    setNotas((actual) => {
+      const siguiente = actual.map((n) => (n.id === id ? { ...n, color: tono } : n))
+      guardarNotas(siguiente)
+      return siguiente
+    })
+  }, [])
+
+  return { notas, agregar, quitar, color }
 }
