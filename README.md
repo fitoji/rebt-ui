@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.svg" alt="" width="96">
+  <img src="public/logo.svg" alt="" width="96">
 </p>
 
 <h1 align="center">REBT · lector del reglamento y visor de la guía técnica</h1>
@@ -122,7 +122,8 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `mock/server.ts` | El BOE simulado para trabajar sin conexión. |
 | `guia_rebt/` | El corpus: `md/` + `tablas/` + `imgs/` + `indice.json`, y el conversor en Python. |
 | `odd/tasks/` | Los logbooks de cada trabajo: qué se pidió, qué se decidió y cómo se verificó. |
-| `docs/` | El logo y las capturas de este README. |
+| `public/logo.svg` | La marca de la app: la franja del conductor de protección. Es también el favicon. |
+| `docs/` | Las capturas de pantalla de este README. |
 
 ## 🔷 TypeScript
 
