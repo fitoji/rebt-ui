@@ -198,6 +198,7 @@ function GuiaDocumento({ indice, id, onSelect, onInicio, onVolver, theme, onTogg
 
 export default function Guia({ id, onSelect, onInicio, onVolver }) {
   const [state, reload] = useIndice()
+  const { theme, toggle } = useTheme()
 
   if (state.status === 'loading') return <p className="pantalla" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
