@@ -141,6 +141,21 @@ secretos:
 - El proyecto viejo de **Pages** (`rebt-ui.pages.dev`) quedó atrás y sirve el código fuente crudo:
   muestra pantalla en blanco. Se puede borrar.
 
+### La caché del proxy
+
+El BOE no manda ETag ni `Cache-Control`, así que su respuesta no se puede revalidar. El proxy
+calcula su propio ETag por hash del cuerpo y fija la política de caché:
+`public, max-age=86400, stale-while-revalidate=604800`.
+
+Es decir: **un día de "fresco" y hasta una semana de "stale"**. Mientras la copia esté en la
+ventana de la semana, el navegador responde **al instante** con lo que tiene y revalida en segundo
+plano; como el ETag permite responder 304, esa revalidación no cuesta tráfico (28 KB de XML
+bajan como ~200 bytes). Y si la revalidación falla —sin red, BOE caído—, la copia vieja sigue
+sirviéndose una semana en vez de dejar al usuario en blanco.
+
+La ventana es ancha a propósito: el REBT consolidado cambia unas pocas veces al año (77 de sus
+98 bloques no se tocan desde 2002).
+
 ## Si el BOE cambia el formato
 
 Todo el conocimiento del XML está en `src/parse.ts`. Si algo sale vacío o mal agrupado, guarda la respuesta de

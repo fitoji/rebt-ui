@@ -1,6 +1,8 @@
 /**
  * Cloudflare Worker — sirve la app REBT + proxy /boe-api → boe.es
  */
+import { CACHE_CONTROL, coincide, etagDe } from './cache.ts'
+
 interface Env {
   /** Los estáticos que publica wrangler (`assets = { directory = "dist" }`). */
   ASSETS: Fetcher
@@ -29,11 +31,29 @@ export default {
         })
 
         const body = await response.arrayBuffer()
+        const etag = await etagDe(body)
+
+        // El cliente ya tiene este contenido: no hay que mandarle el cuerpo otra vez.
+        if (coincide(request.headers.get('If-None-Match'), etag)) {
+          return new Response(null, {
+            status: 304,
+            headers: {
+              ETag: etag,
+              'Cache-Control': CACHE_CONTROL,
+              Vary: 'Accept',
+              'Access-Control-Allow-Origin': '*',
+            },
+          })
+        }
 
         const headers = new Headers()
         headers.set('Content-Type', response.headers.get('Content-Type') || 'application/json')
         headers.set('Access-Control-Allow-Origin', '*')
-        headers.set('Cache-Control', 'public, max-age=3600')
+        headers.set('Cache-Control', CACHE_CONTROL)
+        // La respuesta del BOE varía según el `Accept`; sin esto la caché podría
+        // servirle un XML a quien pidió JSON.
+        headers.set('Vary', 'Accept')
+        headers.set('ETag', etag)
 
         return new Response(body, { status: response.status, headers })
       } catch (err) {

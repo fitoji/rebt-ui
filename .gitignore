@@ -10,3 +10,6 @@ __pycache__/
 # guia_rebt: el corpus se versiona; los PDF originales y la caché quedan en disco
 guia_rebt/pdf/
 guia_rebt/cache/
+
+# Estado local de wrangler (miniflare): es de la máquina, no del proyecto
+.wrangler/
