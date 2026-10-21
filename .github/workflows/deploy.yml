@@ -43,3 +43,8 @@ jobs:
         run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Sin el account id, wrangler tries to *listar* las cuentas para descubrir en cuál
+          # está el worker, y el token no tiene permiso para eso: el deploy falla antes de
+          # compilar. El secret estaba puesto desde el workflow de Pages y se había quedado
+          # atrás al cambiar a Workers.
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
