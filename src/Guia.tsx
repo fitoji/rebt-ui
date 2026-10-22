@@ -103,7 +103,7 @@ function GuiaInicio({
         <TemaBoton tema={theme} onToggle={onToggleTheme} />
       </div>
       <h1>Guías técnicas</h1>
-      <p className="sub">
+      <p className="mt-0 mb-[1rem] max-w-[40rem] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
         Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
         Industria y Turismo, convertidas a texto buscable.
       </p>

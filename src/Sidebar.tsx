@@ -34,18 +34,31 @@ function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }
   return (
     <li className="relative">
       <button
-        className={'fila' + (active ? ' activa' : '') + (itc ? '' : ' sin-num')}
+        className={[
+          'relative w-full border-0 bg-transparent py-[0.45rem] pr-[1.1rem] pl-[1.3rem] text-left leading-[1.3] hover:bg-plano',
+          itc ? 'grid grid-cols-[3.4rem_1fr_auto] gap-[0.5rem]' : 'grid grid-cols-[1fr_auto] gap-[0.5rem]',
+          active ? 'bg-plano font-medium' : '',
+        ].join(' ')}
         aria-current={active ? 'page' : undefined}
         onClick={() => onSelect(entry.id)}
       >
-        {itc && <span className="num">{itc}</span>}
-        <span className="tit">
+        {/* La franja del conductor de protección: la única marca decorativa. */}
+        {active && (
+          <span className="absolute inset-y-0 left-0 w-[6px] bg-[repeating-linear-gradient(135deg,var(--tierra-a)_0_5px,var(--tierra-b)_5px_10px)]" />
+        )}
+        {itc && <span className="whitespace-nowrap tabular-nums text-tinta-2">{itc}</span>}
+        <span>
           {nombre}
-          {snippet && <span className="frag">{snippet}</span>}
+          {snippet && (
+            <span className="mt-[0.15rem] block text-[0.88rem] text-tinta-2">{snippet}</span>
+          )}
         </span>
         {(count ?? 0) > 0 && (
           <span
-            className={'cuenta' + (conEstrella ? ' mr-[1.2rem]' : '')}
+            className={[
+              'self-start rounded-[9px] bg-neutro-fondo px-[0.4rem] py-0 text-[0.85rem] tabular-nums text-neutro',
+              conEstrella ? 'mr-[1.2rem]' : '',
+            ].join(' ')}
             title={`${count} coincidencias`}
           >
             {count}
@@ -153,31 +166,35 @@ export default function Sidebar({
   )
 
   return (
-    <SidebarUI collapsible="offcanvas" className="indice" aria-label="Índice del reglamento">
-      <SidebarHeader className="indice-cab">
-        <div className="indice-cab-top">
-          <p className="marca">REBT</p>
+    <SidebarUI collapsible="offcanvas" className="min-h-0 border-r border-linea" aria-label="Índice del reglamento">
+      <SidebarHeader className="border-b border-linea px-[1.1rem] pt-[1.1rem] pb-[0.9rem]">
+        <div className="flex items-baseline justify-between gap-[0.75rem]">
+          <p className="m-0 text-[1.9rem] font-semibold leading-none tracking-[0.02em]">REBT</p>
           <InicioBoton onInicio={onInicio} />
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
           <SidebarTrigger className="alternar-barra" />
         </div>
-        <p className="sub">Reglamento electrotécnico para baja tensión</p>
+        <p className="mt-[0.25rem] mb-[0.9rem] text-[0.95rem] text-tinta-2">Reglamento electrotécnico para baja tensión</p>
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar: caída de tensión…"
           aria-label="Buscar en el reglamento"
+          className="w-full rounded-[4px] border border-linea bg-plano py-[0.55rem] px-[0.7rem] placeholder:text-tinta-2"
         />
         {query.trim().length >= 3 && !textReady && !progress && (
-          <button className="indexar" onClick={onIndexAll}>
+          <button
+            className="mt-[0.6rem] w-full rounded-[4px] border border-linea bg-neutro-fondo py-[0.5rem] px-[0.7rem] text-left text-neutro"
+            onClick={onIndexAll}
+          >
             Buscar también en el texto de los {blocks.length} bloques
           </button>
         )}
         {progress && (
-          <div className="progreso" role="status">
-            <div className="barra">
-              <i style={{ width: `${(progress.done / progress.total) * 100}%` }} />
+          <div className="mt-[0.7rem] text-[0.9rem] text-tinta-2" role="status">
+            <div className="mb-[0.3rem] h-[6px] overflow-hidden rounded-[3px] bg-plano">
+              <i className="block h-full bg-[repeating-linear-gradient(135deg,var(--tierra-a)_0_6px,var(--tierra-b)_6px_12px)]" style={{ width: `${(progress.done / progress.total) * 100}%` }} />
             </div>
             <span>
               Indexando {progress.done} de {progress.total}
@@ -185,11 +202,11 @@ export default function Sidebar({
           </div>
         )}
         {failed.length > 0 && (
-          <p className="aviso">No se pudieron leer {failed.length} bloques; la búsqueda no los incluye.</p>
+          <p className="mt-[0.6rem] mb-0 text-[0.9rem] text-fase">No se pudieron leer {failed.length} bloques; la búsqueda no los incluye.</p>
         )}
       </SidebarHeader>
 
-      <SidebarContent className="indice-lista">
+      <SidebarContent className="flex-1 overflow-y-auto pt-[0.4rem] pb-[2rem]">
         <nav>
         {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
         <CajaNotas
@@ -203,7 +220,7 @@ export default function Sidebar({
         />
 
         {searching && rows.length === 0 && (
-          <p className="vacio">
+          <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
             Sin resultados para «{query}».{' '}
             {progress
               ? 'Se sigue buscando en el texto completo…'
@@ -213,7 +230,7 @@ export default function Sidebar({
           </p>
         )}
         {searching ? (
-          <ul>{renderRows(rows)}</ul>
+          <ul className="m-0 list-none p-0">{renderRows(rows)}</ul>
         ) : (
           <>
             <Accordion
@@ -224,7 +241,7 @@ export default function Sidebar({
               {filasFavoritas.length > 0 ? (
                 <ul className="m-0 list-none p-0">{renderRows(filasFavoritas, true)}</ul>
               ) : (
-                <p className="vacio">
+                <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
                   Marcá con la estrella las ITC que uses más y van a aparecer aquí.
                 </p>
               )}

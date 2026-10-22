@@ -109,8 +109,8 @@ export default function PaginaNotas({
         <div className="guia-doc-nav">
           <InicioBoton onInicio={onInicio} />
         </div>
-        <h1 className="marca">Notas</h1>
-        <p className="sub">
+        <h1 className="mt-[0.6rem] mb-[0.3rem] text-[2.2rem] font-semibold leading-none tracking-[0.02em]">Notas</h1>
+        <p className="m-0 text-[0.95rem] text-tinta-2">
           {notas.length === 0
             ? 'Todavía no hay ninguna.'
             : `${notas.length} ${notas.length === 1 ? 'nota guardada' : 'notas guardadas'} en este navegador.`}
@@ -118,7 +118,7 @@ export default function PaginaNotas({
       </header>
 
       {notas.length === 0 ? (
-        <p className="vacio">
+        <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
           Subrayá un trozo del texto de una guía o de un bloque del reglamento y guardalo como
           nota: aparecerá acá.
         </p>
@@ -162,7 +162,7 @@ export default function PaginaNotas({
           </div>
 
           {visibles.length === 0 ? (
-            <p className="vacio">
+            <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
               {filtro.tipo === 'todas'
                 ? 'No hay notas.'
                 : filtro.tipo === 'color'
