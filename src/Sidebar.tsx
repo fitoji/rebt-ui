@@ -32,7 +32,7 @@ interface RowProps {
 function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }: RowProps) {
   const { itc, nombre } = splitTitle(entry.titulo)
   return (
-    <li className="item-fila">
+    <li className="relative">
       <button
         className={'fila' + (active ? ' activa' : '') + (itc ? '' : ' sin-num')}
         aria-current={active ? 'page' : undefined}
@@ -43,11 +43,25 @@ function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }
           {nombre}
           {snippet && <span className="frag">{snippet}</span>}
         </span>
-        {(count ?? 0) > 0 && <span className="cuenta" title={`${count} coincidencias`}>{count}</span>}
+        {(count ?? 0) > 0 && (
+          <span
+            className={'cuenta' + (conEstrella ? ' mr-[1.2rem]' : '')}
+            title={`${count} coincidencias`}
+          >
+            {count}
+          </span>
+        )}
       </button>
       {/* La estrella es hermana de la fila, no hija: un botón dentro de otro botón es
           HTML inválido y hace que el clic nunca llegue al que está debajo. */}
-      {conEstrella && <BotonFavorito id={entry.id} titulo={entry.titulo} favoritos={favoritos} />}
+      {conEstrella && (
+        <BotonFavorito
+          id={entry.id}
+          titulo={entry.titulo}
+          favoritos={favoritos}
+          className="absolute top-[0.3rem] right-[0.4rem]"
+        />
+      )}
     </li>
   )
 }
@@ -208,7 +222,7 @@ export default function Sidebar({
               onToggle={() => setFavoritosAbierto((v) => !v)}
             >
               {filasFavoritas.length > 0 ? (
-                <ul className="accordion-list">{renderRows(filasFavoritas, true)}</ul>
+                <ul className="m-0 list-none p-0">{renderRows(filasFavoritas, true)}</ul>
               ) : (
                 <p className="vacio">
                   Marcá con la estrella las ITC que uses más y van a aparecer aquí.
@@ -221,7 +235,7 @@ export default function Sidebar({
               open={acordeonAbierto === 'preambulo'}
               onToggle={() => toggleAcordeon('preambulo')}
             >
-              <ul className="accordion-list">{renderRows(preambulo)}</ul>
+              <ul className="m-0 list-none p-0">{renderRows(preambulo)}</ul>
             </Accordion>
 
             <Accordion
@@ -229,7 +243,7 @@ export default function Sidebar({
               open={acordeonAbierto === 'reglamento'}
               onToggle={() => toggleAcordeon('reglamento')}
             >
-              <ul className="accordion-list">{renderRows(articulos)}</ul>
+              <ul className="m-0 list-none p-0">{renderRows(articulos)}</ul>
             </Accordion>
 
             <Accordion
@@ -237,15 +251,16 @@ export default function Sidebar({
               open={acordeonAbierto === 'itcs'}
               onToggle={() => toggleAcordeon('itcs')}
             >
-              <ul className="accordion-list">{renderRows(itcs, true)}</ul>
+              <ul className="m-0 list-none p-0">{renderRows(itcs, true)}</ul>
               {/* Las disposiciones van debajo, plegadas: son lo accesorio. */}
-              <div className="accordion-sub">
+              <div className="mt-[0.3rem]">
                 <Accordion
                   title={`Disposiciones (${disposiciones.length})`}
                   open={disposicionesAbierto}
                   onToggle={() => setDisposicionesAbierto((v) => !v)}
+                  variante="sub"
                 >
-                  <ul className="accordion-list">{renderRows(disposiciones, true)}</ul>
+                  <ul className="m-0 list-none p-0">{renderRows(disposiciones, true)}</ul>
                 </Accordion>
               </div>
             </Accordion>

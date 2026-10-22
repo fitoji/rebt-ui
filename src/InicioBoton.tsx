@@ -4,7 +4,7 @@
  */
 export default function InicioBoton({ onInicio }: { onInicio: () => void }) {
   return (
-    <button className="volver" onClick={onInicio}>
+    <button className="py-[0.3rem] bg-transparent border-0 text-neutro text-[0.95rem] hover:underline" onClick={onInicio}>
       ← Inicio
     </button>
   )

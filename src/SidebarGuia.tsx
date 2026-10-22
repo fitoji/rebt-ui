@@ -66,7 +66,7 @@ export default function SidebarGuia({
   const marcados = documentos.filter((doc) => favoritos.ids.includes(doc.id))
 
   const fila = (doc: DocumentoGuia) => (
-    <li key={doc.id} className="item-fila">
+    <li key={doc.id} className="relative">
       <button
         className="fila sin-num guia-fila"
         aria-current={activo === doc.id ? 'page' : undefined}
@@ -79,7 +79,7 @@ export default function SidebarGuia({
           <span className="frag codigo-doc">{doc.id}</span>
         </span>
       </button>
-      <BotonFavorito id={doc.id} titulo={doc.titulo} favoritos={favoritos} />
+      <BotonFavorito id={doc.id} titulo={doc.titulo} favoritos={favoritos} className="absolute top-[0.3rem] right-[0.4rem]" />
     </li>
   )
 

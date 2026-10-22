@@ -97,7 +97,7 @@ export default function BotonNota({
   if (!seleccion) return null
   return (
     <div
-      className="boton-nota"
+      className="fixed z-40 flex -translate-x-1/2 -translate-y-full items-center gap-[0.3rem] whitespace-nowrap rounded-[5px] bg-tinta px-[0.5rem] py-[0.25rem] font-sans text-[0.85rem] text-hoja shadow-[0_2px_10px_rgb(0_0_0/0.4)] hover:bg-neutro"
       style={{ left: seleccion.x, top: seleccion.y }}
       // `mousedown` en lugar de `click`: si no, el clic borra la selección antes de
       // llegar al botón, y no hay forma de saber qué se submarcó.
@@ -106,11 +106,17 @@ export default function BotonNota({
         onGuardar(seleccion, COLOR_POR_DEFECTO)
       }}
     >
-      <span className="boton-nota-texto">✎ Nota</span>
+      <span className="cursor-pointer">✎ Nota</span>
       {COLORES.map((color) => (
         <button
           key={color}
-          className={`nota-color nota-color-${color}`}
+          className={`h-[0.7rem] w-[0.7rem] flex-none cursor-pointer rounded-full border border-linea p-0 ${
+            color === 'verde'
+              ? 'bg-nota-verde'
+              : color === 'rojo'
+                ? 'bg-nota-rojo'
+                : 'bg-nota-amarillo'
+          }`}
           title={`Guardar como nota ${color}`}
           aria-label={`Guardar como nota ${color}`}
           onMouseDown={(e) => {
