@@ -387,37 +387,8 @@ mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
 
 /* ------------------------------------------------------------ lector */
 .app-inset { height: 100svh; overflow: hidden; }
-.app-inset .lector,
 .app-inset .guia-panel { flex: 1; min-height: 0; }
-.lector { overflow-y: auto; padding: 2.2rem clamp(1.1rem, 4vw, 3.5rem) 4rem; outline: none; }
-.lector > * { max-width: 70rem; margin-inline: auto; }
 
-.cabecera { margin-bottom: 2rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--linea); }
-.cabecera h1 {
-  margin: 0;
-  max-width: 24ch;
-  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
-  font-weight: 600;
-  line-height: 1.1;
-  text-wrap: balance;
-}
-.cabecera .itc {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-size: 1.05rem;
-  font-weight: 500;
-  color: var(--fase);
-  font-variant-numeric: tabular-nums;
-}
-.meta { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; align-items: center; margin-top: 0.9rem; color: var(--tinta-2); }
-.meta a { color: var(--neutro); }
-.version { display: flex; gap: 0.5rem; align-items: center; }
-.version select {
-  padding: 0.25rem 0.4rem;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 4px;
-}
 
 .texto { font-family: var(--serif); font-size: 1.0625rem; line-height: 1.7; }
 .texto > p, .texto > h2, .texto > h3 { max-width: 68ch; margin-inline: 0; }
@@ -478,22 +449,7 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 .tabla caption { padding: 0.4rem; font-weight: 600; text-align: left; }
 
 /* ------------------------------------------------------------ navegación y estados */
-.pasos { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--linea); }
-.pasos button {
-  max-width: 24rem;
-  padding: 0.6rem 0.9rem;
-  text-align: left;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 4px;
-  line-height: 1.3;
-}
-.pasos button:hover { border-color: var(--neutro); }
-.pasos small { display: block; color: var(--tinta-2); }
-.pasos .sig { margin-left: auto; text-align: right; }
 
-.estado { font-family: var(--serif); color: var(--tinta-2); }
-.estado.error { padding: 1rem 1.2rem; border-left: 4px solid var(--fase); background: var(--hoja); }
 .estado.error button, .pantalla button {
   padding: 0.4rem 0.9rem;
   background: var(--neutro-fondo);
@@ -535,9 +491,6 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
     border: 1px solid var(--linea);
     border-radius: 4px;
   }
-  .lector { padding-top: 3.2rem; }
-  .pasos { flex-direction: column; }
-  .pasos button { max-width: none; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -545,91 +498,6 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 }
 
 /* ============================================================ landing */
-.landing {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100%;
-  background:
-    radial-gradient(120% 90% at 50% -10%, var(--neutro-fondo) 0%, transparent 60%),
-    var(--plano);
-}
-.landing-cuerpo {
-  flex: 1;
-  width: min(64rem, 100% - 3rem);
-  margin: 0 auto;
-  padding: clamp(2.5rem, 9vh, 6rem) 0 3rem;
-  text-align: center;
-}
-.landing-antetitulo {
-  margin: 0;
-  color: var(--tinta-2);
-  font-size: 0.95rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-.landing-titulo {
-  margin: 0.4rem 0 0;
-  font-size: clamp(4rem, 13vw, 9rem);
-  font-weight: 600;
-  line-height: 0.92;
-  letter-spacing: 0.02em;
-}
-.landing-sub {
-  display: block;
-  margin-top: 0.7rem;
-  color: var(--tinta-2);
-  font-family: var(--serif);
-  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
-  font-weight: 400;
-  letter-spacing: 0;
-}
-.landing-acciones {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 1rem;
-  margin: clamp(2rem, 6vh, 3.5rem) 0 0;
-  text-align: left;
-}
-.landing-boton {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 1.4rem 1.5rem 1.2rem;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 8px;
-  text-align: left;
-  transition: border-color 0.15s, transform 0.15s;
-}
-.landing-boton:hover { border-color: var(--neutro); transform: translateY(-2px); }
-.landing-boton-titulo { font-size: 1.65rem; font-weight: 600; line-height: 1.1; }
-.landing-boton-texto {
-  flex: 1;
-  color: var(--tinta-2);
-  font-family: var(--serif);
-  font-size: 1.02rem;
-  line-height: 1.5;
-}
-.landing-boton-pie {
-  padding-top: 0.6rem;
-  border-top: 1px solid var(--linea);
-  color: var(--neutro);
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-.landing-cifras {
-  margin: 2rem 0 0;
-  color: var(--tinta-2);
-  font-size: 0.95rem;
-}
-.landing-pie {
-  padding: 1.1rem 1.5rem;
-  border-top: 1px solid var(--linea);
-  color: var(--tinta-2);
-  font-size: 0.85rem;
-  text-align: center;
-}
 
 /* ============================================================ guía técnica */
 .app-guia { display: block; overflow-y: auto; }
@@ -817,7 +685,6 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 .markdown th { background: var(--neutro-fondo); font-weight: 600; white-space: normal; min-width: 6rem; }
 
 @media (max-width: 700px) {
-  .landing-cuerpo { width: min(64rem, 100% - 2rem); }
   .guia-nav { grid-template-columns: 1fr; }
   .guia-nav button:last-child { text-align: left; }
 }
