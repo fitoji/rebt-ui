@@ -33,6 +33,8 @@ export interface Nota {
   titulo: string
   /** El color del resaltado. */
   color: ColorNota
+  /** Las etiquetas: los nombres con los que se agrupan las notas. */
+  tags: string[]
   /** El texto subrayado. */
   texto: string
   /** Hasta `CONTEXTO` caracteres antes del texto. */
@@ -41,6 +43,25 @@ export interface Nota {
   despues: string
   /** Cuándo se creó (milisegundos). */
   creado: number
+}
+
+/** Cómo se normaliza un nombre de etiqueta: en minúsculas, sin espacios de más. */
+export function normalizaTag(tag: string): string {
+  return tag.trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 30)
+}
+
+/** Las etiquetas de una nota, sin repetir y en orden. */
+export function normalizaEtiquetas(tags: string[]): string[] {
+  const vistos = new Set<string>()
+  const salida: string[] = []
+  for (const t of tags) {
+    const n = normalizaTag(t)
+    if (n && !vistos.has(n)) {
+      vistos.add(n)
+      salida.push(n)
+    }
+  }
+  return salida
 }
 
 /* ------------------------------------------------------------------ persistencia */
@@ -70,6 +91,7 @@ export function parseNotas(valor: string | null): Nota[] {
       vista: n.vista ?? (n.origen[0] === n.origen[0]?.toLowerCase() ? 'rebt' : 'guia'),
       titulo: n.titulo ?? n.origen,
       color: n.color ?? COLOR_POR_DEFECTO,
+      tags: normalizaEtiquetas(Array.isArray(n.tags) ? n.tags : []),
     }))
   } catch {
     return []
@@ -104,6 +126,7 @@ export function crearNota(
   despues: string,
   ahora: number,
   color: ColorNota = COLOR_POR_DEFECTO,
+  tags: string[] = [],
 ): Nota {
   return {
     // El azar va en el id porque dos notas pueden guardarse en el mismo milisegundo.
@@ -112,6 +135,7 @@ export function crearNota(
     vista,
     titulo,
     color,
+    tags: normalizaEtiquetas(tags),
     texto,
     antes: antes.slice(-CONTEXTO),
     despues: despues.slice(0, CONTEXTO),
@@ -262,6 +286,10 @@ export interface ControlNotas {
   quitar: (id: string) => void
   /** Cambiar el color de una nota. */
   color: (id: string, color: ColorNota) => void
+  /** Poner una etiqueta (si ya estaba, no hace nada). */
+  etiquetar: (id: string, tag: string) => void
+  /** Quitar una etiqueta. */
+  desetiquetar: (id: string, tag: string) => void
 }
 
 /** Las notas del navegador, con las operaciones de agregar, quitar y recolorear. */
@@ -292,5 +320,28 @@ export function useNotas(): ControlNotas {
     })
   }, [])
 
-  return { notas, agregar, quitar, color }
+  const etiquetar = useCallback((id: string, tag: string) => {
+    const t = normalizaTag(tag)
+    if (!t) return
+    setNotas((actual) => {
+      const siguiente = actual.map((n) =>
+        n.id === id ? { ...n, tags: normalizaEtiquetas([...n.tags, t]) } : n,
+      )
+      guardarNotas(siguiente)
+      return siguiente
+    })
+  }, [])
+
+  const desetiquetar = useCallback((id: string, tag: string) => {
+    const t = normalizaTag(tag)
+    setNotas((actual) => {
+      const siguiente = actual.map((n) =>
+        n.id === id ? { ...n, tags: n.tags.filter((x) => x !== t) } : n,
+      )
+      guardarNotas(siguiente)
+      return siguiente
+    })
+  }, [])
+
+  return { notas, agregar, quitar, color, etiquetar, desetiquetar }
 }

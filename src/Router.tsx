@@ -29,6 +29,8 @@ export default function Router() {
         onIr={(nota) => ir(`${nota.vista}/${nota.origen}?nota=${nota.id}`)}
         onQuitar={(nota) => notas.quitar(nota.id)}
         onColor={(nota, color) => notas.color(nota.id, color)}
+        onEtiquetar={(nota, tag) => notas.etiquetar(nota.id, tag)}
+        onDesetiquetar={(nota, tag) => notas.desetiquetar(nota.id, tag)}
       />
     )
   }

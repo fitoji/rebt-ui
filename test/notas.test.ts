@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { CONTEXTO, crearNota, notasDe, parseNotas } from '../src/notas.ts'
+import { CONTEXTO, crearNota, normalizaEtiquetas, normalizaTag, notasDe, parseNotas } from '../src/notas.ts'
 import type { Nota } from '../src/notas.ts'
 
 // Las notas se guardan en localStorage. Lo que se testea es la lógica de leer, de crear y
@@ -12,6 +12,7 @@ const NOTA: Nota = {
   vista: 'guia',
   titulo: 'BT-19. Verificaciones e Inspecciones',
   color: 'verde',
+  tags: ['protección'],
   texto: 'un trozo de texto',
   antes: 'lo que hay antes ',
   despues: ' lo que hay después',
@@ -73,6 +74,23 @@ test('una nota vieja, sin color, se pone del color de siempre', () => {
   const vieja = { ...NOTA, color: undefined } as unknown as Nota
   const [nota] = parseNotas(JSON.stringify([vieja]))
   assert.equal(nota.color, 'amarillo')
+})
+
+test('una nota vieja, sin etiquetas, se queda sin ellas', () => {
+  const vieja = { ...NOTA, tags: undefined } as unknown as Nota
+  const [nota] = parseNotas(JSON.stringify([vieja]))
+  assert.deepEqual(nota.tags, [])
+})
+
+test('las etiquetas se normalizan: en minúsculas y sin repetir', () => {
+  // Si no se normalizan, "Protección" y "protección" serían dos etiquetas distintas
+  // y el filtro por etiqueta no encontraría ninguna.
+  assert.equal(normalizaTag('  Protección  Eléctrica '), 'protección eléctrica')
+  assert.equal(normalizaTag(''), '')
+  assert.deepEqual(normalizaEtiquetas(['Protección', 'protección', ' ', 'protección eléctrica']), [
+    'protección',
+    'protección eléctrica',
+  ])
 })
 
 test('las notas se filtran por el documento de origen', () => {

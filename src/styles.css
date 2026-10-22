@@ -371,6 +371,62 @@ mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
 .nota-ficha:hover { color: var(--tinta); border-color: var(--neutro); }
 .nota-ficha.activa { color: var(--tinta); background: var(--plano); border-color: var(--neutro); }
 .nota-ficha .nota-color { width: 0.7rem; height: 0.7rem; }
+/* La separación entre filtrar por color y filtrar por etiqueta. */
+.notas-filtro-separador {
+  width: 1px;
+  height: 1.2rem;
+  margin: 0 0.2rem;
+  background: var(--linea);
+}
+
+/* Las etiquetas de cada nota. */
+.nota-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+  margin: 0 0 0.6rem;
+}
+.nota-etiqueta {
+  display: inline-flex;
+  gap: 0.15rem;
+  align-items: center;
+  padding: 0.05rem 0.15rem 0.05rem 0.4rem;
+  font-size: 0.8rem;
+  color: var(--tinta-2);
+  background: var(--plano);
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+}
+.nota-etiqueta button {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.nota-etiqueta button:hover { color: var(--fase); text-decoration: underline; }
+.nota-etiqueta-agregar {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--tinta-2);
+  background: none;
+  border: 1px dashed var(--linea);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.nota-etiqueta-agregar:hover { color: var(--fase); border-color: var(--neutro); }
+.nota-etiqueta-editando input {
+  width: 11rem;
+  padding: 0.15rem 0.45rem;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--tinta);
+  background: var(--hoja);
+  border: 1px solid var(--neutro);
+  border-radius: 999px;
+}
 .pagina-notas-lista > li {
   margin-bottom: 1rem;
   padding: 0.9rem 1rem;

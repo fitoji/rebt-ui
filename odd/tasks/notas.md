@@ -112,3 +112,15 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   - `#/guia` sin documento deja de ser la lista grande y pasa a ser la bienvenida (con las
     cifras del corpus), porque la lista ahora está en la barra y no hacía falta duplicarla.
   - En el móvil, el cajón: es el mismo botón «Índice» y el mismo comportamiento que el lector.
+- **L14** (2026-10-22) — **Etiquetas** (pedido del usuario): *"me gustaria en notas un sistema de
+  tags que pueda agregar a cada nota, y ponerle nombres, asi luego tambien filtrar por ese
+  nombre"*. Cada nota lleva sus etiquetas: el color dice **de qué es** el pasaje y la etiqueta
+  dice **de qué tema**.
+  - Los nombres son libres y se escriben en la nota; el campo autocompleta con las que ya
+    existen (`datalist`), para no escribir "protección" y "Protección" de dos maneras.
+  - Se normalizan (minúsculas, sin espacios de más, sin repetir): si no, el filtro por
+    etiqueta no encontraría nada.
+  - El filtro de la página pasa a tener dos grupos: los colores y las etiquetas, separadas
+    por una raya. **Un filtro a la vez**: al elegir una etiqueta se desmarca el color.
+  - Si se quita la última nota de una etiqueta, el filtro deja de apuntar a una etiqueta que
+    ya no existe: se vuelve a "todas" en vez de dejar la lista vacía sin salida.
