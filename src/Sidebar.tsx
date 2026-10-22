@@ -11,6 +11,12 @@ import TemaBoton from './TemaBoton.tsx'
 import Accordion from './Accordion.tsx'
 import type { Tema } from './useTheme.ts'
 import type { Bloque, Fila } from './tipos.ts'
+import {
+  Sidebar as SidebarUI,
+  SidebarContent,
+  SidebarHeader,
+  SidebarTrigger,
+} from '@/components/ui/sidebar.tsx'
 
 interface RowProps {
   entry: Bloque
@@ -133,12 +139,13 @@ export default function Sidebar({
   )
 
   return (
-    <aside className="indice" aria-label="Índice del reglamento">
-      <div className="indice-cab">
+    <SidebarUI collapsible="offcanvas" className="indice" aria-label="Índice del reglamento">
+      <SidebarHeader className="indice-cab">
         <div className="indice-cab-top">
           <p className="marca">REBT</p>
           <InicioBoton onInicio={onInicio} />
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
+          <SidebarTrigger className="alternar-barra" />
         </div>
         <p className="sub">Reglamento electrotécnico para baja tensión</p>
         <input
@@ -166,9 +173,10 @@ export default function Sidebar({
         {failed.length > 0 && (
           <p className="aviso">No se pudieron leer {failed.length} bloques; la búsqueda no los incluye.</p>
         )}
-      </div>
+      </SidebarHeader>
 
-      <nav className="indice-lista">
+      <SidebarContent className="indice-lista">
+        <nav>
         {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
         <CajaNotas
           notas={notas}
@@ -243,7 +251,8 @@ export default function Sidebar({
             </Accordion>
           </>
         )}
-      </nav>
-    </aside>
+        </nav>
+      </SidebarContent>
+    </SidebarUI>
   )
 }

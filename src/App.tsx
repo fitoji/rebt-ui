@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { getIndex, loadAll, peekBlock } from './api.ts'
 import { buscarEnBloques, normaliza } from './busqueda.ts'
+import BotonBarra from './BotonBarra.tsx'
 import type { Nota } from './notas.ts'
 import type { ControlNotas } from './notas.ts'
+import { SidebarInset } from '@/components/ui/sidebar.tsx'
 import Reader from './Reader.tsx'
 import Sidebar from './Sidebar.tsx'
 import { useTheme } from './useTheme.ts'
@@ -27,7 +29,6 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
   const [index, setIndex] = useState<EstadoIndice>({ status: 'loading' })
   const [activeId, setActiveId] = useState(docId ?? '')
   const [query, setQuery] = useState('')
-  const [navOpen, setNavOpen] = useState(false)
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [textReady, setTextReady] = useState(false)
   /** Cuántos bloques van descargados. Es la señal de que hay texto nuevo que buscar. */
@@ -55,7 +56,6 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
 
   const select = useCallback(
     (id: string) => {
-      setNavOpen(false)
       onNavigate(`rebt/${encodeURIComponent(id)}`)
     },
     [onNavigate],
@@ -125,10 +125,7 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
   }
 
   return (
-    <div className={'app' + (navOpen ? ' nav-abierta' : '')}>
-      <button className="abrir-indice" onClick={() => setNavOpen((v) => !v)} aria-expanded={navOpen}>
-        Índice
-      </button>
+    <>
       <Sidebar
         blocks={blocks}
         rows={rows}
@@ -150,19 +147,22 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
         onQuitarNota={(nota: Nota) => notas.quitar(nota.id)}
         onVerTodasNotas={() => onNavigate('notas')}
       />
-      {active && (
-        <Reader
-          key={active.id}
-          entry={active}
-          prev={blocks[at - 1]}
-          next={blocks[at + 1]}
-          onSelect={select}
-          highlight={searching ? q : ''}
-          notas={notas}
-          articulo={articulo}
-          nota={nota}
-        />
-      )}
-    </div>
+      <SidebarInset className="app-inset">
+        <BotonBarra />
+        {active && (
+          <Reader
+            key={active.id}
+            entry={active}
+            prev={blocks[at - 1]}
+            next={blocks[at + 1]}
+            onSelect={select}
+            highlight={searching ? q : ''}
+            notas={notas}
+            articulo={articulo}
+            nota={nota}
+          />
+        )}
+      </SidebarInset>
+    </>
   )
 }

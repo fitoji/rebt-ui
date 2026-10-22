@@ -18,6 +18,8 @@ import SidebarGuia from './SidebarGuia.tsx'
 import { aplicarResaltados, crearNota } from './notas.ts'
 import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
+import BotonBarra from './BotonBarra.tsx'
+import { SidebarInset } from '@/components/ui/sidebar.tsx'
 
 /** El índice de la guía: cargando, cargado o con error. */
 type EstadoIndice =
@@ -375,7 +377,6 @@ export default function Guia({
   // Las notas las trae el Router: es el único que las tiene, así que la página con todas
   // las ve al día sin importar desde dónde se guardó una.
   // El cajón de la barra lateral, en el móvil.
-  const [navAbierto, setNavAbierto] = useState(false)
   // El filtro del índice de la guía.
   const [query, setQuery] = useState('')
   // El artículo, para poder ir a una nota desde la barra lateral.
@@ -408,14 +409,7 @@ export default function Guia({
   const notasVisibles = id ? notas.notas.filter((n) => n.origen === id) : notas.notas
 
   return (
-    <div className={'app' + (navAbierto ? ' nav-abierta' : '')}>
-      <button
-        className="abrir-indice"
-        onClick={() => setNavAbierto((v) => !v)}
-        aria-expanded={navAbierto}
-      >
-        Índice
-      </button>
+    <>
       <SidebarGuia
         documentos={documentos}
         activo={id ?? undefined}
@@ -432,7 +426,9 @@ export default function Guia({
         onQuitarNota={(n) => notas.quitar(n.id)}
         onVerTodasNotas={onVerNotas}
       />
-      <main className="guia-panel">
+      <SidebarInset className="app-inset">
+        <BotonBarra />
+        <main className="guia-panel">
         {id ? (
           <GuiaDocumento
             indice={state.indice}
@@ -456,7 +452,8 @@ export default function Guia({
             onToggleTheme={toggle}
           />
         )}
-      </main>
-    </div>
+        </main>
+      </SidebarInset>
+    </>
   )
 }

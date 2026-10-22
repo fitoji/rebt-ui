@@ -13,6 +13,12 @@ import CajaNotas from './CajaNotas.tsx'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import type { Tema } from './useTheme.ts'
+import {
+  Sidebar as SidebarUI,
+  SidebarContent,
+  SidebarHeader,
+  SidebarTrigger,
+} from '@/components/ui/sidebar.tsx'
 
 export default function SidebarGuia({
   documentos,
@@ -78,12 +84,13 @@ export default function SidebarGuia({
   )
 
   return (
-    <aside className="indice" aria-label="Índice de las guías">
-      <div className="indice-cab">
+    <SidebarUI collapsible="offcanvas" className="indice" aria-label="Índice de las guías">
+      <SidebarHeader className="indice-cab">
         <div className="indice-cab-top">
           <p className="marca">Guías</p>
           <InicioBoton onInicio={onInicio} />
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
+          <SidebarTrigger className="alternar-barra" />
         </div>
         <p className="sub">
           Las {documentos.length} guías de aplicación del REBT
@@ -95,9 +102,10 @@ export default function SidebarGuia({
           placeholder="Filtrar por título o código…"
           aria-label="Filtrar documentos de la guía"
         />
-      </div>
+      </SidebarHeader>
 
-      <nav className="indice-lista">
+      <SidebarContent className="indice-lista">
+        <nav>
         <CajaNotas
           notas={notas}
           total={totalNotas}
@@ -117,7 +125,8 @@ export default function SidebarGuia({
         <h2 className="indice-titulo">Documentos</h2>
         <ul>{visibles.map(fila)}</ul>
         {visibles.length === 0 && <p className="vacio">Ningún documento coincide con «{q}».</p>}
-      </nav>
-    </aside>
+        </nav>
+      </SidebarContent>
+    </SidebarUI>
   )
 }

@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath, URL } from 'node:url'
 import { guiaCorpus } from './vite/guia-corpus.ts'
 
 // El navegador no puede llamar a boe.es directamente (la API no envía cabeceras CORS),
@@ -17,7 +19,12 @@ const proxy = {
 }
 
 export default defineConfig({
-  plugins: [react(), guiaCorpus()],
+  plugins: [react(), tailwindcss(), guiaCorpus()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
   server: { proxy },
   preview: { proxy },
 })
