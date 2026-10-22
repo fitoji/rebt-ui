@@ -23,10 +23,13 @@ Rama `feat/tailwind` (se.mergea a `main` cuando el usuario lo decida). Runner de
 | T3 | Lector: `SidebarProvider` + `Sidebar` + `SidebarInset` | S1,S4 | inline | 3 | 1 |
 | T4 | Guía: lo mismo que el lector | S1,S4 | inline | 3 | 1 |
 | T5 | El tirador y el atajo ⌘B para plegar y desplegar | S1,S5 | inline | — | 1 |
-| T6 | El CSS viejo, a utilities de Tailwind | S2 | inline | 3 | 2 |
+| T6 | El CSS viejo, a utilities de Tailwind | S2 | inline | 3 | 2,3,4,5 |
 
 **Trazabilidad de ruta**: ninguna tarea dispara un trigger de delegación (ni paralelismo ni
 backstop de contexto). Todo inline, con verificación por captura de pantalla en cada paso.
+
+**Commits**: `1a4fd68` (Tailwind + la barra de shadcn), `9e8e2af` (los componentes pequeños),
+`6f17d14` (las dos barras laterales), `da3152f` (el lector y la portada), `d4dc5b2` (el resto).
 
 ## Decisiones
 
@@ -71,3 +74,26 @@ backstop de contexto). Todo inline, con verificación por captura de pantalla en
   0,05 px en la primera celda: el preflight redistribuye el ancho de las columnas).
 - **L8** (22/10/2026) — Verificado el móvil (el cajón es ahora un `Sheet` de shadcn) y el atajo
   ⌘B, que pliega la barra y deja el tirador para volver a abrirla.
+- **L9** (22/10/2026) — El CSS viejo pasa al layer `components` de Tailwind: así las utilities
+  (layer `utilities`, posterior) mandan sobre las clases, y el preflight (layer `base`) queda por
+  debajo. Se quitan del componente de shadcn el `padding` y el `gap` que traía, que peleaban con
+  los de la app.
+- **L10** (22/10/2026) — Migrados a utilities, por tandas y verificando cada una contra la
+  captura de referencia: los componentes pequeños, las dos barras laterales, el lector, la
+  portada, la página de notas y la guía técnica. Las clases que quedan en el CSS son las del
+  HTML que viene del BOE (el texto del lector y el markdown de la guía): no son componentes y
+  no pueden llevar utilities.
+- **L11** (22/10/2026) — La franja del conductor de protección era un pseudoelemento
+  (`.fila.activa::before`): pasa a ser un elemento de verdad, para que pueda ser una utility.
+- **L12** (22/10/2026) — La estrella de favoritos se posiciona según quién la use (encima de la
+  fila en el REBT, al lado en la guía): su posición era el único de sus estilos que no dependía de
+  la clase, y ahora la recibe de quien la llama.
+- **L13** (22/10/2026) — Verificación final contra el original (la rama `main`, no el estado
+  anterior de la migración): portada y notas al 0 %, la guía al 0,11 % y el lector al 1,04 %.
+  En el móvil, el botón «Índice» de texto pasa a ser el icono de shadcn.
+
+## Estado
+
+Migración terminada en la rama `feat/tailwind`. El CSS pasa de 1.130 a 374 líneas. Falta que el
+usuario decida: mergear a `main` y desplegar (el deploy lo hace él a mano con su sesión de
+wrangler).
