@@ -104,9 +104,9 @@ export default function PaginaNotas({
   }
 
   return (
-    <div className="pagina-notas">
-      <header className="pagina-notas-cab">
-        <div className="guia-doc-nav">
+    <div className="mx-auto w-full max-w-[52rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
+      <header className="border-b border-linea pb-[1.2rem]">
+        <div className="mr-auto flex items-baseline gap-[1rem]">
           <InicioBoton onInicio={onInicio} />
         </div>
         <h1 className="mt-[0.6rem] mb-[0.3rem] text-[2.2rem] font-semibold leading-none tracking-[0.02em]">Notas</h1>
@@ -124,9 +124,12 @@ export default function PaginaNotas({
         </p>
       ) : (
         <>
-          <div className="notas-filtro" role="group" aria-label="Filtrar las notas por color">
+          <div className="mt-[1.2rem] mb-0 flex flex-wrap gap-[0.4rem]" role="group" aria-label="Filtrar las notas por color">
             <button
-              className={filtro.tipo === 'todas' ? 'nota-ficha activa' : 'nota-ficha'}
+              className={[
+                'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[999px] border border-linea bg-hoja py-[0.25rem] px-[0.6rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-tinta',
+                filtro.tipo === 'todas' ? 'border-neutro bg-plano text-tinta' : '',
+              ].join(' ')}
               aria-pressed={filtro.tipo === 'todas'}
               onClick={() => alternarFiltro({ tipo: 'todas' })}
             >
@@ -135,23 +138,30 @@ export default function PaginaNotas({
             {COLORES.map((color) => (
               <button
                 key={color}
-                className={
-                  filtro.tipo === 'color' && filtro.valor === color ? 'nota-ficha activa' : 'nota-ficha'
-                }
+                className={[
+                  'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[999px] border border-linea bg-hoja py-[0.25rem] px-[0.6rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-tinta',
+                  filtro.tipo === 'color' && filtro.valor === color ? 'border-neutro bg-plano text-tinta' : '',
+                ].join(' ')}
                 aria-pressed={filtro.tipo === 'color' && filtro.valor === color}
                 onClick={() => alternarFiltro({ tipo: 'color', valor: color })}
               >
-                <span className={`nota-color nota-color-${color}`} aria-hidden="true" />
+                <span
+                  className={`h-[0.7rem] w-[0.7rem] flex-none rounded-full border border-linea ${
+                    color === 'verde' ? 'bg-nota-verde' : color === 'rojo' ? 'bg-nota-rojo' : 'bg-nota-amarillo'
+                  }`}
+                  aria-hidden="true"
+                />
                 {ETIQUETAS[color]} ({conteos[color]})
               </button>
             ))}
-            {etiquetas.length > 0 && <span className="notas-filtro-separador" aria-hidden="true" />}
+            {etiquetas.length > 0 && <span className="mx-[0.2rem] h-[1.2rem] w-px bg-linea" aria-hidden="true" />}
             {etiquetas.map(([tag, n]) => (
               <button
                 key={tag}
-                className={
-                  filtro.tipo === 'tag' && filtro.valor === tag ? 'nota-ficha activa' : 'nota-ficha'
-                }
+                className={[
+                  'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[999px] border border-linea bg-hoja py-[0.25rem] px-[0.6rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-tinta',
+                  filtro.tipo === 'tag' && filtro.valor === tag ? 'border-neutro bg-plano text-tinta' : '',
+                ].join(' ')}
                 aria-pressed={filtro.tipo === 'tag' && filtro.valor === tag}
                 onClick={() => alternarFiltro({ tipo: 'tag', valor: tag })}
                 title={`Ver las notas con la etiqueta «${tag}»`}
@@ -170,25 +180,38 @@ export default function PaginaNotas({
                   : `No hay notas con la etiqueta «${filtro.valor}».`}
             </p>
           ) : (
-            <ul className="pagina-notas-lista">
+            <ul className="mt-[1.4rem] mb-0 list-none p-0">
               {visibles.map((nota) => (
-                <li key={nota.id} className={`nota-fila nota-fila-${nota.color}`}>
-                  <blockquote className="nota-citada">{nota.texto}</blockquote>
+                <li
+                  key={nota.id}
+                  className="mb-[1rem] rounded-[6px] border border-linea bg-hoja py-[0.9rem] px-[1rem]"
+                >
+                  <blockquote className="mt-0 mb-[0.5rem] font-serif text-[1.1rem] leading-[1.45]">
+                      {nota.texto}
+                    </blockquote>
                   {(nota.antes || nota.despues) && (
-                    <p className="nota-contexto">
+                    <p className="mt-0 mb-[0.6rem] text-[0.85rem] leading-[1.5] text-tinta-2">
                       {nota.antes && <span className="nota-antes">…{nota.antes}</span>}
-                      <mark className={`nota nota-${nota.color}`}>{nota.texto}</mark>
+                      <mark className="nota bg-transparent font-semibold">{nota.texto}</mark>
                       {nota.despues && <span className="nota-despues">{nota.despues}…</span>}
                     </p>
                   )}
 
-                  <div className="nota-tags">
+                  <div className="mt-0 mb-[0.6rem] flex flex-wrap items-center gap-[0.3rem]">
                     {nota.tags.map((tag) => (
-                      <span key={tag} className="nota-etiqueta">
-                        <button onClick={() => alternarFiltro({ tipo: 'tag', valor: tag })} title="Ver las notas con esta etiqueta">
+                      <span
+                        key={tag}
+                        className="inline-flex items-center gap-[0.15rem] rounded-[999px] border border-linea bg-plano py-[0.05rem] pr-[0.15rem] pl-[0.4rem] text-[0.8rem] text-tinta-2"
+                      >
+                        <button
+                          className="cursor-pointer border-0 bg-transparent p-0 font-inherit text-inherit hover:text-fase hover:underline"
+                          onClick={() => alternarFiltro({ tipo: 'tag', valor: tag })}
+                          title="Ver las notas con esta etiqueta"
+                        >
                           #{tag}
                         </button>
                         <button
+                          className="cursor-pointer border-0 bg-transparent p-0 font-inherit text-inherit hover:text-fase hover:underline"
                           onClick={() => onDesetiquetar(nota, tag)}
                           aria-label={`Quitar la etiqueta «${tag}»`}
                           title="Quitar la etiqueta"
@@ -198,8 +221,9 @@ export default function PaginaNotas({
                       </span>
                     ))}
                     {editando === nota.id ? (
-                      <span className="nota-etiqueta-editando">
+                      <span className="inline-flex items-center">
                         <input
+                          className="w-[11rem] rounded-[999px] border border-neutro bg-hoja px-[0.45rem] py-[0.15rem] font-inherit text-[0.8rem] text-tinta"
                           autoFocus
                           value={texto}
                           list="notas-etiquetas"
@@ -220,7 +244,7 @@ export default function PaginaNotas({
                       </span>
                     ) : (
                       <button
-                        className="nota-etiqueta-agregar"
+                        className="cursor-pointer rounded-[999px] border border-dashed border-linea bg-transparent px-[0.5rem] py-[0.1rem] text-[0.8rem] text-tinta-2 hover:border-neutro hover:text-fase"
                         onClick={() => {
                           setTexto('')
                           setEditando(nota.id)
@@ -231,15 +255,21 @@ export default function PaginaNotas({
                     )}
                   </div>
 
-                  <footer className="nota-pie">
-                    <button className="nota-ir" onClick={() => onIr(nota)} title="Ir al texto">
+                  <footer className="flex items-center gap-[0.6rem] border-t border-linea pt-[0.5rem]">
+                    <button
+                      className="min-w-0 flex-1 cursor-pointer overflow-hidden border-0 bg-transparent p-0 text-left text-[0.9rem] text-ellipsis whitespace-nowrap text-neutro hover:text-fase hover:underline"
+                      onClick={() => onIr(nota)}
+                      title="Ir al texto"
+                    >
                       {nota.titulo || nota.origen} ↗
                     </button>
-                    <span className="nota-colores" role="group" aria-label="Color de la nota">
+                    <span className="flex flex-none gap-[0.2rem]" role="group" aria-label="Color de la nota">
                       {COLORES.map((color) => (
                         <button
                           key={color}
-                          className={`nota-color nota-color-${color}`}
+                          className={`h-[0.85rem] w-[0.85rem] flex-none cursor-pointer rounded-full border border-linea p-0 aria-pressed:outline-2 aria-pressed:outline-tinta aria-pressed:outline-offset-1 ${
+                            color === 'verde' ? 'bg-nota-verde' : color === 'rojo' ? 'bg-nota-rojo' : 'bg-nota-amarillo'
+                          }`}
                           aria-pressed={nota.color === color}
                           aria-label={`Poner la nota en ${color}`}
                           title={color}
@@ -247,9 +277,9 @@ export default function PaginaNotas({
                         />
                       ))}
                     </span>
-                    <span className="nota-cuando">{cuando(nota.creado)}</span>
+                    <span className="flex-none text-[0.8rem] text-tinta-2">{cuando(nota.creado)}</span>
                     <button
-                      className="nota-quitar"
+                      className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 text-[1rem] leading-[1.2] text-tinta-2 hover:bg-plano hover:text-fase"
                       onClick={() => onQuitar(nota)}
                       aria-label={`Quitar la nota «${nota.texto}»`}
                       title="Quitar la nota"

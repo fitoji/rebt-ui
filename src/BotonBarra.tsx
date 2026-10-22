@@ -16,7 +16,7 @@ export default function BotonBarra() {
   if (isMobile) {
     return (
       <SidebarTrigger
-        className="abrir-indice"
+        className="hidden max-[860px]:fixed max-[860px]:top-[0.6rem] max-[860px]:right-[0.8rem] max-[860px]:z-4 max-[860px]:block max-[860px]:rounded-[4px] max-[860px]:border max-[860px]:border-linea max-[860px]:bg-hoja max-[860px]:py-[0.35rem] max-[860px]:px-[0.8rem]"
         aria-label="Abrir el índice"
         title="Abrir el índice"
       />
@@ -27,7 +27,7 @@ export default function BotonBarra() {
 
   return (
     <SidebarTrigger
-      className="barra-plegada"
+      className="fixed top-[0.6rem] left-[0.6rem] z-20 grid size-[1.9rem] place-items-center rounded-[4px] border border-linea bg-hoja p-0 text-tinta hover:border-neutro hover:bg-neutro-fondo"
       aria-label="Abrir la barra lateral"
       title="Abrir la barra lateral (⌘B)"
     />

@@ -58,7 +58,7 @@ export function Inline({ node }: { node: Node }) {
 export function Figure({ node }: { node: Element }) {
   return (
     <img
-      className="figura"
+      className="block max-w-full my-[1rem] rounded-[3px] bg-white p-[0.4rem]"
       src={boeSrc(node.getAttribute('src'))}
       alt={node.getAttribute('alt') || 'Figura del reglamento'}
       loading="lazy"
@@ -115,20 +115,29 @@ export function Table({ item, name }: { item: ItemBloque; name: string }) {
   // Una tabla siempre trae su rejilla; el `?? []` solo appease al type checker.
   const grid = item.grid ?? []
   return (
-    <figure className="tabla">
-      <div className="tabla-acciones">
-        <button onClick={() => copy(gridToTsv(grid), AVISO_COPIAR)}>
+    <figure className="tabla mt-[1.6rem] mb-[2rem] font-sans">
+      <div className="flex flex-wrap items-center gap-[0.3rem_0.4rem] pb-[0.4rem]">
+        <button
+          className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+          onClick={() => copy(gridToTsv(grid), AVISO_COPIAR)}
+        >
           Copiar
         </button>
-        <button onClick={() => copy(gridToMarkdown(grid), AVISO_MARKDOWN)}>
+        <button
+          className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+          onClick={() => copy(gridToMarkdown(grid), AVISO_MARKDOWN)}
+        >
           Markdown
         </button>
-        <button onClick={() => descargar(`${name}.csv`, gridToCsv(grid), 'text/csv')}>
+        <button
+          className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+          onClick={() => descargar(`${name}.csv`, gridToCsv(grid), 'text/csv')}
+        >
           Descargar CSV
         </button>
-        <span role="status" className="tabla-aviso">{done}</span>
+        <span role="status" className="ml-[0.4rem] text-[0.9rem] text-neutro">{done}</span>
       </div>
-      <div className="tabla-scroll" tabIndex={0}>
+      <div className="tabla-scroll max-h-[72vh] overflow-auto rounded-[4px] border border-linea bg-hoja" tabIndex={0}>
         <table>
           {Array.from(item.node.children).map((c, i) => (
             <TableNode key={i} node={c} />

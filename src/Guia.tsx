@@ -70,7 +70,7 @@ function useIndice(): [EstadoIndice, () => void] {
 
 function IndicadorError({ error, onReintentar }: { error: Error; onReintentar: () => void }) {
   return (
-    <div className="pantalla error" role="alert">
+    <div className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="alert">
       <h1>No se pudo leer el índice de la guía</h1>
       <p>{error.message}</p>
       <p>
@@ -97,23 +97,23 @@ function GuiaInicio({
 }) {
   const documentos = indice.documentos ?? []
   return (
-    <div className="guia-bienvenida">
-      <div className="guia-cab-top">
+    <div className="mx-auto max-w-[52rem] px-[1.5rem] pt-[2.5rem] pb-[4rem]">
+      <div className="mb-[0.6rem] flex items-baseline justify-between gap-[0.75rem]">
         <InicioBoton onInicio={onInicio} />
         <TemaBoton tema={theme} onToggle={onToggleTheme} />
       </div>
-      <h1>Guías técnicas</h1>
+      <h1 className="mt-[1.2rem] mb-[0.3rem] text-[2.4rem] font-semibold leading-[1.05]">Guías técnicas</h1>
       <p className="mt-0 mb-[1rem] max-w-[40rem] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
         Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
         Industria y Turismo, convertidas a texto buscable.
       </p>
       {(indice.total_paginas || indice.total_tablas) && (
-        <p className="cifras">
+        <p className="mt-0 mb-[1.4rem] text-[0.95rem] text-neutro">
           {indice.total_documentos ?? documentos.length} documentos ·{' '}
           {indice.total_paginas} páginas · {indice.total_tablas} tablas
         </p>
       )}
-      <p className="pista">
+      <p className="mt-0 max-w-[38rem] border-t border-linea pt-[1.2rem] font-serif text-[1rem] leading-[1.5] text-tinta-2">
         Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede
         copiar a hoja de cálculo, copiar como Markdown o descargar como CSV, y lo que subrayes
         queda guardado como nota.
@@ -255,29 +255,34 @@ function GuiaDocumento({
     [id],
   )
 
-  if (state.status === 'loading') return <p className="pantalla" role="status">Cargando la guía…</p>
+  if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="status">Cargando la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={onVolver} />
 
   const meta = state.frontMatter ?? {}
 
   return (
-    <div className="guia-doc">
-      <header className="guia-doc-cab">
-        <div className="guia-doc-nav">
+    <div className="mx-auto max-w-[62rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
+      <header className="mb-[1.6rem] flex flex-wrap items-center gap-[0.6rem_1rem] border-b border-linea pb-[1.2rem]">
+        <div className="mr-auto flex items-baseline gap-[1rem]">
           <InicioBoton onInicio={onInicio} />
-          <button className="volver" onClick={onVolver}>
+          <button className="mr-auto py-[0.3rem] text-[0.95rem] text-neutro hover:underline" onClick={onVolver}>
             Índice de guías
           </button>
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
         </div>
-        <div className="guia-doc-meta">
-          <span className="codigo">{id}</span>
+        <div className="flex flex-wrap items-center gap-[0.7rem] text-[0.9rem] text-tinta-2">
+          <span className="rounded-[3px] bg-neutro-fondo px-[0.4rem] py-[0.1rem] font-semibold">{id}</span>
           {meta.edicion ? <span>Edición {meta.edicion}</span> : null}
           {meta.revision ? <span>Rev. {meta.revision}</span> : null}
           {doc?.paginas ? <span>{doc.paginas} pág.</span> : null}
         </div>
         {pdf && (
-          <a className="boton boton-pdf" href={pdf} target="_blank" rel="noreferrer noopener">
+          <a
+            className="rounded-[5px] bg-neutro px-[0.9rem] py-[0.45rem] text-[0.95rem] text-hoja no-underline hover:brightness-[1.1]"
+            href={pdf}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             Ver PDF original
           </a>
         )}
@@ -300,7 +305,7 @@ function GuiaDocumento({
           etiquetas que él mismo construye; ningún href del corpus pasa sin pasar por
           `resolveGuiaUrl`. El corpus es contenido propio y estático. */}
       <article
-        className="markdown"
+        className="markdown max-w-[46rem] font-serif text-[1.08rem] leading-[1.62]"
         ref={articulo}
         onClick={alPulsarTabla}
         dangerouslySetInnerHTML={{ __html: state.html }}
@@ -325,19 +330,25 @@ function GuiaDocumento({
         }}
       />
 
-      <nav className="guia-nav" aria-label="Documentos anterior y siguiente">
+      <nav
+        className="mt-[3rem] grid grid-cols-2 gap-[1rem] border-t border-linea pt-[1.5rem] max-[700px]:grid-cols-1"
+        aria-label="Documentos anterior y siguiente"
+      >
         {prev ? (
-          <button onClick={() => onSelect(prev.id)}>
-            <span className="guia-nav-dir">← Anterior</span>
-            <span className="guia-nav-titulo">{prev.titulo}</span>
+          <button
+            className="flex flex-col gap-[0.25rem] rounded-[6px] border border-linea bg-hoja p-[0.8rem] text-left hover:border-neutro"
+            onClick={() => onSelect(prev.id)}
+          >
+            <span className="text-[0.85rem] text-neutro">← Anterior</span>
+            <span className="text-[1rem] leading-[1.25]">{prev.titulo}</span>
           </button>
         ) : (
           <span />
         )}
         {next ? (
           <button onClick={() => onSelect(next.id)}>
-            <span className="guia-nav-dir">Siguiente →</span>
-            <span className="guia-nav-titulo">{next.titulo}</span>
+            <span className="text-[0.85rem] text-neutro">Siguiente →</span>
+            <span className="text-[1rem] leading-[1.25]">{next.titulo}</span>
           </button>
         ) : (
           <span />
@@ -400,7 +411,7 @@ export default function Guia({
     [onSelect],
   )
 
-  if (state.status === 'loading') return <p className="pantalla" role="status">Cargando el índice de la guía…</p>
+  if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
 
   const documentos = state.indice.documentos ?? []
@@ -426,9 +437,9 @@ export default function Guia({
         onQuitarNota={(n) => notas.quitar(n.id)}
         onVerTodasNotas={onVerNotas}
       />
-      <SidebarInset className="app-inset">
+      <SidebarInset className="h-[100svh] overflow-hidden">
         <BotonBarra />
-        <main className="guia-panel">
+        <main className="min-h-0 flex-1 overflow-y-auto">
         {id ? (
           <GuiaDocumento
             indice={state.indice}

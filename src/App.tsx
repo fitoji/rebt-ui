@@ -147,7 +147,7 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
         onQuitarNota={(nota: Nota) => notas.quitar(nota.id)}
         onVerTodasNotas={() => onNavigate('notas')}
       />
-      <SidebarInset className="app-inset">
+      <SidebarInset className="h-[100svh] overflow-hidden">
         <BotonBarra />
         {active && (
           <Reader

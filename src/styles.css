@@ -192,18 +192,8 @@ button { cursor: pointer; }
 code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; }
 
 /* ------------------------------------------------------------ estructura */
-.pantalla {
-  max-width: 36rem;
-  margin: 12vh auto;
-  padding: 0 1rem;
-  font-family: var(--serif);
-}
-.pantalla.error h1 { font-family: var(--sans); font-weight: 600; }
 
 /* ------------------------------------------------------------ índice */
-.progreso { margin-top: 0.7rem; font-size: 0.9rem; color: var(--tinta-2); }
-.barra { height: 6px; margin-bottom: 0.3rem; background: var(--plano); border-radius: 3px; overflow: hidden; }
-.aviso { margin: 0.6rem 0 0; font-size: 0.9rem; color: var(--fase); }
 
 
 /* La única marca decorativa: franja del conductor de protección */
@@ -229,20 +219,6 @@ mark.nota-verde { background: var(--nota-verde); }
 mark.nota-rojo { background: var(--nota-rojo); }
 
 /* Los puntos de color, para elegir el de una nota. */
-.nota-color {
-  flex: none;
-  width: 0.85rem;
-  height: 0.85rem;
-  padding: 0;
-  border: 1px solid var(--linea);
-  border-radius: 50%;
-  cursor: pointer;
-}
-.nota-color-amarillo { background: var(--nota-amarillo); }
-.nota-color-verde { background: var(--nota-verde); }
-.nota-color-rojo { background: var(--nota-rojo); }
-.nota-color[aria-pressed='true'] { outline: 2px solid var(--tinta); outline-offset: 1px; }
-.nota-colores { display: flex; flex: none; gap: 0.2rem; }
 
 /* El pulso al ir a una nota desde la lista. */
 mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
@@ -254,143 +230,15 @@ mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
 
 /* ------------------------------------------------------------------ la página */
 
-.pagina-notas {
-  width: 100%;
-  max-width: 52rem;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-.pagina-notas-cab { padding-bottom: 1.2rem; border-bottom: 1px solid var(--linea); }
-.pagina-notas-lista { margin: 1.4rem 0 0; padding: 0; list-style: none; }
 
 /* El filtro por color de la página de notas. */
-.notas-filtro {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 1.2rem 0 0;
-}
-.nota-ficha {
-  display: inline-flex;
-  gap: 0.35rem;
-  align-items: center;
-  padding: 0.25rem 0.6rem;
-  font-size: 0.85rem;
-  color: var(--tinta-2);
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 999px;
-  cursor: pointer;
-}
-.nota-ficha:hover { color: var(--tinta); border-color: var(--neutro); }
-.nota-ficha.activa { color: var(--tinta); background: var(--plano); border-color: var(--neutro); }
-.nota-ficha .nota-color { width: 0.7rem; height: 0.7rem; }
 /* La separación entre filtrar por color y filtrar por etiqueta. */
-.notas-filtro-separador {
-  width: 1px;
-  height: 1.2rem;
-  margin: 0 0.2rem;
-  background: var(--linea);
-}
 
 /* Las etiquetas de cada nota. */
-.nota-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  align-items: center;
-  margin: 0 0 0.6rem;
-}
-.nota-etiqueta {
-  display: inline-flex;
-  gap: 0.15rem;
-  align-items: center;
-  padding: 0.05rem 0.15rem 0.05rem 0.4rem;
-  font-size: 0.8rem;
-  color: var(--tinta-2);
-  background: var(--plano);
-  border: 1px solid var(--linea);
-  border-radius: 999px;
-}
-.nota-etiqueta button {
-  padding: 0;
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-.nota-etiqueta button:hover { color: var(--fase); text-decoration: underline; }
-.nota-etiqueta-agregar {
-  padding: 0.1rem 0.5rem;
-  font-size: 0.8rem;
-  color: var(--tinta-2);
-  background: none;
-  border: 1px dashed var(--linea);
-  border-radius: 999px;
-  cursor: pointer;
-}
-.nota-etiqueta-agregar:hover { color: var(--fase); border-color: var(--neutro); }
-.nota-etiqueta-editando input {
-  width: 11rem;
-  padding: 0.15rem 0.45rem;
-  font: inherit;
-  font-size: 0.8rem;
-  color: var(--tinta);
-  background: var(--hoja);
-  border: 1px solid var(--neutro);
-  border-radius: 999px;
-}
-.pagina-notas-lista > li {
-  margin-bottom: 1rem;
-  padding: 0.9rem 1rem;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 6px;
-}
-.nota-citada {
-  margin: 0 0 0.5rem;
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  line-height: 1.45;
-}
-.nota-contexto {
-  margin: 0 0 0.6rem;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--tinta-2);
-}
-.nota-contexto mark.nota { background: none; color: var(--tinta); font-weight: 600; }
-.nota-pie {
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--linea);
-}
-.nota-ir {
-  flex: 1;
-  min-width: 0;
-  padding: 0;
-  overflow: hidden;
-  font-size: 0.9rem;
-  text-align: left;
-  color: var(--neutro);
-  background: none;
-  border: 0;
-  cursor: pointer;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.nota-ir:hover { color: var(--fase); text-decoration: underline; }
-.nota-cuando { flex: none; font-size: 0.8rem; color: var(--tinta-2); }
 
 /* ------------------------------------------------------------ lector */
-.app-inset { height: 100svh; overflow: hidden; }
-.app-inset .guia-panel { flex: 1; min-height: 0; }
 
 
-.texto { font-family: var(--serif); font-size: 1.0625rem; line-height: 1.7; }
 .texto > p, .texto > h2, .texto > h3 { max-width: 68ch; margin-inline: 0; }
 .texto p { margin: 0 0 0.9em; text-wrap: pretty; }
 .texto .sangria { padding-left: 1.6rem; }
@@ -411,34 +259,8 @@ mark.nota.nota-aviso { animation: nota-aviso 1.4s ease-out; }
 }
 .texto sup, .texto sub { line-height: 0; }
 mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius: 2px; }
-.figura { display: block; max-width: 100%; margin: 1rem 0; background: #fff; padding: 0.4rem; border-radius: 3px; }
 
 /* ------------------------------------------------------------ tablas */
-.tabla { margin: 1.6rem 0 2rem; font-family: var(--sans); }
-.tabla-acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem 0.4rem;
-  align-items: center;
-  padding-bottom: 0.4rem;
-}
-.tabla-acciones button {
-  padding: 0.2rem 0.6rem;
-  font-size: 0.9rem;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 4px;
-  color: var(--tinta-2);
-}
-.tabla-acciones button:hover { color: var(--neutro); border-color: var(--neutro); }
-.tabla-aviso { margin-left: 0.4rem; font-size: 0.9rem; color: var(--neutro); }
-.tabla-scroll {
-  max-height: 72vh;
-  overflow: auto;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 4px;
-}
 .tabla table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
 .tabla th, .tabla td { padding: 0.4rem 0.7rem; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); vertical-align: top; }
 .tabla th:last-child, .tabla td:last-child { border-right: 0; }
@@ -450,198 +272,34 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 
 /* ------------------------------------------------------------ navegación y estados */
 
-.estado.error button, .pantalla button {
-  padding: 0.4rem 0.9rem;
-  background: var(--neutro-fondo);
-  border: 1px solid var(--linea);
-  border-radius: 4px;
-}
 
-.abrir-indice { display: none; }
 
 /* Al plegar la barra en el escritorio no queda nada visible: este tirador, en el borde
    izquierdo, es la forma de volver a abrirla. */
-.barra-plegada {
-  position: fixed;
-  top: 0.6rem;
-  left: 0.6rem;
-  z-index: 20;
-  display: grid;
-  place-items: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  padding: 0;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 4px;
-  color: var(--tinta);
-}
-.barra-plegada:hover { background: var(--neutro-fondo); border-color: var(--neutro); }
 
 /* ------------------------------------------------------------ móvil */
 @media (max-width: 860px) {
-  .abrir-indice {
-    display: block;
-    position: fixed;
-    top: 0.6rem;
-    right: 0.8rem;
-    z-index: 4;
-    padding: 0.35rem 0.8rem;
-    background: var(--hoja);
-    border: 1px solid var(--linea);
-    border-radius: 4px;
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .indice { transition: transform 0.18s ease-out; }
 }
 
 /* ============================================================ landing */
 
 /* ============================================================ guía técnica */
-.app-guia { display: block; overflow-y: auto; }
-.codigo {
-  padding: 0.1rem 0.4rem;
-  background: var(--neutro-fondo);
-  border-radius: 3px;
-  font-weight: 600;
-}
 
 /* La guía: la barra lateral es la del lector y la columna de la derecha, el documento. */
-.guia-panel { overflow-y: auto; min-height: 0; }
-.guia-bienvenida { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
-.guia-bienvenida h1 { margin: 1.2rem 0 0.3rem; font-size: 2.4rem; font-weight: 600; line-height: 1.05; }
-.guia-bienvenida .sub {
-  max-width: 40rem;
-  margin: 0 0 1rem;
-  color: var(--tinta-2);
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  line-height: 1.5;
-}
-.guia-bienvenida .cifras { margin: 0 0 1.4rem; color: var(--neutro); font-size: 0.95rem; }
-.guia-bienvenida .pista {
-  max-width: 38rem;
-  margin: 0;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--linea);
-  color: var(--tinta-2);
-  font-family: var(--serif);
-  font-size: 1rem;
-  line-height: 1.5;
-}
 /* El título de una sección dentro de la barra lateral. */
 /* Los favoritos, dentro de la barra lateral de la guía. */
 /* La fila de un documento de la guía: el título arriba, el código abajo y un hueco a la
    derecha para la estrella. */
 
-.guia-indice { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
-.guia-cab h1 { margin: 1.2rem 0 0.3rem; font-size: 2.4rem; font-weight: 600; line-height: 1.05; }
-.guia-cab .sub {
-  max-width: 40rem;
-  margin: 0 0 1.2rem;
-  color: var(--tinta-2);
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  line-height: 1.5;
-}
-.guia-cab input[type='search'] {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 5px;
-  font-size: 1.05rem;
-}
-.guia-cuenta { margin: 0 0 0.8rem; color: var(--tinta-2); font-size: 0.9rem; }
-.guia-lista ul { margin: 0; padding: 0; list-style: none; }
-.guia-lista li { border-bottom: 1px solid var(--linea); }
-.guia-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  width: 100%;
-  padding: 0.9rem 0.6rem;
-  background: none;
-  border: 0;
-  border-radius: 5px;
-  text-align: left;
-}
-.guia-item:hover { background: var(--hoja); }
-.guia-item-titulo { font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
-.guia-item-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-  color: var(--tinta-2);
-  font-size: 0.85rem;
-}
-.guia-vacio { padding: 2rem 0; color: var(--tinta-2); font-family: var(--serif); }
 
 /* Los favoritos de la guía: una lista arriba, con la misma estrella que en el REBT. */
-.guia-favoritos { margin: 1.2rem 0 1.4rem; }
-.guia-favoritos h2 {
-  margin: 0 0 0.3rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--fase);
-}
-.guia-favoritos .guia-item { padding: 0.5rem 0.6rem; }
-.guia-favoritos .guia-item-titulo { font-size: 1rem; }
 
-.guia-doc { max-width: 62rem; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
-.guia-doc-cab {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem 1rem;
-  align-items: center;
-  padding-bottom: 1.2rem;
-  margin-bottom: 1.6rem;
-  border-bottom: 1px solid var(--linea);
-}
-.guia-doc-cab .volver { margin-right: auto; }
-.guia-doc-meta { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; color: var(--tinta-2); font-size: 0.9rem; }
-.boton {
-  padding: 0.45rem 0.9rem;
-  border-radius: 5px;
-  font-size: 0.95rem;
-  text-decoration: none;
-}
-.boton-pdf { background: var(--neutro); color: var(--hoja); }
-.boton-pdf:hover { filter: brightness(1.1); }
 
-.guia-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--linea);
-}
-.guia-nav button {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.8rem;
-  background: var(--hoja);
-  border: 1px solid var(--linea);
-  border-radius: 6px;
-  text-align: left;
-}
-.guia-nav button:last-child { text-align: right; }
-.guia-nav button:hover { border-color: var(--neutro); }
-.guia-nav-dir { color: var(--neutro); font-size: 0.85rem; }
-.guia-nav-titulo { font-size: 1rem; line-height: 1.25; }
 
 /* ------------------------------------------------- markdown del corpus */
-.markdown {
-  max-width: 46rem;
-  font-family: var(--serif);
-  font-size: 1.08rem;
-  line-height: 1.62;
-}
 .markdown > :first-child { margin-top: 0; }
 .markdown h1 { margin: 2.2rem 0 0.8rem; font-family: var(--sans); font-size: 2.1rem; font-weight: 600; line-height: 1.1; }
 .markdown h3 { margin: 2rem 0 0.7rem; font-family: var(--sans); font-size: 1.5rem; font-weight: 600; line-height: 1.15; }
@@ -667,8 +325,6 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 .markdown .tabla-scroll { overflow-x: auto; margin: 1.4rem 0; }
 /* La barra de acciones va dentro del bloque de la tabla, para que los botones queden
    pegados a su caja y no floten separados por el margen del scroll. */
-.markdown .tabla-guia { margin: 1.4rem 0; }
-.markdown .tabla-guia .tabla-scroll { margin: 0; }
 .markdown table {
   border-collapse: collapse;
   font-family: var(--sans);
@@ -685,21 +341,10 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 .markdown th { background: var(--neutro-fondo); font-weight: 600; white-space: normal; min-width: 6rem; }
 
 @media (max-width: 700px) {
-  .guia-nav { grid-template-columns: 1fr; }
-  .guia-nav button:last-child { text-align: left; }
 }
 
 /* ------------------------------------------------- vuelta al inicio */
 /* El botón "← Inicio" comparte control en el lector y en los dos headers de la guía. */
-.guia-cab-top {
-  display: flex;
-  gap: 0.75rem;
-  align-items: baseline;
-  justify-content: space-between;
-}
-.guia-cab-top { margin-bottom: 0.6rem; }
-.guia-cab h1 { margin-top: 0; }
-.guia-doc-nav { display: flex; gap: 1rem; align-items: baseline; margin-right: auto; }
 
 /* ------------------------------------------------- modo claro/oscuro */
 
