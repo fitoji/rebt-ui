@@ -1,12 +1,26 @@
 // La página de notas: todas las guardadas, de las dos vistas, para poder leerlas enteras
 // y saltar a cada una.
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import InicioBoton from './InicioBoton.tsx'
-import { COLORES, normalizaTag } from './notas.ts'
+import { COLORES, crearArchivoNotas, normalizaTag, parseArchivoNotas } from './notas.ts'
 import type { ColorNota, Nota } from './notas.ts'
+import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, AVISO_CSV, copiarAlPortapapeles, descargar } from './tablas.ts'
+import { gridToCsv, gridToMarkdown, gridToTsv } from './parse.ts'
 
-/** "hace 3 días", "hoy"… para la fecha de cada nota. */
+/** Detecta si el texto de una nota es una tabla en Markdown y la parsea. */
+function parsearTablaMarkdown(texto: string): { header: string[]; rows: string[][] } | null {
+  const lineas = texto.trim().split('\n').map((l) => l.trim()).filter(Boolean)
+  if (lineas.length < 2) return null
+  if (!lineas[0].startsWith('|')) return null
+  // La segunda línea es el separador (---).
+  if (!/^\|[\s:|-]+\|$/.test(lineas[1])) return null
+  const parsearFila = (l: string) =>
+    l.replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim())
+  const header = parsearFila(lineas[0])
+  const rows = lineas.slice(2).map(parsearFila)
+  return { header, rows }
+}
 function cuando(creado: number): string {
   const dias = Math.floor((Date.now() - creado) / 86_400_000)
   if (dias <= 0) return 'hoy'
@@ -33,6 +47,7 @@ export default function PaginaNotas({
   onColor,
   onEtiquetar,
   onDesetiquetar,
+  onCombinar,
 }: {
   notas: Nota[]
   onInicio: () => void
@@ -45,6 +60,8 @@ export default function PaginaNotas({
   onEtiquetar: (nota: Nota, tag: string) => void
   /** Quitar una etiqueta. */
   onDesetiquetar: (nota: Nota, tag: string) => void
+  /** Combinar un archivo importado sin sobrescribir notas que ya existen. */
+  onCombinar: (importadas: Nota[]) => { agregadas: number; duplicadas: number }
 }) {
   // De más reciente a más antigua.
   const ordenadas = useMemo(
@@ -56,6 +73,23 @@ export default function PaginaNotas({
   // La nota que se está etiquetando ahora mismo, y el texto del campo.
   const [editando, setEditando] = useState<string | null>(null)
   const [texto, setTexto] = useState('')
+  const [avisoTabla, setAvisoTabla] = useState<{ id: string; msg: string } | null>(null)
+  const [avisoArchivo, setAvisoArchivo] = useState('')
+  const archivoRef = useRef<HTMLInputElement>(null)
+
+  const importarArchivo = async (input: HTMLInputElement) => {
+    const archivo = input.files?.[0]
+    if (!archivo) return
+    try {
+      const importadas = parseArchivoNotas(await archivo.text())
+      const resultado = onCombinar(importadas)
+      setAvisoArchivo(`${resultado.agregadas} agregadas; ${resultado.duplicadas} ya existían.`)
+    } catch (error) {
+      setAvisoArchivo(error instanceof Error ? error.message : 'No se pudo leer el archivo de notas.')
+    } finally {
+      input.value = ''
+    }
+  }
 
   const conteos = useMemo(() => {
     const c: Record<ColorNota, number> = { amarillo: 0, verde: 0, rojo: 0 }
@@ -115,6 +149,30 @@ export default function PaginaNotas({
             ? 'Todavía no hay ninguna.'
             : `${notas.length} ${notas.length === 1 ? 'nota guardada' : 'notas guardadas'} en este navegador.`}
         </p>
+        <div className="mt-[0.8rem] flex flex-wrap items-center gap-[0.5rem]">
+          <button
+            className="cursor-pointer rounded-[4px] border border-linea bg-hoja px-[0.7rem] py-[0.35rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={notas.length === 0}
+            onClick={() => descargar('rebt-ui-notas.json', crearArchivoNotas(notas), 'application/json;charset=utf-8')}
+          >
+            Descargar notas
+          </button>
+          <button
+            className="cursor-pointer rounded-[4px] border border-linea bg-hoja px-[0.7rem] py-[0.35rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+            onClick={() => archivoRef.current?.click()}
+          >
+            Importar y combinar
+          </button>
+          <input
+            ref={archivoRef}
+            className="sr-only"
+            type="file"
+            accept=".json,application/json"
+            aria-label="Seleccionar archivo de notas para combinar"
+            onChange={(event) => void importarArchivo(event.currentTarget)}
+          />
+          <span role="status" className="text-[0.85rem] text-neutro">{avisoArchivo}</span>
+        </div>
       </header>
 
       {notas.length === 0 ? (
@@ -186,18 +244,96 @@ export default function PaginaNotas({
                   key={nota.id}
                   className="mb-[1rem] rounded-[6px] border border-linea bg-hoja py-[0.9rem] px-[1rem]"
                 >
-                  <blockquote className="mt-0 mb-[0.5rem] font-serif text-[1.1rem] leading-[1.45]">
-                      {nota.texto}
-                    </blockquote>
-                  {(nota.antes || nota.despues) && (
-                    <p className="mt-0 mb-[0.6rem] text-[0.85rem] leading-[1.5] text-tinta-2">
-                      {nota.antes && <span className="nota-antes">…{nota.antes}</span>}
-                      <mark className="nota bg-transparent font-semibold">{nota.texto}</mark>
-                      {nota.despues && <span className="nota-despues">{nota.despues}…</span>}
-                    </p>
-                  )}
-
-                  <div className="mt-0 mb-[0.6rem] flex flex-wrap items-center gap-[0.3rem]">
+                  {(() => {
+                    const tabla = parsearTablaMarkdown(nota.texto)
+                    if (!tabla) {
+                      return (
+                        <blockquote className="mt-0 mb-[0.5rem] font-serif text-[1.1rem] leading-[1.45]">
+                          {nota.texto}
+                        </blockquote>
+                      )
+                    }
+                    return (
+                      <div className="mt-0 mb-[0.5rem] overflow-x-auto rounded-[4px] border border-linea">
+                        <div className="flex flex-wrap items-center gap-[0.3rem_0.4rem] border-b border-linea bg-plano px-[0.6rem] py-[0.3rem]">
+                          <button
+                            className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+                            onClick={async () => {
+                              const grid = [tabla.header, ...tabla.rows]
+                              try {
+                                await copiarAlPortapapeles(gridToTsv(grid))
+                                setAvisoTabla({ id: nota.id, msg: AVISO_COPIAR })
+                              } catch {
+                                setAvisoTabla({ id: nota.id, msg: AVISO_ERROR })
+                              }
+                              window.setTimeout(() => setAvisoTabla(null), 1600)
+                            }}
+                          >
+                            Copiar
+                          </button>
+                          <button
+                            className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+                            onClick={async () => {
+                              const grid = [tabla.header, ...tabla.rows]
+                              try {
+                                await copiarAlPortapapeles(gridToMarkdown(grid))
+                                setAvisoTabla({ id: nota.id, msg: AVISO_MARKDOWN })
+                              } catch {
+                                setAvisoTabla({ id: nota.id, msg: AVISO_ERROR })
+                              }
+                              window.setTimeout(() => setAvisoTabla(null), 1600)
+                            }}
+                          >
+                            Markdown
+                          </button>
+                          <button
+                            className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+                            onClick={() => {
+                              const grid = [tabla.header, ...tabla.rows]
+                              descargar(`${nota.titulo || nota.origen}.csv`, gridToCsv(grid), 'text/csv')
+                              setAvisoTabla({ id: nota.id, msg: AVISO_CSV })
+                              window.setTimeout(() => setAvisoTabla(null), 1600)
+                            }}
+                          >
+                            Descargar CSV
+                          </button>
+                          <span role="status" className="ml-[0.4rem] text-[0.85rem] text-neutro">
+                            {avisoTabla?.id === nota.id ? avisoTabla.msg : ''}
+                          </span>
+                        </div>
+                        <table className="w-full border-collapse text-[0.9rem]">
+                          <thead>
+                            <tr>
+                              {tabla.header.map((c, i) => (
+                                <th key={i} className="border-b border-linea bg-plano px-[0.6rem] py-[0.4rem] text-left font-semibold text-tinta">
+                                  {c}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {tabla.rows.map((fila, r) => (
+                              <tr key={r}>
+                                {fila.map((c, i) => (
+                                  <td key={i} className="border-b border-linea px-[0.6rem] py-[0.4rem] text-tinta-2">
+                                    {c}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )
+                  })()}
+                {(nota.antes || nota.despues) && (
+                  <p className="mt-0 mb-[0.6rem] text-[0.85rem] leading-[1.5] text-tinta-2">
+                    {nota.antes && <span className="nota-antes">…{nota.antes}</span>}
+                    <mark className="nota bg-transparent font-semibold">{nota.texto}</mark>
+                    {nota.despues && <span className="nota-despues">{nota.despues}…</span>}
+                  </p>
+                )}
+                <div className="mt-0 mb-[0.6rem] flex flex-wrap items-center gap-[0.3rem]">
                     {nota.tags.map((tag) => (
                       <span
                         key={tag}

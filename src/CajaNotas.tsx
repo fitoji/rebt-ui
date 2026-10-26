@@ -42,7 +42,7 @@ export default function CajaNotas({
                 onClick={() => onIr(nota)}
                 title="Ir al resaltado en el texto"
               >
-                «{nota.texto}»
+                «{nota.tags.includes('tablas') ? 'Tabla' : nota.texto}»
               </button>
               <button
                 className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 text-[1rem] leading-[1.2] text-tinta-2 hover:bg-plano hover:text-fase"

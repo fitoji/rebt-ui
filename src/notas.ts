@@ -114,6 +114,69 @@ export function guardarNotas(notas: Nota[]): void {
   }
 }
 
+/** Identifica y versiona los archivos exportados para poder validar futuras versiones. */
+const FORMATO_ARCHIVO_NOTAS = 'rebt-ui-notas'
+const VERSION_ARCHIVO_NOTAS = 1
+
+/** Serializa las notas en un archivo JSON portable entre navegadores. */
+export function crearArchivoNotas(notas: Nota[]): string {
+  return JSON.stringify({ formato: FORMATO_ARCHIVO_NOTAS, version: VERSION_ARCHIVO_NOTAS, notas }, null, 2)
+}
+
+/** Lee un archivo exportado; rechaza el archivo entero si contiene una entrada inválida. */
+export function parseArchivoNotas(contenido: string): Nota[] {
+  const archivo: unknown = JSON.parse(contenido)
+  if (typeof archivo !== 'object' || archivo === null) throw new Error('El archivo no tiene un formato válido.')
+
+  const sobre = archivo as { formato?: unknown; version?: unknown; notas?: unknown }
+  if (sobre.formato !== FORMATO_ARCHIVO_NOTAS || sobre.version !== VERSION_ARCHIVO_NOTAS || !Array.isArray(sobre.notas)) {
+    throw new Error('El archivo no es una exportación compatible de notas.')
+  }
+
+  const ids = new Set<string>()
+  const notas = sobre.notas.map((valor): Nota => {
+    if (typeof valor !== 'object' || valor === null) throw new Error('El archivo contiene una nota inválida.')
+    const n = valor as Partial<Nota>
+    if (
+      typeof n.id !== 'string' || !n.id || ids.has(n.id) ||
+      typeof n.origen !== 'string' ||
+      (n.vista !== 'guia' && n.vista !== 'rebt') ||
+      typeof n.titulo !== 'string' ||
+      (n.color !== 'amarillo' && n.color !== 'verde' && n.color !== 'rojo') ||
+      !Array.isArray(n.tags) || !n.tags.every((tag) => typeof tag === 'string') ||
+      typeof n.texto !== 'string' ||
+      typeof n.antes !== 'string' ||
+      typeof n.despues !== 'string' ||
+      typeof n.creado !== 'number' || !Number.isFinite(n.creado)
+    ) {
+      throw new Error('El archivo contiene una nota inválida.')
+    }
+    ids.add(n.id)
+    return { ...n, tags: normalizaEtiquetas(n.tags) } as Nota
+  })
+
+  return notas
+}
+
+/** Agrega solo IDs nuevos; si el ID ya existe, la nota local conserva prioridad. */
+export function combinarNotas(
+  actuales: Nota[],
+  importadas: Nota[],
+): { notas: Nota[]; agregadas: number; duplicadas: number } {
+  const ids = new Set(actuales.map((nota) => nota.id))
+  const nuevas: Nota[] = []
+  let duplicadas = 0
+  for (const nota of importadas) {
+    if (ids.has(nota.id)) {
+      duplicadas++
+      continue
+    }
+    ids.add(nota.id)
+    nuevas.push(nota)
+  }
+  return { notas: [...actuales, ...nuevas], agregadas: nuevas.length, duplicadas }
+}
+
 /* --------------------------------------------------------------------- el modelo */
 
 /** Crea una nota a partir del texto subrayado y de su contexto. */
@@ -283,6 +346,8 @@ export function aplicarResaltados(contenedor: Element, notas: Nota[]): HTMLEleme
 export interface ControlNotas {
   notas: Nota[]
   agregar: (nota: Nota) => void
+  /** Agregar un archivo importado sin sobrescribir las notas locales existentes. */
+  combinar: (importadas: Nota[]) => { agregadas: number; duplicadas: number }
   quitar: (id: string) => void
   /** Cambiar el color de una nota. */
   color: (id: string, color: ColorNota) => void
@@ -303,6 +368,13 @@ export function useNotas(): ControlNotas {
       return siguiente
     })
   }, [])
+
+  const combinar = useCallback((importadas: Nota[]) => {
+    const resultado = combinarNotas(notas, importadas)
+    guardarNotas(resultado.notas)
+    setNotas(resultado.notas)
+    return { agregadas: resultado.agregadas, duplicadas: resultado.duplicadas }
+  }, [notas])
 
   const quitar = useCallback((id: string) => {
     setNotas((actual) => {
@@ -343,5 +415,5 @@ export function useNotas(): ControlNotas {
     })
   }, [])
 
-  return { notas, agregar, quitar, color, etiquetar, desetiquetar }
+  return { notas, agregar, combinar, quitar, color, etiquetar, desetiquetar }
 }

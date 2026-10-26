@@ -15,7 +15,7 @@ import BotonFavorito from './BotonFavorito.tsx'
 import BotonNota, { useSeleccion } from './BotonNota.tsx'
 import CajaNotas from './CajaNotas.tsx'
 import SidebarGuia from './SidebarGuia.tsx'
-import { aplicarResaltados, crearNota } from './notas.ts'
+import { aplicarResaltados, crearNota, COLOR_POR_DEFECTO } from './notas.ts'
 import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
 import BotonBarra from './BotonBarra.tsx'
@@ -244,6 +244,14 @@ function GuiaDocumento({
         return
       }
 
+      if (accion === 'nota') {
+        notas.agregar(
+          crearNota('guia', id, doc?.titulo ?? id, gridToMarkdown(grid), '', '', Date.now(), COLOR_POR_DEFECTO, ['tablas']),
+        )
+        avisar(aviso, 'Agregada a notas')
+        return
+      }
+
       const texto = accion === 'markdown' ? gridToMarkdown(grid) : gridToTsv(grid)
       try {
         await copiarAlPortapapeles(texto)
@@ -252,7 +260,7 @@ function GuiaDocumento({
         avisar(aviso, AVISO_ERROR)
       }
     },
-    [id],
+    [id, notas, doc?.titulo],
   )
 
   if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="status">Cargando la guía…</p>

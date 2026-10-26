@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { getBlock, NORMA_ID } from './api.ts'
-import { formatDate, splitTitle } from './parse.ts'
+import { formatDate, gridToMarkdown, splitTitle } from './parse.ts'
 import { Highlight, Item } from './render.tsx'
 import BotonNota, { useSeleccion } from './BotonNota.tsx'
-import { aplicarResaltados, crearNota } from './notas.ts'
+import { aplicarResaltados, crearNota, COLOR_POR_DEFECTO } from './notas.ts'
 import type { ControlNotas } from './notas.ts'
 import type { Bloque, BloqueConContenido } from './tipos.ts'
 
@@ -172,6 +172,11 @@ export default function Reader({
                 tableName={`${itc ? 'ITC-' + itc : entry.id}_t${String(
                   item.kind === 'table' ? ++tableCount : tableCount,
                 ).padStart(2, '0')}`}
+                onAgregarNota={(grid, _name) => {
+                  notas.agregar(
+                    crearNota('rebt', entry.id, entry.titulo, gridToMarkdown(grid), '', '', Date.now(), COLOR_POR_DEFECTO, ['tablas']),
+                  )
+                }}
               />
             ))}
           </article>

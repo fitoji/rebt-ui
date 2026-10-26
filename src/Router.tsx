@@ -35,6 +35,7 @@ export default function Router() {
           onColor={(nota, color) => notas.color(nota.id, color)}
           onEtiquetar={(nota, tag) => notas.etiquetar(nota.id, tag)}
           onDesetiquetar={(nota, tag) => notas.desetiquetar(nota.id, tag)}
+          onCombinar={notas.combinar}
         />
       )}
       {route.name === 'guia' && (

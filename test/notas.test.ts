@@ -1,6 +1,16 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { CONTEXTO, crearNota, normalizaEtiquetas, normalizaTag, notasDe, parseNotas } from '../src/notas.ts'
+import {
+  CONTEXTO,
+  combinarNotas,
+  crearArchivoNotas,
+  crearNota,
+  normalizaEtiquetas,
+  normalizaTag,
+  notasDe,
+  parseArchivoNotas,
+  parseNotas,
+} from '../src/notas.ts'
 import type { Nota } from '../src/notas.ts'
 
 // Las notas se guardan en localStorage. Lo que se testea es la lógica de leer, de crear y
@@ -101,4 +111,26 @@ test('las notas se filtran por el documento de origen', () => {
   )
   assert.deepEqual(notasDe([NOTA, otra], 'ib-19').map((n) => n.id), ['ib-19-abc-2'])
   assert.deepEqual(notasDe([NOTA, otra], 'no-existe'), [])
+})
+
+test('exporta e importa notas en un archivo JSON versionado', () => {
+  assert.deepEqual(parseArchivoNotas(crearArchivoNotas([NOTA])), [NOTA])
+})
+
+test('rechaza archivos de notas inválidos sin descartar registros silenciosamente', () => {
+  assert.throws(() => parseArchivoNotas('{no es json'))
+  assert.throws(() => parseArchivoNotas(JSON.stringify({ formato: 'otro', version: 1, notas: [NOTA] })))
+  assert.throws(() => parseArchivoNotas(JSON.stringify({ formato: 'rebt-ui-notas', version: 1, notas: [NOTA, { id: 'incompleta' }] })))
+})
+
+test('combina notas nuevas por ID y conserva la nota actual cuando hay duplicados', () => {
+  const actual: Nota = { ...NOTA, color: 'rojo', tags: ['actual'] }
+  const importadaConMismoId: Nota = { ...NOTA, color: 'verde', tags: ['otra'] }
+  const nueva: Nota = { ...NOTA, id: 'otra-nota', texto: 'nota nueva' }
+
+  assert.deepEqual(combinarNotas([actual], [importadaConMismoId, nueva]), {
+    notas: [actual, nueva],
+    agregadas: 1,
+    duplicadas: 1,
+  })
 })

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 import { fold, gridToCsv, gridToMarkdown, gridToTsv } from './parse.ts'
 import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
-import type { Item as ItemBloque } from './tipos.ts'
+import type { Item as ItemBloque, Rejilla } from './tipos.ts'
 
 // Texto a resaltar (lo que la persona está buscando)
 export const Highlight = createContext('')
@@ -98,7 +98,7 @@ function TableNode({ node }: { node: Element }) {
   }
 }
 
-export function Table({ item, name }: { item: ItemBloque; name: string }) {
+export function Table({ item, name, onAgregarNota }: { item: ItemBloque; name: string; onAgregarNota?: (grid: Rejilla, name: string) => void }) {
   const [done, setDone] = useState('')
   const flash = (msg: string) => {
     setDone(msg)
@@ -135,6 +135,17 @@ export function Table({ item, name }: { item: ItemBloque; name: string }) {
         >
           Descargar CSV
         </button>
+        {onAgregarNota && (
+          <button
+            className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro"
+            onClick={() => {
+              onAgregarNota(grid, name)
+              flash('Agregada a notas')
+            }}
+          >
+            A notas
+          </button>
+        )}
         <span role="status" className="ml-[0.4rem] text-[0.9rem] text-neutro">{done}</span>
       </div>
       <div className="tabla-scroll max-h-[72vh] overflow-auto rounded-[4px] border border-linea bg-hoja" tabIndex={0}>
@@ -148,8 +159,8 @@ export function Table({ item, name }: { item: ItemBloque; name: string }) {
   )
 }
 
-export function Item({ item, tableName }: { item: ItemBloque; tableName: string }) {
-  if (item.kind === 'table') return <Table item={item} name={tableName} />
+export function Item({ item, tableName, onAgregarNota }: { item: ItemBloque; tableName: string; onAgregarNota?: (grid: Rejilla, name: string) => void }) {
+  if (item.kind === 'table') return <Table item={item} name={tableName} onAgregarNota={onAgregarNota} />
   if (item.kind === 'img') return <Figure node={item.node} />
   const body = <Inline node={item.node} />
   switch (item.kind) {

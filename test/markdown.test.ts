@@ -109,6 +109,7 @@ test('renderiza una tabla pipe con celdas vacías', () => {
       '<button type="button" data-accion="copiar">Copiar</button>',
       '<button type="button" data-accion="markdown">Markdown</button>',
       '<button type="button" data-accion="csv">Descargar CSV</button>',
+      '<button type="button" data-accion="nota">A notas</button>',
       '<span role="status" class="tabla-aviso" data-aviso></span>',
       '</div>',
       '<div class="tabla-scroll">',
@@ -134,6 +135,7 @@ test('las tablas de la guía ofrecen las mismas acciones que las del REBT', () =
   assert.match(html, /data-accion="copiar">Copiar</)
   assert.match(html, /data-accion="markdown">Markdown</)
   assert.match(html, /data-accion="csv">Descargar CSV</)
+  assert.match(html, /data-accion="nota">A notas</)
   // Y un hueco donde avisar, que es como avisa el lector del REBT.
   assert.match(html, /<span role="status" class="tabla-aviso" data-aviso><\/span>/)
 })

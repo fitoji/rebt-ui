@@ -186,6 +186,7 @@ function renderTable(header: string[], rows: string[][], ctx: Ctx, csv: string |
     '<button type="button" data-accion="copiar">Copiar</button>',
     '<button type="button" data-accion="markdown">Markdown</button>',
     '<button type="button" data-accion="csv">Descargar CSV</button>',
+    '<button type="button" data-accion="nota">A notas</button>',
     '<span role="status" class="tabla-aviso" data-aviso></span>',
     '</div>',
     '<div class="tabla-scroll">',
