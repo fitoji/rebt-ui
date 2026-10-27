@@ -295,6 +295,22 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 
 /* ============================================================ landing */
 
+/* El fondo de la landing: la topografía de `public/coolbackgrounds-topography-micron.svg`,
+   con dos velos encima. Todo va en el propio elemento, así que no hace falta ni una capa
+   absoluta ni z-index, y el orden del `background` es el de pintura: el resplandor arriba,
+   el velo de `--plano` debajo y el dibujo al fondo.
+   El velo es el que sostiene el texto: se disuelve en el centro (donde están el título,
+   el subtítulo y las cifras) y deja el dibujo nítido en los bordes, así el contraste no
+   depende de dónde caiga una mancha oscura ni del tema activo. `--plano` y `--neutro-fondo`
+   ya cambian solos con el tema, así que el velo también. */
+.landing {
+  background:
+    radial-gradient(120% 90% at 50% -10%, var(--neutro-fondo) 0%, transparent 60%),
+    radial-gradient(72% 88% at 50% 50%, var(--plano) 0%, var(--plano) 30%, transparent 92%),
+    url('/coolbackgrounds-topography-micron.svg') center / cover no-repeat,
+    var(--plano);
+}
+
 /* ============================================================ guía técnica */
 
 /* La guía: la barra lateral es la del lector y la columna de la derecha, el documento. */
