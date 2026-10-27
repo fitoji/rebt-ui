@@ -7,6 +7,7 @@ import { COLORES, crearArchivoNotas, normalizaTag, parseArchivoNotas } from './n
 import type { ColorNota, Nota } from './notas.ts'
 import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, AVISO_CSV, copiarAlPortapapeles, descargar } from './tablas.ts'
 import { gridToCsv, gridToMarkdown, gridToTsv } from './parse.ts'
+import { useTheme } from './useTheme.ts'
 
 /** Detecta si el texto de una nota es una tabla en Markdown y la parsea. */
 function parsearTablaMarkdown(texto: string): { header: string[]; rows: string[][] } | null {
@@ -63,6 +64,11 @@ export default function PaginaNotas({
   /** Combinar un archivo importado sin sobrescribir notas que ya existen. */
   onCombinar: (importadas: Nota[]) => { agregadas: number; duplicadas: number }
 }) {
+  // Esta vista no tiene botón de tema, pero el hook es el que escribe `data-theme` en
+  // <html>: sin él, entrar directo a `#/notas` dejaba la página con el tema del sistema
+  // en vez del que eligió el usuario.
+  useTheme()
+
   // De más reciente a más antigua.
   const ordenadas = useMemo(
     () => [...notas].sort((a, b) => b.creado - a.creado),
