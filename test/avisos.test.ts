@@ -41,11 +41,20 @@ function contraste(a: string, b: string): number {
   return (claro + 0.05) / (oscuro + 0.05)
 }
 
-test('los filos de los avisos están en los tres bloques de tema', () => {
+const AVISO = [
+  '--aviso-exito',
+  '--aviso-error',
+  '--aviso-exito-fondo',
+  '--aviso-exito-tinta',
+  '--aviso-error-fondo',
+  '--aviso-error-tinta',
+] as const
+
+test('los colores de los avisos están en los tres bloques de tema', () => {
   const css = leer('../src/styles.css')
   for (const [, cabecera] of BLOQUES) {
     const bloque = bloqueDelTema(css, cabecera)
-    for (const token of ['--aviso-exito', '--aviso-error']) valor(bloque, token)
+    for (const token of AVISO) valor(bloque, token)
   }
 })
 
@@ -57,10 +66,14 @@ test('texto y filos de los avisos pasan el contraste mínimo en cada tema', () =
     const tinta = valor(bloque, '--tinta')
     const texto = contraste(tinta, hoja)
     assert.ok(texto >= 4.5, `${nombre}: texto tinta/hoja ${texto.toFixed(2)}:1`)
-    // El filo es un indicador no textual: alcanza con 3:1.
-    for (const filo of ['--aviso-exito', '--aviso-error']) {
-      const ratio = contraste(valor(bloque, filo), hoja)
-      assert.ok(ratio >= 3, `${nombre}: ${filo}/hoja ${ratio.toFixed(2)}:1`)
+    // El aviso va teñido: su tinta tiene que aguantar sobre su propio fondo.
+    for (const tipo of ['exito', 'error'] as const) {
+      const fondo = valor(bloque, `--aviso-${tipo}-fondo`)
+      const propia = contraste(valor(bloque, `--aviso-${tipo}-tinta`), fondo)
+      assert.ok(propia >= 4.5, `${nombre}: tinta ${tipo}/fondo ${propia.toFixed(2)}:1`)
+      // El filo es un indicador no textual: alcanza con 3:1 sobre el fondo teñido.
+      const filo = contraste(valor(bloque, `--aviso-${tipo}`), fondo)
+      assert.ok(filo >= 3, `${nombre}: filo ${tipo}/fondo ${filo.toFixed(2)}:1`)
     }
   }
 })

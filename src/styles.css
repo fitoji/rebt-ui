@@ -86,10 +86,14 @@
   --nota-amarillo: #ffe49a;
   --nota-verde: #cbeaa2;
   --nota-rojo: #f6c3bb;
-  /* El filo de los avisos de sonner: verde para lo acertado, rojo para lo fallado.
-     Son colores de marca, no de fondo, así que tienen que aguantar sobre `--hoja`. */
+  /* El aviso de sonner: fondo teñido y tinta propia, para que se lea de un vistazo si la
+     respuesta estuvo bien o mal. El filo (`--aviso-exito` / `--aviso-error`) es el acento. */
   --aviso-exito: #2f7a3a;
   --aviso-error: #b3392e;
+  --aviso-exito-fondo: #e4f3e6;
+  --aviso-exito-tinta: #1b4a24;
+  --aviso-error-fondo: #fbe8e4;
+  --aviso-error-tinta: #6d2018;
   --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --sans: 'Barlow Semi Condensed', 'Arial Narrow', system-ui, sans-serif;
   --sombra-popover: 0 2px 10px rgb(0 0 0 / 0.4);
@@ -160,9 +164,13 @@
   --nota-amarillo: #5c4b12;
   --nota-verde: #3a5220;
   --nota-rojo: #6b2f2a;
-  /* Los mismos filos, aclarados para que se lean sobre la hoja oscura. */
+  /* Los mismos avisos, con el fondo oscurecido para que el verde y el rojo no encandilen. */
   --aviso-exito: #7fce8b;
   --aviso-error: #f09189;
+  --aviso-exito-fondo: #162c1e;
+  --aviso-exito-tinta: #cfe9d4;
+  --aviso-error-fondo: #33201c;
+  --aviso-error-tinta: #f5d5d0;
   /* El velo del fondo de la landing, a tope: las bandas claras de la topografía
      no aguantan el texto claro encima. */
   --landing-velo: var(--plano);
@@ -201,6 +209,10 @@
     --nota-rojo: #6b2f2a;
     --aviso-exito: #7fce8b;
     --aviso-error: #f09189;
+    --aviso-exito-fondo: #162c1e;
+    --aviso-exito-tinta: #cfe9d4;
+    --aviso-error-fondo: #33201c;
+    --aviso-error-tinta: #f5d5d0;
     /* Mismo velo a tope que en el tema oscuro elegido a mano. */
     --landing-velo: var(--plano);
     --app-velo: color-mix(in srgb, var(--plano) 84%, transparent);

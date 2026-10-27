@@ -26,9 +26,12 @@ export function Toaster(props: ToasterProps) {
       toastOptions={{
         classNames: {
           toast: 'group toast border border-linea bg-hoja text-tinta shadow-lg',
-          // El filo izquierdo es lo que hace de "bien" o "mal" de un vistazo.
-          success: 'border-l-4! border-l-(--aviso-exito)!',
-          error: 'border-l-4! border-l-(--aviso-error)!',
+          // Fondo teñido + tinta propia: el veredicto se lee de un vistazo, no solo por el
+          // filo. Los cuatro valores salen de tokens, así que siguen el tema.
+          success:
+            'bg-(--aviso-exito-fondo)! text-(--aviso-exito-tinta)! border-(--aviso-exito)! border-l-4!',
+          error:
+            'bg-(--aviso-error-fondo)! text-(--aviso-error-tinta)! border-(--aviso-error)! border-l-4!',
           title: 'font-semibold',
           description: 'text-tinta-2',
           actionButton: 'bg-neutro text-hoja',
