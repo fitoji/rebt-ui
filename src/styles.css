@@ -127,6 +127,14 @@
   --sidebar-accent-foreground: var(--tinta);
   --sidebar-border: var(--linea);
   --sidebar-ring: var(--neutro);
+
+  /* El velo del fondo de la landing. En claro es translúcido, para que el dibujo
+     se asome por detrás del texto. */
+  --landing-velo: color-mix(in srgb, var(--plano) 45%, transparent);
+  /* El velo del fondo de toda la app: va más tapado que el de la landing, porque
+     por debajo hay texto corrido y no una columna de título. 68% deja el azul medio
+     por encima de 4.5:1 con `--tinta-2`; el resplandor de encima ayuda en los dos temas. */
+  --app-velo: color-mix(in srgb, var(--plano) 68%, transparent);
 }
 
 ::selection {
@@ -148,6 +156,13 @@
   --nota-amarillo: #5c4b12;
   --nota-verde: #3a5220;
   --nota-rojo: #6b2f2a;
+  /* El velo del fondo de la landing, a tope: las bandas claras de la topografía
+     no aguantan el texto claro encima. */
+  --landing-velo: var(--plano);
+  /* El velo de toda la app en oscuro: 84% deja el dibujo insinuado por detrás del
+     texto corrido y aun así saca a `--tinta-2` por encima de 4.5:1 sobre la banda
+     más clara de la topografía. */
+  --app-velo: color-mix(in srgb, var(--plano) 84%, transparent);
 }
 
 :root[data-theme="light"] {
@@ -177,6 +192,9 @@
     --nota-amarillo: #5c4b12;
     --nota-verde: #3a5220;
     --nota-rojo: #6b2f2a;
+    /* Mismo velo a tope que en el tema oscuro elegido a mano. */
+    --landing-velo: var(--plano);
+    --app-velo: color-mix(in srgb, var(--plano) 84%, transparent);
   }
 }
 
@@ -185,7 +203,17 @@
 html, body, #root { height: 100%; }
 body {
   margin: 0;
-  background: var(--plano);
+  /* El fondo de toda la app, en una sola regla y sin capas absolutas: el orden es
+     el de pintura. El resplandor de `--neutro-fondo` arriba, el velo plano de
+     `--app-velo` debajo (es el que sostiene el texto corrido), el dibujo al fondo
+     y `--plano` como último relleno. `fixed` deja el dibujo quieto mientras la
+     página scrollea, como en la landing. */
+  background:
+    radial-gradient(120% 90% at 50% -10%, var(--neutro-fondo) 0%, transparent 60%),
+    linear-gradient(var(--app-velo), var(--app-velo)),
+    url('/coolbackgrounds-topography-micron.svg') center / cover no-repeat,
+    var(--plano);
+  background-attachment: fixed;
   color: var(--tinta);
   font-family: var(--sans);
   font-size: 16px;
@@ -298,17 +326,20 @@ mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius
 /* El fondo de la landing: la topografía de `public/coolbackgrounds-topography-micron.svg`,
    con dos velos encima. Todo va en el propio elemento, así que no hace falta ni una capa
    absoluta ni z-index, y el orden del `background` es el de pintura: el resplandor arriba,
-   el velo de `--plano` debajo y el dibujo al fondo.
-   El velo es el que sostiene el texto: se disuelve en el centro (donde están el título,
-   el subtítulo y las cifras) y deja el dibujo nítido en los bordes, así el contraste no
-   depende de dónde caiga una mancha oscura ni del tema activo. `--plano` y `--neutro-fondo`
-   ya cambian solos con el tema, así que el velo también. */
+   el velo de `--landing-velo` debajo y el dibujo al fondo.
+   `--landing-velo` es el que sostiene el texto: una elipse sobre la columna del título,
+   el subtítulo y las cifras, con un corazón opaco y disolviéndose hacia afuera. En claro
+   va al 45% y el dibujo se asoma por detrás; en oscuro va al 100%, porque la topografía
+   está pintada para una superficie clara y sus bandas claras no dejan pasar el texto
+   claro. Así el contraste no depende de dónde caiga una mancha, y la esquina superior
+   —la más fuerte del dibujo— queda intacta en los dos temas. */
 .landing {
   background:
     radial-gradient(120% 90% at 50% -10%, var(--neutro-fondo) 0%, transparent 60%),
-    radial-gradient(72% 88% at 50% 50%, var(--plano) 0%, var(--plano) 30%, transparent 92%),
+    radial-gradient(46% 52% at 50% 30%, var(--landing-velo) 0%, var(--landing-velo) 40%, transparent 100%),
     url('/coolbackgrounds-topography-micron.svg') center / cover no-repeat,
     var(--plano);
+  background-attachment: fixed;
 }
 
 /* ============================================================ guía técnica */
