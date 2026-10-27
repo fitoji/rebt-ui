@@ -57,7 +57,7 @@ export default function CajaNotas({
         </ul>
       )}
       <button className="mt-[0.4rem] cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-[0.2rem] text-left text-[0.85rem] text-neutro hover:bg-plano hover:text-fase" onClick={onVerTodas}>
-        Ver todas las notas →
+        Ver todas las notas
       </button>
     </Accordion>
   )

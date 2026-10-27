@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { ChevronDown, ChevronRight } from 'lucide-react'
 
 /**
  * Acordeón simple para la sidebar del REBT.
@@ -24,7 +25,7 @@ export default function Accordion({ title, open, onToggle, children, variante = 
       <button
         className={[
           'flex w-full items-center gap-[0.4rem] rounded-[4px] border text-left font-sans cursor-pointer',
-          'transition-[background,border-color] duration-150 ease',
+          'transition-colors duration-150 ease motion-reduce:transition-none',
           sub
             ? 'border-transparent bg-transparent px-[0.6rem] py-[0.35rem] text-[0.85rem] font-medium text-tinta-2 hover:border-linea hover:bg-plano'
             : 'border-linea bg-neutro-fondo px-[0.6rem] py-[0.5rem] text-[0.9rem] font-semibold text-neutro hover:bg-linea',
@@ -36,8 +37,8 @@ export default function Accordion({ title, open, onToggle, children, variante = 
         aria-expanded={open}
         type="button"
       >
-        <span className={sub ? 'text-[0.6rem] text-tinta-2' : 'text-[0.65rem] text-tinta-2'}>
-          {open ? '▼' : '▶'}
+        <span aria-hidden="true" className="flex-none text-tinta-2">
+          {open ? <ChevronDown className="size-3.5" /> : <ChevronRight className="size-3.5" />}
         </span>
         <span className="flex-1">{title}</span>
       </button>

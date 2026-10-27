@@ -1,8 +1,9 @@
 import type { Tema } from './useTheme.ts'
+import { Moon, Sun } from 'lucide-react'
 
 /**
  * Botón de alternar modo claro/oscuro. Se coloca en cualquier header de la app.
- * Icono: ☀️ (light) / 🌙 (dark).
+ * El icono indica el tema al que se puede cambiar.
  */
 export default function TemaBoton({ tema, onToggle }: { tema: Tema; onToggle: () => void }) {
   return (
@@ -12,7 +13,7 @@ export default function TemaBoton({ tema, onToggle }: { tema: Tema; onToggle: ()
       aria-label={tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
       title={tema === 'dark' ? 'Modo claro' : 'Modo oscuro'}
     >
-      {tema === 'dark' ? '☀️' : '🌙'}
+      {tema === 'dark' ? <Sun aria-hidden="true" className="size-4" /> : <Moon aria-hidden="true" className="size-4" />}
     </button>
   )
 }

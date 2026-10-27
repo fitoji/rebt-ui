@@ -25,7 +25,7 @@ export default function Router() {
   // el mismo en el lector y en la guía, y se guarda entre sesiones.
   return (
     <SidebarProvider>
-      {route.name === 'landing' && <Landing onIr={ir} />}
+      {route.name === 'landing' && <Landing />}
       {route.name === 'notas' && (
         <PaginaNotas
           notas={notas.notas}

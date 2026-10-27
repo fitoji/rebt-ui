@@ -98,7 +98,7 @@ export default function BotonNota({
   }
   return (
     <div
-      className={`fixed z-40 flex -translate-x-1/2 items-center gap-[0.3rem] whitespace-nowrap rounded-[5px] bg-tinta px-[0.5rem] py-[0.25rem] font-sans text-[0.85rem] text-hoja shadow-[0_2px_10px_rgb(0_0_0/0.4)] hover:bg-neutro ${arriba ? '-translate-y-full' : ''}`}
+      className={`fixed z-40 flex -translate-x-1/2 items-center gap-[0.3rem] whitespace-nowrap rounded-[5px] bg-tinta px-[0.5rem] py-[0.25rem] font-sans text-[0.85rem] text-hoja shadow-popover hover:bg-neutro ${arriba ? '-translate-y-full' : ''}`}
       style={{
         left: `clamp(5rem, ${seleccion.x}px, calc(100vw - 5rem))`,
         top: arriba ? seleccion.y : Math.max(8, seleccion.y + 24),

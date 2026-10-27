@@ -80,7 +80,6 @@ function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }
 }
 
 interface SidebarProps {
-  blocks: Bloque[]
   rows: Fila[]
   searching: boolean
   activeId?: string
@@ -107,7 +106,6 @@ interface SidebarProps {
 }
 
 export default function Sidebar({
-  blocks,
   rows,
   searching,
   activeId,
@@ -185,10 +183,10 @@ export default function Sidebar({
         />
         {query.trim().length >= 3 && !textReady && !progress && (
           <button
-            className="mt-[0.6rem] w-full rounded-[4px] border border-linea bg-neutro-fondo py-[0.5rem] px-[0.7rem] text-left text-neutro"
+            className="mt-[0.6rem] w-full whitespace-nowrap rounded-[4px] border border-linea bg-neutro-fondo py-[0.5rem] px-[0.7rem] text-left text-neutro"
             onClick={onIndexAll}
           >
-            Buscar también en el texto de los {blocks.length} bloques
+            Buscar contenido
           </button>
         )}
         {progress && (

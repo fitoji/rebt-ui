@@ -127,7 +127,6 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
   return (
     <>
       <Sidebar
-        blocks={blocks}
         rows={rows}
         searching={searching}
         activeId={active?.id}

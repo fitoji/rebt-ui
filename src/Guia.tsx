@@ -108,10 +108,20 @@ function GuiaInicio({
         Industria y Turismo, convertidas a texto buscable.
       </p>
       {(indice.total_paginas || indice.total_tablas) && (
-        <p className="mt-0 mb-[1.4rem] text-[0.95rem] text-neutro">
-          {indice.total_documentos ?? documentos.length} documentos ·{' '}
-          {indice.total_paginas} páginas · {indice.total_tablas} tablas
-        </p>
+        <dl className="mb-[1.4rem] grid grid-cols-3 gap-[0.75rem] text-center">
+          <div className="flex min-w-0 flex-col gap-[0.15rem]">
+            <dt className="text-[0.85rem] text-tinta-2">Documentos</dt>
+            <dd className="m-0 text-[1.1rem] font-semibold text-neutro">{indice.total_documentos ?? documentos.length}</dd>
+          </div>
+          <div className="flex min-w-0 flex-col gap-[0.15rem]">
+            <dt className="text-[0.85rem] text-tinta-2">Páginas</dt>
+            <dd className="m-0 text-[1.1rem] font-semibold text-neutro">{indice.total_paginas}</dd>
+          </div>
+          <div className="flex min-w-0 flex-col gap-[0.15rem]">
+            <dt className="text-[0.85rem] text-tinta-2">Tablas</dt>
+            <dd className="m-0 text-[1.1rem] font-semibold text-neutro">{indice.total_tablas}</dd>
+          </div>
+        </dl>
       )}
       <p className="mt-0 max-w-[38rem] border-t border-linea pt-[1.2rem] font-serif text-[1rem] leading-[1.5] text-tinta-2">
         Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede
@@ -355,7 +365,7 @@ function GuiaDocumento({
         )}
         {next ? (
           <button onClick={() => onSelect(next.id)}>
-            <span className="text-[0.85rem] text-neutro">Siguiente →</span>
+            <span className="text-[0.85rem] text-neutro">Siguiente guía</span>
             <span className="text-[1rem] leading-[1.25]">{next.titulo}</span>
           </button>
         ) : (
