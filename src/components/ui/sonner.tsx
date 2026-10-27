@@ -19,7 +19,7 @@ export function Toaster(props: ToasterProps) {
   return (
     <Sonner
       className="toaster group"
-      position="bottom-center"
+      position="bottom-right"
       // Una respuesta a la vez: no tiene sentido apilar avisos del mismo cuestionario.
       visibleToasts={1}
       style={tokens}

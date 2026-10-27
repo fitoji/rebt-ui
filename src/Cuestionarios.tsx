@@ -379,13 +379,13 @@ export default function Cuestionarios({ onInicio }: Props) {
                     })}
                   </div>
 
-                  {respuesta !== null && (
-                    <div className="mt-5 flex flex-wrap items-center justify-end gap-4">
-                      <button type="button" aria-keyshortcuts="Space" onClick={avanzar} className="rounded-md bg-neutro px-4 py-2 font-semibold text-hoja hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro">
-                        {indice === preguntas.length - 1 ? 'Ver resultado' : 'Siguiente pregunta'}
-                      </button>
-                    </div>
-                  )}
+                  <div className="mt-5 flex flex-wrap items-center justify-end gap-4">
+                    {/* El botón está siempre: deshabilitado mientras no hay respuesta, para
+                        que el bloque no cambie de alto y el siguiente paso se vea venir. */}
+                    <button type="button" aria-keyshortcuts="Space" onClick={avanzar} disabled={respuesta === null} className="rounded-md bg-neutro px-4 py-2 font-semibold text-hoja hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:pointer-events-none disabled:opacity-45">
+                      {indice === preguntas.length - 1 ? 'Ver resultado' : 'Siguiente pregunta'}
+                    </button>
+                  </div>
                 </div>
 
                 <aside aria-labelledby="atajos-heading" className="mt-4 rounded-lg border border-linea bg-hoja p-4 md:p-5">

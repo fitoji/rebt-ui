@@ -79,3 +79,15 @@ test('la devolución de la pregunta sale por aviso y no queda escrita en el cuer
   assert.ok(fuente.includes("toast.error('No es correcto. La respuesta correcta está marcada.')"))
   assert.equal(fuente.includes("{respuesta === pregunta.ans ? '¡Correcto!'"), false)
 })
+
+test('el aviso sale abajo a la derecha', () => {
+  const toaster = leer('../src/components/ui/sonner.tsx')
+  assert.ok(toaster.includes('position="bottom-right"'))
+})
+
+test('el botón de avanzar está siempre y arranca deshabilitado', () => {
+  const fuente = leer('../src/Cuestionarios.tsx')
+  assert.ok(fuente.includes('disabled={respuesta === null}'))
+  // Ya no se esconde el bloque hasta responder: eso movía el botón de lugar.
+  assert.equal(fuente.includes('{respuesta !== null && ('), false)
+})
