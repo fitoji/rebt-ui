@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import App from './App.tsx'
+import Cuestionarios from './Cuestionarios.tsx'
 import Guia from './Guia.tsx'
 import Landing from './Landing.tsx'
 import PaginaNotas from './PaginaNotas.tsx'
@@ -26,6 +27,7 @@ export default function Router() {
   return (
     <SidebarProvider>
       {route.name === 'landing' && <Landing />}
+      {route.name === 'cuestionarios' && <Cuestionarios onInicio={() => ir('')} />}
       {route.name === 'notas' && (
         <PaginaNotas
           notas={notas.notas}

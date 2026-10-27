@@ -92,5 +92,6 @@ export interface IndiceGuia {
 export type Ruta =
   | { name: 'landing' }
   | { name: 'notas' }
+  | { name: 'cuestionarios' }
   | { name: 'guia'; id: string | null; nota?: string }
   | { name: 'rebt'; id: string | null; nota?: string }

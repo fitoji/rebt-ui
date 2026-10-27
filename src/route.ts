@@ -6,6 +6,7 @@
 //   #/rebt/<bloque>    lector del reglamento en ese bloque
 //   #/guia             índice de las guías
 //   #/guia/<id>        una guía concreta
+//   #/cuestionarios    selector y práctica de tests
 //   #/notas            todas las notas guardadas
 //   #/<bloque>         enlace antiguo del lector, sigue funcionando
 //
@@ -31,6 +32,7 @@ export function parseRoute(hash?: string | null): Ruta {
   const tail = slash === -1 ? '' : path.slice(slash + 1)
 
   if (head === 'notas') return { name: 'notas' }
+  if (head === 'cuestionarios') return { name: 'cuestionarios' }
   if (head === 'guia') return { name: 'guia', id: tail || null, ...(nota ? { nota } : {}) }
   if (head === 'rebt') return { name: 'rebt', id: tail || null, ...(nota ? { nota } : {}) }
 

@@ -46,6 +46,10 @@ test('la página de todas las notas', () => {
   assert.deepEqual(parseRoute('#/notas'), { name: 'notas' })
 })
 
+test('la página de cuestionarios', () => {
+  assert.deepEqual(parseRoute('#/cuestionarios'), { name: 'cuestionarios' })
+})
+
 test('una nota puede ir en la ruta, para saltar a ella desde la página', () => {
   // Es lo que hace el enlace «Ir al texto» de la página de notas.
   assert.deepEqual(parseRoute('#/guia/BT-19?nota=abc-123'), {
