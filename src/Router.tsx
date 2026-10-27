@@ -6,7 +6,9 @@ import Landing from './Landing.tsx'
 import PaginaNotas from './PaginaNotas.tsx'
 import { parseRoute } from './route.ts'
 import { useNotas } from './notas.ts'
+import { toast } from 'sonner'
 import { SidebarProvider } from '@/components/ui/sidebar.tsx'
+import { Toaster } from '@/components/ui/sonner.tsx'
 
 export default function Router() {
   const [route, setRoute] = useState(() => parseRoute(location.hash))
@@ -17,6 +19,12 @@ export default function Router() {
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
+
+  // El aviso lo pidió la vista que estaba abierta: al cambiar de ruta no tiene nada
+  // que decir sobre lo que se ve ahora.
+  useEffect(() => {
+    toast.dismiss()
+  }, [route])
 
   const ir = useCallback((destino: string) => {
     location.hash = `/${destino.replace(/^\/+/, '')}`
@@ -59,6 +67,7 @@ export default function Router() {
           onNavigate={ir}
         />
       )}
+      <Toaster />
     </SidebarProvider>
   )
 }

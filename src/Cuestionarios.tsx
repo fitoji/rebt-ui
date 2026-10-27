@@ -15,6 +15,7 @@ import DialogoCambioTest from './DialogoCambioTest.tsx'
 import ZonaCarga from './ZonaCarga.tsx'
 import BotonBarra from './BotonBarra.tsx'
 import { SidebarInset } from '@/components/ui/sidebar.tsx'
+import { toast } from 'sonner'
 
 const archivos = import.meta.glob('../data-json/*.json', { eager: true, import: 'default' })
 const cuestionarios = prepararCuestionarios(archivos)
@@ -69,6 +70,9 @@ export default function Cuestionarios({ onInicio }: Props) {
   }
 
   const elegirCuestionario = (seleccionado: Cuestionario) => {
+    // El aviso es de la ronda anterior: si sobrevive al cambio de test, queda hablando
+    // de una pregunta que ya no está en pantalla.
+    toast.dismiss()
     setCuestionario(seleccionado)
     reiniciar(seleccionado.preguntas)
   }
@@ -116,12 +120,20 @@ export default function Cuestionarios({ onInicio }: Props) {
     const actual = preguntas[indice]
     setRespuesta(opcion)
     if (!actual) return
-    if (actual.ans === opcion) setAciertos((total) => total + 1)
-    else setFalladas((anteriores) => [...anteriores, actual])
+    if (actual.ans === opcion) {
+      setAciertos((total) => total + 1)
+      toast.success('¡Correcto!')
+    } else {
+      setFalladas((anteriores) => [...anteriores, actual])
+      toast.error('No es correcto. La respuesta correcta está marcada.')
+    }
   }, [cuestionario, indice, preguntas, respuesta])
 
   const avanzar = useCallback(() => {
     if (!cuestionario) return
+    // El aviso es la devolución de la pregunta que se acaba de responder: si queda en
+    // pantalla mientras se lee la siguiente, miente.
+    toast.dismiss()
     if (indice === preguntas.length - 1) {
       setFinalizado(true)
       return
@@ -131,6 +143,7 @@ export default function Cuestionarios({ onInicio }: Props) {
   }, [cuestionario, indice, preguntas.length])
 
   const volverALista = () => {
+    toast.dismiss()
     setCuestionario(null)
     reiniciar([])
   }
@@ -367,10 +380,7 @@ export default function Cuestionarios({ onInicio }: Props) {
                   </div>
 
                   {respuesta !== null && (
-                    <div className="mt-5 flex flex-wrap items-center justify-between gap-4" aria-live="polite">
-                      <p className="m-0 font-semibold">
-                        {respuesta === pregunta.ans ? '¡Correcto!' : 'No es correcto. La respuesta correcta está marcada.'}
-                      </p>
+                    <div className="mt-5 flex flex-wrap items-center justify-end gap-4">
                       <button type="button" aria-keyshortcuts="Space" onClick={avanzar} className="rounded-md bg-neutro px-4 py-2 font-semibold text-hoja hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro">
                         {indice === preguntas.length - 1 ? 'Ver resultado' : 'Siguiente pregunta'}
                       </button>
