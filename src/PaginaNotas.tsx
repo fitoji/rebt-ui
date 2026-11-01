@@ -2,6 +2,7 @@
 // y saltar a cada una.
 
 import { useMemo, useRef, useState } from 'react'
+import { X } from 'lucide-react'
 import InicioBoton from './InicioBoton.tsx'
 import { COLORES, crearArchivoNotas, normalizaTag, parseArchivoNotas } from './notas.ts'
 import type { ColorNota, Nota } from './notas.ts'
@@ -144,18 +145,18 @@ export default function PaginaNotas({
   }
 
   return (
-    <div className="mx-auto w-full max-w-[52rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
+    <div className="animate-vista-entra mx-auto w-full max-w-[52rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
       <header className="border-b border-linea pb-[1.2rem]">
         <div className="mr-auto flex items-baseline gap-[1rem]">
           <InicioBoton onInicio={onInicio} />
         </div>
-        <h1 className="mt-[0.6rem] mb-[0.3rem] text-[2.2rem] font-semibold leading-none tracking-[0.02em]">Notas</h1>
+        <h1 className="mt-[0.6rem] mb-[0.3rem] text-[2.2rem] font-semibold leading-none tracking-[-0.01em]">Notas</h1>
         <p className="m-0 text-[0.95rem] text-tinta-2">
           {notas.length === 0
             ? 'Todavía no hay ninguna.'
             : `${notas.length} ${notas.length === 1 ? 'nota guardada' : 'notas guardadas'} en este navegador.`}
         </p>
-        <div className="mt-[0.8rem] flex flex-wrap items-center gap-[0.5rem]">
+        <div className="mt-[0.9rem] flex flex-wrap items-center gap-[0.5rem] border-t border-linea pt-[0.9rem]">
           <button
             className="cursor-pointer rounded-[4px] border border-linea bg-hoja px-[0.7rem] py-[0.35rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro disabled:cursor-not-allowed disabled:opacity-50"
             disabled={notas.length === 0}
@@ -182,16 +183,18 @@ export default function PaginaNotas({
       </header>
 
       {notas.length === 0 ? (
-        <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
-          Subrayá un trozo del texto de una guía o de un bloque del reglamento y guardalo como
-          nota: aparecerá acá.
-        </p>
+        <div className="mt-[1.6rem] rounded-[4px] border border-dashed border-linea bg-hoja/40 px-[1.2rem] py-[1.4rem]">
+          <p className="m-0 max-w-[52ch] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
+            Subrayá un trozo del texto de una guía o de un bloque del reglamento y guardalo como
+            nota: aparecerá acá.
+          </p>
+        </div>
       ) : (
         <>
-          <div className="mt-[1.2rem] mb-0 flex flex-wrap gap-[0.4rem]" role="group" aria-label="Filtrar las notas por color">
+        <div className="mt-[1.2rem] mb-0 flex flex-wrap gap-[0.4rem]" role="group" aria-label="Filtrar las notas por color">
             <button
               className={[
-                'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[999px] border border-linea bg-hoja py-[0.25rem] px-[0.6rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-tinta',
+                'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[3px] border border-linea bg-hoja py-[0.25rem] px-[0.55rem] text-[0.85rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-tinta',
                 filtro.tipo === 'todas' ? 'border-neutro bg-plano text-tinta' : '',
               ].join(' ')}
               aria-pressed={filtro.tipo === 'todas'}
@@ -203,7 +206,7 @@ export default function PaginaNotas({
               <button
                 key={color}
                 className={[
-                  'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[999px] border border-linea bg-hoja py-[0.25rem] px-[0.6rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-tinta',
+                  'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[3px] border border-linea bg-hoja py-[0.25rem] px-[0.55rem] text-[0.85rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-tinta',
                   filtro.tipo === 'color' && filtro.valor === color ? 'border-neutro bg-plano text-tinta' : '',
                 ].join(' ')}
                 aria-pressed={filtro.tipo === 'color' && filtro.valor === color}
@@ -223,7 +226,7 @@ export default function PaginaNotas({
               <button
                 key={tag}
                 className={[
-                  'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[999px] border border-linea bg-hoja py-[0.25rem] px-[0.6rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-tinta',
+                  'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[3px] border border-linea bg-hoja py-[0.25rem] px-[0.55rem] text-[0.85rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-tinta',
                   filtro.tipo === 'tag' && filtro.valor === tag ? 'border-neutro bg-plano text-tinta' : '',
                 ].join(' ')}
                 aria-pressed={filtro.tipo === 'tag' && filtro.valor === tag}
@@ -248,7 +251,7 @@ export default function PaginaNotas({
               {visibles.map((nota) => (
                 <li
                   key={nota.id}
-                  className="mb-[1rem] rounded-[6px] border border-linea bg-hoja py-[0.9rem] px-[1rem]"
+                  className="mb-[0.8rem] rounded-[4px] border border-linea bg-hoja py-[0.9rem] px-[1rem] transition-[border-color] duration-150 ease-plano hover:border-neutro/60"
                 >
                   {(() => {
                     const tabla = parsearTablaMarkdown(nota.texto)
@@ -343,7 +346,7 @@ export default function PaginaNotas({
                     {nota.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-[0.15rem] rounded-[999px] border border-linea bg-plano py-[0.05rem] pr-[0.15rem] pl-[0.4rem] text-[0.8rem] text-tinta-2"
+                        className="inline-flex items-center gap-[0.15rem] rounded-[3px] border border-linea bg-plano py-[0.05rem] pr-[0.15rem] pl-[0.4rem] text-[0.8rem] text-tinta-2"
                       >
                         <button
                           className="cursor-pointer border-0 bg-transparent p-0 font-inherit text-inherit hover:text-fase hover:underline"
@@ -358,14 +361,14 @@ export default function PaginaNotas({
                           aria-label={`Quitar la etiqueta «${tag}»`}
                           title="Quitar la etiqueta"
                         >
-                          ×
+                          <X aria-hidden="true" className="size-3" strokeWidth={2} />
                         </button>
                       </span>
                     ))}
                     {editando === nota.id ? (
                       <span className="inline-flex items-center">
                         <input
-                          className="w-[11rem] rounded-[999px] border border-neutro bg-hoja px-[0.45rem] py-[0.15rem] font-inherit text-[0.8rem] text-tinta"
+                          className="w-[11rem] rounded-[3px] border border-neutro bg-hoja px-[0.45rem] py-[0.15rem] font-inherit text-[0.8rem] text-tinta"
                           autoFocus
                           value={texto}
                           list="notas-etiquetas"
@@ -386,7 +389,7 @@ export default function PaginaNotas({
                       </span>
                     ) : (
                       <button
-                        className="cursor-pointer rounded-[999px] border border-dashed border-linea bg-transparent px-[0.5rem] py-[0.1rem] text-[0.8rem] text-tinta-2 hover:border-neutro hover:text-fase"
+                        className="cursor-pointer rounded-[3px] border border-dashed border-linea bg-transparent px-[0.5rem] py-[0.1rem] text-[0.8rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-fase"
                         onClick={() => {
                           setTexto('')
                           setEditando(nota.id)
@@ -421,12 +424,12 @@ export default function PaginaNotas({
                     </span>
                     <span className="flex-none text-[0.8rem] text-tinta-2">{cuando(nota.creado)}</span>
                     <button
-                      className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 text-[1rem] leading-[1.2] text-tinta-2 hover:bg-plano hover:text-fase"
+                      className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 leading-[1.2] text-tinta-2 transition-colors duration-150 ease-plano hover:bg-plano hover:text-fase"
                       onClick={() => onQuitar(nota)}
                       aria-label={`Quitar la nota «${nota.texto}»`}
                       title="Quitar la nota"
                     >
-                      ×
+                      <X aria-hidden="true" className="size-4" strokeWidth={1.75} />
                     </button>
                   </footer>
                 </li>

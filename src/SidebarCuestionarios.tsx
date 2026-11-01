@@ -40,39 +40,44 @@ export default function SidebarCuestionarios({
   onToggleTheme: () => void
 }) {
   // conQuitar = es un test cargado: lleva la papelera al costado de la fila.
-  const fila = (item: Cuestionario, conQuitar = false) => (
-    <li key={item.id} className={conQuitar ? 'relative' : undefined}>
-      <button
-        className={[
-          'relative flex w-full items-start gap-[0.5rem] border-0 bg-transparent py-[0.45rem] text-left leading-[1.3] hover:bg-plano',
-          conQuitar ? 'pr-[2.2rem] pl-[1.3rem]' : 'pr-[1.1rem] pl-[1.3rem]',
-          activo === item.id ? 'bg-plano font-medium' : '',
-        ].join(' ')}
-        aria-current={activo === item.id ? 'page' : undefined}
-        onClick={() => onSelect(item.id)}
-      >
-        <span className="min-w-0">
-          {item.nombre}
-          <span className="mt-[0.15rem] block text-[0.88rem] tabular-nums text-tinta-2">
-            {item.preguntas.length} preguntas
-          </span>
-        </span>
-      </button>
-      {conQuitar && (
-        /* Hermano de la fila, nunca anidado dentro: un button dentro de otro
-           button es HTML inválido. Mismo patrón que la estrella de favoritos. */
+  const fila = (item: Cuestionario, conQuitar = false) => {
+    const activoEste = activo === item.id
+    return (
+      <li key={item.id} className={conQuitar ? 'relative' : undefined}>
         <button
-          type="button"
-          aria-label={`Quitar ${item.nombre}`}
-          title={`Quitar ${item.nombre}`}
-          onClick={() => onQuitar(item.id)}
-          className="absolute top-[0.35rem] right-[0.4rem] cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.2rem] py-0 text-[0.95rem] leading-[1.4] opacity-40 transition-[opacity,color] duration-150 ease hover:text-[var(--nota-rojo)] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-fase focus-visible:outline-offset-1"
+          className={[
+            'fila-indice relative flex w-full items-start gap-[0.5rem] border-0 bg-transparent py-[0.45rem] text-left leading-[1.3] hover:bg-plano',
+            conQuitar ? 'pr-[2.2rem] pl-[1.3rem]' : 'pr-[1.1rem] pl-[1.3rem]',
+          ].join(' ')}
+          aria-current={activoEste ? 'page' : undefined}
+          onClick={() => onSelect(item.id)}
         >
-          <Trash2 className="size-4" aria-hidden="true" />
+          {activoEste && (
+            <span className="franja-activa absolute inset-y-0 left-0 w-[6px] bg-[repeating-linear-gradient(135deg,var(--tierra-a)_0_5px,var(--tierra-b)_5px_10px)]" />
+          )}
+          <span className="min-w-0">
+            {item.nombre}
+            <span className="dato mt-[0.2rem] block text-[0.75rem] text-tinta-2">
+              {item.preguntas.length} preguntas
+            </span>
+          </span>
         </button>
-      )}
-    </li>
-  )
+        {conQuitar && (
+          /* Hermano de la fila, nunca anidado dentro: un button dentro de otro
+             button es HTML inválido. Mismo patrón que la estrella de favoritos. */
+          <button
+            type="button"
+            aria-label={`Quitar ${item.nombre}`}
+            title={`Quitar ${item.nombre}`}
+            onClick={() => onQuitar(item.id)}
+            className="absolute top-[0.35rem] right-[0.4rem] cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.2rem] py-0 text-[0.95rem] leading-[1.4] opacity-40 transition-[opacity,color] duration-150 ease-plano hover:text-[var(--aviso-error)] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-fase focus-visible:outline-offset-1"
+          >
+            <Trash2 className="size-4" aria-hidden="true" />
+          </button>
+        )}
+      </li>
+    )
+  }
 
   const total = cuestionarios.length + cargados.length
 
@@ -80,7 +85,7 @@ export default function SidebarCuestionarios({
     <SidebarUI collapsible="offcanvas" className="min-h-0 border-r border-linea" aria-label="Cuestionarios disponibles">
       <SidebarHeader className="border-b border-linea px-[1.1rem] pt-[1.1rem] pb-[0.9rem]">
         <div className="flex items-baseline justify-between gap-[0.75rem]">
-          <p className="m-0 text-[1.9rem] font-semibold leading-none tracking-[0.02em]">Tests</p>
+          <p className="m-0 text-[1.9rem] font-semibold leading-none tracking-[0.05em]">Tests</p>
           <InicioBoton onInicio={onInicio} />
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
           <SidebarTrigger className="alternar-barra" />
@@ -93,7 +98,7 @@ export default function SidebarCuestionarios({
       <SidebarContent className="flex-1 overflow-y-auto pt-[0.4rem] pb-[2rem]">
         <nav>
           {cargados.length > 0 && (
-            <h2 className="mx-[1.1rem] mt-[1.1rem] mb-[0.3rem] text-[0.95rem] font-semibold text-fase">
+            <h2 className="rotulo mx-[1.1rem] mt-[1.1rem] mb-[0.35rem] text-fase">
               De la app
             </h2>
           )}
@@ -104,7 +109,7 @@ export default function SidebarCuestionarios({
           {cargados.length > 0 && (
             <>
               <hr className="mx-[1.1rem] mt-[1.2rem] mb-0 border-t border-linea" />
-              <h2 className="mx-[1.1rem] mt-[0.9rem] mb-[0.3rem] text-[0.95rem] font-semibold text-fase">
+              <h2 className="rotulo mx-[1.1rem] mt-[0.9rem] mb-[0.35rem] text-fase">
                 Cargados ({cargados.length})
               </h2>
               <ul className="m-0 list-none p-0">

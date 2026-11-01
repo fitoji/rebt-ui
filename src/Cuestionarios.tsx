@@ -220,10 +220,20 @@ export default function Cuestionarios({ onInicio }: Props) {
       <button
         type="button"
         onClick={() => elegirCuestionario(item)}
-        className="flex min-h-36 w-full flex-col items-start justify-between gap-6 rounded-lg border border-linea bg-hoja p-5 text-left text-tinta transition-[border-color,transform] duration-150 ease motion-reduce:transition-none hover:-translate-y-0.5 hover:border-neutro focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro"
+        className="group flex min-h-[8.5rem] w-full flex-col items-start justify-between gap-6 rounded-[4px] border border-linea bg-hoja p-5 text-left text-tinta transition-[border-color,transform,background-color] duration-200 ease-plano hover:-translate-y-0.5 hover:border-neutro hover:bg-neutro-fondo/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro"
       >
-        <span className="text-xl font-semibold">{item.nombre}</span>
-        <span className="font-serif text-tinta-2">{item.preguntas.length} preguntas · {item.preguntas[0]?.tema}</span>
+        <span className="text-xl font-semibold leading-[1.2]">{item.nombre}</span>
+        <span className="flex w-full items-end justify-between gap-3 border-t border-linea pt-3">
+          <span className="font-serif text-[0.95rem] leading-[1.4] text-tinta-2">
+            <span className="dato text-tinta">{item.preguntas.length}</span> preguntas · {item.preguntas[0]?.tema}
+          </span>
+          <span
+            aria-hidden="true"
+            className="text-[1.15rem] leading-none text-tinta-2 transition-transform duration-200 ease-plano group-hover:translate-x-1 group-hover:text-neutro"
+          >
+            →
+          </span>
+        </span>
       </button>
     </li>
   )
@@ -252,11 +262,11 @@ export default function Cuestionarios({ onInicio }: Props) {
           </button>
 
           {!cuestionario ? (
-            <section aria-labelledby="cuestionarios-heading">
-              <h1 id="cuestionarios-heading" className="mb-2 mt-0 text-[clamp(2.5rem,8vw,4rem)] font-semibold leading-[1]">
+            <section aria-labelledby="cuestionarios-heading" className="animate-vista-entra">
+              <h1 id="cuestionarios-heading" className="mb-2 mt-0 text-[clamp(2.5rem,8vw,4rem)] font-semibold leading-[1] tracking-[-0.015em]">
                 Cuestionarios Tests
               </h1>
-              <p className="mb-8 mt-0 font-serif text-lg text-tinta-2">
+              <p className="mb-8 mt-0 max-w-[46ch] font-serif text-lg leading-[1.5] text-tinta-2">
                 Elige un cuestionario para empezar. Cada test contiene preguntas de opción múltiple.
               </p>
               <div className="mb-6">
@@ -267,9 +277,9 @@ export default function Cuestionarios({ onInicio }: Props) {
                   {cuestionarios.length > 0 && (
                     <>
                       {propios.length > 0 && (
-                        <h2 className="mb-3 mt-0 text-sm font-semibold text-tinta-2">Tests de la app</h2>
+                        <h2 className="rotulo mb-3 mt-0">Tests de la app</h2>
                       )}
-                      <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] gap-4 p-0">
+                      <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] gap-3 p-0">
                         {cuestionarios.map(tarjeta)}
                       </ul>
                     </>
@@ -277,37 +287,65 @@ export default function Cuestionarios({ onInicio }: Props) {
 
                   {propios.length > 0 && (
                     <>
-                      <h2 className="my-6 flex items-center gap-4 text-sm font-semibold text-tinta-2">
+                      <h2 className="rotulo my-6 flex items-center gap-4">
                         <span className="h-px flex-1 bg-linea" aria-hidden="true" />
                         Cargados desde tu equipo ({propios.length})
                         <span className="h-px flex-1 bg-linea" aria-hidden="true" />
                       </h2>
-                      <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] gap-4 p-0">
+                      <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] gap-3 p-0">
                         {propios.map(tarjeta)}
                       </ul>
                     </>
                   )}
                 </>
               ) : (
-                <p role="status" className="rounded-lg border border-linea bg-hoja p-5 text-tinta-2">
+                <p role="status" className="rounded-[4px] border border-linea bg-hoja p-5 text-tinta-2">
                   No hay cuestionarios válidos en la carpeta data-json. Arrastra un .json para cargar el tuyo.
                 </p>
               )}
             </section>
           ) : finalizado ? (
-            <section aria-labelledby="resultado-heading" className="rounded-lg border border-linea bg-hoja p-6 md:p-8">
-              <p className="mb-2 mt-0 text-sm text-tinta-2">{cuestionario.nombre}</p>
-              <h1 id="resultado-heading" className="mb-3 mt-0 text-3xl font-semibold">Cuestionario completado</h1>
-              <p className="mb-6 mt-0 font-serif text-xl text-tinta-2" aria-live="polite">
-                Resultado: {aciertos} de {preguntas.length} respuestas correctas · Tiempo total:{' '}
-                <span className="font-mono tabular-nums">{minutosTranscurridos}:{segundosTranscurridos}</span>
-              </p>
+            <section aria-labelledby="resultado-heading" className="animate-vista-entra rounded-[4px] border border-linea bg-hoja p-6 md:p-8">
+              <p className="rotulo mb-2 mt-0">{cuestionario.nombre}</p>
+              <h1 id="resultado-heading" className="mb-4 mt-0 text-3xl font-semibold tracking-[-0.01em]">Cuestionario completado</h1>
+
+              {/* El resultado como ficha: las tres cifras de la ronda, en el mismo orden
+                  y con la misma retícula que el resto de los datos de la app. */}
+              <dl className="cajetin mb-6">
+                <div>
+                  <dt className="rotulo">Correctas</dt>
+                  <dd className="m-0 text-[1.6rem] font-semibold leading-none text-[var(--aviso-exito)]">
+                    <span key={`ok-${aciertos}`} className="dato inline-block animate-marca-cuenta">{aciertos}</span>
+                    <span className="dato text-[0.9rem] font-normal text-tinta-2"> / {preguntas.length}</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="rotulo">Falladas</dt>
+                  <dd className="m-0 text-[1.6rem] font-semibold leading-none text-[var(--aviso-error)]">
+                    <span className="dato">{falladas.length}</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="rotulo">Tiempo</dt>
+                  <dd className="dato m-0 text-[1.6rem] font-semibold leading-none text-tinta tabular-nums">
+                    {minutosTranscurridos}:{segundosTranscurridos}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="rotulo">Acierto</dt>
+                  <dd className="dato m-0 text-[1.6rem] font-semibold leading-none text-tinta">
+                    {preguntas.length > 0 ? Math.round((aciertos / preguntas.length) * 100) : 0}
+                    <span className="text-[0.9rem] font-normal text-tinta-2"> %</span>
+                  </dd>
+                </div>
+              </dl>
+
               <div className="flex flex-wrap gap-3">
                 {falladas.length > 0 && (
                   <button
                     type="button"
                     onClick={() => reiniciar(falladas)}
-                    className="rounded-md bg-neutro px-4 py-2 font-semibold text-hoja hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro"
+                    className="rounded-[4px] bg-neutro px-4 py-2 font-semibold text-hoja transition-[filter,transform] duration-200 ease-plano hover:-translate-y-px hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro"
                   >
                     Repetir solo las incorrectas ({falladas.length})
                   </button>
@@ -317,26 +355,29 @@ export default function Cuestionarios({ onInicio }: Props) {
                   onClick={() => reiniciar(cuestionario.preguntas)}
                   className={
                     falladas.length > 0
-                      ? 'rounded-md border border-linea bg-plano px-4 py-2 font-semibold text-tinta hover:border-neutro focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro'
-                      : 'rounded-md bg-neutro px-4 py-2 font-semibold text-hoja hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro'
+                      ? 'rounded-[4px] border border-linea bg-plano px-4 py-2 font-semibold text-tinta transition-[border-color,background-color] duration-200 ease-plano hover:border-neutro hover:bg-neutro-fondo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro'
+                      : 'rounded-[4px] bg-neutro px-4 py-2 font-semibold text-hoja transition-[filter,transform] duration-200 ease-plano hover:-translate-y-px hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro'
                   }
                 >
                   Repetir cuestionario
                 </button>
-                <button type="button" onClick={volverALista} className="rounded-md border border-linea bg-plano px-4 py-2 font-semibold text-tinta hover:border-neutro focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro">
+                <button type="button" onClick={volverALista} className="rounded-[4px] border border-linea bg-plano px-4 py-2 font-semibold text-tinta transition-[border-color,background-color] duration-200 ease-plano hover:border-neutro hover:bg-neutro-fondo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro">
                   Elegir otro test
                 </button>
               </div>
             </section>
           ) : pregunta ? (
-            <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_15rem]">
+            <div className="animate-vista-entra grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_15rem]">
               <section aria-labelledby="pregunta-heading" className="min-w-0">
                 <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
                   <div>
-                    <p className="mb-1 mt-0 text-sm text-tinta-2">{cuestionario.nombre} · {pregunta.tema}</p>
-                    <p className="m-0 text-sm font-medium text-tinta-2">Pregunta {indice + 1} de {preguntas.length}</p>
+                    <p className="rotulo mb-[0.3rem] mt-0">{cuestionario.nombre} · {pregunta.tema}</p>
+                    <p className="m-0 text-[0.95rem] font-medium text-tinta-2">
+                      Pregunta <span className="dato text-tinta">{indice + 1}</span> de{' '}
+                      <span className="dato text-tinta">{preguntas.length}</span>
+                    </p>
                   </div>
-                  <span className="text-sm font-semibold text-tinta-2">{Math.round(progreso)}%</span>
+                  <span className="dato text-[0.9rem] font-semibold text-tinta-2">{Math.round(progreso)}%</span>
                 </div>
                 <div
                   role="progressbar"
@@ -344,36 +385,56 @@ export default function Cuestionarios({ onInicio }: Props) {
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-valuenow={Math.round(progreso)}
-                  className="mb-6 h-2 overflow-hidden rounded-full bg-[var(--linea)]"
+                  className="mb-6 h-[6px] overflow-hidden rounded-[3px] bg-[var(--linea)]"
                 >
-                  <div className="h-full bg-neutro transition-[width] duration-200" style={{ width: `${progreso}%` }} />
+                  <div
+                    className="h-full rounded-[3px] bg-neutro transition-[width] duration-300 ease-plano"
+                    style={{ width: `${progreso}%` }}
+                  />
                 </div>
 
-                <div className="rounded-lg border border-linea bg-hoja p-5 md:p-8">
-                  <h1 id="pregunta-heading" className="mb-6 mt-0 text-2xl font-semibold leading-snug">{pregunta.question}</h1>
-                  <div className="grid gap-3">
+                <div className="rounded-[4px] border border-linea bg-hoja p-5 md:p-8">
+                  <h1 id="pregunta-heading" className="mb-6 mt-0 text-2xl font-semibold leading-snug text-balance">{pregunta.question}</h1>
+                  <div className="grid gap-2">
                     {opciones.map(({ numero, texto }, indiceOpcion) => {
                       const esCorrecta = numero === pregunta.ans
                       const esSeleccionada = numero === respuesta
-                      const estilo = respuesta === null
-                        ? 'border-linea hover:border-neutro'
+                      const revelada = respuesta !== null
+                      const estilo = !revelada
+                        ? 'border-linea hover:border-neutro hover:bg-neutro-fondo/40'
                         : esCorrecta
-                          ? 'border-tierra-a bg-tierra-a/10'
+                          ? 'border-[var(--aviso-exito)] bg-tierra-a/10'
                           : esSeleccionada
-                            ? 'border-[var(--nota-rojo)] bg-[var(--nota-rojo)]/20'
+                            ? 'border-[var(--aviso-error)] bg-[var(--aviso-error)]/20'
                             : 'border-linea opacity-70'
 
                       return (
                         <button
                           key={numero}
                           type="button"
-                          disabled={respuesta !== null}
+                          disabled={revelada}
                           aria-pressed={esSeleccionada}
                           aria-keyshortcuts={String(indiceOpcion + 1)}
                           onClick={() => responder(numero)}
-                          className={`rounded-md border bg-plano px-4 py-3 text-left text-tinta transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:cursor-default ${estilo}`}
+                          className={`relative overflow-hidden rounded-[4px] border bg-plano py-3 pl-4 pr-4 text-left text-tinta transition-[border-color,background-color,opacity,transform] duration-200 ease-plano focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:cursor-default ${estilo}`}
                         >
-                          <span className="mr-2 font-semibold">{String.fromCharCode(64 + numero)}.</span>{texto}
+                          {/* La marca de la respuesta: entra desde arriba, como la del
+                              índice. Verde si es la correcta, roja si era la elegida. */}
+                          <span
+                            aria-hidden="true"
+                            className={[
+                              'absolute inset-y-0 left-0 w-[3px] origin-top transition-transform duration-300 ease-plano',
+                              revelada && esCorrecta
+                                ? 'scale-y-100 bg-tierra-a'
+                                : revelada && esSeleccionada
+                                  ? 'scale-y-100 bg-[var(--aviso-error)]'
+                                  : 'scale-y-0 bg-neutro',
+                            ].join(' ')}
+                          />
+                          <span className="dato mr-[0.6rem] inline-flex size-[1.35rem] items-center justify-center rounded-[3px] border border-linea bg-hoja align-[-0.15em] text-[0.72rem] font-semibold text-tinta-2">
+                            {String.fromCharCode(64 + numero)}
+                          </span>
+                          {texto}
                         </button>
                       )
                     })}
@@ -382,47 +443,51 @@ export default function Cuestionarios({ onInicio }: Props) {
                   <div className="mt-5 flex flex-wrap items-center justify-end gap-4">
                     {/* El botón está siempre: deshabilitado mientras no hay respuesta, para
                         que el bloque no cambie de alto y el siguiente paso se vea venir. */}
-                    <button type="button" aria-keyshortcuts="Space" onClick={avanzar} disabled={respuesta === null} className="rounded-md bg-neutro px-4 py-2 font-semibold text-hoja hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:pointer-events-none disabled:opacity-45">
+                    <button type="button" aria-keyshortcuts="Space" onClick={avanzar} disabled={respuesta === null} className="rounded-[4px] bg-neutro px-4 py-2 font-semibold text-hoja transition-[filter,transform,opacity] duration-200 ease-plano hover:-translate-y-px hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:pointer-events-none disabled:opacity-45 disabled:hover:translate-y-0">
                       {indice === preguntas.length - 1 ? 'Ver resultado' : 'Siguiente pregunta'}
                     </button>
                   </div>
                 </div>
 
-                <aside aria-labelledby="atajos-heading" className="mt-4 rounded-lg border border-linea bg-hoja p-4 md:p-5">
-                  <h2 id="atajos-heading" className="mb-3 mt-0 text-sm font-semibold">Atajos de teclado</h2>
+                <aside aria-labelledby="atajos-heading" className="mt-4 rounded-[4px] border border-linea bg-hoja p-4 md:p-5">
+                  <h2 id="atajos-heading" className="rotulo mb-3 mt-0">Atajos de teclado</h2>
                   <ul className="m-0 grid list-none gap-2 p-0 text-sm text-tinta-2">
                     <li className="flex flex-wrap items-center gap-2">
                       <span className="flex items-center gap-1" aria-hidden="true">
                         {opciones.map(({ numero }) => (
-                          <kbd key={numero} className="rounded-md border border-linea bg-plano px-2 py-0.5 font-mono text-xs font-semibold text-tinta">{String(numero)}</kbd>
+                          <kbd key={numero} className="dato rounded-[3px] border border-linea bg-plano px-2 py-0.5 text-[0.72rem] font-semibold text-tinta shadow-[0_1px_0_var(--linea)]">{String(numero)}</kbd>
                         ))}
                       </span>
                       <span className="sr-only">Teclas {opciones[0]?.numero} a {opciones[opciones.length - 1]?.numero}</span>
                       <span>Elegir una respuesta</span>
                     </li>
                     <li className="flex flex-wrap items-center gap-2">
-                      <kbd aria-hidden="true" className="rounded-md border border-linea bg-plano px-2 py-0.5 font-mono text-xs font-semibold text-tinta">Espacio</kbd>
+                      <kbd aria-hidden="true" className="dato rounded-[3px] border border-linea bg-plano px-2 py-0.5 text-[0.72rem] font-semibold text-tinta shadow-[0_1px_0_var(--linea)]">Espacio</kbd>
                       <span>Avanzar a la siguiente pregunta después de responder</span>
                     </li>
                   </ul>
                 </aside>
               </section>
 
-              <aside aria-label="Estado de la ronda" className="order-first grid gap-3 rounded-lg border border-linea bg-hoja p-4 md:order-none md:sticky md:top-4 md:p-5">
+              <aside aria-label="Estado de la ronda" className="order-first grid gap-3 rounded-[4px] border border-linea bg-hoja p-4 md:order-none md:sticky md:top-4 md:p-5">
                 <div>
-                  <p className="m-0 text-xs font-medium text-tinta-2">Tiempo en curso</p>
-                  <p className="m-0 font-mono text-3xl font-semibold leading-none tabular-nums text-tinta">
+                  <p className="rotulo m-0">Tiempo en curso</p>
+                  <p className="dato m-0 text-3xl font-semibold leading-none text-tinta">
                     {minutosTranscurridos}:{segundosTranscurridos}
                   </p>
                 </div>
-                <div className="grid gap-3">
-                  <div className="rounded-md border border-tierra-a bg-tierra-a/10 px-3 py-2">
-                    <p className="m-0 text-xs font-medium text-tinta-2">Correctas</p>
-                    <p className="m-0 text-2xl font-semibold leading-tight text-tierra-a">{aciertos}</p>
+                <div className="grid gap-2">
+                  <div className="rounded-[3px] border border-[var(--aviso-exito)] bg-tierra-a/10 px-3 py-2">
+                    <p className="rotulo m-0 mb-[0.15rem]">Correctas</p>
+                    <p className="m-0 text-2xl font-semibold leading-tight text-[var(--aviso-exito)]">
+                      <span key={`aciertos-${aciertos}`} className="dato inline-block animate-marca-cuenta">{aciertos}</span>
+                    </p>
                   </div>
-                  <div className="rounded-md border border-[var(--nota-rojo)] bg-[var(--nota-rojo)]/10 px-3 py-2">
-                    <p className="m-0 text-xs font-medium text-tinta-2">Equivocadas</p>
-                    <p className="m-0 text-2xl font-semibold leading-tight text-[var(--nota-rojo)]">{falladas.length}</p>
+                  <div className="rounded-[3px] border border-[var(--aviso-error)] bg-[var(--aviso-error)]/10 px-3 py-2">
+                    <p className="rotulo m-0 mb-[0.15rem]">Equivocadas</p>
+                    <p className="m-0 text-2xl font-semibold leading-tight text-[var(--aviso-error)]">
+                      <span key={`falladas-${falladas.length}`} className="dato inline-block animate-marca-cuenta">{falladas.length}</span>
+                    </p>
                   </div>
                 </div>
               </aside>

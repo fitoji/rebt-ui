@@ -130,6 +130,7 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
         rows={rows}
         searching={searching}
         activeId={active?.id}
+        bloqueEnRuta={Boolean(docId)}
         onSelect={select}
         query={query}
         setQuery={setQuery}

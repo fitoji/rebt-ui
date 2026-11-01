@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
+import { ArrowUpRight } from 'lucide-react'
 import { getBlock, NORMA_ID } from './api.ts'
 import { formatDate, gridToMarkdown, splitTitle } from './parse.ts'
 import { Highlight, Item } from './render.tsx'
@@ -28,6 +29,25 @@ function useBlock(id: string, attempt: number): EstadoBloque {
     }
   }, [id, attempt])
   return state
+}
+
+/** Líneas del ancho de la columna de lectura: el hueco que va a llenar el texto. */
+const ESQUELETO = ['92%', '100%', '96%', '88%', '98%', '93%', '70%', '97%', '94%', '86%', '99%', '62%']
+
+function EsqueletoTexto() {
+  return (
+    <div role="status" aria-label="Cargando el texto" className="max-w-[68ch]">
+      <span className="sr-only">Cargando el texto…</span>
+      {ESQUELETO.map((ancho, i) => (
+        <span
+          key={i}
+          aria-hidden="true"
+          className="hueso mb-[0.55rem] block h-[0.95rem]"
+          style={{ width: ancho }}
+        />
+      ))}
+    </div>
+  )
 }
 
 interface ReaderProps {
@@ -99,61 +119,73 @@ export default function Reader({
 
   return (
     <main
-      className="overflow-y-auto px-[clamp(1.1rem,4vw,3.5rem)] pt-[2.2rem] pb-[4rem] outline-none max-[860px]:pt-[3.2rem] [&>*]:mx-auto [&>*]:max-w-[70rem]"
+      className="animate-vista-entra overflow-y-auto px-[clamp(1.1rem,4vw,3.5rem)] pt-[2.2rem] pb-[4rem] outline-none max-[860px]:pt-[3.2rem] [&>*]:mx-auto [&>*]:max-w-[70rem]"
       ref={top}
       tabIndex={-1}
     >
-      <header className="mb-[2rem] border-b border-linea pb-[1.1rem]">
-        <h1 className="m-0 max-w-[24ch] text-[clamp(1.9rem,3.4vw,2.8rem)] font-semibold leading-[1.1] text-balance">
-          {itc && (
-            <span className="mb-[0.35rem] block text-[1.05rem] font-medium tabular-nums text-fase">
-              ITC-{itc}
-            </span>
-          )}
+      <header className="mb-[2rem] border-b border-linea pb-[1.25rem]">
+        <h1 className="m-0 max-w-[24ch] text-[clamp(1.9rem,3.4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em] text-balance">
           {nombre}
         </h1>
-        <div className="mt-[0.9rem] flex flex-wrap items-center gap-[0.6rem_1.6rem] text-tinta-2">
+
+        {/* La ficha del bloque: el cajetín de la cabecera de una lámina, con los mismos
+            campos y el mismo orden en todos los bloques del reglamento. */}
+        <dl className="cajetin mt-[1.1rem] max-w-[46rem]">
+          <div>
+            <dt className="rotulo">{itc ? 'Código' : 'Documento'}</dt>
+            <dd className="dato m-0 text-[0.85rem] text-neutro">{itc ? `ITC-${itc}` : 'REBT'}</dd>
+          </div>
           {version?.vigencia && (
-            <label className="flex items-center gap-[0.5rem]">
-              {versiones.length > 1 ? (
-                <>
-                  <span>Versión</span>
+            <div>
+              <dt className="rotulo">{versiones.length > 1 ? 'Redacción' : 'Vigente desde'}</dt>
+              <dd className="m-0">
+                {versiones.length > 1 ? (
                   <select
-                    className="rounded-[4px] border border-linea bg-hoja py-[0.25rem] px-[0.4rem]"
+                    className="dato rounded-[3px] border border-linea bg-hoja py-[0.1rem] pr-[1.4rem] pl-[0.3rem] text-[0.85rem] transition-colors duration-150 ease-plano hover:border-neutro focus:border-neutro"
                     value={versionIdx}
                     onChange={(e) => setVersionIdx(+e.target.value)}
                   >
                     {versiones.map((v, i) => (
                       <option key={v.vigencia + i} value={i}>
-                        Vigente desde {formatDate(v.vigencia)}
-                        {i === 0 ? ' (actual)' : ''}
+                        {formatDate(v.vigencia)}
+                        {i === 0 ? ' · actual' : ''}
                       </option>
                     ))}
                   </select>
-                </>
-              ) : (
-                <span>Vigente desde {formatDate(version.vigencia)}</span>
-              )}
-            </label>
+                ) : (
+                  <span className="dato text-[0.85rem] text-tinta">{formatDate(version.vigencia)}</span>
+                )}
+              </dd>
+            </div>
           )}
-          <a
-            className="text-neutro"
-            href={`https://www.boe.es/buscar/act.php?id=${NORMA_ID}#${encodeURIComponent(entry.id)}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Abrir en boe.es
-          </a>
-        </div>
+          <div>
+            <dt className="rotulo">Texto oficial</dt>
+            <dd className="m-0">
+              <a
+                className="group inline-flex items-center gap-[0.25rem] text-[0.85rem] text-neutro underline decoration-1 underline-offset-[0.2em] hover:text-fase"
+                href={`https://www.boe.es/buscar/act.php?id=${NORMA_ID}#${encodeURIComponent(entry.id)}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                boe.es
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className="size-3.5 transition-transform duration-200 ease-plano group-hover:-translate-y-px group-hover:translate-x-px"
+                />
+              </a>
+            </dd>
+          </div>
+        </dl>
       </header>
 
-      {estado.status === 'loading' && <p className="font-serif text-tinta-2" role="status">Cargando el texto…</p>}
+      {estado.status === 'loading' && <EsqueletoTexto />}
       {estado.status === 'error' && (
-        <div className="border-l-4 border-fase bg-hoja py-[1rem] px-[1.2rem] font-serif text-tinta-2" role="alert">
-          <p>No se pudo cargar este bloque.</p>
-          <p>{estado.error.message}</p>
+        <div className="rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]" role="alert">
+          <p className="rotulo mt-0 mb-[0.4rem] text-fase">Error de lectura</p>
+          <p className="mt-0 mb-[0.35rem] font-serif text-[1.05rem] text-tinta">No se pudo cargar este bloque.</p>
+          <p className="mt-0 mb-[0.9rem] font-serif text-[0.95rem] text-tinta-2">{estado.error.message}</p>
           <button
-            className="rounded-[4px] border border-linea bg-neutro-fondo py-[0.4rem] px-[0.9rem]"
+            className="rounded-[4px] border border-linea bg-neutro-fondo py-[0.4rem] px-[0.9rem] transition-colors duration-150 ease-plano hover:border-neutro"
             onClick={() => setAttempt((n) => n + 1)}
           >
             Reintentar
@@ -199,10 +231,10 @@ export default function Reader({
       >
         {prev ? (
           <button
-            className="max-w-[24rem] rounded-[4px] border border-linea bg-hoja py-[0.6rem] px-[0.9rem] text-left leading-[1.3] hover:border-neutro max-[860px]:max-w-none"
+            className="group max-w-[24rem] rounded-[4px] border border-linea bg-hoja py-[0.6rem] px-[0.9rem] text-left leading-[1.3] transition-[border-color,background-color,transform] duration-200 ease-plano hover:-translate-y-[1px] hover:border-neutro hover:bg-neutro-fondo max-[860px]:max-w-none"
             onClick={() => onSelect(prev.id)}
           >
-            <small className="block text-tinta-2">Anterior</small>
+            <small className="rotulo mb-[0.15rem] block">Anterior</small>
             {splitTitle(prev.titulo).itc ? `ITC-${splitTitle(prev.titulo).itc}. ` : ''}
             {splitTitle(prev.titulo).nombre}
           </button>
@@ -212,9 +244,9 @@ export default function Reader({
         {next && (
           <button
             onClick={() => onSelect(next.id)}
-            className="ml-auto max-w-[24rem] rounded-[4px] border border-linea bg-hoja py-[0.6rem] px-[0.9rem] text-right leading-[1.3] hover:border-neutro max-[860px]:max-w-none"
+            className="group ml-auto max-w-[24rem] rounded-[4px] border border-linea bg-hoja py-[0.6rem] px-[0.9rem] text-right leading-[1.3] transition-[border-color,background-color,transform] duration-200 ease-plano hover:-translate-y-[1px] hover:border-neutro hover:bg-neutro-fondo max-[860px]:max-w-none"
           >
-            <small className="block text-tinta-2">Siguiente</small>
+            <small className="rotulo mb-[0.15rem] block">Siguiente</small>
             {splitTitle(next.titulo).itc ? `ITC-${splitTitle(next.titulo).itc}. ` : ''}
             {splitTitle(next.titulo).nombre}
           </button>

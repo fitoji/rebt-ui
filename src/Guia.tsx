@@ -98,32 +98,32 @@ function GuiaInicio({
   const documentos = indice.documentos ?? []
   return (
     <div className="mx-auto max-w-[52rem] px-[1.5rem] pt-[2.5rem] pb-[4rem]">
-      <div className="mb-[0.6rem] flex items-baseline justify-between gap-[0.75rem]">
+      <div className="mb-[1.6rem] flex items-baseline justify-between gap-[0.75rem] border-b border-linea pb-[0.6rem]">
         <InicioBoton onInicio={onInicio} />
         <TemaBoton tema={theme} onToggle={onToggleTheme} />
       </div>
-      <h1 className="mt-[1.2rem] mb-[0.3rem] text-[2.4rem] font-semibold leading-[1.05]">Guías técnicas</h1>
-      <p className="mt-0 mb-[1rem] max-w-[40rem] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
+      <h1 className="mt-0 mb-[0.4rem] text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.01em]">Guías técnicas</h1>
+      <p className="mt-0 mb-[1.4rem] max-w-[40rem] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
         Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
         Industria y Turismo, convertidas a texto buscable.
       </p>
       {(indice.total_paginas || indice.total_tablas) && (
-        <dl className="mb-[1.4rem] grid grid-cols-3 gap-[0.75rem] text-center">
-          <div className="flex min-w-0 flex-col gap-[0.15rem]">
-            <dt className="text-[0.85rem] text-tinta-2">Documentos</dt>
-            <dd className="m-0 text-[1.1rem] font-semibold text-neutro">{indice.total_documentos ?? documentos.length}</dd>
+        <dl className="cajetin mb-[1.6rem]">
+          <div>
+            <dt className="rotulo">Documentos</dt>
+            <dd className="dato m-0 text-[0.95rem] text-tinta">{indice.total_documentos ?? documentos.length}</dd>
           </div>
-          <div className="flex min-w-0 flex-col gap-[0.15rem]">
-            <dt className="text-[0.85rem] text-tinta-2">Páginas</dt>
-            <dd className="m-0 text-[1.1rem] font-semibold text-neutro">{indice.total_paginas}</dd>
+          <div>
+            <dt className="rotulo">Páginas</dt>
+            <dd className="dato m-0 text-[0.95rem] text-tinta">{indice.total_paginas ?? '—'}</dd>
           </div>
-          <div className="flex min-w-0 flex-col gap-[0.15rem]">
-            <dt className="text-[0.85rem] text-tinta-2">Tablas</dt>
-            <dd className="m-0 text-[1.1rem] font-semibold text-neutro">{indice.total_tablas}</dd>
+          <div>
+            <dt className="rotulo">Tablas</dt>
+            <dd className="dato m-0 text-[0.95rem] text-tinta">{indice.total_tablas ?? '—'}</dd>
           </div>
         </dl>
       )}
-      <p className="mt-0 max-w-[38rem] border-t border-linea pt-[1.2rem] font-serif text-[1rem] leading-[1.5] text-tinta-2">
+      <p className="mt-0 max-w-[38rem] font-serif text-[1rem] leading-[1.5] text-tinta-2">
         Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede
         copiar a hoja de cálculo, copiar como Markdown o descargar como CSV, y lo que subrayes
         queda guardado como nota.
@@ -273,51 +273,88 @@ function GuiaDocumento({
     [id, notas, doc?.titulo],
   )
 
-  if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="status">Cargando la guía…</p>
+  if (state.status === 'loading') {
+    return (
+      <div className="mx-auto max-w-[62rem] px-[1.5rem] pt-[2rem] pb-[4rem]" role="status">
+        <span className="sr-only">Cargando la guía…</span>
+        <div aria-hidden="true" className="max-w-[46rem]">
+          <span className="hueso mb-[1.4rem] block h-[2rem] w-[60%]" />
+          {['96%', '100%', '92%', '98%', '88%', '74%', '97%', '91%', '99%', '56%'].map((ancho, i) => (
+            <span key={i} className="hueso mb-[0.55rem] block h-[0.95rem]" style={{ width: ancho }} />
+          ))}
+        </div>
+      </div>
+    )
+  }
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={onVolver} />
 
   const meta = state.frontMatter ?? {}
 
   return (
-    <div className="mx-auto max-w-[62rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
-      <header className="mb-[1.6rem] flex flex-wrap items-center gap-[0.6rem_1rem] border-b border-linea pb-[1.2rem]">
-        <div className="mr-auto flex items-baseline gap-[1rem]">
+    <div className="animate-vista-entra mx-auto max-w-[62rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
+      <header className="mb-[1.6rem] border-b border-linea pb-[1.2rem]">
+        <div className="flex flex-wrap items-center gap-[0.4rem_1rem]">
           <InicioBoton onInicio={onInicio} />
-          <button className="mr-auto py-[0.3rem] text-[0.95rem] text-neutro hover:underline" onClick={onVolver}>
+          <button
+            className="py-[0.3rem] text-[0.95rem] text-neutro underline decoration-1 underline-offset-[0.2em] hover:text-fase"
+            onClick={onVolver}
+          >
             Índice de guías
           </button>
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
+          <span className="ml-auto flex items-center gap-[0.5rem]">
+            {pdf && (
+              <a
+                className="rounded-[4px] bg-neutro px-[0.9rem] py-[0.4rem] text-[0.9rem] text-hoja no-underline transition-[filter,transform] duration-200 ease-plano hover:-translate-y-px hover:brightness-[1.1]"
+                href={pdf}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Ver PDF original
+              </a>
+            )}
+            {/* Se puede marcar el documento mientras se lee, sin volver al índice. */}
+            <BotonFavorito id={id} titulo={doc?.titulo ?? id} favoritos={favoritos} />
+          </span>
         </div>
-        <div className="flex flex-wrap items-center gap-[0.7rem] text-[0.9rem] text-tinta-2">
-          <span className="rounded-[3px] bg-neutro-fondo px-[0.4rem] py-[0.1rem] font-semibold">{id}</span>
-          {meta.edicion ? <span>Edición {meta.edicion}</span> : null}
-          {meta.revision ? <span>Rev. {meta.revision}</span> : null}
-          {doc?.paginas ? <span>{doc.paginas} pág.</span> : null}
+
+        {/* La ficha del documento: código, edición, revisión y páginas, en el mismo cajetín
+            que el resto de la app. El código va primero porque es lo que se cita. */}
+        <div className="mt-[1rem] max-w-[46rem]">
+          <dl className="cajetin">
+            <div>
+              <dt className="rotulo">Documento</dt>
+              <dd className="dato m-0 truncate text-[0.82rem] text-neutro">{id}</dd>
+            </div>
+            <div>
+              <dt className="rotulo">Edición</dt>
+              <dd className="dato m-0 truncate text-[0.82rem] text-tinta">{meta.edicion ?? '—'}</dd>
+            </div>
+            <div>
+              <dt className="rotulo">Revisión</dt>
+              <dd className="dato m-0 truncate text-[0.82rem] text-tinta">{meta.revision ?? '—'}</dd>
+            </div>
+            <div>
+              <dt className="rotulo">Páginas</dt>
+              <dd className="dato m-0 text-[0.82rem] text-tinta">{doc?.paginas ?? '—'}</dd>
+            </div>
+          </dl>
         </div>
-        {pdf && (
-          <a
-            className="rounded-[5px] bg-neutro px-[0.9rem] py-[0.45rem] text-[0.95rem] text-hoja no-underline hover:brightness-[1.1]"
-            href={pdf}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Ver PDF original
-          </a>
-        )}
-        {/* Se puede marcar el documento mientras se lee, sin volver al índice. */}
-        <BotonFavorito id={id} titulo={doc?.titulo ?? id} favoritos={favoritos} />
       </header>
 
-      {/* El acordeón de notas va arriba del texto: es donde se llega al resaltado. */}
-      <CajaNotas
-        notas={notasDoc}
-        total={notas.notas.length}
-        abierto={notasAbierto}
-        onAlternar={() => setNotasAbierto((v) => !v)}
-        onIr={irANota}
-        onQuitar={(nota) => notas.quitar(nota.id)}
-        onVerTodas={onVerNotas}
-      />
+      {/* El acordeón de notas va arriba del texto: es donde se llega al resaltado. Va en
+          la misma columna de lectura que el artículo, no en todo el ancho de la lámina. */}
+      <div className="max-w-[46rem]">
+        <CajaNotas
+          notas={notasDoc}
+          total={notas.notas.length}
+          abierto={notasAbierto}
+          onAlternar={() => setNotasAbierto((v) => !v)}
+          onIr={irANota}
+          onQuitar={(nota) => notas.quitar(nota.id)}
+          onVerTodas={onVerNotas}
+        />
+      </div>
 
       {/* El HTML lo genera `guia/markdown.ts`, que escapa todo el texto y solo emite las
           etiquetas que él mismo construye; ningún href del corpus pasa sin pasar por
@@ -354,18 +391,21 @@ function GuiaDocumento({
       >
         {prev ? (
           <button
-            className="flex flex-col gap-[0.25rem] rounded-[6px] border border-linea bg-hoja p-[0.8rem] text-left hover:border-neutro"
+            className="flex flex-col gap-[0.25rem] rounded-[4px] border border-linea bg-hoja p-[0.8rem] text-left transition-[border-color,background-color,transform] duration-200 ease-plano hover:-translate-y-px hover:border-neutro hover:bg-neutro-fondo"
             onClick={() => onSelect(prev.id)}
           >
-            <span className="text-[0.85rem] text-neutro">← Anterior</span>
+            <span className="rotulo">← Anterior</span>
             <span className="text-[1rem] leading-[1.25]">{prev.titulo}</span>
           </button>
         ) : (
           <span />
         )}
         {next ? (
-          <button onClick={() => onSelect(next.id)}>
-            <span className="text-[0.85rem] text-neutro">Siguiente guía</span>
+          <button
+            className="flex flex-col items-end gap-[0.25rem] rounded-[4px] border border-linea bg-hoja p-[0.8rem] text-right transition-[border-color,background-color,transform] duration-200 ease-plano hover:-translate-y-px hover:border-neutro hover:bg-neutro-fondo"
+            onClick={() => onSelect(next.id)}
+          >
+            <span className="rotulo">Siguiente →</span>
             <span className="text-[1rem] leading-[1.25]">{next.titulo}</span>
           </button>
         ) : (
