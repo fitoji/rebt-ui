@@ -4,6 +4,7 @@
 // resaltado y el que la borra.
 
 import Accordion from './Accordion.tsx'
+import { X } from 'lucide-react'
 import type { Nota } from './notas.ts'
 
 export default function CajaNotas({
@@ -45,12 +46,12 @@ export default function CajaNotas({
                 «{nota.tags.includes('tablas') ? 'Tabla' : nota.texto}»
               </button>
               <button
-                className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 text-[1rem] leading-[1.2] text-tinta-2 hover:bg-plano hover:text-fase"
+                className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 leading-[1.2] text-tinta-2 transition-colors duration-150 ease-plano hover:bg-plano hover:text-fase"
                 onClick={() => onQuitar(nota)}
                 aria-label={`Quitar la nota «${nota.texto}»`}
                 title="Quitar la nota"
               >
-                ×
+                <X aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
               </button>
             </li>
           ))}

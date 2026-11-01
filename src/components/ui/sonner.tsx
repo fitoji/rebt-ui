@@ -13,7 +13,7 @@ export function Toaster(props: ToasterProps) {
     '--normal-bg': 'var(--hoja)',
     '--normal-text': 'var(--tinta)',
     '--normal-border': 'var(--linea)',
-    '--border-radius': 'var(--radius-lg)',
+    '--border-radius': '4px',
   } as CSSProperties
 
   return (
@@ -29,9 +29,9 @@ export function Toaster(props: ToasterProps) {
           // Fondo teñido + tinta propia: el veredicto se lee de un vistazo, no solo por el
           // filo. Los cuatro valores salen de tokens, así que siguen el tema.
           success:
-            'bg-(--aviso-exito-fondo)! text-(--aviso-exito-tinta)! border-(--aviso-exito)! border-l-4!',
+            'bg-(--aviso-exito-fondo)! text-(--aviso-exito-tinta)! border-(--aviso-exito)!',
           error:
-            'bg-(--aviso-error-fondo)! text-(--aviso-error-tinta)! border-(--aviso-error)! border-l-4!',
+            'bg-(--aviso-error-fondo)! text-(--aviso-error-tinta)! border-(--aviso-error)!',
           title: 'font-semibold',
           description: 'text-tinta-2',
           actionButton: 'bg-neutro text-hoja',

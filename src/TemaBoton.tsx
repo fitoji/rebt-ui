@@ -8,7 +8,7 @@ import { Moon, Sun } from 'lucide-react'
 export default function TemaBoton({ tema, onToggle }: { tema: Tema; onToggle: () => void }) {
   return (
     <button
-      className="inline-flex items-center justify-center p-[0.3rem] bg-transparent border border-linea rounded-[4px] text-[1.05rem] leading-none hover:bg-neutro-fondo hover:border-neutro"
+      className="inline-flex items-center justify-center rounded-[3px] border border-linea bg-transparent p-[0.3rem] text-[1.05rem] leading-none transition-colors duration-150 ease-plano hover:border-neutro hover:bg-neutro-fondo"
       onClick={onToggle}
       aria-label={tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
       title={tema === 'dark' ? 'Modo claro' : 'Modo oscuro'}

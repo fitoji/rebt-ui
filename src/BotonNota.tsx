@@ -98,7 +98,7 @@ export default function BotonNota({
   }
   return (
     <div
-      className={`fixed z-40 flex -translate-x-1/2 items-center gap-[0.3rem] whitespace-nowrap rounded-[5px] bg-tinta px-[0.5rem] py-[0.25rem] font-sans text-[0.85rem] text-hoja shadow-popover hover:bg-neutro ${arriba ? '-translate-y-full' : ''}`}
+      className={`animate-aparece fixed z-40 flex -translate-x-1/2 items-center gap-[0.35rem] whitespace-nowrap rounded-[4px] border border-tinta/20 bg-tinta px-[0.5rem] py-[0.3rem] font-sans text-[0.85rem] text-hoja shadow-popover ${arriba ? '-translate-y-full' : ''}`}
       style={{
         left: `clamp(5rem, ${seleccion.x}px, calc(100vw - 5rem))`,
         top: arriba ? seleccion.y : Math.max(8, seleccion.y + 24),
@@ -106,7 +106,7 @@ export default function BotonNota({
     >
       <button
         type="button"
-        className="cursor-pointer border-0 bg-transparent p-0 font-inherit text-inherit"
+        className="cursor-pointer border-0 bg-transparent p-0 font-inherit text-inherit transition-colors duration-150 ease-plano hover:text-marca"
         onPointerDown={(e) => e.preventDefault()}
         onClick={() => onGuardar(seleccion, COLOR_POR_DEFECTO)}
         onKeyDown={(e) => guardarConTecla(e, COLOR_POR_DEFECTO)}
@@ -117,7 +117,7 @@ export default function BotonNota({
         <button
           key={color}
           type="button"
-          className={`h-[0.7rem] w-[0.7rem] flex-none cursor-pointer rounded-full border border-linea p-0 ${
+          className={`size-[0.8rem] flex-none cursor-pointer rounded-full border border-hoja/50 p-0 transition-transform duration-150 ease-plano hover:scale-110 ${
             color === 'verde'
               ? 'bg-nota-verde'
               : color === 'rojo'

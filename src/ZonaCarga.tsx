@@ -140,13 +140,13 @@ export default function ZonaCarga({
   return (
     <label
       className={[
-        'relative flex w-full cursor-pointer select-none flex-col items-center justify-center gap-3 rounded-lg border border-dashed px-6 py-10 text-center outline-none',
-        'border-linea bg-hoja transition-[background-color,border-color] duration-150 ease motion-reduce:transition-none',
+        'relative flex w-full cursor-pointer select-none flex-col items-center justify-center gap-3 rounded-[4px] border border-dashed px-6 py-10 text-center outline-none',
+        'border-linea bg-hoja transition-[background-color,border-color] duration-200 ease-plano motion-reduce:transition-none',
         'hover:border-neutro hover:bg-neutro-fondo/40',
         'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-neutro',
         arrastrando ? 'border-neutro bg-neutro-fondo shadow-sm' : '',
-        error ? 'border-[var(--nota-rojo)] bg-[var(--nota-rojo)]/5' : '',
-        exito ? 'border-tierra-a bg-tierra-a/10' : '',
+        error ? 'border-[var(--aviso-error)] bg-[var(--aviso-error)]/5' : '',
+        exito ? 'border-[var(--aviso-exito)] bg-tierra-a/10' : '',
         disabled ? 'cursor-not-allowed opacity-55' : '',
       ].filter(Boolean).join(' ')}
       aria-disabled={disabled || undefined}
@@ -172,8 +172,8 @@ export default function ZonaCarga({
         className={[
           'flex size-12 items-center justify-center rounded-lg bg-plano text-tinta-2 transition-transform duration-150 ease motion-reduce:transition-none',
           arrastrando ? 'scale-110' : '',
-          error ? 'text-[var(--nota-rojo)]' : '',
-          exito ? 'text-tierra-a' : '',
+          error ? 'text-[var(--aviso-error)]' : '',
+          exito ? 'text-[var(--aviso-exito)]' : '',
         ].filter(Boolean).join(' ')}
         aria-hidden="true"
       >
@@ -204,7 +204,7 @@ export default function ZonaCarga({
           id="zona-carga-ayuda"
           role="status"
           aria-live="polite"
-          className={['text-xs', error ? 'text-[var(--nota-rojo)]' : 'text-tinta-2'].join(' ')}
+          className={['text-xs', error ? 'text-[var(--aviso-error)]' : 'text-tinta-2'].join(' ')}
         >
           {arrastrando
             ? 'Se cargarán como cuestionarios nuevos'
@@ -218,7 +218,7 @@ export default function ZonaCarga({
         </span>
       </span>
 
-      <span className="font-mono text-[11px] tracking-tight text-tinta-2" aria-hidden="true">
+      <span className="dato rounded-[3px] border border-linea px-[0.4rem] py-[0.1rem] text-[0.7rem] uppercase tracking-[0.08em] text-tinta-2" aria-hidden="true">
         .json
       </span>
     </label>
