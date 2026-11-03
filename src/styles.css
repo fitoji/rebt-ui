@@ -714,6 +714,41 @@
 
   .enlace-externo:hover { text-decoration: underline; }
 
+  /* ------------------------------------------------------------ las instrucciones del 73 */
+
+  /* Una lista y no una tabla: son trece documentos con títulos largos y solo tres campos,
+     la mayoría de una línea. En tabla, el título se comería la mitad del ancho. */
+  .lista-instrucciones {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--linea);
+  }
+
+  .lista-instrucciones li {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--linea);
+  }
+
+  /* La orden que aprobó el conjunto se separa de sus modificaciones. */
+  .lista-instrucciones li[data-base] {
+    background: color-mix(in srgb, var(--neutro-fondo) 50%, transparent);
+  }
+
+  @media (max-width: 700px) {
+    .lista-instrucciones li {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.2rem 0.8rem;
+    }
+    .lista-instrucciones li > :first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
   /* ------------------------------------------------------------ móvil */
   @media (max-width: 860px) {
     /* Dos columnas en el cajetín; si la última ficha queda sola, ocupa la fila entera en
