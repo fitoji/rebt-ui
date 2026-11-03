@@ -17,9 +17,16 @@ export default {
       return new Response('Invalid URL', { status: 400 })
     }
 
-    // Proxy /boe-api → boe.es
-    if (url.pathname.startsWith('/boe-api')) {
-      const apiPath = url.pathname.replace(/^\/boe-api/, '/datosabiertos/api')
+    // Proxy /boe-api → boe.es (colección consolidada) y /boe-doc → boe.es (diario, para
+    // las normas que no están consolidadas). Misma caché y mismo ETag para las dos.
+    const proxy = url.pathname.startsWith('/boe-api')
+      ? { prefijo: '/boe-api', destino: '/datosabiertos/api' }
+      : url.pathname.startsWith('/boe-doc')
+        ? { prefijo: '/boe-doc', destino: '/diario_boe' }
+        : null
+
+    if (proxy) {
+      const apiPath = url.pathname.replace(new RegExp(`^${proxy.prefijo}`), proxy.destino)
       const apiUrl = `https://www.boe.es${apiPath}${url.search}`
 
       try {

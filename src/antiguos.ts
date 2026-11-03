@@ -28,6 +28,8 @@ export interface Norma {
   boeId: string
   /** La relación que declara el propio BOE, no una interpretación. */
   nota: string
+  /** Si el diario del BOE la trae digitalizada como texto (se puede leer acá). */
+  diario: boolean
 }
 
 /** La vigente arriba; debajo, el reglamento que reemplazó, sus instrucciones y la
@@ -46,6 +48,7 @@ export const NORMAS: Norma[] = [
     pdf: null,
     boeId: 'BOE-A-2002-18099',
     nota: 'Vigente desde el 18 de septiembre de 2003.',
+    diario: false,
   },
   {
     id: 'rd-2413-1973',
@@ -59,6 +62,7 @@ export const NORMAS: Norma[] = [
     pdf: 'https://www.boe.es/boe/dias/1973/10/09/pdfs/A19482-19486.pdf',
     boeId: 'BOE-A-1973-1397',
     nota: 'Derogado por el RD 842/2002; estuvo vigente hasta el 18 de septiembre de 2003. Sus instrucciones complementarias van aparte, más abajo.',
+    diario: false,
   },
   {
     id: 'rd-2295-1985',
@@ -72,6 +76,7 @@ export const NORMAS: Norma[] = [
     pdf: 'https://www.boe.es/boe/dias/1985/12/12/pdfs/A39186-39186.pdf',
     boeId: 'BOE-A-1985-25822',
     nota: 'Añadió un párrafo al artículo 2 del reglamento de 1973.',
+    diario: true,
   },
 ]
 
@@ -100,6 +105,8 @@ export interface Instruccion {
   url: string
   /** La orden que aprobó el conjunto, no una modificación. */
   base?: boolean
+  /** Si el diario del BOE la trae digitalizada como texto (se puede leer acá). */
+  diario: boolean
 }
 
 /** El conjunto primero, y debajo las modificaciones en orden cronológico. */
@@ -113,6 +120,7 @@ export const INSTRUCCIONES: Instruccion[] = [
       'Orden de 31 de octubre de 1973 por la que se aprueban las instrucciones complementarias denominadas Instrucciones MI BT, con arreglo a lo dispuesto en el Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/boe/dias/1973/12/27/pdfs/A25065-25086.pdf',
     base: true,
+    diario: false,
   },
   {
     id: 'BOE-A-1974-630',
@@ -122,6 +130,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 6 de abril de 1974 por la que se dictan normas sobre las instrucciones complementarias del Reglamento Electrotécnico de Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1974-630',
+    diario: false,
   },
   {
     id: 'BOE-A-1978-908',
@@ -131,6 +140,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 19 de diciembre de 1977 por la que se modifica la Instrucción Complementaria MI.BT.025 del vigente Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1978-908',
+    diario: true,
   },
   {
     id: 'BOE-A-1978-2423',
@@ -140,6 +150,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 19 de diciembre de 1977 sobre modificación parcial y ampliación de las instrucciones complementarias MI. BT. 004, 007 y 017, anexas al vigente Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1978-2423',
+    diario: true,
   },
   {
     id: 'BOE-A-1980-17300',
@@ -149,6 +160,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 28 de julio de 1980 por la que se modifica la instrucción MI BT 040 en lo que se refiere a la concesión a Entidades del título de Instalador autorizado.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1980-17300',
+    diario: true,
   },
   {
     id: 'BOE-A-1980-22505',
@@ -158,6 +170,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 30 de septiembre de 1980 por la que se dispone que las Normas UNE que se citan sean consideradas como de obligado cumplimiento, incluyéndolas en la Instrucción MI BT 044 del Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1980-22505',
+    diario: true,
   },
   {
     id: 'BOE-A-1982-14071',
@@ -167,6 +180,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 5 de junio de 1982 por la que se dispone la inclusión de las normas UNE que se relacionan en la instrucción MI-BT-044 del Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1982-14071',
+    diario: true,
   },
   {
     id: 'BOE-A-1983-20494',
@@ -176,6 +190,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 11 de julio de 1983 por la que se modifican las instrucciones técnicas complementarias MI BT 008 y MI BT 044 del Reglamento Electrotécnico para Baja Tensión y se declaran de obligado cumplimiento diversas normas UNE relativas al empleo de material eléctrico en atmósferas potencialmente explosivas y al alumbrado de emergencia.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1983-20494',
+    diario: true,
   },
   {
     id: 'BOE-A-1984-12548',
@@ -185,6 +200,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 5 de abril de 1984 por la que se modifican las Instrucciones Técnicas Complementarias MI BT 025 y MI BT 044 del Reglamento Electrónico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1984-12548',
+    diario: true,
   },
   {
     id: 'BOE-A-1988-1577',
@@ -194,6 +210,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 13 de enero de 1988 por la que se modifica la Instrucción Complementaria MI BT 026 del Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1988-1577',
+    diario: true,
   },
   {
     id: 'BOE-A-1992-18501',
@@ -203,6 +220,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 24 de julio de 1992 por la que se adapta al progreso técnico la instrucción complementaria del Reglamento Electrotécnico para Baja Tensión MIBTO26.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1992-18501',
+    diario: true,
   },
   {
     id: 'BOE-A-1995-18268',
@@ -212,6 +230,7 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 18 de julio de 1995 por la que se adapta al progreso técnico la instrucción técnica complementaria MIBT 026 del Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1995-18268',
+    diario: true,
   },
   {
     id: 'BOE-A-1998-19107',
@@ -221,5 +240,6 @@ export const INSTRUCCIONES: Instruccion[] = [
     titulo:
       'Orden de 29 de julio de 1998 por la que se adapta al progreso técnico la instrucción complementaria MIBT 026 del Reglamento Electrotécnico para Baja Tensión.',
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-1998-19107',
+    diario: true,
   },
 ]

@@ -17,19 +17,19 @@ type EstadoBloque =
   | { status: 'ok'; data: BloqueConContenido }
   | { status: 'error'; error: Error }
 
-function useBlock(id: string, attempt: number): EstadoBloque {
+function useBlock(id: string, attempt: number, norma: string): EstadoBloque {
   const [state, setState] = useState<EstadoBloque>({ status: 'loading' })
   useEffect(() => {
     let live = true
     setState({ status: 'loading' })
-    getBlock(id).then(
+    getBlock(id, norma).then(
       (data) => live && setState({ status: 'ok', data }),
       (error: Error) => live && setState({ status: 'error', error }),
     )
     return () => {
       live = false
     }
-  }, [id, attempt])
+  }, [id, attempt, norma])
   return state
 }
 
@@ -64,6 +64,15 @@ interface ReaderProps {
   articulo: RefObject<HTMLElement>
   /** La nota a la que hay que llevar la vista, si viene de la página de notas. */
   nota?: string
+  /** La norma del BOE que se está leyendo. Por defecto, el REBT. */
+  normaId?: string
+  /**
+   * Si el lector deja subrayar. Las notas se guardan por bloque (`origen`) y las normas
+   * comparten los mismos ids (`a1`, `ci`, `pr`…), así que en otro documento una nota del
+   * REBT caería sobre un texto distinto. Hasta que la nota guarde de qué norma es, ahí no
+   * se subraya.
+   */
+  conNotas?: boolean
 }
 
 export default function Reader({
@@ -75,9 +84,11 @@ export default function Reader({
   notas,
   articulo,
   nota,
+  normaId = NORMA_ID,
+  conNotas = true,
 }: ReaderProps) {
   const [attempt, setAttempt] = useState(0)
-  const estado = useBlock(entry.id, attempt)
+  const estado = useBlock(entry.id, attempt, normaId)
   const [versionIdx, setVersionIdx] = useState(0)
   const top = useRef<HTMLElement | null>(null)
 
@@ -99,8 +110,8 @@ export default function Reader({
 
   // Las notas de este bloque y el botón que aparece al seleccionar texto.
   const notasDoc = useMemo(
-    () => notas.notas.filter((n) => n.origen === entry.id),
-    [notas.notas, entry.id],
+    () => (conNotas ? notas.notas.filter((n) => n.origen === entry.id) : []),
+    [notas.notas, entry.id, conNotas],
   )
   const { seleccion, limpiar } = useSeleccion(articulo)
 
@@ -170,7 +181,7 @@ export default function Reader({
             <dd className="m-0">
               <a
                 className="group inline-flex items-center gap-[0.25rem] text-[0.85rem] text-neutro underline decoration-1 underline-offset-[0.2em] hover:text-fase"
-                href={`https://www.boe.es/buscar/act.php?id=${NORMA_ID}#${encodeURIComponent(entry.id)}`}
+                href={`https://www.boe.es/buscar/act.php?id=${normaId}#${encodeURIComponent(entry.id)}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -212,6 +223,7 @@ export default function Reader({
                   item.kind === 'table' ? ++tableCount : tableCount,
                 ).padStart(2, '0')}`}
                 onAgregarNota={(grid, _name) => {
+                  if (!conNotas) return
                   notas.agregar(
                     crearNota('rebt', entry.id, entry.titulo, gridToMarkdown(grid), '', '', Date.now(), COLOR_POR_DEFECTO, ['tablas']),
                   )
@@ -222,7 +234,7 @@ export default function Reader({
         </Highlight.Provider>
       )}
 
-      <BotonNota
+      {conNotas && <BotonNota
         seleccion={seleccion}
         onGuardar={(sel, color) => {
           notas.agregar(
@@ -230,7 +242,7 @@ export default function Reader({
           )
           limpiar()
         }}
-      />
+      />}
 
       <nav
         className="lamina mt-[3rem] flex justify-between gap-[1rem] border-t border-linea pt-[1.2rem] max-[860px]:flex-col"

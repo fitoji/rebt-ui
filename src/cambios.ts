@@ -27,6 +27,8 @@ export interface Cambio {
   relacion: 'SE MODIFICA' | 'SE ACTUALIZA' | 'SE DEROGA' | 'SE DECLARA'
   /** Literal del BOE: qué artículo, ITC o apéndice tocó. */
   texto: string
+  /** Si el BOE la tiene consolidada. Las que no, solo existen como documento oficial. */
+  consolidada: boolean
   url: string
 }
 
@@ -41,6 +43,7 @@ export const CAMBIOS: Cambio[] = [
     anio: 2025,
     relacion: 'SE MODIFICA',
     texto: 'el apéndice I.1 de la ITC-BT-03, por Real Decreto 770/2025, de 2 de septiembre',
+    consolidada: false,
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-17507',
   },
   {
@@ -52,6 +55,7 @@ export const CAMBIOS: Cambio[] = [
     anio: 2025,
     relacion: 'SE ACTUALIZA',
     texto: 'la ITC-BT-02, por Resolución de 20 de marzo de 2025',
+    consolidada: false,
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-6773',
   },
   {
@@ -64,6 +68,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE MODIFICA',
     texto:
       ', con efectos desde el 1 de julio de 2023, el art. 25, por Real Decreto 145/2023, de 28 de febrero',
+    consolidada: true,
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-7056',
   },
   {
@@ -76,6 +81,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE MODIFICA',
     texto:
       'la ITC BT-52, en la redacción dada por el Real Decreto 1053/2014, de 12 de diciembre, por Real Decreto 450/2022, de 14 de junio',
+    consolidada: false,
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-9848',
   },
   {
@@ -87,6 +93,7 @@ export const CAMBIOS: Cambio[] = [
     anio: 2021,
     relacion: 'SE MODIFICA',
     texto: 'el art. 2.2 y la ITC-BT-03, por Real Decreto 298/2021, de 27 de abril',
+    consolidada: true,
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-6879',
   },
   {
@@ -99,6 +106,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE MODIFICA',
     texto:
       'el art. 14, la ITC-BT-04 y en la redacción dada por el Real Decreto 1053/2014, de 12 de diciembre, la ITC-BT-52, por Real Decreto 542/2020, de 26 de mayo',
+    consolidada: true,
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2020-6472',
   },
   {
@@ -110,6 +118,7 @@ export const CAMBIOS: Cambio[] = [
     anio: 2020,
     relacion: 'SE ACTUALIZA',
     texto: 'la ITC-BT-02, por Resolución de 9 de enero de 2020',
+    consolidada: false,
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2020-612',
   },
   {
@@ -122,6 +131,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE DEROGA',
     texto:
       'y SE MODIFICA lo indicado de la ITC-BT-40 del Reglamento, por Real Decreto 244/2019, de 5 de abril',
+    consolidada: true,
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2019-5089',
   },
   {
@@ -134,6 +144,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE MODIFICA',
     texto:
       ', con efectos de 30 de junio de 2015, las ITC BT-02, BT-04, BT-05, BT-10, BT-16 y BT-25, y SE AÑADE la BT-52, por Real Decreto 1053/2014, de 12 de diciembre',
+    consolidada: true,
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-13681',
   },
   {
@@ -146,6 +157,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE MODIFICA',
     texto:
       'el art. 22, la ITC BT03, SE SUSTITUYE lo indicado y SE AÑADEN las disposiciones adicionales 1 a 4, por Real Decreto 560/2010, de 7 de mayo',
+    consolidada: true,
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-8190',
   },
   {
@@ -158,6 +170,7 @@ export const CAMBIOS: Cambio[] = [
     relacion: 'SE DECLARA',
     texto:
       'la nulidad del inciso 4.2.c.2 de la ITC BT-03 anexa, por Sentencia del TS de 17 de febrero de 2004',
+    consolidada: false,
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2004-6072',
   },
 ]

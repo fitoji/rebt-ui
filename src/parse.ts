@@ -129,7 +129,7 @@ function paragraphKind(cls: string | null): ItemKind {
   return 'body'
 }
 
-function collectItems(parent: Element, out: Item[] = []): Item[] {
+export function collectItems(parent: Element, out: Item[] = []): Item[] {
   for (const el of Array.from(parent.children)) {
     const t = tag(el)
     if (t === 'p') {

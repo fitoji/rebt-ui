@@ -55,9 +55,29 @@ test('la página del archivo de normas anteriores', () => {
   assert.deepEqual(parseRoute('#/antiguos/'), { name: 'antiguos' })
 })
 
+test('una norma del archivo se lee en el lector', () => {
+  assert.deepEqual(parseRoute('#/antiguos/BOE-A-1978-2423'), {
+    name: 'antiguo',
+    id: 'BOE-A-1978-2423',
+  })
+})
+
 test('la página de cambios del reglamento', () => {
   assert.deepEqual(parseRoute('#/cambios'), { name: 'cambios' })
   assert.deepEqual(parseRoute('#/cambios/'), { name: 'cambios' })
+})
+
+test('una norma del historial se lee en el lector', () => {
+  assert.deepEqual(parseRoute('#/cambios/BOE-A-2019-5089'), {
+    name: 'cambio',
+    norma: 'BOE-A-2019-5089',
+    bloque: null,
+  })
+  assert.deepEqual(parseRoute('#/cambios/BOE-A-2019-5089/a1'), {
+    name: 'cambio',
+    norma: 'BOE-A-2019-5089',
+    bloque: 'a1',
+  })
 })
 
 test('una nota puede ir en la ruta, para saltar a ella desde la página', () => {

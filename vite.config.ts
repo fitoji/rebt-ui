@@ -9,12 +9,20 @@ import { guiaCorpus } from './vite/guia-corpus.ts'
 // BOE_TARGET y BOE_PREFIX permiten apuntar al servidor simulado (npm run dev:mock).
 const target = process.env.BOE_TARGET || 'https://www.boe.es'
 const prefix = process.env.BOE_PREFIX ?? '/datosabiertos/api'
+// El diario del BOE (`/diario_boe/txt.php`) es otra ruta: sirve el texto de las normas que
+// la colección consolidada no tiene. Va por su propio prefijo.
+const docPrefix = process.env.BOE_DOC_PREFIX ?? '/diario_boe'
 
 const proxy = {
   '/boe-api': {
     target,
     changeOrigin: true,
     rewrite: (path: string) => path.replace(/^\/boe-api/, prefix),
+  },
+  '/boe-doc': {
+    target,
+    changeOrigin: true,
+    rewrite: (path: string) => path.replace(/^\/boe-doc/, docPrefix),
   },
 }
 

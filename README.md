@@ -39,8 +39,8 @@
 | **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). Barra lateral con el índice de las guías, los favoritos y las notas, igual que el lector. |
 | **Notas** | Subrayás un trozo de texto con el ratón (o con el teclado) y queda **resaltado en el texto** y guardado en un acordeón «Notas», para volver a él después. Cada nota es **amarilla, verde o roja** (de qué es) y lleva las **etiquetas** que le pongas (de qué tema), con nombre libre. Se guardan en el navegador, con el texto y su contexto: si el texto se mueve, la nota lo sigue. En `#/notas` están **todas**, de las dos vistas, con el texto entero, su contexto y filtros **por color y por etiqueta**. |
 | **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC y los documentos que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano los que más usás. |
-| **REBT anteriores** | Las normas que rigieron antes del reglamento vigente —el de 1973 y la modificación de 1985—, con la ficha de cada una y el enlace al PDF oficial del BOE. Debajo, aparte, las **instrucciones complementarias MI BT**: el conjunto que se aprobó en una sola orden en 1973 y las 12 órdenes que lo modificaron hasta 1998. Las anteriores a 2002 no están consolidadas: solo existe el escaneo de la Gaceta, así que no se indexan. |
-| **Cambios del REBT** | El historial del reglamento vigente: las 11 normas que modificaron, actualizaron o anularon algún artículo o ITC desde 2002, con la fecha y qué instrucción tocó cada una. Responde «este artículo, ¿siempre dijo esto?», que el lector por sí solo no puede contestar. |
+| **REBT anteriores** | Las normas que rigieron antes del reglamento vigente —el de 1973 y la modificación de 1985—, con la ficha de cada una y el enlace al PDF oficial del BOE. Debajo, aparte, las **instrucciones complementarias MI BT**: el conjunto que se aprobó en una sola orden en 1973 y las 12 órdenes que lo modificaron hasta 1998. Las que el BOE digitalizó se leen dentro de la app con el texto del diario (`/boe-doc`); las de 1973 y 1974 solo existen como escaneo y enlazan al PDF. |
+| **Cambios del REBT** | El historial del reglamento vigente: las 11 normas que modificaron, actualizaron o anularon algún artículo o ITC desde 2002, con la fecha y qué instrucción tocó cada una. Responde «este artículo, ¿siempre dijo esto?», que el lector por sí solo no puede contestar. Todas se leen dentro de la app: las seis que el BOE consolida, con el lector de bloques y su índice; las cinco que no —dos de 2025, la de 2022, una resolución y una sentencia—, con el texto del diario del día en que se publicaron, parseado del HTML y renderizado igual. El enlace al documento original queda siempre a la vista. |
 | **Además** | Pantalla de inicio con las cinco puertas, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
 
 ## 🖼️ Las vistas
@@ -115,7 +115,10 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `#/guia/<id>` | una guía concreta (`BT-19`, `BT-Anexo-2`, …) |
 | `#/cuestionarios` | los cuestionarios del REBT |
 | `#/antiguos` | archivo de normas anteriores al reglamento vigente |
+| `#/antiguos/<id>` | una de esas normas o instrucciones, en el lector |
 | `#/cambios` | historial de cambios del reglamento vigente |
+| `#/cambios/<norma>` | una de esas normas, en el lector |
+| `#/cambios/<norma>/<bloque>` | esa norma, en ese bloque |
 | `#/notas` | todas las notas guardadas, de las dos vistas |
 | `#/<bloque>` | enlace antiguo del lector, sigue funcionando |
 

@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import App from './App.tsx'
 import Antiguos from './Antiguos.tsx'
 import Cambios from './Cambios.tsx'
+import LectorArchivo from './LectorArchivo.tsx'
+import LectorNorma from './LectorNorma.tsx'
 import Cuestionarios from './Cuestionarios.tsx'
 import Guia from './Guia.tsx'
 import Landing from './Landing.tsx'
@@ -39,7 +41,11 @@ export default function Router() {
       {route.name === 'landing' && <Landing />}
       {route.name === 'cuestionarios' && <Cuestionarios onInicio={() => ir('')} />}
       {route.name === 'antiguos' && <Antiguos onInicio={() => ir('')} />}
+      {route.name === 'antiguo' && <LectorArchivo id={route.id} onNavigate={ir} />}
       {route.name === 'cambios' && <Cambios onInicio={() => ir('')} />}
+      {route.name === 'cambio' && (
+        <LectorNorma norma={route.norma} bloque={route.bloque} onNavigate={ir} notas={notas} />
+      )}
       {route.name === 'notas' && (
         <PaginaNotas
           notas={notas.notas}

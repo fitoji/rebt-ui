@@ -32,9 +32,10 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
         REBT anteriores
       </h1>
       <p className="mt-0 mb-[1.6rem] max-w-[42rem] font-lectura text-[1.05rem] leading-[1.55] text-tinta-2">
-        Las normas que rigieron antes del reglamento vigente. El texto de las anteriores a
-        2002 no está consolidado en el BOE —solo existe el escaneo de la Gaceta—, así que se
-        abren en el PDF oficial, en otra pestaña. El reglamento actual se lee aquí dentro.
+        Las normas que rigieron antes del reglamento vigente. Las que el BOE digitalizó se
+        leen acá, con el texto tal como se publicó ese día; las de 1973 y 1974 existen solo
+        como escaneo de la Gaceta, y para esas queda el PDF oficial. El reglamento actual se
+        lee en el lector.
       </p>
 
       <table className="tabla-archivo">
@@ -69,7 +70,21 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
                 </span>
               </td>
               <td>
-                {norma.pdf ? (
+                {norma.pdf === null ? (
+                  <a className="enlace-externo" href="#/rebt">
+                    Leer
+                    <span className="sr-only"> el reglamento vigente</span>
+                  </a>
+                ) : norma.diario ? (
+                  <a
+                    className="enlace-externo"
+                    href={`#/antiguos/${encodeURIComponent(norma.id)}`}
+                    title={`Leer ${norma.referencia} en el lector`}
+                  >
+                    Leer
+                    <span className="sr-only"> {norma.referencia}</span>
+                  </a>
+                ) : (
                   <a
                     className="enlace-externo"
                     href={norma.pdf}
@@ -80,11 +95,6 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
                     PDF
                     <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
                     <span className="sr-only"> de {norma.referencia}, en el BOE, se abre en otra pestaña</span>
-                  </a>
-                ) : (
-                  <a className="enlace-externo" href="#/rebt">
-                    Leer
-                    <span className="sr-only"> el reglamento vigente</span>
                   </a>
                 )}
               </td>
@@ -125,19 +135,30 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
                   {instruccion.titulo}
                 </span>
               </span>
-              <a
-                className="enlace-externo text-[0.85rem]"
-                href={instruccion.url}
-                target="_blank"
-                rel="noreferrer"
-                title={`${instruccion.referencia} en el BOE (se abre en otra pestaña)`}
-              >
-                {instruccion.base ? 'PDF' : 'Ver'}
-                <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
-                <span className="sr-only">
-                  {instruccion.referencia} en el BOE, se abre en otra pestaña
-                </span>
-              </a>
+              {instruccion.diario ? (
+                <a
+                  className="enlace-externo text-[0.85rem]"
+                  href={`#/antiguos/${encodeURIComponent(instruccion.id)}`}
+                  title={`Leer ${instruccion.referencia} en el lector`}
+                >
+                  Leer
+                  <span className="sr-only"> {instruccion.referencia}</span>
+                </a>
+              ) : (
+                <a
+                  className="enlace-externo text-[0.85rem]"
+                  href={instruccion.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={`${instruccion.referencia} en el BOE (se abre en otra pestaña)`}
+                >
+                  {instruccion.base ? 'PDF' : 'Ver'}
+                  <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
+                  <span className="sr-only">
+                    {instruccion.referencia} en el BOE, se abre en otra pestaña
+                  </span>
+                </a>
+              )}
             </li>
           ))}
         </ol>

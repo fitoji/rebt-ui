@@ -7,7 +7,6 @@
 //
 // Los títulos y los textos son del BOE; las relaciones también. Nada está redactado acá.
 
-import { ArrowUpRight } from 'lucide-react'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import { ACTUALIZADO, CAMBIOS } from './cambios.ts'
@@ -74,16 +73,11 @@ export default function Cambios({ onInicio }: { onInicio: () => void }) {
               <td>
                 <a
                   className="enlace-externo"
-                  href={cambio.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  title={`${cambio.referencia} en el BOE (se abre en otra pestaña)`}
+                  href={`#/cambios/${encodeURIComponent(cambio.id)}`}
+                  title={`Leer ${cambio.referencia} en el lector`}
                 >
-                  Ver
-                  <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
-                  <span className="sr-only">
-                    {cambio.referencia} en el BOE, se abre en otra pestaña
-                  </span>
+                  Leer
+                  <span className="sr-only"> {cambio.referencia}</span>
                 </a>
               </td>
             </tr>
