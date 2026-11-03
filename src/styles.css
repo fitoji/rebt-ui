@@ -696,6 +696,13 @@
   .estado--vigente { color: var(--neutro); }
   .estado--derogada { color: var(--fase); }
 
+  /* Las relaciones del BOE en el historial de cambios: modificar y actualizar son vida
+     normal de la norma; derogar algo o anular un inciso, no. */
+  .estado--modifica { color: var(--neutro); }
+  .estado--actualiza { color: var(--neutro); }
+  .estado--deroga { color: var(--fase); }
+  .estado--declara { color: var(--fase); }
+
   /* Enlace que sale de la app: la flecha avisa sin necesidad de leer. */
   .enlace-externo {
     display: inline-flex;

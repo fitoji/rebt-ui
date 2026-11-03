@@ -94,5 +94,6 @@ export type Ruta =
   | { name: 'notas' }
   | { name: 'cuestionarios' }
   | { name: 'antiguos' }
+  | { name: 'cambios' }
   | { name: 'guia'; id: string | null; nota?: string }
   | { name: 'rebt'; id: string | null; nota?: string }

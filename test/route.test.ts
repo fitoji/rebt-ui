@@ -55,6 +55,11 @@ test('la página del archivo de normas anteriores', () => {
   assert.deepEqual(parseRoute('#/antiguos/'), { name: 'antiguos' })
 })
 
+test('la página de cambios del reglamento', () => {
+  assert.deepEqual(parseRoute('#/cambios'), { name: 'cambios' })
+  assert.deepEqual(parseRoute('#/cambios/'), { name: 'cambios' })
+})
+
 test('una nota puede ir en la ruta, para saltar a ella desde la página', () => {
   // Es lo que hace el enlace «Ir al texto» de la página de notas.
   assert.deepEqual(parseRoute('#/guia/BT-19?nota=abc-123'), {

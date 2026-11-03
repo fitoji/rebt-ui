@@ -124,6 +124,10 @@ export default function Landing() {
         <a href="#/antiguos" className="text-neutro transition-colors duration-150 ease-plano hover:underline">
           REBT anteriores
         </a>
+        <span aria-hidden="true"> · </span>
+        <a href="#/cambios" className="text-neutro transition-colors duration-150 ease-plano hover:underline">
+          Cambios del REBT
+        </a>
       </footer>
     </div>
   )

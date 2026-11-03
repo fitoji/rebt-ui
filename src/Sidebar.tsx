@@ -279,17 +279,29 @@ export default function Sidebar({
 
       <SidebarContent className="flex-1 overflow-y-auto pt-[0.4rem] pb-[2rem]">
         <nav>
-        {/* El archivo de normas anteriores, debajo del buscador y antes de las notas: se
-            llega a él desde el reglamento, no al revés. Es un enlace y no un botón porque
-            cambia de ruta, no de bloque. */}
+        {/* El archivo de normas anteriores y el historial de cambios, debajo del buscador
+            y antes de las notas: se llega a ellos desde el reglamento, no al revés. Son
+            enlaces y no botones porque cambian de ruta, no de bloque. */}
         <div className="mx-[1.1rem] mt-[0.9rem] mb-[0.6rem] border-b border-linea pb-[0.8rem]">
-          <p className="rotulo mt-0 mb-[0.35rem]">Archivo</p>
-          <a
-            href="#/antiguos"
-            className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
-          >
-            REBT anteriores
-          </a>
+          <p className="rotulo mt-0 mb-[0.35rem]">Normativa</p>
+          <ul className="m-0 list-none p-0">
+            <li>
+              <a
+                href="#/cambios"
+                className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
+              >
+                Cambios del REBT
+              </a>
+            </li>
+            <li>
+              <a
+                href="#/antiguos"
+                className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
+              >
+                REBT anteriores
+              </a>
+            </li>
+          </ul>
         </div>
         {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
         <CajaNotas

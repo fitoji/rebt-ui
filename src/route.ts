@@ -8,6 +8,7 @@
 //   #/guia/<id>        una guía concreta
 //   #/cuestionarios    selector y práctica de tests
 //   #/antiguos         archivo de normas anteriores al reglamento vigente
+//   #/cambios          historial de cambios del reglamento vigente
 //   #/notas            todas las notas guardadas
 //   #/<bloque>         enlace antiguo del lector, sigue funcionando
 //
@@ -35,6 +36,7 @@ export function parseRoute(hash?: string | null): Ruta {
   if (head === 'notas') return { name: 'notas' }
   if (head === 'cuestionarios') return { name: 'cuestionarios' }
   if (head === 'antiguos') return { name: 'antiguos' }
+  if (head === 'cambios') return { name: 'cambios' }
   if (head === 'guia') return { name: 'guia', id: tail || null, ...(nota ? { nota } : {}) }
   if (head === 'rebt') return { name: 'rebt', id: tail || null, ...(nota ? { nota } : {}) }
 
