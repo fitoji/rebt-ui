@@ -11,7 +11,7 @@ web
 Two situations, confirmed by the maintainer, over the same corpus:
 
 - **Exam candidate** preparing the REBT / baja-tensión exam (oposiciones): reads a specific ITC-BT or guide, drills the bundled quizzes, and repeats only the questions missed.
-- **Working technician** who needs the authoritative clause or table quickly during an installation or inspection: jumps straight to an ITC-BT or guide section, copies a table into a spreadsheet, star-favourites what gets reused.
+- **Working technician** who needs the authoritative clause or table quickly during an installation or inspection: jumps straight to an ITC-BT or guide section, copies a table into a spreadsheet, star-favourites what gets reused. Also checks what the regulation said *before* it changed, to judge an installation built under a previous edition.
 
 Success is the same in both: reach the exact official clause, table or figure within seconds, and be able to come back to it later.
 
@@ -30,14 +30,16 @@ The study layer (notes, favourites, quizzes) supports that edge; it is not the p
 - Spanish (Spain) electrical regulation. Domain vocabulary is Spanish and stays Spanish: bloque, redacción, ITC-BT, disposición, guía, tabla, anexo.
 - Two corpora: the consolidated REBT from `www.boe.es/datosabiertos/api` (98 blocks, several redacciones — the current one is shown) and 38 Ministry guide documents (`guia_rebt/`: `md/` + `tablas/*.csv` + `imgs/` + `indice.json`, 603 pages).
 - The browser cannot call `boe.es` (no CORS headers), so a Cloudflare Worker proxies `/boe-api/*` and serves `dist/`.
-- All navigation is hash-based (`#/rebt/<bloque>`, `#/guia/<id>`, `#/notas`, `#/cuestionarios`) so the static build needs no rewrite rules.
+- All navigation is hash-based (`#/rebt/<bloque>`, `#/guia/<id>`, `#/notas`, `#/cuestionarios`, `#/antiguos`, `#/cambios`) so the static build needs no rewrite rules.
 - Local development runs either against the real BOE (`npm run dev`) or against a simulated BOE (`npm run mock` + `npm run dev:mock`) with no internet.
 - Deployment is a Cloudflare Worker; CI on every push to `main` runs typecheck, tests, build, deploy.
 - Each unit of work leaves a logbook in `odd/tasks/` recording the request, the decisions and how it was verified.
 
 ## Capabilities and Constraints
 
-Capabilities today: REBT reader with real tables, edition selector, progressive full-text search and highlighted matches; guide viewer over the 38 documents with figures and deep links to the official PDFs; table actions (copy as spreadsheet, copy as Markdown, download CSV named after the corpus file); notes created by highlighting text, coloured yellow/green/red, with free-form tags, anchored to text plus context, listed per view and globally at `#/notas`; favourites and a grouped index; quizzes with single-key answering, per-round scoring, repeat-the-missed round, and drag-and-drop loading of external quiz files; light/dark following the system.
+Capabilities today: REBT reader with real tables, edition selector, progressive full-text search and highlighted matches; guide viewer over the 38 documents with figures and deep links to the official PDFs; table actions (copy as spreadsheet, copy as Markdown, download CSV named after the corpus file); notes created by highlighting text, coloured yellow/green/red, with free-form tags, anchored to text plus context, listed per view and globally at `#/notas`; favourites and a grouped index; quizzes with single-key answering, per-round scoring, repeat-the-missed round, and drag-and-drop loading of external quiz files; an archive of the norms that preceded the current regulation (the 1973 RBT and its complementary instructions) linking to the official BOE PDFs; a change history of the current regulation listing every modifying norm since 2002 with the article or ITC it touched; light/dark following the system.
+
+The archive and the change history ship as typed constants (`src/antiguos.ts`, `src/cambios.ts`) verified against the BOE, not as live queries: the BOE exposes no endpoint for previous versions of a norm, none for drafts, and its documented search-by-update-date returns 500. Refresh procedure in the README.
 
 Confirmed constraints:
 
@@ -57,6 +59,7 @@ Existing, not a proposed direction: the name **REBT** used as the product name, 
 
 - `guia_rebt/`: 38 documents / 603 pages, 381 tables as CSV, 123 figures, `indice.json` with edition, revision, page count and PDF `sha256`.
 - Live BOE open data through the Worker proxy; a simulated BOE in `mock/` for offline work.
+- Verified BOE records for the archive and the change history: 1973 RBT (`BOE-A-1973-1397`), its 1973 ITC (`BOE-A-1973-1828`), the 1985 amendment (`BOE-A-1985-25822`), and 11 modifying norms of the current REBT read from `/analisis`, each with a working PDF or HTML link.
 - Three author-written quiz files in `data-json/` (30 questions each, ITC-BT 01-05).
 - Interface screenshots in `docs/`, and task logbooks with verified findings in `odd/tasks/`.
 

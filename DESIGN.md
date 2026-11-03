@@ -203,7 +203,7 @@ La barra lateral mide 22rem y queda fija, porque el índice es el mapa de la lá
 
 La densidad es de instrumento: filas de índice de una sola línea con la marca a la izquierda, padding vertical de 0.35rem en listas densas y de 1.15rem en las entradas de la portada. El espacio entre bloques lo da el margen del título (2.2rem arriba), no un separador.
 
-Responsive: por debajo de `md` la barra lateral pasa a offcanvas con `transition-transform` de 300 ms y el lector pierde el índice lateral pero gana el ancho completo; el cajetín cae a dos columnas y la última ficha, si queda sola, ocupa la fila. Las tablas del corpus scrollean dentro de su contenedor, nunca la página. En móvil el cuerpo de lectura baja al mínimo del `clamp` y se apaga la partición de palabras: con la línea corta sólo añadiría guiones.
+Responsive: por debajo de `md` la barra lateral pasa a offcanvas con `transition-transform` de 300 ms y el lector pierde el índice lateral pero gana el ancho completo; el cajetín cae a dos columnas y la última ficha, si queda sola, ocupa la fila. Las tablas del corpus scrollean dentro de su contenedor, nunca la página. La tabla del archivo —`#/antiguos` y `#/cambios`— es la excepción: son cinco campos cortos, así que en móvil se apila en tres renglones con `display: grid` en el `tr`. Esconder columnas dejaría un título sin su año. En móvil el cuerpo de lectura baja al mínimo del `clamp` y se apaga la partición de palabras: con la línea corta sólo añadiría guiones.
 
 ## Elevation & Depth
 
@@ -239,6 +239,7 @@ El cajetín lleva la lógica al extremo: sus celdas se separan con un `gap` de 1
 ### Chips
 - **Style:** las muestras de color de nota son círculos de 0.8rem con borde de hoja al 50 % y escala 110 % en hover.
 - **State:** seleccionado se marca con el anillo de foco, no con un borde extra.
+- **Estado y relación:** el chip de estado es un borde de 1 px con el texto adentro —`Vigente`, `Derogada`, `SE MODIFICA`, `SE ACTUALIZA`, `SE DEROGA`, `SE DECLARA`—, nunca sólo color: el color refuerza lo que el texto ya dice. Lo vigente y lo que modifica o actualiza van en `--neutro`; lo derogado, lo derogado por sentencia y lo que declara una nulidad, en `--fase`.
 
 ### Cards / Containers
 - **Corner Style:** 4 px.

@@ -8,27 +8,33 @@ import TemaBoton from './TemaBoton.tsx'
 const FUENTE =
   'Ministerio de Industria y Turismo · Reglamento Electrotécnico para Baja Tensión (RD 842/2002)'
 
-/** Las tres puertas de entrada, en el orden en que se leen. */
+/** Las puertas de entrada, en el orden en que se leen: primero el reglamento —lo que dice
+ *  hoy, lo que cambió y lo que reemplazó—, después las herramientas para estudiarlo. */
 const ACCESOS = [
   {
     href: '#/rebt',
     titulo: 'Leer el REBT',
-    descripcion: 'El reglamento del BOE, con tablas, buscador y selector de redacciones.',
+    descripcion: 'El reglamento vigente del BOE, con tablas reales, buscador y selector de redacción.',
+  },
+  {
+    href: '#/cambios',
+    titulo: 'Cambios del REBT',
+    descripcion: 'Qué artículo o instrucción cambió cada norma desde 2002, y cuándo.',
   },
   {
     href: '#/antiguos',
     titulo: 'REBT anteriores',
-    descripcion: 'Las normas que rigieron antes del 2002, con su texto en el BOE.',
+    descripcion: 'El reglamento de 1973 y sus instrucciones, para consultar lo que regía antes del 2002.',
   },
   {
     href: '#/guia',
     titulo: 'Guía técnica',
-    descripcion: 'Las guías del ministerio en texto buscable, con acceso directo por instrucción.',
+    descripcion: 'Las 38 guías del ministerio en texto buscable, con acceso directo por instrucción.',
   },
   {
     href: '#/cuestionarios',
     titulo: 'Cuestionarios Tests',
-    descripcion: 'Practica con cuestionarios del REBT incluidos en la aplicación.',
+    descripcion: 'Practica con los cuestionarios del REBT incluidos en la aplicación.',
   },
 ] as const
 
@@ -73,7 +79,8 @@ export default function Landing() {
           REBT
         </h1>
         <p className="mt-[0.9rem] mb-0 max-w-[46rem] font-lectura text-[clamp(1.05rem,2.2vw,1.4rem)] leading-[1.45] text-tinta-2">
-          Reglamento electrotécnico para baja tensión, para leer y consultar.
+          Reglamento electrotécnico para baja tensión: el texto vigente, los cambios que lo
+          modificaron y las normas que reemplazó.
         </p>
 
         <nav className="relative mt-[clamp(1.6rem,5vh,3rem)]" aria-label="Secciones">

@@ -39,9 +39,11 @@
 | **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). Barra lateral con el índice de las guías, los favoritos y las notas, igual que el lector. |
 | **Notas** | Subrayás un trozo de texto con el ratón (o con el teclado) y queda **resaltado en el texto** y guardado en un acordeón «Notas», para volver a él después. Cada nota es **amarilla, verde o roja** (de qué es) y lleva las **etiquetas** que le pongas (de qué tema), con nombre libre. Se guardan en el navegador, con el texto y su contexto: si el texto se mueve, la nota lo sigue. En `#/notas` están **todas**, de las dos vistas, con el texto entero, su contexto y filtros **por color y por etiqueta**. |
 | **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC y los documentos que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano los que más usás. |
-| **Además** | Pantalla de inicio con los dos destinos, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
+| **REBT anteriores** | Las normas que rigieron antes del reglamento vigente —el de 1973 y sus instrucciones complementarias—, con la ficha de cada una y el enlace al PDF oficial del BOE. Las anteriores a 2002 no están consolidadas: solo existe el escaneo de la Gaceta, así que no se indexan. |
+| **Cambios del REBT** | El historial del reglamento vigente: las 11 normas que modificaron, actualizaron o anularon algún artículo o ITC desde 2002, con la fecha y qué instrucción tocó cada una. Responde «este artículo, ¿siempre dijo esto?», que el lector por sí solo no puede contestar. |
+| **Además** | Pantalla de inicio con las cinco puertas, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
 
-## 🖼️ Las dos vistas
+## 🖼️ Las vistas
 
 <p align="center">
   <img src="docs/captura-lector.png" alt="El lector del REBT: el índice con los acordeones a la izquierda y el texto a la derecha" width="820">
@@ -111,6 +113,9 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `#/rebt/<bloque>` | el lector en ese bloque |
 | `#/guia` | índice de las 38 guías técnicas |
 | `#/guia/<id>` | una guía concreta (`BT-19`, `BT-Anexo-2`, …) |
+| `#/cuestionarios` | los cuestionarios del REBT |
+| `#/antiguos` | archivo de normas anteriores al reglamento vigente |
+| `#/cambios` | historial de cambios del reglamento vigente |
 | `#/notas` | todas las notas guardadas, de las dos vistas |
 | `#/<bloque>` | enlace antiguo del lector, sigue funcionando |
 
@@ -124,6 +129,8 @@ Todo va por hash, para que servir el build no necesite reglas de reescritura.
 | `src/favoritos.ts` | Los favoritos: lo que el usuario marca, guardado en `localStorage`. |
 | `src/notas.ts` | Las notas: los trozos de texto subrayados, con su contexto para poder reubicarlos. |
 | `src/PaginaNotas.tsx` | La página con todas las notas (`#/notas`). |
+| `src/Antiguos.tsx` · `src/antiguos.ts` | La página `#/antiguos` y el listado de normas anteriores, con los datos verificados contra el BOE. |
+| `src/Cambios.tsx` · `src/cambios.ts` | La página `#/cambios` y el historial de cambios del reglamento vigente. |
 | `src/SidebarGuia.tsx` | La barra lateral de la guía: el índice de los documentos, los favoritos y las notas. |
 | `src/indice.ts` | Cómo se agrupan los bloques en la sidebar. |
 | `test/` | Tests en TypeScript, con el runner nativo de Node. |
@@ -246,6 +253,38 @@ python3 guia_rebt/convert_guia_to_markdown.py --solo BT-19
 ```
 
 Decisiones de conversión, límites conocidos y cómo se auditó la cobertura: `guia_rebt/README.md`.
+
+## 📜 Las normas anteriores y los cambios
+
+Las dos páginas de normativa —`#/antiguos` y `#/cambios`— **no hacen fetch**: sus datos son dos
+`const` tipados, `src/antiguos.ts` y `src/cambios.ts`. Así no hay estados de carga ni de error que
+diseñar, entran en el typecheck y la página abre sin red. El costo es que se actualizan a mano, y
+ahí conviene saber de dónde salió cada fila.
+
+Todo sale de la API de datos abiertos del BOE, que para esto tiene tres endpoints útiles:
+
+| Endpoint | Qué da |
+|---|---|
+| `/legislacion-consolidada/id/BOE-A-2002-18099/analisis` | El bloque `<posteriores>`: cada norma que modificó el reglamento vigente, con su `id_norma`, la relación (`SE MODIFICA`, `SE ACTUALIZA`, `SE DEROGA`, `SE DECLARA`) y qué artículo o ITC tocó. Es el origen de `src/cambios.ts`. |
+| `/legislacion-consolidada/id/{id}/metadatos` | Título completo, fecha de publicación, vigencia y `url_html_consolidada` de una norma. |
+| `/boe/sumario/{aaaammdd}` | El sumario de un día del BOE, con `url_pdf`, `url_html` y `url_xml` de cada disposición. Llega hasta 1973 y es la vía para las normas que no están consolidadas. |
+
+### Lo que la API no da
+
+- **Versiones anteriores de una norma.** `/versiones` no existe: la colección consolidada sirve
+  siempre el texto vigente, sin histórico ni diff entre redacciones.
+- **Los borradores.** La API publica lo aprobado. Los proyectos de real decreto y las consultas
+  públicas previas viven en las webs ministeriales, no acá.
+- **Un feed de novedades.** `GET /legislacion-consolidada?from=&to=` está documentado con «fecha de
+  última actualización» y devuelve 500 en todas sus variantes (probado con `from`/`to`, con `query`,
+  con ambos y con `limit=-1`). Por eso el historial se arma norma por norma y no por rango de fechas.
+
+### Cuando el BOE publique un cambio
+
+1. Pedir `/analisis` del RD 842/2002 y comparar `<posteriores>` con `src/cambios.ts`.
+2. Del `id_norma` nuevo, pedir `/metadatos`; si devuelve 404, `/diario_boe/xml.php?id={id}`.
+3. Agregar la fila arriba de todo, con el título y el `texto` **literales** —`PRODUCT.md` lo exige— y
+   actualizar `ACTUALIZADO` en el mismo archivo con el `fecha_actualizacion` de `/metadatos`.
 
 ## 🔧 Si el BOE cambia el formato
 
