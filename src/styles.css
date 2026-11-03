@@ -714,6 +714,74 @@
 
   .enlace-externo:hover { text-decoration: underline; }
 
+  /* ------------------------------------------------------------ la fila que se abre */
+
+  /* Las normas del historial se comportan como las puertas de la portada: al pasar por
+     encima la fila se enciende y debajo crece un trazo de 2 px de izquierda a derecha. El
+     enlace «Leer» se estira sobre toda la fila, así que se puede pulsar en cualquier
+     celda sin que haya once zonas de clic distintas. */
+  .fila-norma {
+    position: relative;
+    transition: background-color 0.2s var(--ease-plano);
+  }
+
+  .fila-norma::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--neutro);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.34s var(--ease-plano);
+    pointer-events: none;
+  }
+
+  .fila-norma:hover,
+  .fila-norma:focus-within {
+    z-index: 1;
+    background: color-mix(in srgb, var(--hoja) 70%, transparent);
+  }
+
+  .fila-norma:hover::after,
+  .fila-norma:focus-within::after { transform: scaleX(1); }
+
+  /* El estirado: el `::after` del enlace cubre la fila entera. */
+  .enlace-fila::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .enlace-fila svg {
+    transition: transform 0.25s var(--ease-plano), color 0.2s var(--ease-plano);
+  }
+
+  .fila-norma:hover .enlace-fila svg,
+  .fila-norma:focus-within .enlace-fila svg { transform: translateX(4px); }
+
+  .fila-norma:hover .enlace-fila,
+  .fila-norma:focus-within .enlace-fila {
+    color: var(--neutro);
+    text-decoration: underline;
+  }
+
+  /* Cuando la fila del archivo se enciende, el resalte propio cede: dos fondos apilados se
+     leen como un error de pintura. */
+  .tabla-archivo .fila-norma:hover td,
+  .tabla-archivo .fila-norma:focus-within td { background: transparent; }
+
+  .lista-instrucciones li.fila-norma:hover,
+  .lista-instrucciones li.fila-norma:focus-within {
+    background: color-mix(in srgb, var(--hoja) 70%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fila-norma::after { transition: none; }
+  }
+
   /* ------------------------------------------------------------ las instrucciones del 73 */
 
   /* Una lista y no una tabla: son trece documentos con títulos largos y solo tres campos,

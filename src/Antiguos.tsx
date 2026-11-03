@@ -12,7 +12,7 @@
 // consolidadas en el BOE, así que no hay XML que parsear; hay escaneo de la Gaceta. Se
 // enlaza al PDF oficial y se dice que se abre aparte.
 
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import { INSTRUCCIONES, NORMAS } from './antiguos.ts'
@@ -53,7 +53,7 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
         </thead>
         <tbody>
           {NORMAS.map((norma) => (
-            <tr key={norma.id} data-estado={norma.estado}>
+            <tr key={norma.id} data-estado={norma.estado} className="fila-norma">
               <td className="dato tabular-nums">{norma.anio}</td>
               <td className="dato whitespace-nowrap">{norma.referencia}</td>
               <td>
@@ -71,17 +71,19 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
               </td>
               <td>
                 {norma.pdf === null ? (
-                  <a className="enlace-externo" href="#/rebt">
+                  <a className="enlace-externo enlace-fila" href="#/rebt">
                     Leer
+                    <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
                     <span className="sr-only"> el reglamento vigente</span>
                   </a>
                 ) : norma.diario ? (
                   <a
-                    className="enlace-externo"
+                    className="enlace-externo enlace-fila"
                     href={`#/antiguos/${encodeURIComponent(norma.id)}`}
                     title={`Leer ${norma.referencia} en el lector`}
                   >
                     Leer
+                    <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
                     <span className="sr-only"> {norma.referencia}</span>
                   </a>
                 ) : (
@@ -125,7 +127,11 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
 
         <ol className="lista-instrucciones">
           {INSTRUCCIONES.map((instruccion) => (
-            <li key={instruccion.id} data-base={instruccion.base ? '' : undefined}>
+            <li
+              key={instruccion.id}
+              className="fila-norma"
+              data-base={instruccion.base ? '' : undefined}
+            >
               <span className="dato text-[0.8rem] whitespace-nowrap text-tinta-2">
                 {instruccion.fecha}
               </span>
@@ -137,11 +143,12 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
               </span>
               {instruccion.diario ? (
                 <a
-                  className="enlace-externo text-[0.85rem]"
+                  className="enlace-externo enlace-fila text-[0.85rem]"
                   href={`#/antiguos/${encodeURIComponent(instruccion.id)}`}
                   title={`Leer ${instruccion.referencia} en el lector`}
                 >
                   Leer
+                  <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
                   <span className="sr-only"> {instruccion.referencia}</span>
                 </a>
               ) : (

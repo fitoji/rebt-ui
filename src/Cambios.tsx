@@ -7,6 +7,7 @@
 //
 // Los títulos y los textos son del BOE; las relaciones también. Nada está redactado acá.
 
+import { ArrowRight } from 'lucide-react'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import { ACTUALIZADO, CAMBIOS } from './cambios.ts'
@@ -54,7 +55,7 @@ export default function Cambios({ onInicio }: { onInicio: () => void }) {
         </thead>
         <tbody>
           {CAMBIOS.map((cambio) => (
-            <tr key={cambio.id}>
+            <tr key={cambio.id} className="fila-norma">
               <td className="dato whitespace-nowrap tabular-nums">{cambio.fecha}</td>
               <td>
                 <span className="dato block whitespace-nowrap text-tinta">{cambio.referencia}</span>
@@ -72,11 +73,12 @@ export default function Cambios({ onInicio }: { onInicio: () => void }) {
               </td>
               <td>
                 <a
-                  className="enlace-externo"
+                  className="enlace-externo enlace-fila"
                   href={`#/cambios/${encodeURIComponent(cambio.id)}`}
                   title={`Leer ${cambio.referencia} en el lector`}
                 >
                   Leer
+                  <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
                   <span className="sr-only"> {cambio.referencia}</span>
                 </a>
               </td>
