@@ -351,6 +351,11 @@
   /* La columna de prosa. */
   .medida { max-width: var(--medida); }
 
+  /* El contenedor que se desplaza no lleva barra nativa: en su borde derecho vive la
+     barra de progreso, que dice lo mismo y además cuánto queda. */
+  .lector { scrollbar-width: none; }
+  .lector::-webkit-scrollbar { width: 0; height: 0; }
+
   /* ------------------------------------------------------------ retícula y barras */
 
   /* La barra de progreso del conductor de protección: las rayas verdes y amarillas
@@ -363,6 +368,76 @@
       var(--tierra-b) 6px 12px
     );
     animation: raya-marcha 1.1s linear infinite;
+  }
+
+  /* La barra de progreso de lectura: la misma franja del conductor de protección, pero
+     quieta, marcando hasta dónde se llegó en el borde derecho de la lámina. La vía es el
+     canto de la hoja y está siempre dibujada, así la barra se ve desde el primer píxel de
+     scroll y no sólo cuando ya se leyó algo; encima crece la franja de lo leído. Sólo
+     marcha mientras hay scroll: es el único movimiento de la app que responde al gesto
+     del lector. */
+  .progreso {
+    --p: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 6px;
+    height: 100svh;
+    pointer-events: none;
+  }
+
+  /* La vía: el borde de la retícula con cuerpo suficiente para que la franja tenga dónde
+     crecer. El hilo de 1 px es la línea del plano; el campo de 6 px la separa del texto. */
+  .progreso__hilo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    border-left: 1px solid var(--linea);
+    background: color-mix(in srgb, var(--linea) 78%, transparent);
+  }
+
+  .progreso__via {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--tierra-a) 0 6px,
+      var(--tierra-b) 6px 12px
+    );
+    clip-path: inset(0 0 calc((1 - var(--p)) * 100%) 0);
+  }
+
+  .progreso[data-activo='true'] .progreso__via {
+    animation: raya-marcha 1.1s linear infinite;
+  }
+
+  /* La cifra: aparece mientras se scrollea y se retira al parar. En reposo, el borde
+     derecho es sólo la franja. */
+  .progreso__cifra {
+    position: absolute;
+    top: calc(var(--p) * (100svh - 1.4rem));
+    right: 14px;
+    padding: 0.05rem 0.3rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    color: var(--tinta-2);
+    background: color-mix(in srgb, var(--plano) 82%, transparent);
+    opacity: 0;
+    transition: opacity 0.2s linear;
+  }
+
+  .progreso[data-activo='true'] .progreso__cifra { opacity: 1; }
+
+  @media (max-width: 1200px) {
+    .progreso__cifra { display: none; }
   }
 
   /* Barras de scroll propias: finas, del color de la línea, y del neutro al pasar por

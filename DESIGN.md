@@ -132,6 +132,7 @@ El sistema es plano. La profundidad se construye por capas tonales —plano, hoj
 - La lámina manda: título, cajetín, tablas y navegación comparten un ancho; la prosa se corta a su medida dentro de ella.
 - Mono reservado a códigos, medidas y cifras, con numerales tabulares.
 - Una única curva de movimiento, sin rebotes, con camino de movimiento reducido en cada animación espacial.
+- En las vistas de lectura el borde derecho es la barra de progreso: no hay segunda barra de scroll.
 
 ## Colors
 
@@ -196,7 +197,7 @@ El tema oscuro no invierte: recalibra. El papel baja a #0f1a20 y la hoja a #1623
 
 La retícula del fondo es el sistema de medida: 24 px con línea mayor cada 120 px, fija al scroll, pintada con gradientes en el `body` en vez de capas absolutas. No es ornamento —es la referencia contra la que se alinean las tarjetas y las líneas de 1 px.
 
-Los anchos son deliberados y distintos por tarea, pero salen de una sola medida: **la lámina es la medida más un margen fijo de 16rem** (`--lamina: calc(var(--medida) + 16rem)`). El título, el cajetín, las tablas y la navegación ocupan la lámina entera; la prosa se corta a 40em dentro de ella y deja un margen derecho que es el sitio de las marcas —los filetes—, no un hueco. Así la proporción entre texto y hoja es la misma en un portátil de 1440 que en un monitor de 1920, porque las dos crecen juntas.
+Los anchos son deliberados y distintos por tarea, pero salen de una sola medida: **la lámina es la medida más un margen fijo de 16rem** (`--lamina: calc(var(--medida) + 16rem)`). El título, el cajetín, las tablas y la navegación ocupan la lámina entera; la prosa se corta a 40em dentro de ella y deja un margen derecho que es el sitio de las marcas —la barra de progreso, los filetes—, no un hueco. Así la proporción entre texto y hoja es la misma en un portátil de 1440 que en un monitor de 1920, porque las dos crecen juntas.
 
 La barra lateral mide 22rem y queda fija, porque el índice es el mapa de la lámina.
 
@@ -262,6 +263,11 @@ El bloque de rótulos que cierra cada lámina: una retícula de celdas de 1 px s
 ### Esqueleto de carga (signature)
 Mientras carga un bloque o una guía se muestra una lámina de líneas del ancho real del texto con un barrido de 1.5 s, no un "Cargando…" en texto corrido. La barra de indexado usa la franja verde-amarilla en movimiento continuo: es la única animación en bucle del sistema cuando nadie toca nada, y vive dentro de una barra de 6 px.
 
+### Barra de progreso de lectura (signature)
+En el lector y en la guía, el borde derecho de la ventana es la barra de scroll: 6 px de la franja del conductor de protección que avanzan hasta el punto de lectura, sobre una vía de 6 px del color de la línea, siempre dibujada, con el hilo de 1 px de la retícula como canto interior. No hay barra nativa en esas vistas —el progreso dice más que un tirador— y por eso la franja aparece con un significado literal: **estás acá**. La vía se ve desde el primer píxel del documento, así la barra está ahí aunque todavía no se haya leído nada; la franja la va cubriendo. Mientras se scrollea, la franja marcha (la misma animación de la barra de indexado) y aparece una cifra en mono a su lado; al detenerse, la cifra se retira y la franja se queda quieta. En pantallas de menos de 1200 px la cifra no se muestra: no hay margen donde ponerla sin tapar el texto.
+
+La barra se monta en el `body`, fuera del contenedor que scrollea: cualquier `transform` de la vista —la animación de entrada lo deja puesto— lo convertiría en el bloque contenedor de un `position: fixed` y la barra se iría con el texto al bajar.
+
 ### Lectura que entra
 Cada bloque del texto —párrafo, título, tabla, figura— aparece cuando llega al borde inferior de la ventana: sube 0.62rem y se aclara en 420 ms, con una cascada de 35 ms entre hermanos que entran juntos, tope de cuatro. Lo que ya está a la vista no se anima nunca, y lo que se salta de golpe (una coincidencia de búsqueda, una nota) se suelta sin animación. Con movimiento reducido el texto aparece ya puesto.
 
@@ -275,6 +281,7 @@ Cada bloque del texto —párrafo, título, tabla, figura— aparece cuando lleg
 - **Do** declarar cada color nuevo en ambos temas.
 - **Do** mantener el texto oficial a 40em de ancho máximo (unas 88 letras), en IBM Plex Sans y con el cuerpo de lectura; los títulos internos del texto, en `em`.
 - **Do** dejar que la lámina crezca con la medida: la proporción entre hoja y texto se mantiene en cualquier pantalla.
+- **Do** dejar el borde derecho libre en las vistas de lectura: ahí van la barra de progreso y nada más.
 
 ### Don't:
 - **Don't** usar `--nota-rojo`, `--tierra-a` ni `--marca` como color de texto: son fondos de resalte y no alcanzan contraste como tinta.
@@ -283,5 +290,6 @@ Cada bloque del texto —párrafo, título, tabla, figura— aparece cuando lleg
 - **Don't** usar bordes laterales gruesos de color (`border-left: 4px`) como acento: es el patrón de tarjeta genérica del que este sistema se separó.
 - **Don't** poner frases en mono, ni subir el radio de un control por encima de 6 px.
 - **Don't** usar rebotes, springs ni overshoot en el movimiento: una sola curva, desaceleración larga.
-- **Don't** emplear la franja verde-amarilla como decoración; sólo señala una posición.
+- **Don't** emplear la franja verde-amarilla como decoración; sólo señala una posición. La barra de progreso es el único sitio donde puede llenar una tira entera, porque esa tira *es* la posición.
+- **Don't** devolver la barra de scroll nativa a las vistas de lectura: dos barras a la derecha dicen lo mismo y no dicen cuánto falta.
 - **Don't** quitar el anillo de foco de un campo de texto para "limpiar" el diseño.

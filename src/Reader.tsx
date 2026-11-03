@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { getBlock, NORMA_ID } from './api.ts'
+import BarraProgreso from './BarraProgreso.tsx'
 import { useRevelar } from './hooks/useRevelar.ts'
 import { formatDate, gridToMarkdown, splitTitle } from './parse.ts'
 import { Highlight, Item } from './render.tsx'
@@ -124,7 +125,7 @@ export default function Reader({
 
   return (
     <main
-      className="animate-vista-entra overflow-y-auto px-[clamp(1.1rem,4vw,3.5rem)] pt-[2.2rem] pb-[4rem] outline-none max-[860px]:pt-[3.2rem]"
+      className="lector animate-vista-entra overflow-y-auto px-[clamp(1.1rem,4vw,3.5rem)] pt-[2.2rem] pb-[4rem] outline-none max-[860px]:pt-[3.2rem]"
       ref={top}
       tabIndex={-1}
     >
@@ -258,6 +259,8 @@ export default function Reader({
           </button>
         )}
       </nav>
+
+      <BarraProgreso desplazador={top} />
     </main>
   )
 }

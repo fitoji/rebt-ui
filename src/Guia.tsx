@@ -19,6 +19,7 @@ import { aplicarResaltados, crearNota, COLOR_POR_DEFECTO } from './notas.ts'
 import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
 import BotonBarra from './BotonBarra.tsx'
+import BarraProgreso from './BarraProgreso.tsx'
 import { useRevelar } from './hooks/useRevelar.ts'
 import { SidebarInset } from '@/components/ui/sidebar.tsx'
 
@@ -455,6 +456,8 @@ export default function Guia({
   const [query, setQuery] = useState('')
   // El artículo, para poder ir a una nota desde la barra lateral.
   const articulo = useRef<HTMLElement>(null)
+  // El contenedor que scrollea: lo necesita la barra de progreso para medir el avance.
+  const lector = useRef<HTMLElement>(null)
 
   /** Ir a una nota: si es de este documento, al resaltado; si no, a su documento. */
   const irANota = useCallback(
@@ -502,7 +505,7 @@ export default function Guia({
       />
       <SidebarInset className="h-[100svh] overflow-hidden">
         <BotonBarra />
-        <main className="min-h-0 flex-1 overflow-y-auto">
+        <main className="lector min-h-0 flex-1 overflow-y-auto" ref={lector}>
         {id ? (
           <GuiaDocumento
             indice={state.indice}
@@ -526,6 +529,7 @@ export default function Guia({
             onToggleTheme={toggle}
           />
         )}
+          {id && <BarraProgreso desplazador={lector} />}
         </main>
       </SidebarInset>
     </>
