@@ -13,3 +13,9 @@ guia_rebt/cache/
 
 # Estado local de wrangler (miniflare): es de la máquina, no del proyecto
 .wrangler/
+
+# Estado local de las herramientas de agentes: es de la máquina, no del proyecto
+.agents/
+.codex/
+.impeccable/
+skills-lock.json
