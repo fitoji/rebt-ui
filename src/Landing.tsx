@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { loadIndice } from './guia/api.ts'
 import type { IndiceGuia } from './tipos.ts'
 import { useTheme } from './useTheme.ts'
 import TemaBoton from './TemaBoton.tsx'
 
-const FUENTE =
-  'Ministerio de Industria y Turismo · Reglamento Electrotécnico para Baja Tensión (RD 842/2002)'
+const REPOSITORIO = 'https://github.com/fitoji/rebt-ui'
+
+/** Los datos del pie: lo que un lector necesita para comprobar la fuente, llevarse el
+ *  código o devolver una corrección. Cuatro campos cortos, como los de un cajetín. */
+const DATOS = [
+  { rotulo: 'Licencia', valor: 'MIT', href: `${REPOSITORIO}/blob/main/LICENSE` },
+  { rotulo: 'Código', valor: 'GitHub', href: REPOSITORIO },
+  { rotulo: 'Errores', valor: 'Informar', href: `${REPOSITORIO}/issues` },
+  { rotulo: 'Fuente', valor: 'BOE', href: 'https://www.boe.es/buscar/act.php?id=BOE-A-2002-18099' },
+] as const
 
 /** Las puertas de entrada, en el orden en que se leen: primero el reglamento —lo que dice
  *  hoy, lo que cambió y lo que reemplazó—, después las herramientas para estudiarlo. */
@@ -125,16 +133,54 @@ export default function Landing() {
         </dl>
       </main>
 
-      <footer className="relative z-10 border-t border-linea py-[1.1rem] px-[1.5rem] text-center text-[0.85rem] text-tinta-2">
-        {FUENTE}
-        <span aria-hidden="true"> · </span>
-        <a href="#/antiguos" className="text-neutro transition-colors duration-150 ease-plano hover:underline">
-          REBT anteriores
-        </a>
-        <span aria-hidden="true"> · </span>
-        <a href="#/cambios" className="text-neutro transition-colors duration-150 ease-plano hover:underline">
-          Cambios del REBT
-        </a>
+      <footer className="pie relative z-10">
+        <div className="pie__placa">
+          <div className="pie__firma">
+            <img
+              src="/logo.svg"
+              alt=""
+              width={34}
+              height={34}
+              className="size-[34px] shrink-0"
+            />
+            <div className="min-w-0">
+              <p className="m-0 flex flex-wrap items-baseline gap-x-[0.5rem] gap-y-[0.15rem]">
+                <span className="text-[1.05rem] font-semibold leading-none">REBT</span>
+                <span className="rotulo">código abierto</span>
+              </p>
+              <p className="m-0 mt-[0.4rem] max-w-[58ch] text-[0.85rem] leading-[1.45] text-tinta-2">
+                Lector del reglamento del BOE y de las guías técnicas del Ministerio. Código y
+                correcciones, en abierto.
+              </p>
+            </div>
+          </div>
+
+          <dl className="pie__datos">
+            {DATOS.map((dato) => (
+              <div key={dato.rotulo} className="pie__celda">
+                <dt className="rotulo">{dato.rotulo}</dt>
+                <dd className="m-0">
+                  <a
+                    className="pie__enlace dato"
+                    href={dato.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {dato.valor}
+                    <ArrowUpRight aria-hidden="true" className="pie__flecha size-3.5" strokeWidth={1.75} />
+                    <span className="sr-only"> (se abre en otra pestaña)</span>
+                  </a>
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          {/* La última fila del cajetín: la letra pequeña, dentro de la placa. */}
+          <div className="pie__nota">
+            <p className="m-0">© 2026 fitoji</p>
+            <p className="m-0">Sin cuentas ni servidor: tus notas y favoritos viven en este navegador.</p>
+          </div>
+        </div>
       </footer>
     </div>
   )

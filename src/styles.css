@@ -829,6 +829,94 @@
 
   .acceso:hover .acceso__flecha { transform: translateX(4px); color: var(--neutro); }
 
+  /* El pie de la lámina: el cajetín que la cierra. Misma retícula de 1 px que el cajetín
+     de arriba —la línea es el propio borde—, alineado con el ancho de la lámina: la firma
+     a la izquierda y cuatro campos de dato a la derecha. No es una franja de enlaces
+     centrados: en un plano, la esquina inferior es donde se firma y se dice con qué. */
+  .pie {
+    width: min(60rem, 100% - 3rem);
+    margin: 0 auto;
+    padding-bottom: 1.25rem;
+  }
+
+  .pie__placa {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    border: 1px solid var(--linea);
+    background: var(--hoja);
+  }
+
+  .pie__firma {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .pie__datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    border-left: 1px solid var(--linea);
+    background: var(--linea);
+  }
+
+  .pie__celda {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.7rem 0.9rem;
+    background: var(--hoja);
+  }
+
+  /* El valor del campo se lee como un dato del plano, no como un enlace de marketing: en
+     mono y en tinta. El azul aparece sólo cuando el puntero dice que se puede abrir. */
+  .pie__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--tinta);
+    font-size: 0.9rem;
+    text-underline-offset: 3px;
+    transition: color 0.2s var(--ease-plano);
+  }
+
+  .pie__enlace:hover,
+  .pie__enlace:focus-visible { color: var(--neutro); text-decoration: underline; }
+
+  .pie__flecha {
+    transition: transform 0.25s var(--ease-plano);
+  }
+
+  .pie__enlace:hover .pie__flecha { transform: translate(2px, -2px); }
+
+  .pie__nota {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.4rem 1.5rem;
+    padding: 0.55rem 1rem;
+    border-top: 1px solid var(--linea);
+    font-size: 0.78rem;
+    color: var(--tinta-2);
+  }
+
+  @media (max-width: 700px) {
+    .pie { width: min(60rem, 100% - 2rem); }
+    /* En el móvil la placa se apila: la firma arriba y los cuatro campos debajo, sin
+       perder la línea que los separa. */
+    .pie__placa { grid-template-columns: minmax(0, 1fr); }
+    .pie__datos { border-left: 0; border-top: 1px solid var(--linea); }
+  }
+
+  /* Con movimiento reducido el dato sigue cambiando de color, pero la flecha no viaja. */
+  @media (prefers-reduced-motion: reduce) {
+    .pie__enlace:hover .pie__flecha { transform: none; }
+  }
+
   /* ============================================================ guía técnica */
 
   /* ------------------------------------------------- markdown del corpus */

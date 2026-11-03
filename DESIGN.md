@@ -261,6 +261,9 @@ Los grupos se pliegan con `grid-template-rows` de `0fr` a `1fr` en 300 ms; el co
 ### Cajetín (signature)
 El bloque de rótulos que cierra cada lámina: una retícula de celdas de 1 px sobre fondo de línea, cada celda con un rótulo en versalita y un valor en tinta. Encabeza cada bloque del reglamento, cada guía y la portada. Es la pieza que más rápido comunica de qué sistema se trata, y la que hay que respetar cuando se agregue una vista nueva.
 
+### Pie de lámina (signature)
+El cajetín que cierra la portada: la firma del proyecto a la izquierda —marca, nombre y una línea de qué es— y cuatro campos de dato a la derecha (licencia, código, correcciones, fuente), con la letra pequeña como última fila de la placa. Usa la misma retícula de 1 px del cajetín y el ancho de la lámina. Los valores van en `.dato` y en tinta; el azul y el subrayado aparecen sólo al pasar por encima, porque son enlaces de consulta, no llamadas a la acción. El pie del landing es el único sitio del sistema donde esto ocurre.
+
 ### Esqueleto de carga (signature)
 Mientras carga un bloque o una guía se muestra una lámina de líneas del ancho real del texto con un barrido de 1.5 s, no un "Cargando…" en texto corrido. La barra de indexado usa la franja verde-amarilla en movimiento continuo: es la única animación en bucle del sistema cuando nadie toca nada, y vive dentro de una barra de 6 px.
 
