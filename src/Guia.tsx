@@ -19,6 +19,7 @@ import { aplicarResaltados, crearNota, COLOR_POR_DEFECTO } from './notas.ts'
 import type { ControlNotas, Nota } from './notas.ts'
 import type { DocumentoGuia, IndiceGuia } from './tipos.ts'
 import BotonBarra from './BotonBarra.tsx'
+import { useRevelar } from './hooks/useRevelar.ts'
 import { SidebarInset } from '@/components/ui/sidebar.tsx'
 
 /** El índice de la guía: cargando, cargado o con error. */
@@ -70,7 +71,7 @@ function useIndice(): [EstadoIndice, () => void] {
 
 function IndicadorError({ error, onReintentar }: { error: Error; onReintentar: () => void }) {
   return (
-    <div className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="alert">
+    <div className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-lectura" role="alert">
       <h1>No se pudo leer el índice de la guía</h1>
       <p>{error.message}</p>
       <p>
@@ -97,13 +98,13 @@ function GuiaInicio({
 }) {
   const documentos = indice.documentos ?? []
   return (
-    <div className="mx-auto max-w-[52rem] px-[1.5rem] pt-[2.5rem] pb-[4rem]">
+    <div className="lamina px-[1.5rem] pt-[2.5rem] pb-[4rem]">
       <div className="mb-[1.6rem] flex items-baseline justify-between gap-[0.75rem] border-b border-linea pb-[0.6rem]">
         <InicioBoton onInicio={onInicio} />
         <TemaBoton tema={theme} onToggle={onToggleTheme} />
       </div>
       <h1 className="mt-0 mb-[0.4rem] text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.01em]">Guías técnicas</h1>
-      <p className="mt-0 mb-[1.4rem] max-w-[40rem] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
+      <p className="mt-0 mb-[1.4rem] max-w-[38rem] font-lectura text-[1.05rem] leading-[1.55] text-tinta-2">
         Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
         Industria y Turismo, convertidas a texto buscable.
       </p>
@@ -123,7 +124,7 @@ function GuiaInicio({
           </div>
         </dl>
       )}
-      <p className="mt-0 max-w-[38rem] font-serif text-[1rem] leading-[1.5] text-tinta-2">
+      <p className="mt-0 max-w-[36rem] font-lectura text-[1rem] leading-[1.55] text-tinta-2">
         Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede
         copiar a hoja de cálculo, copiar como Markdown o descargar como CSV, y lo que subrayes
         queda guardado como nota.
@@ -192,6 +193,10 @@ function GuiaDocumento({
     mark.scrollIntoView({ block: 'center' })
     mark.classList.add('nota-aviso')
   }, [state.status === 'ok' ? state.html : '', notasDoc, nota])
+
+  // El texto de la guía que entra al scrollear. La clave es el HTML: cuando llega otro
+  // documento hay otro texto y la cascada se prepara de nuevo.
+  useRevelar(articulo, state.status === 'ok' ? state.html : '')
 
   /** Ir al resaltado de una nota. */
   const irANota = (nota: Nota) => {
@@ -275,9 +280,9 @@ function GuiaDocumento({
 
   if (state.status === 'loading') {
     return (
-      <div className="mx-auto max-w-[62rem] px-[1.5rem] pt-[2rem] pb-[4rem]" role="status">
+      <div className="lamina px-[1.5rem] pt-[2rem] pb-[4rem]" role="status">
         <span className="sr-only">Cargando la guía…</span>
-        <div aria-hidden="true" className="max-w-[46rem]">
+        <div aria-hidden="true" className="medida">
           <span className="hueso mb-[1.4rem] block h-[2rem] w-[60%]" />
           {['96%', '100%', '92%', '98%', '88%', '74%', '97%', '91%', '99%', '56%'].map((ancho, i) => (
             <span key={i} className="hueso mb-[0.55rem] block h-[0.95rem]" style={{ width: ancho }} />
@@ -291,7 +296,7 @@ function GuiaDocumento({
   const meta = state.frontMatter ?? {}
 
   return (
-    <div className="animate-vista-entra mx-auto max-w-[62rem] px-[1.5rem] pt-[2rem] pb-[4rem]">
+    <div className="animate-vista-entra lamina px-[1.5rem] pt-[2rem] pb-[4rem]">
       <header className="mb-[1.6rem] border-b border-linea pb-[1.2rem]">
         <div className="flex flex-wrap items-center gap-[0.4rem_1rem]">
           <InicioBoton onInicio={onInicio} />
@@ -320,7 +325,7 @@ function GuiaDocumento({
 
         {/* La ficha del documento: código, edición, revisión y páginas, en el mismo cajetín
             que el resto de la app. El código va primero porque es lo que se cita. */}
-        <div className="mt-[1rem] max-w-[46rem]">
+        <div className="mt-[1rem]">
           <dl className="cajetin">
             <div>
               <dt className="rotulo">Documento</dt>
@@ -344,7 +349,7 @@ function GuiaDocumento({
 
       {/* El acordeón de notas va arriba del texto: es donde se llega al resaltado. Va en
           la misma columna de lectura que el artículo, no en todo el ancho de la lámina. */}
-      <div className="max-w-[46rem]">
+      <div className="medida">
         <CajaNotas
           notas={notasDoc}
           total={notas.notas.length}
@@ -360,7 +365,7 @@ function GuiaDocumento({
           etiquetas que él mismo construye; ningún href del corpus pasa sin pasar por
           `resolveGuiaUrl`. El corpus es contenido propio y estático. */}
       <article
-        className="markdown max-w-[46rem] font-serif text-[1.08rem] leading-[1.62]"
+        className="markdown lectura"
         ref={articulo}
         onClick={alPulsarTabla}
         dangerouslySetInnerHTML={{ __html: state.html }}
@@ -386,7 +391,7 @@ function GuiaDocumento({
       />
 
       <nav
-        className="mt-[3rem] grid grid-cols-2 gap-[1rem] border-t border-linea pt-[1.5rem] max-[700px]:grid-cols-1"
+        className="medida mt-[3rem] grid grid-cols-2 gap-[1rem] border-t border-linea pt-[1.5rem] max-[700px]:grid-cols-1"
         aria-label="Documentos anterior y siguiente"
       >
         {prev ? (
@@ -469,7 +474,7 @@ export default function Guia({
     [onSelect],
   )
 
-  if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-serif" role="status">Cargando el índice de la guía…</p>
+  if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-lectura" role="status">Cargando el índice de la guía…</p>
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
 
   const documentos = state.indice.documentos ?? []

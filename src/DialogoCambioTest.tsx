@@ -39,7 +39,7 @@ export default function DialogoCambioTest({
           <DialogPrimitive.Title className="m-0 text-xl font-semibold">
             ¿Cambiar de test?
           </DialogPrimitive.Title>
-          <DialogPrimitive.Description className="mt-2 mb-0 font-serif leading-[1.5] text-tinta-2">
+          <DialogPrimitive.Description className="mt-2 mb-0 font-lectura leading-[1.5] text-tinta-2">
             Vas a empezar «{nombreSiguiente}». Si cambias, perderás el avance de «
             {nombreActual}»: llevas {avance}.
           </DialogPrimitive.Description>

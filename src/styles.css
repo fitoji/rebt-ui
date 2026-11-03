@@ -23,7 +23,10 @@
   --color-nota-verde: var(--nota-verde);
   --color-nota-rojo: var(--nota-rojo);
   --font-sans: var(--sans);
-  --font-serif: var(--serif);
+  --font-lectura: var(--lectura);
+  /* Alias de seguridad: si alguna pieza ajena pide `font-serif`, sigue cayendo en la
+     tipografía de lectura y no en la serif del navegador. */
+  --font-serif: var(--lectura);
   --font-mono: var(--mono);
   --font-heading: var(--font-sans);
   /* La única curva de la app: desaceleración larga, sin rebotes. Todo lo que entra
@@ -102,7 +105,8 @@
   --aviso-exito-tinta: #1b4a24;
   --aviso-error-fondo: #fbe8e4;
   --aviso-error-tinta: #6d2018;
-  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --serif: 'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --lectura: 'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --sans: 'Barlow Semi Condensed', 'Arial Narrow', system-ui, sans-serif;
   /* El mono es para código, medidas y cifras, nunca para frases: es la tipografía de los
      datos del plano, no una decoración "técnica". */
@@ -120,6 +124,20 @@
   /* La topografía de la lámina de entrada, muy tenue: es el dibujo del plano, no un
      fondo. En claro hay que bajarla más, porque sus bandas son oscuras. */
   --topo-alfa: 0.2;
+
+  /* ------------------------------------------------------------ la medida
+     El texto oficial se compone en una sola columna de 40 em: unas 88 letras, algo más
+     largo de lo que pide un libro, porque aquí se consulta por cláusulas y la línea larga
+     se compensa con partición de palabras. La columna crece con la tipografía y no al
+     revés: la medida en letras es la misma en un portátil y en un monitor grande, y la
+     pantalla se aprovecha subiendo el cuerpo, no estirando la línea. */
+  --lectura-tam: clamp(1.0625rem, 0.62vw + 0.62rem, 1.25rem);
+  --lectura-interlinea: 1.62;
+  --medida: calc(40 * var(--lectura-tam));
+  /* La lámina: la hoja sobre la que se apoya el texto, siempre la medida más un margen
+     fijo. Así el marco guarda la misma proporción con la prosa en cualquier pantalla, y
+     las tablas y las figuras —lo único que no se lee de corrido— caben en ella. */
+  --lamina: calc(var(--medida) + 16rem);
 
   /* Los nombres de shadcn, apuntando a la paleta del proyecto. Como son `var()`, el
      tema oscuro los cambia solo: una sola definición para los dos temas. */
@@ -306,6 +324,33 @@
     background: var(--hoja);
   }
 
+  /* ------------------------------------------------------------ la medida y la lámina */
+
+  /* La hoja sobre la que se apoya la lectura. Título, cajetín, tablas y navegación
+     comparten este ancho; sólo la prosa se corta a la medida, como el bloque de texto
+     dentro del cajetín de un plano. */
+  .lamina {
+    width: 100%;
+    max-width: var(--lamina);
+    margin-inline: auto;
+  }
+
+  /* El texto oficial: la única tipografía de la app que se lee de corrido. Entra un
+     punto más grande que la interfaz y con un interlineado que aguanta párrafos largos. */
+  .lectura {
+    font-family: var(--lectura);
+    font-size: var(--lectura-tam);
+    font-weight: 400;
+    line-height: var(--lectura-interlinea);
+    letter-spacing: -0.002em;
+    /* Con la línea larga, la partición de palabras es lo que evita el borde derecho
+       deshilachado. El documento declara `lang="es"`, así que el navegador sabe cortar. */
+    hyphens: auto;
+  }
+
+  /* La columna de prosa. */
+  .medida { max-width: var(--medida); }
+
   /* ------------------------------------------------------------ retícula y barras */
 
   /* La barra de progreso del conductor de protección: las rayas verdes y amarillas
@@ -428,6 +473,28 @@
   /* El tirador de la barra plegada, en el borde izquierdo. */
   .alternar-barra { transition: border-color 0.15s var(--ease-plano), background-color 0.15s var(--ease-plano); }
 
+  /* ------------------------------------------------------------ la lectura que entra */
+
+  /* Cada bloque del texto entra cuando llega al borde bajo de la ventana: sube un tercio
+     de renglón y se aclara. Lo que ya está a la vista no se anima nunca —el texto no
+     espera a nadie— y lo que entra en grupo se escalona en una cascada corta, como el
+     trazo que se va asentando sobre la hoja. */
+  .lectura [data-entra] {
+    transition:
+      opacity 0.42s var(--ease-plano),
+      transform 0.42s var(--ease-plano);
+  }
+
+  .lectura [data-entra='espera'] {
+    opacity: 0;
+    transform: translateY(0.62rem);
+  }
+
+  .lectura [data-entra='dentro'] {
+    opacity: 1;
+    transform: none;
+  }
+
   /* ------------------------------------------------------------ notas */
 
   /* El texto subrayado. El color va aparte: una nota puede ser amarilla, verde o roja. */
@@ -449,25 +516,33 @@
 
   /* ------------------------------------------------------------ lector */
 
-  .texto > p, .texto > h2, .texto > h3 { max-width: 68ch; margin-inline: 0; }
+  /* La prosa se corta a la medida; las tablas y las figuras se quedan con la lámina
+     entera, porque son la única parte del reglamento que no se lee de corrido. */
+  .texto > :where(p, h2, h3) { max-width: var(--medida); margin-inline: 0; }
   .texto p { margin: 0 0 0.9em; text-wrap: pretty; }
   .texto .sangria { padding-left: 1.6rem; }
-  .texto .nota { font-size: 0.92rem; color: var(--tinta-2); }
+  /* `p.nota` es la nota al pie del BOE; `mark.nota` es el subrayado del lector. Se
+     separan aquí: la nota al pie es más chica y secundaria, el subrayado no cambia de
+     tamaño ni de color, sólo de fondo. */
+  .texto p.nota { font-size: 0.9em; color: var(--tinta-2); }
 
+  /* Los títulos del texto se miden en `em` del cuerpo: al crecer la lectura, crecen con
+     ella. En `rem` se quedarían atrás en las pantallas grandes. */
   .texto h2.cap {
-    margin: 2.2rem 0 0.8rem;
+    margin: 2rem 0 0.75em;
     font-family: var(--sans);
-    font-size: 1.45rem;
+    font-size: 1.36em;
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0.005em;
   }
 
-  /* El número de artículo del BOE, como el índice de una lámina: mono, tabular. */
+  /* El número de artículo del BOE, como el índice de una lámina: tabular, en el azul del
+     neutro. */
   .texto h3.art {
-    margin: 1.8rem 0 0.5rem;
+    margin: 1.7rem 0 0.45em;
     font-family: var(--sans);
-    font-size: 1.15rem;
+    font-size: 1.08em;
     font-weight: 600;
     color: var(--neutro);
     font-variant-numeric: tabular-nums;
@@ -477,7 +552,7 @@
   mark { background: var(--marca); color: inherit; padding: 0 0.1em; border-radius: 2px; }
 
   /* ------------------------------------------------------------ tablas */
-  .tabla table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .tabla table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.86em; font-variant-numeric: tabular-nums; }
   .tabla th, .tabla td { padding: 0.4rem 0.7rem; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); vertical-align: top; }
   .tabla th:last-child, .tabla td:last-child { border-right: 0; }
   .tabla tr:last-child td { border-bottom: 0; }
@@ -490,7 +565,20 @@
 
   /* ------------------------------------------------------------ móvil */
   @media (max-width: 860px) {
+    /* Dos columnas en el cajetín; si la última ficha queda sola, ocupa la fila entera en
+       vez de dejar un hueco del color de la línea. */
     .cajetin { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cajetin > :last-child:nth-child(odd) { grid-column: span 2; }
+    /* Con la línea corta del móvil la partición de palabras sólo añade guiones. */
+    .lectura { hyphens: manual; }
+  }
+
+  @media (max-width: 540px) {
+    /* En un teléfono, una ficha que lleva un control —la fecha de la redacción— no cabe
+       en media pantalla sin cortar el dato; sólo en ese caso el cajetín va a una columna.
+       Uno de cuatro datos cortos sigue en dos. */
+    .cajetin:has(select) { grid-template-columns: minmax(0, 1fr); }
+    .cajetin:has(select) > :last-child:nth-child(odd) { grid-column: auto; }
   }
 
   /* ============================================================ landing */
@@ -574,11 +662,17 @@
 
   /* ------------------------------------------------- markdown del corpus */
   .markdown > :first-child { margin-top: 0; }
-  .markdown h1 { margin: 2.2rem 0 0.8rem; font-family: var(--sans); font-size: 2.1rem; font-weight: 600; line-height: 1.1; text-wrap: balance; }
-  .markdown h3 { margin: 2rem 0 0.7rem; font-family: var(--sans); font-size: 1.5rem; font-weight: 600; line-height: 1.15; }
-  .markdown h4 { margin: 1.6rem 0 0.6rem; font-family: var(--sans); font-size: 1.2rem; font-weight: 600; }
-  .markdown h5 { margin: 1.3rem 0 0.5rem; font-family: var(--sans); font-size: 1.05rem; font-weight: 600; }
-  .markdown p { margin: 0 0 0.9rem; text-wrap: pretty; }
+  /* El texto de la guía se corta a la misma medida que el del reglamento; las tablas y
+     las figuras se quedan con la lámina entera. */
+  .markdown > :where(h1, h3, h4, h5, p, ul, ol, hr, blockquote) {
+    max-width: var(--medida);
+    margin-inline: 0;
+  }
+  .markdown h1 { margin: 2.2rem 0 0.8rem; font-family: var(--sans); font-size: 1.94em; font-weight: 600; line-height: 1.1; text-wrap: balance; }
+  .markdown h3 { margin: 1.9rem 0 0.65rem; font-family: var(--sans); font-size: 1.39em; font-weight: 600; line-height: 1.15; text-wrap: balance; }
+  .markdown h4 { margin: 1.5rem 0 0.55rem; font-family: var(--sans); font-size: 1.11em; font-weight: 600; }
+  .markdown h5 { margin: 1.2rem 0 0.45rem; font-family: var(--sans); font-size: 0.97em; font-weight: 600; }
+  .markdown p { margin: 0 0 0.85em; text-wrap: pretty; }
   .markdown ul { margin: 0 0 1rem; padding-left: 1.4rem; }
   .markdown li { margin-bottom: 0.25rem; }
   .markdown hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--linea); }
@@ -588,7 +682,7 @@
     padding: 0.2rem 0 0.2rem 1rem;
     border-left: 3px solid var(--marca);
     color: var(--tinta-2);
-    font-size: 1rem;
+    font-size: 0.95em;
   }
   .markdown blockquote p:last-child { margin-bottom: 0; }
   .markdown img { display: block; max-width: 100%; height: auto; margin: 1.4rem auto; border: 1px solid var(--linea); border-radius: 4px; }
@@ -596,10 +690,12 @@
   /* Las tablas del corpus vienen en rejilla expandida: muchas celdas vacías y columnas
      sin agrupar. Se muestran tal cual y con scroll horizontal, que es lo fiel. */
   .markdown .tabla-scroll { overflow-x: auto; margin: 1.4rem 0; }
+  /* La partición de palabras es para la prosa: en una tabla parte una unidad de medida. */
+  .markdown table, .texto table { hyphens: manual; }
   .markdown table {
     border-collapse: collapse;
     font-family: var(--sans);
-    font-size: 0.92rem;
+    font-size: 0.86em;
     line-height: 1.35;
   }
   .markdown th, .markdown td {

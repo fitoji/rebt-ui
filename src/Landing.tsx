@@ -67,7 +67,7 @@ export default function Landing() {
         <h1 className="mt-0 mb-0 text-[clamp(3.6rem,11vw,7rem)] font-semibold leading-[0.9] tracking-[0.01em]">
           REBT
         </h1>
-        <p className="mt-[0.9rem] mb-0 max-w-[46rem] font-serif text-[clamp(1.05rem,2.2vw,1.4rem)] leading-[1.45] text-tinta-2">
+        <p className="mt-[0.9rem] mb-0 max-w-[46rem] font-lectura text-[clamp(1.05rem,2.2vw,1.4rem)] leading-[1.45] text-tinta-2">
           Reglamento electrotécnico para baja tensión, para leer y consultar.
         </p>
 
@@ -83,7 +83,7 @@ export default function Landing() {
                 <span className="block text-[1.4rem] font-semibold leading-[1.15]">
                   {acceso.titulo}
                 </span>
-                <span className="mt-[0.15rem] block max-w-[46ch] font-serif text-[1rem] leading-[1.45] text-tinta-2">
+                <span className="mt-[0.15rem] block max-w-[46ch] font-lectura text-[1rem] leading-[1.45] text-tinta-2">
                   {acceso.descripcion}
                 </span>
               </span>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { getBlock, NORMA_ID } from './api.ts'
+import { useRevelar } from './hooks/useRevelar.ts'
 import { formatDate, gridToMarkdown, splitTitle } from './parse.ts'
 import { Highlight, Item } from './render.tsx'
 import BotonNota, { useSeleccion } from './BotonNota.tsx'
@@ -36,7 +37,7 @@ const ESQUELETO = ['92%', '100%', '96%', '88%', '98%', '93%', '70%', '97%', '94%
 
 function EsqueletoTexto() {
   return (
-    <div role="status" aria-label="Cargando el texto" className="max-w-[68ch]">
+    <div role="status" aria-label="Cargando el texto" className="medida">
       <span className="sr-only">Cargando el texto…</span>
       {ESQUELETO.map((ancho, i) => (
         <span
@@ -117,20 +118,25 @@ export default function Reader({
     mark.classList.add('nota-aviso')
   }, [notasDoc, version?.vigencia, nota])
 
+  // El texto que entra al scrollear. Se ata al artículo: al cambiar de bloque o de
+  // redacción hay otro texto y la cascada se prepara de nuevo desde cero.
+  useRevelar(articulo, version?.vigencia)
+
   return (
     <main
-      className="animate-vista-entra overflow-y-auto px-[clamp(1.1rem,4vw,3.5rem)] pt-[2.2rem] pb-[4rem] outline-none max-[860px]:pt-[3.2rem] [&>*]:mx-auto [&>*]:max-w-[70rem]"
+      className="animate-vista-entra overflow-y-auto px-[clamp(1.1rem,4vw,3.5rem)] pt-[2.2rem] pb-[4rem] outline-none max-[860px]:pt-[3.2rem]"
       ref={top}
       tabIndex={-1}
     >
-      <header className="mb-[2rem] border-b border-linea pb-[1.25rem]">
+      <header className="lamina mb-[2rem] border-b border-linea pb-[1.25rem]">
         <h1 className="m-0 max-w-[24ch] text-[clamp(1.9rem,3.4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em] text-balance">
           {nombre}
         </h1>
 
         {/* La ficha del bloque: el cajetín de la cabecera de una lámina, con los mismos
-            campos y el mismo orden en todos los bloques del reglamento. */}
-        <dl className="cajetin mt-[1.1rem] max-w-[46rem]">
+            campos y el mismo orden en todos los bloques del reglamento. Ocupa el ancho de
+            la lámina, no el de la prosa: es el marco, no el texto. */}
+        <dl className="cajetin mt-[1.1rem]">
           <div>
             <dt className="rotulo">{itc ? 'Código' : 'Documento'}</dt>
             <dd className="dato m-0 text-[0.85rem] text-neutro">{itc ? `ITC-${itc}` : 'REBT'}</dd>
@@ -141,7 +147,7 @@ export default function Reader({
               <dd className="m-0">
                 {versiones.length > 1 ? (
                   <select
-                    className="dato rounded-[3px] border border-linea bg-hoja py-[0.1rem] pr-[1.4rem] pl-[0.3rem] text-[0.85rem] transition-colors duration-150 ease-plano hover:border-neutro focus:border-neutro"
+                    className="dato max-w-full rounded-[3px] border border-linea bg-hoja py-[0.1rem] pr-[1.2rem] pl-[0.3rem] text-[0.82rem] transition-colors duration-150 ease-plano hover:border-neutro focus:border-neutro"
                     value={versionIdx}
                     onChange={(e) => setVersionIdx(+e.target.value)}
                   >
@@ -180,10 +186,10 @@ export default function Reader({
 
       {estado.status === 'loading' && <EsqueletoTexto />}
       {estado.status === 'error' && (
-        <div className="rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]" role="alert">
+        <div className="medida rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]" role="alert">
           <p className="rotulo mt-0 mb-[0.4rem] text-fase">Error de lectura</p>
-          <p className="mt-0 mb-[0.35rem] font-serif text-[1.05rem] text-tinta">No se pudo cargar este bloque.</p>
-          <p className="mt-0 mb-[0.9rem] font-serif text-[0.95rem] text-tinta-2">{estado.error.message}</p>
+          <p className="mt-0 mb-[0.35rem] font-lectura text-[1.05rem] text-tinta">No se pudo cargar este bloque.</p>
+          <p className="mt-0 mb-[0.9rem] font-lectura text-[0.95rem] text-tinta-2">{estado.error.message}</p>
           <button
             className="rounded-[4px] border border-linea bg-neutro-fondo py-[0.4rem] px-[0.9rem] transition-colors duration-150 ease-plano hover:border-neutro"
             onClick={() => setAttempt((n) => n + 1)}
@@ -195,8 +201,8 @@ export default function Reader({
 
       {estado.status === 'ok' && (
         <Highlight.Provider value={highlight}>
-          <article className="texto font-serif text-[1.0625rem] leading-[1.7]" ref={articulo} key={version.vigencia}>
-            {version.items.length === 0 && <p className="font-serif text-tinta-2">Este bloque no tiene texto.</p>}
+          <article className="texto lectura lamina" ref={articulo} key={version.vigencia}>
+            {version.items.length === 0 && <p className="text-tinta-2">Este bloque no tiene texto.</p>}
             {version.items.map((item, i) => (
               <Item
                 key={i}
@@ -226,7 +232,7 @@ export default function Reader({
       />
 
       <nav
-        className="mt-[3rem] flex justify-between gap-[1rem] border-t border-linea pt-[1.2rem] max-[860px]:flex-col"
+        className="lamina mt-[3rem] flex justify-between gap-[1rem] border-t border-linea pt-[1.2rem] max-[860px]:flex-col"
         aria-label="Bloque anterior y siguiente"
       >
         {prev ? (

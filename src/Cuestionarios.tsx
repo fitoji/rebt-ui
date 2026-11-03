@@ -224,7 +224,7 @@ export default function Cuestionarios({ onInicio }: Props) {
       >
         <span className="text-xl font-semibold leading-[1.2]">{item.nombre}</span>
         <span className="flex w-full items-end justify-between gap-3 border-t border-linea pt-3">
-          <span className="font-serif text-[0.95rem] leading-[1.4] text-tinta-2">
+          <span className="font-lectura text-[0.95rem] leading-[1.4] text-tinta-2">
             <span className="dato text-tinta">{item.preguntas.length}</span> preguntas · {item.preguntas[0]?.tema}
           </span>
           <span
@@ -266,7 +266,7 @@ export default function Cuestionarios({ onInicio }: Props) {
               <h1 id="cuestionarios-heading" className="mb-2 mt-0 text-[clamp(2.5rem,8vw,4rem)] font-semibold leading-[1] tracking-[-0.015em]">
                 Cuestionarios Tests
               </h1>
-              <p className="mb-8 mt-0 max-w-[46ch] font-serif text-lg leading-[1.5] text-tinta-2">
+              <p className="mb-8 mt-0 max-w-[46ch] font-lectura text-lg leading-[1.5] text-tinta-2">
                 Elige un cuestionario para empezar. Cada test contiene preguntas de opción múltiple.
               </p>
               <div className="mb-6">

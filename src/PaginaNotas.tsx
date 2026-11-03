@@ -184,7 +184,7 @@ export default function PaginaNotas({
 
       {notas.length === 0 ? (
         <div className="mt-[1.6rem] rounded-[4px] border border-dashed border-linea bg-hoja/40 px-[1.2rem] py-[1.4rem]">
-          <p className="m-0 max-w-[52ch] font-serif text-[1.05rem] leading-[1.5] text-tinta-2">
+          <p className="m-0 max-w-[52ch] font-lectura text-[1.05rem] leading-[1.5] text-tinta-2">
             Subrayá un trozo del texto de una guía o de un bloque del reglamento y guardalo como
             nota: aparecerá acá.
           </p>
@@ -257,7 +257,7 @@ export default function PaginaNotas({
                     const tabla = parsearTablaMarkdown(nota.texto)
                     if (!tabla) {
                       return (
-                        <blockquote className="mt-0 mb-[0.5rem] font-serif text-[1.1rem] leading-[1.45]">
+                        <blockquote className="mt-0 mb-[0.5rem] font-lectura text-[1.1rem] leading-[1.45]">
                           {nota.texto}
                         </blockquote>
                       )

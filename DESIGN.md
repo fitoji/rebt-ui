@@ -48,10 +48,10 @@ typography:
     fontWeight: 400
     lineHeight: 1.5
   lectura:
-    fontFamily: "Source Serif 4, Georgia, Times New Roman, serif"
-    fontSize: "1.0625rem"
+    fontFamily: "IBM Plex Sans, Segoe UI, system-ui, sans-serif"
+    fontSize: "clamp(1.0625rem, 0.62vw + 0.62rem, 1.25rem)"
     fontWeight: 400
-    lineHeight: 1.7
+    lineHeight: 1.62
   rotulo:
     fontFamily: "Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif"
     fontSize: "0.68rem"
@@ -128,7 +128,8 @@ El sistema es plano. La profundidad se construye por capas tonales —plano, hoj
 **Key Characteristics:**
 - Retícula de 24 px con línea mayor cada 5 como fondo de toda la app, fija al scroll.
 - Jerarquía por línea de 1 px y capa tonal, no por sombra ni por relleno.
-- Dos familias: Barlow Semi Condensed para la interfaz, Source Serif 4 para el texto que se lee de corrido.
+- Dos familias: Barlow Semi Condensed para la interfaz, IBM Plex Sans para el texto que se lee de corrido.
+- La lámina manda: título, cajetín, tablas y navegación comparten un ancho; la prosa se corta a su medida dentro de ella.
 - Mono reservado a códigos, medidas y cifras, con numerales tabulares.
 - Una única curva de movimiento, sin rebotes, con camino de movimiento reducido en cada animación espacial.
 
@@ -170,16 +171,16 @@ El tema oscuro no invierte: recalibra. El papel baja a #0f1a20 y la hoja a #1623
 ## Typography
 
 **Display Font:** Barlow Semi Condensed (con Arial Narrow, system-ui)
-**Body Font:** Source Serif 4 (con Georgia, Times New Roman)
+**Body Font:** IBM Plex Sans (con Segoe UI, system-ui)
 **Label/Mono Font:** mono del sistema (SF Mono, Menlo, Consolas)
 
-**Character:** Barlow Semi Condensed es una condensed de señalética: entra mucho texto en poco ancho y se lee como rótulo, no como prosa. Source Serif 4 aparece sólo donde hay párrafos que se leen de corrido —el cuerpo del reglamento y la guía— y ahí el cambio de familia es la señal de que empezó el texto oficial. El mono no es decoración técnica: es la tipografía de las cifras del plano.
+**Character:** Barlow Semi Condensed es una condensed de señalética: entra mucho texto en poco ancho y se lee como rótulo, no como prosa. IBM Plex Sans aparece donde hay párrafos que se leen de corrido —el cuerpo del reglamento y la guía—: es una grotesca humanista de origen técnico, de aperturas abiertas y formas suaves, que aguanta párrafos largos sin el ruido de una serif ni la frialdad de una geométrica. El cambio de familia, más un cuerpo mayor, es la señal de que empezó el texto oficial. El mono no es decoración técnica: es la tipografía de las cifras del plano.
 
 ### Hierarchy
 - **Display** (600, 2.1rem, 1.1): título de bloque del reglamento y cabecera de la portada. Equilibrado con `text-wrap: balance`.
 - **Titular** (600, 1.5rem, 1.15): capítulo de la guía y títulos de sección.
 - **Título** (600, 1.2rem, 1.3): subtítulo dentro de un bloque, cabecera de tarjeta.
-- **Lectura** (400, 1.0625rem, 1.7): cuerpo del texto oficial, en serif, con ancho máximo de 68ch.
+- **Lectura** (400, `clamp(1.0625rem, 0.62vw + 0.62rem, 1.25rem)`, 1.62): cuerpo del texto oficial, en IBM Plex Sans, con ancho máximo de 40em (unas 88 letras) y partición de palabras. Los títulos internos del texto se miden en `em` de este cuerpo, para que crezcan con él.
 - **Cuerpo** (400, 1rem, 1.5): interfaz —barra lateral, botones, formularios—, en condensed.
 - **Rótulo** (600, 0.68rem, 1.2, tracking 0.13em, mayúsculas): etiquetas de campo y cabeceras de grupo. Es la pieza que hace que un bloque se lea como cajetín.
 - **Dato** (400, 0.9rem, tabular): números de artículo, medidas, porcentajes, códigos ITC-BT. `font-variant-numeric: tabular-nums` y cero barrado.
@@ -187,17 +188,21 @@ El tema oscuro no invierte: recalibra. El papel baja a #0f1a20 y la hoja a #1623
 ### Named Rules
 **The Mono Is For Data Rule.** El mono se usa para códigos, medidas y cifras; nunca para frases. Una oración en mono se lee como consola, no como plano.
 
-**The Serif Means Official Rule.** Cambiar a Source Serif 4 marca el texto que viene del BOE o del Ministerio. La interfaz no lo usa: si algo está en serif, es contenido normativo.
+**The Reading Face Rule.** La lectura de corrido va en IBM Plex Sans con un cuerpo propio, más grande que la interfaz. Es lo que marca el texto que viene del BOE o del Ministerio: si algo se lee como documento y no como herramienta, está en la tipografía de lectura.
+
+**The Measure Grows With The Type Rule.** La columna se define en `em` del cuerpo de lectura (`40em`), nunca en píxeles: cuando la pantalla es más ancha, sube el cuerpo y no la cantidad de letras por línea. Una línea de 130 caracteres no es aprovechar la pantalla, es cansar al lector.
 
 ## Layout
 
 La retícula del fondo es el sistema de medida: 24 px con línea mayor cada 120 px, fija al scroll, pintada con gradientes en el `body` en vez de capas absolutas. No es ornamento —es la referencia contra la que se alinean las tarjetas y las líneas de 1 px.
 
-Los anchos son deliberados y distintos por tarea: el lector admite hasta 70rem de ancho total, pero el texto se corta a 68ch para que la línea no se estire; la guía usa 62rem con bloques de 46rem; las notas ocupan 52rem. La barra lateral mide 24rem y queda fija, porque el índice es el mapa de la lámina.
+Los anchos son deliberados y distintos por tarea, pero salen de una sola medida: **la lámina es la medida más un margen fijo de 16rem** (`--lamina: calc(var(--medida) + 16rem)`). El título, el cajetín, las tablas y la navegación ocupan la lámina entera; la prosa se corta a 40em dentro de ella y deja un margen derecho que es el sitio de las marcas —los filetes—, no un hueco. Así la proporción entre texto y hoja es la misma en un portátil de 1440 que en un monitor de 1920, porque las dos crecen juntas.
+
+La barra lateral mide 22rem y queda fija, porque el índice es el mapa de la lámina.
 
 La densidad es de instrumento: filas de índice de una sola línea con la marca a la izquierda, padding vertical de 0.35rem en listas densas y de 1.15rem en las entradas de la portada. El espacio entre bloques lo da el margen del título (2.2rem arriba), no un separador.
 
-Responsive: por debajo de `md` la barra lateral pasa a offcanvas con `transition-transform` de 300 ms y el lector pierde el índice lateral pero gana el ancho completo. Las tablas del corpus scrollean dentro de su contenedor, nunca la página.
+Responsive: por debajo de `md` la barra lateral pasa a offcanvas con `transition-transform` de 300 ms y el lector pierde el índice lateral pero gana el ancho completo; el cajetín cae a dos columnas y la última ficha, si queda sola, ocupa la fila. Las tablas del corpus scrollean dentro de su contenedor, nunca la página. En móvil el cuerpo de lectura baja al mínimo del `clamp` y se apaga la partición de palabras: con la línea corta sólo añadiría guiones.
 
 ## Elevation & Depth
 
@@ -255,7 +260,10 @@ Los grupos se pliegan con `grid-template-rows` de `0fr` a `1fr` en 300 ms; el co
 El bloque de rótulos que cierra cada lámina: una retícula de celdas de 1 px sobre fondo de línea, cada celda con un rótulo en versalita y un valor en tinta. Encabeza cada bloque del reglamento, cada guía y la portada. Es la pieza que más rápido comunica de qué sistema se trata, y la que hay que respetar cuando se agregue una vista nueva.
 
 ### Esqueleto de carga (signature)
-Mientras carga un bloque o una guía se muestra una lámina de líneas del ancho real del texto con un barrido de 1.5 s, no un "Cargando…" en texto corrido. La barra de indexado usa la franja verde-amarilla en movimiento continuo: es la única animación en bucle del sistema y vive dentro de una barra de 6 px.
+Mientras carga un bloque o una guía se muestra una lámina de líneas del ancho real del texto con un barrido de 1.5 s, no un "Cargando…" en texto corrido. La barra de indexado usa la franja verde-amarilla en movimiento continuo: es la única animación en bucle del sistema cuando nadie toca nada, y vive dentro de una barra de 6 px.
+
+### Lectura que entra
+Cada bloque del texto —párrafo, título, tabla, figura— aparece cuando llega al borde inferior de la ventana: sube 0.62rem y se aclara en 420 ms, con una cascada de 35 ms entre hermanos que entran juntos, tope de cuatro. Lo que ya está a la vista no se anima nunca, y lo que se salta de golpe (una coincidencia de búsqueda, una nota) se suelta sin animación. Con movimiento reducido el texto aparece ya puesto.
 
 ## Do's and Don'ts
 
@@ -265,7 +273,8 @@ Mientras carga un bloque o una guía se muestra una lámina de líneas del ancho
 - **Do** mover la marca del conductor de protección con `transform` entre filas; el estado se desplaza, no parpadea.
 - **Do** usar `--ease-plano` (`cubic-bezier(0.22, 1, 0.36, 1)`) para todo lo que entra, y dar a cada animación espacial su rama de `prefers-reduced-motion` en la que el espacio se apaga y el color y el estado siguen.
 - **Do** declarar cada color nuevo en ambos temas.
-- **Do** mantener el texto oficial a 68ch de ancho máximo, en Source Serif 4.
+- **Do** mantener el texto oficial a 40em de ancho máximo (unas 88 letras), en IBM Plex Sans y con el cuerpo de lectura; los títulos internos del texto, en `em`.
+- **Do** dejar que la lámina crezca con la medida: la proporción entre hoja y texto se mantiene en cualquier pantalla.
 
 ### Don't:
 - **Don't** usar `--nota-rojo`, `--tierra-a` ni `--marca` como color de texto: son fondos de resalte y no alcanzan contraste como tinta.
