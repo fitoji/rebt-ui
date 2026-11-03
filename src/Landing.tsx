@@ -16,6 +16,11 @@ const ACCESOS = [
     descripcion: 'El reglamento del BOE, con tablas, buscador y selector de redacciones.',
   },
   {
+    href: '#/antiguos',
+    titulo: 'REBT anteriores',
+    descripcion: 'Las normas que rigieron antes del 2002, con su texto en el BOE.',
+  },
+  {
     href: '#/guia',
     titulo: 'Guía técnica',
     descripcion: 'Las guías del ministerio en texto buscable, con acceso directo por instrucción.',
@@ -115,6 +120,10 @@ export default function Landing() {
 
       <footer className="relative z-10 border-t border-linea py-[1.1rem] px-[1.5rem] text-center text-[0.85rem] text-tinta-2">
         {FUENTE}
+        <span aria-hidden="true"> · </span>
+        <a href="#/antiguos" className="text-neutro transition-colors duration-150 ease-plano hover:underline">
+          REBT anteriores
+        </a>
       </footer>
     </div>
   )

@@ -93,5 +93,6 @@ export type Ruta =
   | { name: 'landing' }
   | { name: 'notas' }
   | { name: 'cuestionarios' }
+  | { name: 'antiguos' }
   | { name: 'guia'; id: string | null; nota?: string }
   | { name: 'rebt'; id: string | null; nota?: string }
