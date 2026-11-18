@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rebt-ui.fitoji.workers.dev/sitemap.xml
