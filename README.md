@@ -33,15 +33,15 @@
 
 ## 📖 Qué hace
 
-| Vista | Qué ofrece |
-|---|---|
-| **Lector del reglamento** | Texto del BOE con las tablas como tablas reales (cabecera fija, celdas combinadas) y **copiar a hoja de cálculo, Markdown o CSV**. Selector de redacción (el BOE guarda todas; se muestra la vigente) y búsqueda en el texto completo con las coincidencias resaltadas. La búsqueda es **progresiva**: los resultados van apareciendo a medida que se descargan los bloques, no al final. |
-| **Visor de la guía** | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). Barra lateral con el índice de las guías, los favoritos y las notas, igual que el lector. |
-| **Notas** | Subrayás un trozo de texto con el ratón (o con el teclado) y queda **resaltado en el texto** y guardado en un acordeón «Notas», para volver a él después. Cada nota es **amarilla, verde o roja** (de qué es) y lleva las **etiquetas** que le pongas (de qué tema), con nombre libre. Se guardan en el navegador, con el texto y su contexto: si el texto se mueve, la nota lo sigue. En `#/notas` están **todas**, de las dos vistas, con el texto entero, su contexto y filtros **por color y por etiqueta**. |
-| **Índice** | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC y los documentos que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano los que más usás. |
-| **REBT anteriores** | Las normas que rigieron antes del reglamento vigente —el de 1973 y la modificación de 1985—, con la ficha de cada una y el enlace al PDF oficial del BOE. Debajo, aparte, las **instrucciones complementarias MI BT**: el conjunto que se aprobó en una sola orden en 1973 y las 12 órdenes que lo modificaron hasta 1998. Las que el BOE digitalizó se leen dentro de la app con el texto del diario (`/boe-doc`); las de 1973 y 1974 solo existen como escaneo y enlazan al PDF. |
-| **Cambios del REBT** | El historial del reglamento vigente: las 11 normas que modificaron, actualizaron o anularon algún artículo o ITC desde 2002, con la fecha y qué instrucción tocó cada una. Responde «este artículo, ¿siempre dijo esto?», que el lector por sí solo no puede contestar. Todas se leen dentro de la app: las seis que el BOE consolida, con el lector de bloques y su índice; las cinco que no —dos de 2025, la de 2022, una resolución y una sentencia—, con el texto del diario del día en que se publicaron, parseado del HTML y renderizado igual. El enlace al documento original queda siempre a la vista. |
-| **Además** | Pantalla de inicio con las cinco puertas, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema. |
+| Vista                     | Qué ofrece                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Lector del reglamento** | Texto del BOE con las tablas como tablas reales (cabecera fija, celdas combinadas) y **copiar a hoja de cálculo, Markdown o CSV**. Selector de redacción (el BOE guarda todas; se muestra la vigente) y búsqueda en el texto completo con las coincidencias resaltadas. La búsqueda es **progresiva**: los resultados van apareciendo a medida que se descargan los bloques, no al final.                                                                                                                                                                                                                       |
+| **Visor de la guía**      | Los 38 documentos de la Guía Técnica con sus tablas reales, sus figuras y el enlace al PDF oficial. Las tablas también se copian a hoja de cálculo, se copian como Markdown o se descargan como CSV, **con el nombre del CSV del corpus** (`BT-19_t01.csv`). Barra lateral con el índice de las guías, los favoritos y las notas, igual que el lector.                                                                                                                                                                                                                                                          |
+| **Notas**                 | Subrayás un trozo de texto con el ratón (o con el teclado) y queda **resaltado en el texto** y guardado en un acordeón «Notas», para volver a él después. Cada nota es **amarilla, verde o roja** (de qué es) y lleva las **etiquetas** que le pongas (de qué tema), con nombre libre. Se guardan en el navegador, con el texto y su contexto: si el texto se mueve, la nota lo sigue. En `#/notas` están **todas**, de las dos vistas, con el texto entero, su contexto y filtros **por color y por etiqueta**.                                                                                                |
+| **Índice**                | Agrupado en Preámbulo / Reglamento / ITC-BT, con acordeones y filtro por título. Las disposiciones van plegadas en un sub-acordeón, porque son lo accesorio. Las ITC y los documentos que marques con la estrella van a un apartado **Favoritos** que se guarda en el navegador (`localStorage`), para tener a mano los que más usás.                                                                                                                                                                                                                                                                           |
+| **REBT anteriores**       | Las normas que rigieron antes del reglamento vigente —el de 1973 y la modificación de 1985—, con la ficha de cada una y el enlace al PDF oficial del BOE. Debajo, aparte, las **instrucciones complementarias MI BT**: el conjunto que se aprobó en una sola orden en 1973 y las 12 órdenes que lo modificaron hasta 1998. Las que el BOE digitalizó se leen dentro de la app con el texto del diario (`/boe-doc`); las de 1973 y 1974 solo existen como escaneo y enlazan al PDF.                                                                                                                              |
+| **Cambios del REBT**      | El historial del reglamento vigente: las 11 normas que modificaron, actualizaron o anularon algún artículo o ITC desde 2002, con la fecha y qué instrucción tocó cada una. Responde «este artículo, ¿siempre dijo esto?», que el lector por sí solo no puede contestar. Todas se leen dentro de la app: las seis que el BOE consolida, con el lector de bloques y su índice; las cinco que no —dos de 2025, la de 2022, una resolución y una sentencia—, con el texto del diario del día en que se publicaron, parseado del HTML y renderizado igual. El enlace al documento original queda siempre a la vista. |
+| **Además**                | Pantalla de inicio con las cinco puertas, enlaces `#/{id}` a cualquier bloque, tema claro/oscuro según el sistema.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 
 ## 🖼️ Las vistas
 
@@ -85,66 +85,66 @@ npm install
 npm run dev          # http://localhost:5173, contra el BOE real
 ```
 
-| Comando | Qué hace |
-|---|---|
-| `npm run dev` | Servidor de Vite. |
-| `npm run build` | **Typecheck y luego** empaqueta en `dist/`. Si hay un error de tipos, no se empaqueta. |
-| `npm run typecheck` | `tsc --noEmit`: la puerta de tipos de la aplicación y la del worker. |
-| `npm test` | `node --test` sobre los tests en TypeScript. Sin dependencias de test. |
-| `npm run check` | Typecheck + tests, que es lo que corre el CI. |
-| `npm run mock` | BOE simulado en `:8787`, con datos de ejemplo. |
-| `npm run dev:mock` | Vite contra el BOE simulado, para trabajar sin conexión. |
+| Comando             | Qué hace                                                                               |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| `npm run dev`       | Servidor de Vite.                                                                      |
+| `npm run build`     | **Typecheck y luego** empaqueta en `dist/`. Si hay un error de tipos, no se empaqueta. |
+| `npm run typecheck` | `tsc --noEmit`: la puerta de tipos de la aplicación y la del worker.                   |
+| `npm test`          | `node --test` sobre los tests en TypeScript. Sin dependencias de test.                 |
+| `npm run check`     | Typecheck + tests, que es lo que corre el CI.                                          |
+| `npm run mock`      | BOE simulado en `:8787`, con datos de ejemplo.                                         |
+| `npm run dev:mock`  | Vite contra el BOE simulado, para trabajar sin conexión.                               |
 
 > [!TIP]
 > `npm run mock` en una terminal y `npm run dev:mock` en otra te deja trabajar **sin conexión**
 > a internet, contra un BOE de mentira con datos de ejemplo.
 
 Hace falta **Node ≥ 22.18** (en `engines`): los tests corren en TypeScript sin bundler porque Node
-hace *type stripping* (el borrado de tipos) desde esa versión.
+hace _type stripping_ (el borrado de tipos) desde esa versión.
 
 ## 🗺️ Rutas
 
 Todo va por hash, para que servir el build no necesite reglas de reescritura.
 
-| Ruta | Qué muestra |
-|---|---|
-| `#/` | pantalla de inicio |
-| `#/rebt` | el lector del reglamento, primer bloque |
-| `#/rebt/<bloque>` | el lector en ese bloque |
-| `#/guia` | índice de las 38 guías técnicas |
-| `#/guia/<id>` | una guía concreta (`BT-19`, `BT-Anexo-2`, …) |
-| `#/cuestionarios` | los cuestionarios del REBT |
-| `#/antiguos` | archivo de normas anteriores al reglamento vigente |
-| `#/antiguos/<id>` | una de esas normas o instrucciones, en el lector |
-| `#/cambios` | historial de cambios del reglamento vigente |
-| `#/cambios/<norma>` | una de esas normas, en el lector |
-| `#/cambios/<norma>/<bloque>` | esa norma, en ese bloque |
-| `#/notas` | todas las notas guardadas, de las dos vistas |
-| `#/<bloque>` | enlace antiguo del lector, sigue funcionando |
+| Ruta                         | Qué muestra                                        |
+| ---------------------------- | -------------------------------------------------- |
+| `#/`                         | pantalla de inicio                                 |
+| `#/rebt`                     | el lector del reglamento, primer bloque            |
+| `#/rebt/<bloque>`            | el lector en ese bloque                            |
+| `#/guia`                     | índice de las 38 guías técnicas                    |
+| `#/guia/<id>`                | una guía concreta (`BT-19`, `BT-Anexo-2`, …)       |
+| `#/cuestionarios`            | los cuestionarios del REBT                         |
+| `#/antiguos`                 | archivo de normas anteriores al reglamento vigente |
+| `#/antiguos/<id>`            | una de esas normas o instrucciones, en el lector   |
+| `#/cambios`                  | historial de cambios del reglamento vigente        |
+| `#/cambios/<norma>`          | una de esas normas, en el lector                   |
+| `#/cambios/<norma>/<bloque>` | esa norma, en ese bloque                           |
+| `#/notas`                    | todas las notas guardadas, de las dos vistas       |
+| `#/<bloque>`                 | enlace antiguo del lector, sigue funcionando       |
 
 ## 🏗️ Dónde está cada cosa
 
-| Ruta | Qué contiene |
-|---|---|
-| `src/` | La aplicación. `src/tipos.ts` tiene los tipos del dominio; `src/guia/` el intérprete del corpus y sus URLs. |
-| `src/guia/markdown.ts` | El intérprete de Markdown del corpus (propio, ver más abajo). |
-| `src/busqueda.ts` | La búsqueda de texto completo, como función pura: los resultados crecen a medida que se indexa. |
-| `src/favoritos.ts` | Los favoritos: lo que el usuario marca, guardado en `localStorage`. |
-| `src/notas.ts` | Las notas: los trozos de texto subrayados, con su contexto para poder reubicarlos. |
-| `src/PaginaNotas.tsx` | La página con todas las notas (`#/notas`). |
-| `src/Antiguos.tsx` · `src/antiguos.ts` | La página `#/antiguos` y el listado de normas anteriores, con los datos verificados contra el BOE. |
-| `src/Cambios.tsx` · `src/cambios.ts` | La página `#/cambios` y el historial de cambios del reglamento vigente. |
-| `src/SidebarGuia.tsx` | La barra lateral de la guía: el índice de los documentos, los favoritos y las notas. |
-| `src/indice.ts` | Cómo se agrupan los bloques en la sidebar. |
-| `test/` | Tests en TypeScript, con el runner nativo de Node. |
-| `vite/guia-corpus.ts` | Plugin que publica `guia_rebt/` en `/guia/*`. |
-| `worker/index.ts` | El Worker de Cloudflare: sirve `dist/` y hace de proxy hacia el BOE. |
-| `worker/cache.ts` | La política de caché del proxy y el ETag que la hace barata. |
-| `mock/server.ts` | El BOE simulado para trabajar sin conexión. |
-| `guia_rebt/` | El corpus: `md/` + `tablas/` + `imgs/` + `indice.json`, y el conversor en Python. |
-| `odd/tasks/` | Los logbooks de cada trabajo: qué se pidió, qué se decidió y cómo se verificó. |
-| `public/logo.svg` | La marca de la app: la franja del conductor de protección. Es también el favicon. |
-| `docs/` | Las capturas de pantalla de este README. |
+| Ruta                                   | Qué contiene                                                                                                |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `src/`                                 | La aplicación. `src/tipos.ts` tiene los tipos del dominio; `src/guia/` el intérprete del corpus y sus URLs. |
+| `src/guia/markdown.ts`                 | El intérprete de Markdown del corpus (propio, ver más abajo).                                               |
+| `src/busqueda.ts`                      | La búsqueda de texto completo, como función pura: los resultados crecen a medida que se indexa.             |
+| `src/favoritos.ts`                     | Los favoritos: lo que el usuario marca, guardado en `localStorage`.                                         |
+| `src/notas.ts`                         | Las notas: los trozos de texto subrayados, con su contexto para poder reubicarlos.                          |
+| `src/PaginaNotas.tsx`                  | La página con todas las notas (`#/notas`).                                                                  |
+| `src/Antiguos.tsx` · `src/antiguos.ts` | La página `#/antiguos` y el listado de normas anteriores, con los datos verificados contra el BOE.          |
+| `src/Cambios.tsx` · `src/cambios.ts`   | La página `#/cambios` y el historial de cambios del reglamento vigente.                                     |
+| `src/SidebarGuia.tsx`                  | La barra lateral de la guía: el índice de los documentos, los favoritos y las notas.                        |
+| `src/indice.ts`                        | Cómo se agrupan los bloques en la sidebar.                                                                  |
+| `test/`                                | Tests en TypeScript, con el runner nativo de Node.                                                          |
+| `vite/guia-corpus.ts`                  | Plugin que publica `guia_rebt/` en `/guia/*`.                                                               |
+| `worker/index.ts`                      | El Worker de Cloudflare: sirve `dist/` y hace de proxy hacia el BOE.                                        |
+| `worker/cache.ts`                      | La política de caché del proxy y el ETag que la hace barata.                                                |
+| `mock/server.ts`                       | El BOE simulado para trabajar sin conexión.                                                                 |
+| `guia_rebt/`                           | El corpus: `md/` + `tablas/` + `imgs/` + `indice.json`, y el conversor en Python.                           |
+| `odd/tasks/`                           | Los logbooks de cada trabajo: qué se pidió, qué se decidió y cómo se verificó.                              |
+| `public/logo.svg`                      | La marca de la app: la franja del conductor de protección. Es también el favicon.                           |
+| `docs/`                                | Las capturas de pantalla de este README.                                                                    |
 
 ## 🔷 TypeScript
 
@@ -213,13 +213,13 @@ npx wrangler deploy    # publica el worker
 ```
 
 En el CI, cada push a `main` hace: typecheck → tests → build → despliegue. Para que eso funcione, el
-**entorno** de GitHub llamado `CLOUDFLARE_API_TOKEN` (en *Settings → Environments*) necesita dos
+**entorno** de GitHub llamado `CLOUDFLARE_API_TOKEN` (en _Settings → Environments_) necesita dos
 secretos:
 
-| Secreto | Para qué |
-|---|---|
-| `CLOUDFLARE_API_TOKEN` | El token de la API, con la plantilla *Edit Cloudflare Workers* de Cloudflare. El que hay puesto en el entorno es de la época de Pages y **no sirve para Workers**. |
-| `CLOUDFLARE_ACCOUNT_ID` | En qué cuenta está el worker. **Sin esto**, wrangler intenta listar las cuentas para averiguarlo y el despliegue falla antes de compilar. |
+| Secreto                 | Para qué                                                                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `CLOUDFLARE_API_TOKEN`  | El token de la API, con la plantilla _Edit Cloudflare Workers_ de Cloudflare. El que hay puesto en el entorno es de la época de Pages y **no sirve para Workers**. |
+| `CLOUDFLARE_ACCOUNT_ID` | En qué cuenta está el worker. **Sin esto**, wrangler intenta listar las cuentas para averiguarlo y el despliegue falla antes de compilar.                          |
 
 > [!WARNING]
 > El proyecto viejo de **Pages** (`rebt-ui.pages.dev`) quedó atrás y sirve el código fuente crudo:
@@ -266,11 +266,11 @@ ahí conviene saber de dónde salió cada fila.
 
 Todo sale de la API de datos abiertos del BOE, que para esto tiene tres endpoints útiles:
 
-| Endpoint | Qué da |
-|---|---|
+| Endpoint                                                | Qué da                                                                                                                                                                                                                           |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `/legislacion-consolidada/id/BOE-A-2002-18099/analisis` | El bloque `<posteriores>`: cada norma que modificó el reglamento vigente, con su `id_norma`, la relación (`SE MODIFICA`, `SE ACTUALIZA`, `SE DEROGA`, `SE DECLARA`) y qué artículo o ITC tocó. Es el origen de `src/cambios.ts`. |
-| `/legislacion-consolidada/id/{id}/metadatos` | Título completo, fecha de publicación, vigencia y `url_html_consolidada` de una norma. |
-| `/boe/sumario/{aaaammdd}` | El sumario de un día del BOE, con `url_pdf`, `url_html` y `url_xml` de cada disposición. Llega hasta 1973 y es la vía para las normas que no están consolidadas. |
+| `/legislacion-consolidada/id/{id}/metadatos`            | Título completo, fecha de publicación, vigencia y `url_html_consolidada` de una norma.                                                                                                                                           |
+| `/boe/sumario/{aaaammdd}`                               | El sumario de un día del BOE, con `url_pdf`, `url_html` y `url_xml` de cada disposición. Llega hasta 1973 y es la vía para las normas que no están consolidadas.                                                                 |
 
 ### Lo que la API no da
 

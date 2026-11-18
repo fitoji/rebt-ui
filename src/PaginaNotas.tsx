@@ -6,19 +6,34 @@ import { X } from 'lucide-react'
 import InicioBoton from './InicioBoton.tsx'
 import { COLORES, crearArchivoNotas, normalizaTag, parseArchivoNotas } from './notas.ts'
 import type { ColorNota, Nota } from './notas.ts'
-import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, AVISO_CSV, copiarAlPortapapeles, descargar } from './tablas.ts'
+import {
+  AVISO_COPIAR,
+  AVISO_ERROR,
+  AVISO_MARKDOWN,
+  AVISO_CSV,
+  copiarAlPortapapeles,
+  descargar,
+} from './tablas.ts'
 import { gridToCsv, gridToMarkdown, gridToTsv } from './parse.ts'
 import { useTheme } from './useTheme.ts'
 
 /** Detecta si el texto de una nota es una tabla en Markdown y la parsea. */
 function parsearTablaMarkdown(texto: string): { header: string[]; rows: string[][] } | null {
-  const lineas = texto.trim().split('\n').map((l) => l.trim()).filter(Boolean)
+  const lineas = texto
+    .trim()
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
   if (lineas.length < 2) return null
   if (!lineas[0].startsWith('|')) return null
   // La segunda línea es el separador (---).
   if (!/^\|[\s:|-]+\|$/.test(lineas[1])) return null
   const parsearFila = (l: string) =>
-    l.replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim())
+    l
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
+      .split('|')
+      .map((c) => c.trim())
   const header = parsearFila(lineas[0])
   const rows = lineas.slice(2).map(parsearFila)
   return { header, rows }
@@ -28,7 +43,11 @@ function cuando(creado: number): string {
   if (dias <= 0) return 'hoy'
   if (dias === 1) return 'ayer'
   if (dias < 30) return `hace ${dias} días`
-  return new Date(creado).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+  return new Date(creado).toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
 }
 
 /** Cómo se llaman los colores en el filtro, en plural. */
@@ -39,7 +58,10 @@ const ETIQUETAS: Record<ColorNota, string> = {
 }
 
 /** Lo que se está filtrando: nada, un color o una etiqueta. */
-type Filtro = { tipo: 'todas' } | { tipo: 'color'; valor: ColorNota } | { tipo: 'tag'; valor: string }
+type Filtro =
+  | { tipo: 'todas' }
+  | { tipo: 'color'; valor: ColorNota }
+  | { tipo: 'tag'; valor: string }
 
 export default function PaginaNotas({
   notas,
@@ -71,10 +93,7 @@ export default function PaginaNotas({
   useTheme()
 
   // De más reciente a más antigua.
-  const ordenadas = useMemo(
-    () => [...notas].sort((a, b) => b.creado - a.creado),
-    [notas],
-  )
+  const ordenadas = useMemo(() => [...notas].sort((a, b) => b.creado - a.creado), [notas])
 
   const [filtro, setFiltro] = useState<Filtro>({ tipo: 'todas' })
   // La nota que se está etiquetando ahora mismo, y el texto del campo.
@@ -92,7 +111,9 @@ export default function PaginaNotas({
       const resultado = onCombinar(importadas)
       setAvisoArchivo(`${resultado.agregadas} agregadas; ${resultado.duplicadas} ya existían.`)
     } catch (error) {
-      setAvisoArchivo(error instanceof Error ? error.message : 'No se pudo leer el archivo de notas.')
+      setAvisoArchivo(
+        error instanceof Error ? error.message : 'No se pudo leer el archivo de notas.',
+      )
     } finally {
       input.value = ''
     }
@@ -150,7 +171,9 @@ export default function PaginaNotas({
         <div className="mr-auto flex items-baseline gap-[1rem]">
           <InicioBoton onInicio={onInicio} />
         </div>
-        <h1 className="mt-[0.6rem] mb-[0.3rem] text-[2.2rem] font-semibold leading-none tracking-[-0.01em]">Notas</h1>
+        <h1 className="mt-[0.6rem] mb-[0.3rem] text-[2.2rem] font-semibold leading-none tracking-[-0.01em]">
+          Notas
+        </h1>
         <p className="m-0 text-[0.95rem] text-tinta-2">
           {notas.length === 0
             ? 'Todavía no hay ninguna.'
@@ -160,7 +183,13 @@ export default function PaginaNotas({
           <button
             className="cursor-pointer rounded-[4px] border border-linea bg-hoja px-[0.7rem] py-[0.35rem] text-[0.9rem] text-tinta-2 hover:border-neutro hover:text-neutro disabled:cursor-not-allowed disabled:opacity-50"
             disabled={notas.length === 0}
-            onClick={() => descargar('rebt-ui-notas.json', crearArchivoNotas(notas), 'application/json;charset=utf-8')}
+            onClick={() =>
+              descargar(
+                'rebt-ui-notas.json',
+                crearArchivoNotas(notas),
+                'application/json;charset=utf-8',
+              )
+            }
           >
             Descargar notas
           </button>
@@ -178,7 +207,9 @@ export default function PaginaNotas({
             aria-label="Seleccionar archivo de notas para combinar"
             onChange={(event) => void importarArchivo(event.currentTarget)}
           />
-          <span role="status" className="text-[0.85rem] text-neutro">{avisoArchivo}</span>
+          <span role="status" className="text-[0.85rem] text-neutro">
+            {avisoArchivo}
+          </span>
         </div>
       </header>
 
@@ -191,7 +222,11 @@ export default function PaginaNotas({
         </div>
       ) : (
         <>
-        <div className="mt-[1.2rem] mb-0 flex flex-wrap gap-[0.4rem]" role="group" aria-label="Filtrar las notas por color">
+          <div
+            className="mt-[1.2rem] mb-0 flex flex-wrap gap-[0.4rem]"
+            role="group"
+            aria-label="Filtrar las notas por color"
+          >
             <button
               className={[
                 'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[3px] border border-linea bg-hoja py-[0.25rem] px-[0.55rem] text-[0.85rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-tinta',
@@ -207,27 +242,37 @@ export default function PaginaNotas({
                 key={color}
                 className={[
                   'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[3px] border border-linea bg-hoja py-[0.25rem] px-[0.55rem] text-[0.85rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-tinta',
-                  filtro.tipo === 'color' && filtro.valor === color ? 'border-neutro bg-plano text-tinta' : '',
+                  filtro.tipo === 'color' && filtro.valor === color
+                    ? 'border-neutro bg-plano text-tinta'
+                    : '',
                 ].join(' ')}
                 aria-pressed={filtro.tipo === 'color' && filtro.valor === color}
                 onClick={() => alternarFiltro({ tipo: 'color', valor: color })}
               >
                 <span
                   className={`h-[0.7rem] w-[0.7rem] flex-none rounded-full border border-linea ${
-                    color === 'verde' ? 'bg-nota-verde' : color === 'rojo' ? 'bg-nota-rojo' : 'bg-nota-amarillo'
+                    color === 'verde'
+                      ? 'bg-nota-verde'
+                      : color === 'rojo'
+                        ? 'bg-nota-rojo'
+                        : 'bg-nota-amarillo'
                   }`}
                   aria-hidden="true"
                 />
                 {ETIQUETAS[color]} ({conteos[color]})
               </button>
             ))}
-            {etiquetas.length > 0 && <span className="mx-[0.2rem] h-[1.2rem] w-px bg-linea" aria-hidden="true" />}
+            {etiquetas.length > 0 && (
+              <span className="mx-[0.2rem] h-[1.2rem] w-px bg-linea" aria-hidden="true" />
+            )}
             {etiquetas.map(([tag, n]) => (
               <button
                 key={tag}
                 className={[
                   'inline-flex cursor-pointer items-center gap-[0.35rem] rounded-[3px] border border-linea bg-hoja py-[0.25rem] px-[0.55rem] text-[0.85rem] text-tinta-2 transition-colors duration-150 ease-plano hover:border-neutro hover:text-tinta',
-                  filtro.tipo === 'tag' && filtro.valor === tag ? 'border-neutro bg-plano text-tinta' : '',
+                  filtro.tipo === 'tag' && filtro.valor === tag
+                    ? 'border-neutro bg-plano text-tinta'
+                    : '',
                 ].join(' ')}
                 aria-pressed={filtro.tipo === 'tag' && filtro.valor === tag}
                 onClick={() => alternarFiltro({ tipo: 'tag', valor: tag })}
@@ -299,7 +344,11 @@ export default function PaginaNotas({
                             className="rounded-[4px] border border-linea bg-hoja px-[0.6rem] py-[0.2rem] text-[0.85rem] text-tinta-2 hover:border-neutro hover:text-neutro"
                             onClick={() => {
                               const grid = [tabla.header, ...tabla.rows]
-                              descargar(`${nota.titulo || nota.origen}.csv`, gridToCsv(grid), 'text/csv')
+                              descargar(
+                                `${nota.titulo || nota.origen}.csv`,
+                                gridToCsv(grid),
+                                'text/csv',
+                              )
                               setAvisoTabla({ id: nota.id, msg: AVISO_CSV })
                               window.setTimeout(() => setAvisoTabla(null), 1600)
                             }}
@@ -314,7 +363,10 @@ export default function PaginaNotas({
                           <thead>
                             <tr>
                               {tabla.header.map((c, i) => (
-                                <th key={i} className="border-b border-linea bg-plano px-[0.6rem] py-[0.4rem] text-left font-semibold text-tinta">
+                                <th
+                                  key={i}
+                                  className="border-b border-linea bg-plano px-[0.6rem] py-[0.4rem] text-left font-semibold text-tinta"
+                                >
                                   {c}
                                 </th>
                               ))}
@@ -324,7 +376,10 @@ export default function PaginaNotas({
                             {tabla.rows.map((fila, r) => (
                               <tr key={r}>
                                 {fila.map((c, i) => (
-                                  <td key={i} className="border-b border-linea px-[0.6rem] py-[0.4rem] text-tinta-2">
+                                  <td
+                                    key={i}
+                                    className="border-b border-linea px-[0.6rem] py-[0.4rem] text-tinta-2"
+                                  >
                                     {c}
                                   </td>
                                 ))}
@@ -335,14 +390,14 @@ export default function PaginaNotas({
                       </div>
                     )
                   })()}
-                {(nota.antes || nota.despues) && (
-                  <p className="mt-0 mb-[0.6rem] text-[0.85rem] leading-[1.5] text-tinta-2">
-                    {nota.antes && <span className="nota-antes">…{nota.antes}</span>}
-                    <mark className="nota bg-transparent font-semibold">{nota.texto}</mark>
-                    {nota.despues && <span className="nota-despues">{nota.despues}…</span>}
-                  </p>
-                )}
-                <div className="mt-0 mb-[0.6rem] flex flex-wrap items-center gap-[0.3rem]">
+                  {(nota.antes || nota.despues) && (
+                    <p className="mt-0 mb-[0.6rem] text-[0.85rem] leading-[1.5] text-tinta-2">
+                      {nota.antes && <span className="nota-antes">…{nota.antes}</span>}
+                      <mark className="nota bg-transparent font-semibold">{nota.texto}</mark>
+                      {nota.despues && <span className="nota-despues">{nota.despues}…</span>}
+                    </p>
+                  )}
+                  <div className="mt-0 mb-[0.6rem] flex flex-wrap items-center gap-[0.3rem]">
                     {nota.tags.map((tag) => (
                       <span
                         key={tag}
@@ -408,12 +463,20 @@ export default function PaginaNotas({
                     >
                       {nota.titulo || nota.origen} ↗
                     </button>
-                    <span className="flex flex-none gap-[0.2rem]" role="group" aria-label="Color de la nota">
+                    <span
+                      className="flex flex-none gap-[0.2rem]"
+                      role="group"
+                      aria-label="Color de la nota"
+                    >
                       {COLORES.map((color) => (
                         <button
                           key={color}
                           className={`h-[0.85rem] w-[0.85rem] flex-none cursor-pointer rounded-full border border-linea p-0 aria-pressed:outline-2 aria-pressed:outline-tinta aria-pressed:outline-offset-1 ${
-                            color === 'verde' ? 'bg-nota-verde' : color === 'rojo' ? 'bg-nota-rojo' : 'bg-nota-amarillo'
+                            color === 'verde'
+                              ? 'bg-nota-verde'
+                              : color === 'rojo'
+                                ? 'bg-nota-rojo'
+                                : 'bg-nota-amarillo'
                           }`}
                           aria-pressed={nota.color === color}
                           aria-label={`Poner la nota en ${color}`}
@@ -422,7 +485,9 @@ export default function PaginaNotas({
                         />
                       ))}
                     </span>
-                    <span className="flex-none text-[0.8rem] text-tinta-2">{cuando(nota.creado)}</span>
+                    <span className="flex-none text-[0.8rem] text-tinta-2">
+                      {cuando(nota.creado)}
+                    </span>
                     <button
                       className="flex-none cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-0 leading-[1.2] text-tinta-2 transition-colors duration-150 ease-plano hover:bg-plano hover:text-fase"
                       onClick={() => onQuitar(nota)}

@@ -78,9 +78,7 @@ export default function ZonaCarga({
     setEstado('loading')
     setConSpinner(false)
     // El spinner solo se muestra si la lectura se demora: en local casi nunca.
-    temporizadores.current.push(
-      window.setTimeout(() => setConSpinner(true), REVELAR_SPINNER_MS),
-    )
+    temporizadores.current.push(window.setTimeout(() => setConSpinner(true), REVELAR_SPINNER_MS))
 
     let cargados = 0
     const invalidos: string[] = []
@@ -108,18 +106,14 @@ export default function ZonaCarga({
       return
     }
 
-    setMensaje(
-      cargados === 1 ? 'Cuestionario cargado' : cargados + ' cuestionarios cargados',
-    )
+    setMensaje(cargados === 1 ? 'Cuestionario cargado' : cargados + ' cuestionarios cargados')
     setDetalle(
       invalidos.length > 0
         ? invalidos.length + ' archivos omitidos por no ser válidos'
         : 'Listos para practicar',
     )
     setEstado('success')
-    temporizadores.current.push(
-      window.setTimeout(() => setEstado('idle'), OCULTAR_EXITO_MS),
-    )
+    temporizadores.current.push(window.setTimeout(() => setEstado('idle'), OCULTAR_EXITO_MS))
   }
 
   const alSoltar = (evento: DragEvent) => {
@@ -148,7 +142,9 @@ export default function ZonaCarga({
         error ? 'border-[var(--aviso-error)] bg-[var(--aviso-error)]/5' : '',
         exito ? 'border-[var(--aviso-exito)] bg-tierra-a/10' : '',
         disabled ? 'cursor-not-allowed opacity-55' : '',
-      ].filter(Boolean).join(' ')}
+      ]
+        .filter(Boolean)
+        .join(' ')}
       aria-disabled={disabled || undefined}
       onDragOver={(evento) => {
         evento.preventDefault()
@@ -174,7 +170,9 @@ export default function ZonaCarga({
           arrastrando ? 'scale-110' : '',
           error ? 'text-[var(--aviso-error)]' : '',
           exito ? 'text-[var(--aviso-exito)]' : '',
-        ].filter(Boolean).join(' ')}
+        ]
+          .filter(Boolean)
+          .join(' ')}
         aria-hidden="true"
       >
         {cargando && conSpinner ? (
@@ -218,7 +216,10 @@ export default function ZonaCarga({
         </span>
       </span>
 
-      <span className="dato rounded-[3px] border border-linea px-[0.4rem] py-[0.1rem] text-[0.7rem] uppercase tracking-[0.08em] text-tinta-2" aria-hidden="true">
+      <span
+        className="dato rounded-[3px] border border-linea px-[0.4rem] py-[0.1rem] text-[0.7rem] uppercase tracking-[0.08em] text-tinta-2"
+        aria-hidden="true"
+      >
         .json
       </span>
     </label>

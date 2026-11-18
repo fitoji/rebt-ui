@@ -52,7 +52,15 @@ test('descarta las notas que les falta algún campo', () => {
 test('crear una nota guarda el contexto recortado', () => {
   // El contexto no puede ser infinito: si no, la nota pesa lo que el documento.
   const largo = 'x'.repeat(200)
-  const nota = crearNota('guia', 'BT-19', 'BT-19. Verificaciones', 'el texto', largo, largo, 1_700_000_000_000)
+  const nota = crearNota(
+    'guia',
+    'BT-19',
+    'BT-19. Verificaciones',
+    'el texto',
+    largo,
+    largo,
+    1_700_000_000_000,
+  )
   assert.equal(nota.origen, 'BT-19')
   assert.equal(nota.vista, 'guia')
   assert.equal(nota.titulo, 'BT-19. Verificaciones')
@@ -109,7 +117,10 @@ test('las notas se filtran por el documento de origen', () => {
     notasDe([NOTA, otra], 'BT-19').map((n) => n.id),
     ['BT-19-abc-1'],
   )
-  assert.deepEqual(notasDe([NOTA, otra], 'ib-19').map((n) => n.id), ['ib-19-abc-2'])
+  assert.deepEqual(
+    notasDe([NOTA, otra], 'ib-19').map((n) => n.id),
+    ['ib-19-abc-2'],
+  )
   assert.deepEqual(notasDe([NOTA, otra], 'no-existe'), [])
 })
 
@@ -119,8 +130,14 @@ test('exporta e importa notas en un archivo JSON versionado', () => {
 
 test('rechaza archivos de notas inválidos sin descartar registros silenciosamente', () => {
   assert.throws(() => parseArchivoNotas('{no es json'))
-  assert.throws(() => parseArchivoNotas(JSON.stringify({ formato: 'otro', version: 1, notas: [NOTA] })))
-  assert.throws(() => parseArchivoNotas(JSON.stringify({ formato: 'rebt-ui-notas', version: 1, notas: [NOTA, { id: 'incompleta' }] })))
+  assert.throws(() =>
+    parseArchivoNotas(JSON.stringify({ formato: 'otro', version: 1, notas: [NOTA] })),
+  )
+  assert.throws(() =>
+    parseArchivoNotas(
+      JSON.stringify({ formato: 'rebt-ui-notas', version: 1, notas: [NOTA, { id: 'incompleta' }] }),
+    ),
+  )
 })
 
 test('combina notas nuevas por ID y conserva la nota actual cuando hay duplicados', () => {

@@ -1,15 +1,15 @@
 # Landing + visor de la Guía Técnica del REBT
 
 Rama `feat/landing-y-visor-guia`. Entrega: unidades de trabajo en la rama, una PR al final
- salvo que el usuario pida otra cosa. Runner de tests: `node --test` (nativo de Node 20, sin
- dependencias nuevas).
+salvo que el usuario pida otra cosa. Runner de tests: `node --test` (nativo de Node 20, sin
+dependencias nuevas).
 
 ## Specs
 
-- **S1** — *"quiero una landing con un boton que vaya a rebt y otro que habra la guia de
-  rebt en @guia_rebt/"* (pedido original, 19/10/2026). Dos destinos: el lector del REBT que ya
+- **S1** — _"quiero una landing con un boton que vaya a rebt y otro que habra la guia de
+  rebt en @guia_rebt/"_ (pedido original, 19/10/2026). Dos destinos: el lector del REBT que ya
   existe en `src/`, y el corpus `guia_rebt/`.
-- **S2** — *"quiero la 1. y que ademas tenga los enlaces a pdf oficiales"*. La opción 1 era el
+- **S2** — _"quiero la 1. y que ademas tenga los enlaces a pdf oficiales"_. La opción 1 era el
   **visor completo dentro de la app**: lista los 38 documentos desde `guia_rebt/indice.json` y
   renderiza el Markdown con tablas reales e imágenes. Y además, enlaces a los PDF oficiales.
 - **S3** — El subconjunto de Markdown que hay que renderizar está **medido sobre el corpus**,
@@ -26,23 +26,23 @@ Rama `feat/landing-y-visor-guia`. Entrega: unidades de trabajo en la rama, una P
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | Plugin Vite que sirve `guia_rebt/` en `/guia/*` (dev, preview y build) con guarda de path traversal | S1,S3 | inline | **item 2** | 1 |
-| T2 | Tests RED del renderer sobre casos reales del corpus | S2,S3 | inline | — | 2 |
-| T3 | `src/guia/markdown.js`: renderer del subconjunto + reescritura de rutas | S3,S4 | inline | item 6 | 2 |
-| T4 | Índice de la guía: 38 documentos desde `indice.json`, filtro por título, enlace al PDF oficial | S2,S4 | inline | — | 3 |
-| T5 | Lector de documento: render, anterior/siguiente, "ver PDF oficial" | S2,S4 | inline | — | 3 |
-| T6 | `Landing.jsx` + enrutado `#/`, `#/rebt`, `#/rebt/{id}`, `#/guia`, `#/guia/{id}` preservando `#/{id}` | S1,S5 | inline | **item 3** | 3 |
-| T7 | Estilos de landing, índice de guía y documento | S1 | inline | — | 3 |
-| T8 | Botón «← Inicio» en los tres headers | S6 | inline | — | 4 |
-| T9 | `README.md` (rutas, qué se sirve, decisión del renderer) + verificación | — | inline | **items 2,3** | 4 |
+| #   | Tarea                                                                                                | Specs | Ruta   | Riesgo        | Commit |
+| --- | ---------------------------------------------------------------------------------------------------- | ----- | ------ | ------------- | ------ |
+| T1  | Plugin Vite que sirve `guia_rebt/` en `/guia/*` (dev, preview y build) con guarda de path traversal  | S1,S3 | inline | **item 2**    | 1      |
+| T2  | Tests RED del renderer sobre casos reales del corpus                                                 | S2,S3 | inline | —             | 2      |
+| T3  | `src/guia/markdown.js`: renderer del subconjunto + reescritura de rutas                              | S3,S4 | inline | item 6        | 2      |
+| T4  | Índice de la guía: 38 documentos desde `indice.json`, filtro por título, enlace al PDF oficial       | S2,S4 | inline | —             | 3      |
+| T5  | Lector de documento: render, anterior/siguiente, "ver PDF oficial"                                   | S2,S4 | inline | —             | 3      |
+| T6  | `Landing.jsx` + enrutado `#/`, `#/rebt`, `#/rebt/{id}`, `#/guia`, `#/guia/{id}` preservando `#/{id}` | S1,S5 | inline | **item 3**    | 3      |
+| T7  | Estilos de landing, índice de guía y documento                                                       | S1    | inline | —             | 3      |
+| T8  | Botón «← Inicio» en los tres headers                                                                 | S6    | inline | —             | 4      |
+| T9  | `README.md` (rutas, qué se sirve, decisión del renderer) + verificación                              | —     | inline | **items 2,3** | 4      |
 
 **Trazabilidad de ruta**: no hay trigger de delegación (ni paralelismo ni backstop de contexto).
 Una sola unidad coherente; todo inline siguiendo este logbook.
 
-- **S6** (añadido 19/10) — *"agrega un boton a rebt y a guias que vuelva al incio, quizas en el
-  header"*: un control `← Inicio` en el header de las tres vistas (lector, índice de la guía,
+- **S6** (añadido 19/10) — _"agrega un boton a rebt y a guias que vuelva al incio, quizas en el
+  header"_: un control `← Inicio` en el header de las tres vistas (lector, índice de la guía,
   documento), como componente compartido `src/InicioBoton.jsx`.
 
 ## Estrategia de entrega
@@ -53,11 +53,11 @@ Estrategia `ask-on-risk`. **Pendiente**: la estrategia de PR encadenadas es deci
 
 ## Log
 
-- **L1** (2026-10-19 10:52) — *"quiero una landing con un boton que vaya a rebt y otro que
-  habra la guia de rebt en @guia_rebt/"*.
+- **L1** (2026-10-19 10:52) — _"quiero una landing con un boton que vaya a rebt y otro que
+  habra la guia de rebt en @guia_rebt/"_.
 - **L2** (2026-10-19) — Preguntado el alcance del botón "Guía" (visor completo / índice mínimo /
-  solo enlaces a PDF). Respuesta: *"quiero la 1. y que ademas tenga los enlaces a pdf
-  oficiales"* → visor completo dentro de la app + enlaces a los PDF oficiales.
+  solo enlaces a PDF). Respuesta: _"quiero la 1. y que ademas tenga los enlaces a pdf
+  oficiales"_ → visor completo dentro de la app + enlaces a los PDF oficiales.
 - **L3** (2026-10-19) — Decisión de arquitectura: **sin dependencia nueva**. El subconjunto de
   Markdown del corpus es cerrado y está medido (S3): renderizarlo a mano es más barato y más
   seguro que sumar `marked`/`react-markdown` al bundle. Tests con `node:test` nativo.
@@ -91,8 +91,8 @@ Estrategia `ask-on-risk`. **Pendiente**: la estrategia de PR encadenadas es deci
 - **L12** (2026-10-19) — Verificación visual con Firefox headless de las cuatro vistas. El lector y
   el documento hubo que capturarse embebidos en un wrapper que retiene el evento `load`, porque la
   captura headless dispara antes de que resuelvan los `fetch` en cadena.
-- **L13** (2026-10-21) — *"en /rebt cuando hay tablas tengo opcion de copiarla como planilla, como
-  markdown y como csv, quiero esas opciones en las tablas de guias"*: las tablas del corpus ya
+- **L13** (2026-10-21) — _"en /rebt cuando hay tablas tengo opcion de copiarla como planilla, como
+  markdown y como csv, quiero esas opciones en las tablas de guias"_: las tablas del corpus ya
   salen del renderer con la barra de acciones (`Copiar` → TSV, `Markdown`, `Descargar CSV`), con el
   mismo aspecto y los mismos mensajes que el lector del REBT. Como el HTML del corpus se inyecta
   entero, los manejadores no pueden vivir en el renderer: un único `onClick` en el `<article>` de

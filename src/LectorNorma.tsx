@@ -34,7 +34,6 @@ type EstadoIndice =
   | { status: 'ok'; blocks: Bloque[] }
   | { status: 'error'; error: Error }
 
-
 export default function LectorNorma({
   norma,
   bloque,
@@ -64,7 +63,6 @@ export default function LectorNorma({
 
   useEffect(cargar, [cargar])
 
-
   const blocks = index.status === 'ok' ? index.blocks : []
   const active = blocks.find((b) => b.id === bloque) ?? blocks[0]
   const at = active ? blocks.indexOf(active) : -1
@@ -76,7 +74,11 @@ export default function LectorNorma({
 
   return (
     <>
-      <SidebarUI collapsible="offcanvas" className="min-h-0 border-r border-linea" aria-label="Normas que modificaron el reglamento">
+      <SidebarUI
+        collapsible="offcanvas"
+        className="min-h-0 border-r border-linea"
+        aria-label="Normas que modificaron el reglamento"
+      >
         <SidebarHeader className="border-b border-linea px-[1.1rem] pt-[1.1rem] pb-[0.9rem]">
           <div className="flex items-baseline justify-between gap-[0.75rem]">
             <p className="m-0 text-[1.15rem] font-semibold leading-none">Cambios del REBT</p>
@@ -100,7 +102,9 @@ export default function LectorNorma({
               const abierta = cambio.id === norma
               const contenido = (
                 <>
-                  <span className="dato whitespace-nowrap text-[0.78rem] text-tinta-2">{cambio.fecha}</span>
+                  <span className="dato whitespace-nowrap text-[0.78rem] text-tinta-2">
+                    {cambio.fecha}
+                  </span>
                   <span className="block text-[0.95rem] leading-[1.25]">{cambio.referencia}</span>
                 </>
               )
@@ -128,7 +132,10 @@ export default function LectorNorma({
         {!actual && (
           <div className="pantalla error" role="alert">
             <h1>Esa norma no está en la lista</h1>
-            <p>El identificador «{norma}» no corresponde a ninguna de las que modificaron el reglamento.</p>
+            <p>
+              El identificador «{norma}» no corresponde a ninguna de las que modificaron el
+              reglamento.
+            </p>
             <button onClick={() => onNavigate('cambios')}>Ver todas</button>
           </div>
         )}

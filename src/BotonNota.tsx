@@ -11,7 +11,11 @@ import type { ColorNota, Seleccion } from './notas.ts'
 import { escucharCambiosSeleccion } from './seleccion.ts'
 
 /** El texto que hay alrededor de la selección, para poder reubicarla más tarde. */
-function contextoDe(texto: string, desde: number, hasta: number): { antes: string; despues: string } {
+function contextoDe(
+  texto: string,
+  desde: number,
+  hasta: number,
+): { antes: string; despues: string } {
   return {
     antes: texto.slice(Math.max(0, desde - CONTEXTO), desde),
     despues: texto.slice(hasta, hasta + CONTEXTO),

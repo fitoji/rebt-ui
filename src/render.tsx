@@ -1,6 +1,12 @@
 import { createContext, useContext, useState } from 'react'
 import { fold, gridToCsv, gridToMarkdown, gridToTsv } from './parse.ts'
-import { AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
+import {
+  AVISO_COPIAR,
+  AVISO_ERROR,
+  AVISO_MARKDOWN,
+  copiarAlPortapapeles,
+  descargar,
+} from './tablas.ts'
 import type { Item as ItemBloque, Rejilla } from './tipos.ts'
 
 // Texto a resaltar (lo que la persona está buscando)
@@ -35,15 +41,31 @@ export function Inline({ node }: { node: Node }) {
     if (n.nodeType !== 1) return null
     switch (tag(n as Element)) {
       case 'sup':
-        return <sup key={i}><Inline node={n} /></sup>
+        return (
+          <sup key={i}>
+            <Inline node={n} />
+          </sup>
+        )
       case 'sub':
-        return <sub key={i}><Inline node={n} /></sub>
+        return (
+          <sub key={i}>
+            <Inline node={n} />
+          </sub>
+        )
       case 'i':
       case 'em':
-        return <em key={i}><Inline node={n} /></em>
+        return (
+          <em key={i}>
+            <Inline node={n} />
+          </em>
+        )
       case 'b':
       case 'strong':
-        return <strong key={i}><Inline node={n} /></strong>
+        return (
+          <strong key={i}>
+            <Inline node={n} />
+          </strong>
+        )
       case 'br':
         return <br key={i} />
       case 'img':
@@ -68,8 +90,7 @@ export function Figure({ node }: { node: Element }) {
 
 function TableNode({ node }: { node: Element }) {
   const t = tag(node)
-  const children = () =>
-    Array.from(node.children).map((c, i) => <TableNode key={i} node={c} />)
+  const children = () => Array.from(node.children).map((c, i) => <TableNode key={i} node={c} />)
   switch (t) {
     case 'thead':
       return <thead>{children()}</thead>
@@ -80,7 +101,11 @@ function TableNode({ node }: { node: Element }) {
     case 'tr':
       return <tr>{children()}</tr>
     case 'caption':
-      return <caption><Inline node={node} /></caption>
+      return (
+        <caption>
+          <Inline node={node} />
+        </caption>
+      )
     case 'th':
     case 'td': {
       const Cell = t as 'th' | 'td'
@@ -98,7 +123,15 @@ function TableNode({ node }: { node: Element }) {
   }
 }
 
-export function Table({ item, name, onAgregarNota }: { item: ItemBloque; name: string; onAgregarNota?: (grid: Rejilla, name: string) => void }) {
+export function Table({
+  item,
+  name,
+  onAgregarNota,
+}: {
+  item: ItemBloque
+  name: string
+  onAgregarNota?: (grid: Rejilla, name: string) => void
+}) {
   const [done, setDone] = useState('')
   const flash = (msg: string) => {
     setDone(msg)
@@ -146,9 +179,14 @@ export function Table({ item, name, onAgregarNota }: { item: ItemBloque; name: s
             A notas
           </button>
         )}
-        <span role="status" className="ml-[0.4rem] text-[0.9rem] text-neutro">{done}</span>
+        <span role="status" className="ml-[0.4rem] text-[0.9rem] text-neutro">
+          {done}
+        </span>
       </div>
-      <div className="tabla-scroll max-h-[72vh] overflow-auto rounded-[4px] border border-linea bg-hoja" tabIndex={0}>
+      <div
+        className="tabla-scroll max-h-[72vh] overflow-auto rounded-[4px] border border-linea bg-hoja"
+        tabIndex={0}
+      >
         <table>
           {Array.from(item.node.children).map((c, i) => (
             <TableNode key={i} node={c} />
@@ -159,8 +197,17 @@ export function Table({ item, name, onAgregarNota }: { item: ItemBloque; name: s
   )
 }
 
-export function Item({ item, tableName, onAgregarNota }: { item: ItemBloque; tableName: string; onAgregarNota?: (grid: Rejilla, name: string) => void }) {
-  if (item.kind === 'table') return <Table item={item} name={tableName} onAgregarNota={onAgregarNota} />
+export function Item({
+  item,
+  tableName,
+  onAgregarNota,
+}: {
+  item: ItemBloque
+  tableName: string
+  onAgregarNota?: (grid: Rejilla, name: string) => void
+}) {
+  if (item.kind === 'table')
+    return <Table item={item} name={tableName} onAgregarNota={onAgregarNota} />
   if (item.kind === 'img') return <Figure node={item.node} />
   const body = <Inline node={item.node} />
   switch (item.kind) {

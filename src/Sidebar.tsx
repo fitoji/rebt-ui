@@ -37,7 +37,9 @@ function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }
       <button
         className={[
           'fila-indice relative w-full border-0 bg-transparent py-[0.45rem] pr-[1.1rem] pl-[1.3rem] text-left leading-[1.3] hover:bg-plano',
-          itc ? 'grid grid-cols-[3.4rem_1fr_auto] gap-[0.5rem]' : 'grid grid-cols-[1fr_auto] gap-[0.5rem]',
+          itc
+            ? 'grid grid-cols-[3.4rem_1fr_auto] gap-[0.5rem]'
+            : 'grid grid-cols-[1fr_auto] gap-[0.5rem]',
         ].join(' ')}
         aria-current={active ? 'page' : undefined}
         onClick={() => onSelect(entry.id)}
@@ -77,7 +79,13 @@ function Row({ entry, active, onSelect, snippet, count, conEstrella, favoritos }
 
 /** La franja de la fila activa, dibujada una sola vez para toda la lista.
  *  Viaja con `transform`, así que no recompone la lista al cambiar de bloque. */
-function MarcaIndice({ marca, animar }: { marca: { top: number; alto: number } | null; animar: boolean }) {
+function MarcaIndice({
+  marca,
+  animar,
+}: {
+  marca: { top: number; alto: number } | null
+  animar: boolean
+}) {
   return (
     <span
       aria-hidden="true"
@@ -175,7 +183,15 @@ export default function Sidebar({
     const observador = new ResizeObserver(medir)
     observador.observe(c)
     return () => observador.disconnect()
-  }, [activeId, rows, searching, acordeonAbierto, favoritosAbierto, disposicionesAbierto, notasAbierto])
+  }, [
+    activeId,
+    rows,
+    searching,
+    acordeonAbierto,
+    favoritosAbierto,
+    disposicionesAbierto,
+    notasAbierto,
+  ])
 
   // El primer trazo no se anima: la marca ya está donde toca, no viaja desde la esquina.
   useEffect(() => {
@@ -231,7 +247,11 @@ export default function Sidebar({
   )
 
   return (
-    <SidebarUI collapsible="offcanvas" className="min-h-0 border-r border-linea" aria-label="Índice del reglamento">
+    <SidebarUI
+      collapsible="offcanvas"
+      className="min-h-0 border-r border-linea"
+      aria-label="Índice del reglamento"
+    >
       <SidebarHeader className="border-b border-linea px-[1.1rem] pt-[1.1rem] pb-[0.9rem]">
         <div className="flex items-baseline justify-between gap-[0.75rem]">
           <p className="m-0 text-[1.9rem] font-semibold leading-none tracking-[0.05em]">REBT</p>
@@ -239,9 +259,15 @@ export default function Sidebar({
           <TemaBoton tema={theme} onToggle={onToggleTheme} />
           <SidebarTrigger className="alternar-barra" />
         </div>
-        <p className="mt-[0.25rem] mb-[0.9rem] text-[0.95rem] text-tinta-2">Reglamento electrotécnico para baja tensión</p>
+        <p className="mt-[0.25rem] mb-[0.9rem] text-[0.95rem] text-tinta-2">
+          Reglamento electrotécnico para baja tensión
+        </p>
         <div className="relative">
-          <Search aria-hidden="true" className="pointer-events-none absolute left-[0.6rem] top-1/2 size-3.5 -translate-y-1/2 text-tinta-2" strokeWidth={1.75} />
+          <Search
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[0.6rem] top-1/2 size-3.5 -translate-y-1/2 text-tinta-2"
+            strokeWidth={1.75}
+          />
           <input
             type="search"
             value={query}
@@ -264,7 +290,10 @@ export default function Sidebar({
             <div className="mb-[0.35rem] h-[6px] overflow-hidden rounded-[3px] bg-plano">
               <i
                 className="raya-tierra block h-full"
-                style={{ width: `${(progress.done / progress.total) * 100}%`, transition: 'width 0.3s var(--ease-plano)' }}
+                style={{
+                  width: `${(progress.done / progress.total) * 100}%`,
+                  transition: 'width 0.3s var(--ease-plano)',
+                }}
               />
             </div>
             <span className="dato text-[0.78rem]">
@@ -273,115 +302,117 @@ export default function Sidebar({
           </div>
         )}
         {failed.length > 0 && (
-          <p className="mt-[0.6rem] mb-0 text-[0.9rem] text-fase">No se pudieron leer {failed.length} bloques; la búsqueda no los incluye.</p>
+          <p className="mt-[0.6rem] mb-0 text-[0.9rem] text-fase">
+            No se pudieron leer {failed.length} bloques; la búsqueda no los incluye.
+          </p>
         )}
       </SidebarHeader>
 
       <SidebarContent className="flex-1 overflow-y-auto pt-[0.4rem] pb-[2rem]">
         <nav>
-        {/* El archivo de normas anteriores y el historial de cambios, debajo del buscador
+          {/* El archivo de normas anteriores y el historial de cambios, debajo del buscador
             y antes de las notas: se llega a ellos desde el reglamento, no al revés. Son
             enlaces y no botones porque cambian de ruta, no de bloque. */}
-        <div className="mx-[1.1rem] mt-[0.9rem] mb-[0.6rem] border-b border-linea pb-[0.8rem]">
-          <p className="rotulo mt-0 mb-[0.35rem]">Normativa</p>
-          <ul className="m-0 list-none p-0">
-            <li>
-              <a
-                href="#/cambios"
-                className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
-              >
-                Cambios del REBT
-              </a>
-            </li>
-            <li>
-              <a
-                href="#/antiguos"
-                className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
-              >
-                REBT anteriores
-              </a>
-            </li>
-          </ul>
-        </div>
-        {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
-        <CajaNotas
-          notas={notas}
-          total={totalNotas}
-          abierto={notasAbierto}
-          onAlternar={() => setNotasAbierto((v) => !v)}
-          onIr={onIrANota}
-          onQuitar={onQuitarNota}
-          onVerTodas={onVerTodasNotas}
-        />
-
-        {searching && rows.length === 0 && (
-          <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
-            Sin resultados para «{query}».{' '}
-            {progress
-              ? 'Se sigue buscando en el texto completo…'
-              : textReady
-                ? 'Prueba con otra palabra.'
-                : 'Busca también en el texto completo.'}
-          </p>
-        )}
-        {searching ? (
-          <div className="relative" ref={marcaRef}>
-            <MarcaIndice marca={marca} animar={animar} />
-            <ul className="m-0 list-none p-0">{renderRows(rows)}</ul>
-          </div>
-        ) : (
-          <div className="relative" ref={marcaRef}>
-            <MarcaIndice marca={marca} animar={animar} />
-            <Accordion
-              title={favoritos.ids.length ? `Favoritos (${favoritos.ids.length})` : 'Favoritos'}
-              open={favoritosAbierto}
-              onToggle={() => setFavoritosAbierto((v) => !v)}
-            >
-              {filasFavoritas.length > 0 ? (
-                <ul className="m-0 list-none p-0">{renderRows(filasFavoritas, true)}</ul>
-              ) : (
-                <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
-                  Marcá con la estrella las ITC que uses más y van a aparecer aquí.
-                </p>
-              )}
-            </Accordion>
-
-            <Accordion
-              title="Preámbulo"
-              open={acordeonAbierto === 'preambulo'}
-              onToggle={() => toggleAcordeon('preambulo')}
-            >
-              <ul className="m-0 list-none p-0">{renderRows(preambulo)}</ul>
-            </Accordion>
-
-            <Accordion
-              title="Reglamento"
-              open={acordeonAbierto === 'reglamento'}
-              onToggle={() => toggleAcordeon('reglamento')}
-            >
-              <ul className="m-0 list-none p-0">{renderRows(articulos)}</ul>
-            </Accordion>
-
-            <Accordion
-              title="Instrucciones Técnicas Complementarias"
-              open={acordeonAbierto === 'itcs'}
-              onToggle={() => toggleAcordeon('itcs')}
-            >
-              <ul className="m-0 list-none p-0">{renderRows(itcs, true)}</ul>
-              {/* Las disposiciones van debajo, plegadas: son lo accesorio. */}
-              <div className="mt-[0.3rem]">
-                <Accordion
-                  title={`Disposiciones (${disposiciones.length})`}
-                  open={disposicionesAbierto}
-                  onToggle={() => setDisposicionesAbierto((v) => !v)}
-                  variante="sub"
+          <div className="mx-[1.1rem] mt-[0.9rem] mb-[0.6rem] border-b border-linea pb-[0.8rem]">
+            <p className="rotulo mt-0 mb-[0.35rem]">Normativa</p>
+            <ul className="m-0 list-none p-0">
+              <li>
+                <a
+                  href="#/cambios"
+                  className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
                 >
-                  <ul className="m-0 list-none p-0">{renderRows(disposiciones, true)}</ul>
-                </Accordion>
-              </div>
-            </Accordion>
+                  Cambios del REBT
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#/antiguos"
+                  className="text-[0.98rem] text-neutro transition-colors duration-150 ease-plano hover:underline"
+                >
+                  REBT anteriores
+                </a>
+              </li>
+            </ul>
           </div>
-        )}
+          {/* Las notas están siempre a la vista: se leen mientras se está leyendo. */}
+          <CajaNotas
+            notas={notas}
+            total={totalNotas}
+            abierto={notasAbierto}
+            onAlternar={() => setNotasAbierto((v) => !v)}
+            onIr={onIrANota}
+            onQuitar={onQuitarNota}
+            onVerTodas={onVerTodasNotas}
+          />
+
+          {searching && rows.length === 0 && (
+            <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
+              Sin resultados para «{query}».{' '}
+              {progress
+                ? 'Se sigue buscando en el texto completo…'
+                : textReady
+                  ? 'Prueba con otra palabra.'
+                  : 'Busca también en el texto completo.'}
+            </p>
+          )}
+          {searching ? (
+            <div className="relative" ref={marcaRef}>
+              <MarcaIndice marca={marca} animar={animar} />
+              <ul className="m-0 list-none p-0">{renderRows(rows)}</ul>
+            </div>
+          ) : (
+            <div className="relative" ref={marcaRef}>
+              <MarcaIndice marca={marca} animar={animar} />
+              <Accordion
+                title={favoritos.ids.length ? `Favoritos (${favoritos.ids.length})` : 'Favoritos'}
+                open={favoritosAbierto}
+                onToggle={() => setFavoritosAbierto((v) => !v)}
+              >
+                {filasFavoritas.length > 0 ? (
+                  <ul className="m-0 list-none p-0">{renderRows(filasFavoritas, true)}</ul>
+                ) : (
+                  <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
+                    Marcá con la estrella las ITC que uses más y van a aparecer aquí.
+                  </p>
+                )}
+              </Accordion>
+
+              <Accordion
+                title="Preámbulo"
+                open={acordeonAbierto === 'preambulo'}
+                onToggle={() => toggleAcordeon('preambulo')}
+              >
+                <ul className="m-0 list-none p-0">{renderRows(preambulo)}</ul>
+              </Accordion>
+
+              <Accordion
+                title="Reglamento"
+                open={acordeonAbierto === 'reglamento'}
+                onToggle={() => toggleAcordeon('reglamento')}
+              >
+                <ul className="m-0 list-none p-0">{renderRows(articulos)}</ul>
+              </Accordion>
+
+              <Accordion
+                title="Instrucciones Técnicas Complementarias"
+                open={acordeonAbierto === 'itcs'}
+                onToggle={() => toggleAcordeon('itcs')}
+              >
+                <ul className="m-0 list-none p-0">{renderRows(itcs, true)}</ul>
+                {/* Las disposiciones van debajo, plegadas: son lo accesorio. */}
+                <div className="mt-[0.3rem]">
+                  <Accordion
+                    title={`Disposiciones (${disposiciones.length})`}
+                    open={disposicionesAbierto}
+                    onToggle={() => setDisposicionesAbierto((v) => !v)}
+                    variante="sub"
+                  >
+                    <ul className="m-0 list-none p-0">{renderRows(disposiciones, true)}</ul>
+                  </Accordion>
+                </div>
+              </Accordion>
+            </div>
+          )}
         </nav>
       </SidebarContent>
     </SidebarUI>

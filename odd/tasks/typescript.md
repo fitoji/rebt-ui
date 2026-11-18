@@ -6,7 +6,7 @@ de Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Specs
 
-- **S1** — *"bien, quiero que el proyecto tenga typescript para que sea mas seguro"* (pedido
+- **S1** — _"bien, quiero que el proyecto tenga typescript para que sea mas seguro"_ (pedido
   original, 21/10/2026).
 - **S2** — Alcance decidido por el usuario (21/10/2026, pregunta de alcance): **"Todo el
   proyecto"** — la app (`src/`), los tests (`test/`), el plugin de Vite (`vite/`), el worker de
@@ -17,7 +17,7 @@ de Node, sin dependencias de test); type gate: `tsc --noEmit`.
   que obligaría a escribir taparían justo los errores que se quieren ver. Queda anotado como
   endurecimiento futuro, no como olvido.
 - **S4** — Los tests siguen con el runner nativo de Node, **sin dependencias nuevas de test**.
-  Node 24 hace *type stripping*, así que los tests pasan a `.ts` y se ejecutan tal cual. Por
+  Node 24 hace _type stripping_, así que los tests pasan a `.ts` y se ejecutan tal cual. Por
   eso `erasableSyntaxOnly` y `verbatimModuleSyntax` son obligatorios: lo que no se puede
   borrar no se puede ejecutar.
 - **S5** — El worker se compila desde TypeScript (`main = "worker/index.ts"`), con sus propios
@@ -28,14 +28,14 @@ de Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | Andamiaje: `tsconfig.json` + `tsconfig.worker.json`, tipos de CSS, deps, scripts (`typecheck`, `build`, `test`) | S3,S4,S5 | inline | item 5 | 1 |
-| T2 | Lógica pura: `parse`, `guia/markdown`, `guia/urls`, `route`, `tablas`, `useTheme`, `api`, `guia/api` + sus tests | S1,S3,S4 | inline | — | 1 |
-| T3 | Componentes React: `main`, `Router`, `App`, `Landing`, `Reader`, `Sidebar`, `Accordion`, `render`, `Guia`, `InicioBoton`, `TemaBoton` | S1,S3,S6 | inline | — | 1 |
-| T4 | Tooling y deploy: `vite/guia-corpus`, `vite.config`, `worker`, `mock`, `wrangler.toml`, CI | S2,S5 | inline | item 5 | 1 |
-| T5 | Verificación: typecheck limpio, tests verdes, build, equivalencia con el código anterior | S6 | inline | — | 1 |
-| T6 | Documentación: README y este logbook | S1 | inline | — | 2 |
+| #   | Tarea                                                                                                                                 | Specs    | Ruta   | Riesgo | Commit |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ | ------ | ------ |
+| T1  | Andamiaje: `tsconfig.json` + `tsconfig.worker.json`, tipos de CSS, deps, scripts (`typecheck`, `build`, `test`)                       | S3,S4,S5 | inline | item 5 | 1      |
+| T2  | Lógica pura: `parse`, `guia/markdown`, `guia/urls`, `route`, `tablas`, `useTheme`, `api`, `guia/api` + sus tests                      | S1,S3,S4 | inline | —      | 1      |
+| T3  | Componentes React: `main`, `Router`, `App`, `Landing`, `Reader`, `Sidebar`, `Accordion`, `render`, `Guia`, `InicioBoton`, `TemaBoton` | S1,S3,S6 | inline | —      | 1      |
+| T4  | Tooling y deploy: `vite/guia-corpus`, `vite.config`, `worker`, `mock`, `wrangler.toml`, CI                                            | S2,S5    | inline | item 5 | 1      |
+| T5  | Verificación: typecheck limpio, tests verdes, build, equivalencia con el código anterior                                              | S6       | inline | —      | 1      |
+| T6  | Documentación: README y este logbook                                                                                                  | S1       | inline | —      | 2      |
 
 **Por qué un solo commit y no varios por tarea**: la conversión es un renombrado con anotaciones de tipos
 acoplado a los imports. Un commit intermedio que dejara `.tsx` importando `.ts` sin convertir los `.jsx`
@@ -63,8 +63,8 @@ el resto del historial del repo; sin PR hasta que lo pida el usuario.
 
 ## Log
 
-- **L1** (2026-10-21) — *"bien, quiero que el proyecto tenga typescript para que sea mas
-  seguro"*.
+- **L1** (2026-10-21) — _"bien, quiero que el proyecto tenga typescript para que sea mas
+  seguro"_.
 - **L2** (2026-10-21) — Alcance: pregunta al usuario con tres opciones (todo el proyecto / solo
   la app / gradual con `allowJs`). Respuesta: **"Todo el proyecto (Recomendado)"**. El motivo
   está en S2: el plugin de Vite (guard de path traversal) y el worker (proxy al BOE) son
@@ -75,7 +75,7 @@ el resto del historial del repo; sin PR hasta que lo pida el usuario.
   TypeScript no es aquí un capricho de estilo: es la puerta que falta.
 - **L4** (2026-10-21) — **TypeScript 7.0.2**, que es el compilador nativo (Go) ya estable. Con
   `erasableSyntaxOnly` y `verbatimModuleSyntax` activados, todo lo que el proyecto escribe es
-  borrable por el *type stripping* de Node, y por eso los tests en `.ts` corren con `node --test`
+  borrable por el _type stripping_ de Node, y por eso los tests en `.ts` corren con `node --test`
   sin bundler ni flags. Node 22.18+ es el mínimo (queda en `engines`).
 - **L5** (2026-10-21) — **Los tests en `.ts` sin bundler** era el objetivo: sin la
   extensión explícita en los imports (`./parse.ts`), Node no resuelve el módulo. Vite también

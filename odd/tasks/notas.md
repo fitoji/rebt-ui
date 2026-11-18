@@ -5,9 +5,9 @@ Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Specs
 
-- **S1** — *"me gustaria una feature en la que pueda subrayar o resaltar un texto y que quede
-  guardado en un acordion Notas y tambien pueda ver lo en el texto"* (pedido original, 21/10/2026).
-- **S2** — *"en los dos"*: la feature va en **la guía y en el lector del REBT** (decisión del
+- **S1** — _"me gustaria una feature en la que pueda subrayar o resaltar un texto y que quede
+  guardado en un acordion Notas y tambien pueda ver lo en el texto"_ (pedido original, 21/10/2026).
+- **S2** — _"en los dos"_: la feature va en **la guía y en el lector del REBT** (decisión del
   usuario, 21/10/2026).
 - **S3** — Las notas se guardan en el navegador (`localStorage`), como los favoritos: sin
   servidor ni cuenta, y sobreviven a la sesión.
@@ -19,13 +19,13 @@ Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | `src/notas.ts`: el modelo de la nota, la persistencia y el hallazgo del texto en el DOM | S3,S5 | inline | — | 1 |
-| T2 | La guía: el acordeón «Notas», el botón flotante y los resaltados | S1,S4 | inline | — | 1 |
-| T3 | El lector: el acordeón «Notas» en la barra lateral y los resaltados | S1,S2,S4 | inline | item 3 | 2 |
-| T4 | Estilos del resaltado, del botón flotante y de la lista de notas | S4 | inline | — | 2 |
-| T5 | Verificación en el navegador de las dos vistas | S1,S2,S4 | inline | — | 2 |
+| #   | Tarea                                                                                   | Specs    | Ruta   | Riesgo | Commit |
+| --- | --------------------------------------------------------------------------------------- | -------- | ------ | ------ | ------ |
+| T1  | `src/notas.ts`: el modelo de la nota, la persistencia y el hallazgo del texto en el DOM | S3,S5    | inline | —      | 1      |
+| T2  | La guía: el acordeón «Notas», el botón flotante y los resaltados                        | S1,S4    | inline | —      | 1      |
+| T3  | El lector: el acordeón «Notas» en la barra lateral y los resaltados                     | S1,S2,S4 | inline | item 3 | 2      |
+| T4  | Estilos del resaltado, del botón flotante y de la lista de notas                        | S4       | inline | —      | 2      |
+| T5  | Verificación en el navegador de las dos vistas                                          | S1,S2,S4 | inline | —      | 2      |
 
 **Trazabilidad de ruta**: no hay trigger de delegación (ni paralelismo —las dos vistas
 comparten el modelo de datos— ni backstop de contexto). Todo inline.
@@ -49,8 +49,8 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
 
 ## Log
 
-- **L1** (2026-10-21) — *"me gustaria una feature en la que pueda subrayar o resaltar un texto y
-  que quede guardado en un acordion Notas y tambien pueda ver lo en el texto"*.
+- **L1** (2026-10-21) — _"me gustaria una feature en la que pueda subrayar o resaltar un texto y
+  que quede guardado en un acordion Notas y tambien pueda ver lo en el texto"_.
 - **L2** (2026-10-21) — **Alcance**: el usuario eligió "en los dos" (la guía y el lector). La
   diferencia no es de gusto: el texto de la guía se inyecta como HTML y React no lo controla, y
   el del lector lo renderiza React, donde envolver en `<mark>` a ciegas puede romper la
@@ -73,8 +73,8 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   que se repite (que en un reglamento técnico pasa con cada «conectable») se desambigua, y si
   el texto ya no está, la nota simplemente no se resalta.
 - **L7** (2026-10-21) — **Una página con todas las notas** (21/10/2026, pedido del usuario):
-  *"me gustaria si cliequeo en el acorderon de notas se abra una pagina con todas las notas,
-  pra poder visualizarlas mejor"*. La ruta nueva `#/notas` las lista todas, de la guía y del
+  _"me gustaria si cliequeo en el acorderon de notas se abra una pagina con todas las notas,
+  pra poder visualizarlas mejor"_. La ruta nueva `#/notas` las lista todas, de la guía y del
   lector, con el texto entero, el contexto en el que quedó y el documento del que salen; desde
   ahí se salta al texto (la ruta lleva `?nota=<id>`, así que el enlace se puede compartir) o se
   borran.
@@ -88,8 +88,8 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   guardadas antes, sin esos campos, se deducen del id: el REBT usa ids en minúsculas y la
   guía en mayúsculas, y los dos universos no se cruzan.
 - **L10** (2026-10-21) — **Las notas tienen color** (21/10/2026, pedido del usuario):
-  *"me gustaria que el sistema de resaltado de notas, le pueda cambiar el color, que se pueda
-  en rojo, amarillo o verde"*. El color se elige **al guardar** (el botón flotante lleva los
+  _"me gustaria que el sistema de resaltado de notas, le pueda cambiar el color, que se pueda
+  en rojo, amarillo o verde"_. El color se elige **al guardar** (el botón flotante lleva los
   tres) y se cambia después desde la página de notas, que tiene los tres puntos por nota.
   Amarillo, verde y rojo son de la familia de la paleta de la app, con su versión para el
   tema oscuro. El color le dice de un vistazo **para qué** es un pasaje: notable, importante,
@@ -97,12 +97,12 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
 - **L11** (2026-10-21) — **Verificado**: la paleta del botón flotante muestra los tres
   colores con su fondo real; guardar con el verde deja el resaltado `nota nota-verde`; desde
   la página se cambia a rojo y el resaltado del texto pasa a `nota nota-rojo`.
-- **L12** (2026-10-21) — **Filtro por color** (21/10/2026, pedido del usuario): *"ahora
-  cuando voy a notas me gustaria un filtro para ver las de un color u otro"*. Arriba de la lista
+- **L12** (2026-10-21) — **Filtro por color** (21/10/2026, pedido del usuario): _"ahora
+  cuando voy a notas me gustaria un filtro para ver las de un color u otro"_. Arriba de la lista
   hay una ficha por color, con el punto del color y **cuántas hay de cada uno** ("Verdes (2)"),
   más la de "Todas". Con el color ya en la nota, el filtro es casi obvio.
 - **L13** (2026-10-21) — **La guía también tiene barra lateral** (21/10/2026, pedido del
-  usuario): *"si, con el indice de guias, favoritos y notas"*. Antes la guía era a columna
+  usuario): _"si, con el indice de guias, favoritos y notas"_. Antes la guía era a columna
   completa (`.app-guia` pisaba la grilla de dos columnas) y sus notas y favoritos estaban
   sueltos: las notas arriba del texto y los favoritos en la página de índice. Con la barra, las
   dos vistas se parecen y la navegación no cambia de sitio.
@@ -112,9 +112,9 @@ comparten el modelo de datos— ni backstop de contexto). Todo inline.
   - `#/guia` sin documento deja de ser la lista grande y pasa a ser la bienvenida (con las
     cifras del corpus), porque la lista ahora está en la barra y no hacía falta duplicarla.
   - En el móvil, el cajón: es el mismo botón «Índice» y el mismo comportamiento que el lector.
-- **L14** (2026-10-22) — **Etiquetas** (pedido del usuario): *"me gustaria en notas un sistema de
+- **L14** (2026-10-22) — **Etiquetas** (pedido del usuario): _"me gustaria en notas un sistema de
   tags que pueda agregar a cada nota, y ponerle nombres, asi luego tambien filtrar por ese
-  nombre"*. Cada nota lleva sus etiquetas: el color dice **de qué es** el pasaje y la etiqueta
+  nombre"_. Cada nota lleva sus etiquetas: el color dice **de qué es** el pasaje y la etiqueta
   dice **de qué tema**.
   - Los nombres son libres y se escriben en la nota; el campo autocompleta con las que ya
     existen (`datalist`), para no escribir "protección" y "Protección" de dos maneras.

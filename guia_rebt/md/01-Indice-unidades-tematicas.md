@@ -2,7 +2,7 @@
 guia: 01-Indice-unidades-tematicas
 titulo: Índice de Unidades Temáticas
 paginas: 2
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_indice_jul19R8.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_indice_jul19R8.pdf'
 sha256: 49c0e30d073e4ec06466995e6d44061ae669b6ec2de1ecb55e67d9aea46bdbe6
 convertido: 2026-10-18
 ---

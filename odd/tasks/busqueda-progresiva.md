@@ -5,7 +5,7 @@ Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Specs
 
-- **S1** — *"vamos con busqueda progresiva y deja apuntado como feature futuro el 2c"* (pedido
+- **S1** — _"vamos con busqueda progresiva y deja apuntado como feature futuro el 2c"_ (pedido
   original, 21/10/2026). La búsqueda en el texto completo deja de esperar a que terminen de
   descargarse los 98 bloques: los resultados aparecen a medida que llegan. Y la búsqueda en el
   worker (2C) queda anotada como feature futuro.
@@ -16,13 +16,13 @@ Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | `src/busqueda.ts`: la búsqueda como función pura, con `obtener` que devuelve el bloque si ya está descargado | S2,S3 | inline | — | 1 |
-| T2 | `src/App.tsx`: contador de bloques indexados que dispara el recálculo de la búsqueda | S1,S2 | inline | — | 1 |
-| T3 | `src/Sidebar.tsx`: el rótulo del progreso y el aviso mientras se indexa | S1 | inline | — | 1 |
-| T4 | Tests de la búsqueda: por título, por texto, y **que los resultados crezcan** | S1,S2,S3 | inline | — | 1 |
-| T5 | Feature futuro 2C anotado en `todo.md` | S1 | inline | — | 2 |
+| #   | Tarea                                                                                                        | Specs    | Ruta   | Riesgo | Commit |
+| --- | ------------------------------------------------------------------------------------------------------------ | -------- | ------ | ------ | ------ |
+| T1  | `src/busqueda.ts`: la búsqueda como función pura, con `obtener` que devuelve el bloque si ya está descargado | S2,S3    | inline | —      | 1      |
+| T2  | `src/App.tsx`: contador de bloques indexados que dispara el recálculo de la búsqueda                         | S1,S2    | inline | —      | 1      |
+| T3  | `src/Sidebar.tsx`: el rótulo del progreso y el aviso mientras se indexa                                      | S1       | inline | —      | 1      |
+| T4  | Tests de la búsqueda: por título, por texto, y **que los resultados crezcan**                                | S1,S2,S3 | inline | —      | 1      |
+| T5  | Feature futuro 2C anotado en `todo.md`                                                                       | S1       | inline | —      | 2      |
 
 **Trazabilidad de ruta**: no hay trigger de delegación (ni paralelismo ni backstop de contexto).
 Todo inline.
@@ -41,8 +41,8 @@ Todo inline.
 
 ## Log
 
-- **L1** (2026-10-21) — *"vamos con busqueda progresiva y deja apuntado como feature futuro el
-  2c"*.
+- **L1** (2026-10-21) — _"vamos con busqueda progresiva y deja apuntado como feature futuro el
+  2c"_.
 - **L2** (2026-10-21) — **El problema medido**: la búsqueda bloqueaba 5,6 s hasta que bajaban los
   98 bloques (2,17 MB). Los resultados solo aparecían cuando `textReady` era true, o sea al
   final; la barra de progreso era lo único que se movía.

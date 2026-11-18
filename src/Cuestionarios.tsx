@@ -115,19 +115,22 @@ export default function Cuestionarios({ onInicio }: Props) {
     setCargados((anteriores) => quitarCargadoPorId(anteriores, id))
   }, [])
 
-  const responder = useCallback((opcion: number) => {
-    if (!cuestionario || respuesta !== null) return
-    const actual = preguntas[indice]
-    setRespuesta(opcion)
-    if (!actual) return
-    if (actual.ans === opcion) {
-      setAciertos((total) => total + 1)
-      toast.success('¡Correcto!')
-    } else {
-      setFalladas((anteriores) => [...anteriores, actual])
-      toast.error('No es correcto. La respuesta correcta está marcada.')
-    }
-  }, [cuestionario, indice, preguntas, respuesta])
+  const responder = useCallback(
+    (opcion: number) => {
+      if (!cuestionario || respuesta !== null) return
+      const actual = preguntas[indice]
+      setRespuesta(opcion)
+      if (!actual) return
+      if (actual.ans === opcion) {
+        setAciertos((total) => total + 1)
+        toast.success('¡Correcto!')
+      } else {
+        setFalladas((anteriores) => [...anteriores, actual])
+        toast.error('No es correcto. La respuesta correcta está marcada.')
+      }
+    },
+    [cuestionario, indice, preguntas, respuesta],
+  )
 
   const avanzar = useCallback(() => {
     if (!cuestionario) return
@@ -153,7 +156,8 @@ export default function Cuestionarios({ onInicio }: Props) {
   const opciones = useMemo(() => {
     if (!pregunta) return []
     return [1, 2, 3, 4, 5].flatMap((numero) => {
-      const texto = pregunta[`option${numero}` as 'option1' | 'option2' | 'option3' | 'option4' | 'option5']
+      const texto =
+        pregunta[`option${numero}` as 'option1' | 'option2' | 'option3' | 'option4' | 'option5']
       return texto?.trim() ? [{ numero, texto }] : []
     })
   }, [pregunta])
@@ -168,7 +172,8 @@ export default function Cuestionarios({ onInicio }: Props) {
       if (
         destino instanceof HTMLElement &&
         (destino.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(destino.tagName))
-      ) return
+      )
+        return
       if (evento.altKey || evento.ctrlKey || evento.metaKey || evento.repeat) return
 
       const accion = interpretarTeclaCuestionario(
@@ -225,7 +230,8 @@ export default function Cuestionarios({ onInicio }: Props) {
         <span className="text-xl font-semibold leading-[1.2]">{item.nombre}</span>
         <span className="flex w-full items-end justify-between gap-3 border-t border-linea pt-3">
           <span className="font-lectura text-[0.95rem] leading-[1.4] text-tinta-2">
-            <span className="dato text-tinta">{item.preguntas.length}</span> preguntas · {item.preguntas[0]?.tema}
+            <span className="dato text-tinta">{item.preguntas.length}</span> preguntas ·{' '}
+            {item.preguntas[0]?.tema}
           </span>
           <span
             aria-hidden="true"
@@ -263,7 +269,10 @@ export default function Cuestionarios({ onInicio }: Props) {
 
           {!cuestionario ? (
             <section aria-labelledby="cuestionarios-heading" className="animate-vista-entra">
-              <h1 id="cuestionarios-heading" className="mb-2 mt-0 text-[clamp(2.5rem,8vw,4rem)] font-semibold leading-[1] tracking-[-0.015em]">
+              <h1
+                id="cuestionarios-heading"
+                className="mb-2 mt-0 text-[clamp(2.5rem,8vw,4rem)] font-semibold leading-[1] tracking-[-0.015em]"
+              >
                 Cuestionarios Tests
               </h1>
               <p className="mb-8 mt-0 max-w-[46ch] font-lectura text-lg leading-[1.5] text-tinta-2">
@@ -276,9 +285,7 @@ export default function Cuestionarios({ onInicio }: Props) {
                 <>
                   {cuestionarios.length > 0 && (
                     <>
-                      {propios.length > 0 && (
-                        <h2 className="rotulo mb-3 mt-0">Tests de la app</h2>
-                      )}
+                      {propios.length > 0 && <h2 className="rotulo mb-3 mt-0">Tests de la app</h2>}
                       <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(17rem,1fr))] gap-3 p-0">
                         {cuestionarios.map(tarjeta)}
                       </ul>
@@ -299,15 +306,27 @@ export default function Cuestionarios({ onInicio }: Props) {
                   )}
                 </>
               ) : (
-                <p role="status" className="rounded-[4px] border border-linea bg-hoja p-5 text-tinta-2">
-                  No hay cuestionarios válidos en la carpeta data-json. Arrastra un .json para cargar el tuyo.
+                <p
+                  role="status"
+                  className="rounded-[4px] border border-linea bg-hoja p-5 text-tinta-2"
+                >
+                  No hay cuestionarios válidos en la carpeta data-json. Arrastra un .json para
+                  cargar el tuyo.
                 </p>
               )}
             </section>
           ) : finalizado ? (
-            <section aria-labelledby="resultado-heading" className="animate-vista-entra rounded-[4px] border border-linea bg-hoja p-6 md:p-8">
+            <section
+              aria-labelledby="resultado-heading"
+              className="animate-vista-entra rounded-[4px] border border-linea bg-hoja p-6 md:p-8"
+            >
               <p className="rotulo mb-2 mt-0">{cuestionario.nombre}</p>
-              <h1 id="resultado-heading" className="mb-4 mt-0 text-3xl font-semibold tracking-[-0.01em]">Cuestionario completado</h1>
+              <h1
+                id="resultado-heading"
+                className="mb-4 mt-0 text-3xl font-semibold tracking-[-0.01em]"
+              >
+                Cuestionario completado
+              </h1>
 
               {/* El resultado como ficha: las tres cifras de la ronda, en el mismo orden
                   y con la misma retícula que el resto de los datos de la app. */}
@@ -315,8 +334,13 @@ export default function Cuestionarios({ onInicio }: Props) {
                 <div>
                   <dt className="rotulo">Correctas</dt>
                   <dd className="m-0 text-[1.6rem] font-semibold leading-none text-[var(--aviso-exito)]">
-                    <span key={`ok-${aciertos}`} className="dato inline-block animate-marca-cuenta">{aciertos}</span>
-                    <span className="dato text-[0.9rem] font-normal text-tinta-2"> / {preguntas.length}</span>
+                    <span key={`ok-${aciertos}`} className="dato inline-block animate-marca-cuenta">
+                      {aciertos}
+                    </span>
+                    <span className="dato text-[0.9rem] font-normal text-tinta-2">
+                      {' '}
+                      / {preguntas.length}
+                    </span>
                   </dd>
                 </div>
                 <div>
@@ -361,7 +385,11 @@ export default function Cuestionarios({ onInicio }: Props) {
                 >
                   Repetir cuestionario
                 </button>
-                <button type="button" onClick={volverALista} className="rounded-[4px] border border-linea bg-plano px-4 py-2 font-semibold text-tinta transition-[border-color,background-color] duration-200 ease-plano hover:border-neutro hover:bg-neutro-fondo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro">
+                <button
+                  type="button"
+                  onClick={volverALista}
+                  className="rounded-[4px] border border-linea bg-plano px-4 py-2 font-semibold text-tinta transition-[border-color,background-color] duration-200 ease-plano hover:border-neutro hover:bg-neutro-fondo focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro"
+                >
                   Elegir otro test
                 </button>
               </div>
@@ -371,13 +399,17 @@ export default function Cuestionarios({ onInicio }: Props) {
               <section aria-labelledby="pregunta-heading" className="min-w-0">
                 <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
                   <div>
-                    <p className="rotulo mb-[0.3rem] mt-0">{cuestionario.nombre} · {pregunta.tema}</p>
+                    <p className="rotulo mb-[0.3rem] mt-0">
+                      {cuestionario.nombre} · {pregunta.tema}
+                    </p>
                     <p className="m-0 text-[0.95rem] font-medium text-tinta-2">
                       Pregunta <span className="dato text-tinta">{indice + 1}</span> de{' '}
                       <span className="dato text-tinta">{preguntas.length}</span>
                     </p>
                   </div>
-                  <span className="dato text-[0.9rem] font-semibold text-tinta-2">{Math.round(progreso)}%</span>
+                  <span className="dato text-[0.9rem] font-semibold text-tinta-2">
+                    {Math.round(progreso)}%
+                  </span>
                 </div>
                 <div
                   role="progressbar"
@@ -394,7 +426,12 @@ export default function Cuestionarios({ onInicio }: Props) {
                 </div>
 
                 <div className="rounded-[4px] border border-linea bg-hoja p-5 md:p-8">
-                  <h1 id="pregunta-heading" className="mb-6 mt-0 text-2xl font-semibold leading-snug text-balance">{pregunta.question}</h1>
+                  <h1
+                    id="pregunta-heading"
+                    className="mb-6 mt-0 text-2xl font-semibold leading-snug text-balance"
+                  >
+                    {pregunta.question}
+                  </h1>
                   <div className="grid gap-2">
                     {opciones.map(({ numero, texto }, indiceOpcion) => {
                       const esCorrecta = numero === pregunta.ans
@@ -443,33 +480,59 @@ export default function Cuestionarios({ onInicio }: Props) {
                   <div className="mt-5 flex flex-wrap items-center justify-end gap-4">
                     {/* El botón está siempre: deshabilitado mientras no hay respuesta, para
                         que el bloque no cambie de alto y el siguiente paso se vea venir. */}
-                    <button type="button" aria-keyshortcuts="Space" onClick={avanzar} disabled={respuesta === null} className="rounded-[4px] bg-neutro px-4 py-2 font-semibold text-hoja transition-[filter,transform,opacity] duration-200 ease-plano hover:-translate-y-px hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:pointer-events-none disabled:opacity-45 disabled:hover:translate-y-0">
+                    <button
+                      type="button"
+                      aria-keyshortcuts="Space"
+                      onClick={avanzar}
+                      disabled={respuesta === null}
+                      className="rounded-[4px] bg-neutro px-4 py-2 font-semibold text-hoja transition-[filter,transform,opacity] duration-200 ease-plano hover:-translate-y-px hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutro disabled:pointer-events-none disabled:opacity-45 disabled:hover:translate-y-0"
+                    >
                       {indice === preguntas.length - 1 ? 'Ver resultado' : 'Siguiente pregunta'}
                     </button>
                   </div>
                 </div>
 
-                <aside aria-labelledby="atajos-heading" className="mt-4 rounded-[4px] border border-linea bg-hoja p-4 md:p-5">
-                  <h2 id="atajos-heading" className="rotulo mb-3 mt-0">Atajos de teclado</h2>
+                <aside
+                  aria-labelledby="atajos-heading"
+                  className="mt-4 rounded-[4px] border border-linea bg-hoja p-4 md:p-5"
+                >
+                  <h2 id="atajos-heading" className="rotulo mb-3 mt-0">
+                    Atajos de teclado
+                  </h2>
                   <ul className="m-0 grid list-none gap-2 p-0 text-sm text-tinta-2">
                     <li className="flex flex-wrap items-center gap-2">
                       <span className="flex items-center gap-1" aria-hidden="true">
                         {opciones.map(({ numero }) => (
-                          <kbd key={numero} className="dato rounded-[3px] border border-linea bg-plano px-2 py-0.5 text-[0.72rem] font-semibold text-tinta shadow-[0_1px_0_var(--linea)]">{String(numero)}</kbd>
+                          <kbd
+                            key={numero}
+                            className="dato rounded-[3px] border border-linea bg-plano px-2 py-0.5 text-[0.72rem] font-semibold text-tinta shadow-[0_1px_0_var(--linea)]"
+                          >
+                            {String(numero)}
+                          </kbd>
                         ))}
                       </span>
-                      <span className="sr-only">Teclas {opciones[0]?.numero} a {opciones[opciones.length - 1]?.numero}</span>
+                      <span className="sr-only">
+                        Teclas {opciones[0]?.numero} a {opciones[opciones.length - 1]?.numero}
+                      </span>
                       <span>Elegir una respuesta</span>
                     </li>
                     <li className="flex flex-wrap items-center gap-2">
-                      <kbd aria-hidden="true" className="dato rounded-[3px] border border-linea bg-plano px-2 py-0.5 text-[0.72rem] font-semibold text-tinta shadow-[0_1px_0_var(--linea)]">Espacio</kbd>
+                      <kbd
+                        aria-hidden="true"
+                        className="dato rounded-[3px] border border-linea bg-plano px-2 py-0.5 text-[0.72rem] font-semibold text-tinta shadow-[0_1px_0_var(--linea)]"
+                      >
+                        Espacio
+                      </kbd>
                       <span>Avanzar a la siguiente pregunta después de responder</span>
                     </li>
                   </ul>
                 </aside>
               </section>
 
-              <aside aria-label="Estado de la ronda" className="order-first grid gap-3 rounded-[4px] border border-linea bg-hoja p-4 md:order-none md:sticky md:top-4 md:p-5">
+              <aside
+                aria-label="Estado de la ronda"
+                className="order-first grid gap-3 rounded-[4px] border border-linea bg-hoja p-4 md:order-none md:sticky md:top-4 md:p-5"
+              >
                 <div>
                   <p className="rotulo m-0">Tiempo en curso</p>
                   <p className="dato m-0 text-3xl font-semibold leading-none text-tinta">
@@ -480,13 +543,23 @@ export default function Cuestionarios({ onInicio }: Props) {
                   <div className="rounded-[3px] border border-[var(--aviso-exito)] bg-tierra-a/10 px-3 py-2">
                     <p className="rotulo m-0 mb-[0.15rem]">Correctas</p>
                     <p className="m-0 text-2xl font-semibold leading-tight text-[var(--aviso-exito)]">
-                      <span key={`aciertos-${aciertos}`} className="dato inline-block animate-marca-cuenta">{aciertos}</span>
+                      <span
+                        key={`aciertos-${aciertos}`}
+                        className="dato inline-block animate-marca-cuenta"
+                      >
+                        {aciertos}
+                      </span>
                     </p>
                   </div>
                   <div className="rounded-[3px] border border-[var(--aviso-error)] bg-[var(--aviso-error)]/10 px-3 py-2">
                     <p className="rotulo m-0 mb-[0.15rem]">Equivocadas</p>
                     <p className="m-0 text-2xl font-semibold leading-tight text-[var(--aviso-error)]">
-                      <span key={`falladas-${falladas.length}`} className="dato inline-block animate-marca-cuenta">{falladas.length}</span>
+                      <span
+                        key={`falladas-${falladas.length}`}
+                        className="dato inline-block animate-marca-cuenta"
+                      >
+                        {falladas.length}
+                      </span>
                     </p>
                   </div>
                 </div>

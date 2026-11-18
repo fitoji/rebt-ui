@@ -2,7 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { officialPdfUrl, resolveGuiaUrl } from '../src/guia/urls.ts'
 
-const PDF = 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_19_feb09R2.pdf'
+const PDF =
+  'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_19_feb09R2.pdf'
 
 test('las imágenes del corpus se sirven desde /guia/imgs', () => {
   assert.equal(resolveGuiaUrl('../imgs/BT-19_p07_i01.png'), '/guia/imgs/BT-19_p07_i01.png')
@@ -32,7 +33,13 @@ test('las URLs absolutas que ya son https se dejan como están', () => {
 
 test('cualquier otra cosa se descarta', () => {
   // En particular, nada de javascript: llega al DOM.
-  for (const href of ['javascript:alert(1)', 'data:text/html,<script>', '/otra/cosa', '', 'vbscript:x']) {
+  for (const href of [
+    'javascript:alert(1)',
+    'data:text/html,<script>',
+    '/otra/cosa',
+    '',
+    'vbscript:x',
+  ]) {
     assert.equal(resolveGuiaUrl(href, { fuentePdf: PDF }), null, `debería descartar ${href}`)
   }
 })

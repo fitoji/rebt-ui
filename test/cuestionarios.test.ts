@@ -27,10 +27,13 @@ test('prepara cuestionarios desde JSON válidos y ordena sus nombres', () => {
     '../data-json/rebt_itc_1-5.json': [pregunta],
   })
 
-  assert.deepEqual(result.map(({ id, nombre, preguntas }) => ({ id, nombre, total: preguntas.length })), [
-    { id: 'rebt_itc_1-5.json', nombre: 'REBT ITC 1-5', total: 1 },
-    { id: 'rebt_itc_1-5_c.json', nombre: 'REBT ITC 1-5 C', total: 1 },
-  ])
+  assert.deepEqual(
+    result.map(({ id, nombre, preguntas }) => ({ id, nombre, total: preguntas.length })),
+    [
+      { id: 'rebt_itc_1-5.json', nombre: 'REBT ITC 1-5', total: 1 },
+      { id: 'rebt_itc_1-5_c.json', nombre: 'REBT ITC 1-5 C', total: 1 },
+    ],
+  )
 })
 
 test('omite archivos con preguntas incompletas sin descartar los cuestionarios válidos', () => {
@@ -40,7 +43,10 @@ test('omite archivos con preguntas incompletas sin descartar los cuestionarios v
     '../data-json/vacio.json': [],
   })
 
-  assert.deepEqual(result.map(({ id }) => id), ['rebt_itc_1-5.json'])
+  assert.deepEqual(
+    result.map(({ id }) => id),
+    ['rebt_itc_1-5.json'],
+  )
 })
 
 test('las teclas numéricas eligen una opción visible y descartan opciones inexistentes', () => {
@@ -69,10 +75,7 @@ test('un JSON soltado se convierte en un cuestionario usable o se rechaza', () =
 
   assert.equal(cuestionarioCargado('malo.json', { no: 'es una lista' }), null)
   assert.equal(cuestionarioCargado('vacio.json', []), null)
-  assert.equal(
-    cuestionarioCargado('incompleto.json', [{ ...pregunta, ans: 5, option5: '' }]),
-    null,
-  )
+  assert.equal(cuestionarioCargado('incompleto.json', [{ ...pregunta, ans: 5, option5: '' }]), null)
 })
 
 test('de lo guardado en localStorage solo se recuperan entradas que siguen siendo cuestionarios válidos', () => {

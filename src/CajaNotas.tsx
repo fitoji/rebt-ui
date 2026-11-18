@@ -31,14 +31,20 @@ export default function CajaNotas({
   return (
     <Accordion title={`Notas (${total})`} open={abierto} onToggle={onAlternar}>
       {notas.length === 0 ? (
-        <p className="mx-[1.1rem] my-[1rem] text-tinta-2">Subrayá un trozo del texto y guardalo como nota.</p>
+        <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
+          Subrayá un trozo del texto y guardalo como nota.
+        </p>
       ) : (
         <ul className="m-0 list-none p-0">
           {notas.map((nota) => (
             <li key={nota.id} className="flex items-start gap-[0.3rem] py-[0.2rem]">
               <button
                 className={`min-w-0 flex-1 overflow-hidden rounded-[4px] border-0 bg-nota-amarillo px-[0.4rem] py-[0.2rem] text-left text-[0.85rem] leading-[1.35] text-tinta cursor-pointer line-clamp-2 hover:brightness-[1.08] ${
-                  nota.color === 'verde' ? 'bg-nota-verde' : nota.color === 'rojo' ? 'bg-nota-rojo' : ''
+                  nota.color === 'verde'
+                    ? 'bg-nota-verde'
+                    : nota.color === 'rojo'
+                      ? 'bg-nota-rojo'
+                      : ''
                 }`}
                 onClick={() => onIr(nota)}
                 title="Ir al resaltado en el texto"
@@ -57,7 +63,10 @@ export default function CajaNotas({
           ))}
         </ul>
       )}
-      <button className="mt-[0.4rem] cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-[0.2rem] text-left text-[0.85rem] text-neutro hover:bg-plano hover:text-fase" onClick={onVerTodas}>
+      <button
+        className="mt-[0.4rem] cursor-pointer rounded-[4px] border-0 bg-transparent px-[0.35rem] py-[0.2rem] text-left text-[0.85rem] text-neutro hover:bg-plano hover:text-fase"
+        onClick={onVerTodas}
+      >
         Ver todas las notas
       </button>
     </Accordion>

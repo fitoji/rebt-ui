@@ -27,6 +27,10 @@ test('la rejilla se descarga como CSV', () => {
 
 test('el CSV entrecomilla las celdas con comas, comillas o punto y coma', () => {
   // Sin entrecomillar, Excel abriría la fila partida en columnas de más.
-  const grid = [['A', 'B'], ['x, y', 'z"w'], ['p; q', 'r']]
+  const grid = [
+    ['A', 'B'],
+    ['x, y', 'z"w'],
+    ['p; q', 'r'],
+  ]
   assert.equal(gridToCsv(grid), 'A,B\n"x, y","z""w"\n"p; q",r')
 })

@@ -162,10 +162,15 @@ export default function LectorArchivo({
               {actual.titulo}
             </p>
             <p className="mt-0 mb-[1.2rem] max-w-[46rem] text-[0.95rem] text-tinta-2">
-              El BOE no digitalizó este documento como texto: existe solo como escaneo de la
-              Gaceta. Se abre en otra pestaña.
+              El BOE no digitalizó este documento como texto: existe solo como escaneo de la Gaceta.
+              Se abre en otra pestaña.
             </p>
-            <a className="enlace-externo text-[0.95rem]" href={actual.url} target="_blank" rel="noreferrer">
+            <a
+              className="enlace-externo text-[0.95rem]"
+              href={actual.url}
+              target="_blank"
+              rel="noreferrer"
+            >
               Abrir el documento en el BOE
               <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={1.75} />
               <span className="sr-only"> (se abre en otra pestaña)</span>

@@ -36,14 +36,13 @@ export default function Cambios({ onInicio }: { onInicio: () => void }) {
       </h1>
       <p className="mt-0 mb-[1.6rem] max-w-[42rem] font-lectura text-[1.05rem] leading-[1.55] text-tinta-2">
         Lo que el reglamento vigente fue cambiando desde 2002: {CAMBIOS.length} normas que
-        modificaron, actualizaron o anularon algún artículo o instrucción. El lector siempre
-        muestra el texto de hoy; esto dice desde cuándo dice lo que dice.
+        modificaron, actualizaron o anularon algún artículo o instrucción. El lector siempre muestra
+        el texto de hoy; esto dice desde cuándo dice lo que dice.
       </p>
 
       <table className="tabla-archivo">
         <caption className="sr-only">
-          Normas que modificaron el Reglamento electrotécnico para baja tensión desde su
-          aprobación
+          Normas que modificaron el Reglamento electrotécnico para baja tensión desde su aprobación
         </caption>
         <thead>
           <tr>

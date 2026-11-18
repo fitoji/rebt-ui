@@ -4,8 +4,8 @@ Rama `main` (directo, como el resto del historial).
 
 ## Specs
 
-- **S1** — *"revisa la documentacion, hazla mas linda, agrega iconos imagenes, etc utiliza skills o
-  busca skills para hacerlo mejor"* (pedido original, 21/10/2026).
+- **S1** — _"revisa la documentacion, hazla mas linda, agrega iconos imagenes, etc utiliza skills o
+  busca skills para hacerlo mejor"_ (pedido original, 21/10/2026).
 - **S2** — Todo en **español**, como el resto de la documentación del proyecto.
 - **S3** — Las imágenes son **reales**: capturas de la app en producción y una marca hecha con la
   identidad que la app ya tenía. Nada de imágenes de adorno.
@@ -14,12 +14,12 @@ Rama `main` (directo, como el resto del historial).
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | La marca: un SVG con la franja del conductor de protección | S3 | inline | — | 1 |
-| T2 | Tres capturas reales de la app (portada, lector, guía) | S3 | inline | — | 1 |
-| T3 | README reescrito: cabecera, badges, índice, capturas, diagrama y admoniciones | S1,S4 | inline | — | 1 |
-| T4 | Puntero del README del corpus al del proyecto | S4 | inline | — | 1 |
+| #   | Tarea                                                                         | Specs | Ruta   | Riesgo | Commit |
+| --- | ----------------------------------------------------------------------------- | ----- | ------ | ------ | ------ |
+| T1  | La marca: un SVG con la franja del conductor de protección                    | S3    | inline | —      | 1      |
+| T2  | Tres capturas reales de la app (portada, lector, guía)                        | S3    | inline | —      | 1      |
+| T3  | README reescrito: cabecera, badges, índice, capturas, diagrama y admoniciones | S1,S4 | inline | —      | 1      |
+| T4  | Puntero del README del corpus al del proyecto                                 | S4    | inline | —      | 1      |
 
 **Trazabilidad de ruta**: no hay trigger de delegación. Todo inline.
 
@@ -42,8 +42,8 @@ Rama `main` (directo, como el resto del historial).
 
 ## Log
 
-- **L1** (2026-10-21) — *"revisa la documentacion, hazla mas linda, agrega iconos imagenes, etc
-  utiliza skills o busca skills para hacerlo mejor"*.
+- **L1** (2026-10-21) — _"revisa la documentacion, hazla mas linda, agrega iconos imagenes, etc
+  utiliza skills o busca skills para hacerlo mejor"_.
 - **L2** (2026-10-21) — **Busqué skills** para el trabajo: `github/awesome-copilot@create-readme`
   (19K instalaciones, repo oficial de GitHub) y `spillwavesolutions/design-doc-mermaid@design-doc-mermaid`
   (76K) para los diagramas. Se leyó el primero y se aplicaron sus criterios; el segundo no hizo

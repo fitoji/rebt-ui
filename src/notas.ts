@@ -72,27 +72,29 @@ export function parseNotas(valor: string | null): Nota[] {
   try {
     const datos: unknown = JSON.parse(valor)
     if (!Array.isArray(datos)) return []
-    return datos.filter((n): n is Nota => {
-      if (typeof n !== 'object' || n === null) return false
-      const nota = n as Partial<Nota>
-      return (
-        typeof nota.id === 'string' &&
-        typeof nota.origen === 'string' &&
-        typeof nota.texto === 'string' &&
-        typeof nota.antes === 'string' &&
-        typeof nota.despues === 'string' &&
-        typeof nota.creado === 'number'
-      )
-    }).map((n) => ({
-      ...n,
-      // Las notas guardadas antes de que existieran la vista, el título y el color: se
-      // deducen del id, porque los dos universos de ids no se cruzan (el REBT usa
-      // minúsculas y la guía, mayúsculas), y el color es el de siempre.
-      vista: n.vista ?? (n.origen[0] === n.origen[0]?.toLowerCase() ? 'rebt' : 'guia'),
-      titulo: n.titulo ?? n.origen,
-      color: n.color ?? COLOR_POR_DEFECTO,
-      tags: normalizaEtiquetas(Array.isArray(n.tags) ? n.tags : []),
-    }))
+    return datos
+      .filter((n): n is Nota => {
+        if (typeof n !== 'object' || n === null) return false
+        const nota = n as Partial<Nota>
+        return (
+          typeof nota.id === 'string' &&
+          typeof nota.origen === 'string' &&
+          typeof nota.texto === 'string' &&
+          typeof nota.antes === 'string' &&
+          typeof nota.despues === 'string' &&
+          typeof nota.creado === 'number'
+        )
+      })
+      .map((n) => ({
+        ...n,
+        // Las notas guardadas antes de que existieran la vista, el título y el color: se
+        // deducen del id, porque los dos universos de ids no se cruzan (el REBT usa
+        // minúsculas y la guía, mayúsculas), y el color es el de siempre.
+        vista: n.vista ?? (n.origen[0] === n.origen[0]?.toLowerCase() ? 'rebt' : 'guia'),
+        titulo: n.titulo ?? n.origen,
+        color: n.color ?? COLOR_POR_DEFECTO,
+        tags: normalizaEtiquetas(Array.isArray(n.tags) ? n.tags : []),
+      }))
   } catch {
     return []
   }
@@ -120,34 +122,48 @@ const VERSION_ARCHIVO_NOTAS = 1
 
 /** Serializa las notas en un archivo JSON portable entre navegadores. */
 export function crearArchivoNotas(notas: Nota[]): string {
-  return JSON.stringify({ formato: FORMATO_ARCHIVO_NOTAS, version: VERSION_ARCHIVO_NOTAS, notas }, null, 2)
+  return JSON.stringify(
+    { formato: FORMATO_ARCHIVO_NOTAS, version: VERSION_ARCHIVO_NOTAS, notas },
+    null,
+    2,
+  )
 }
 
 /** Lee un archivo exportado; rechaza el archivo entero si contiene una entrada inválida. */
 export function parseArchivoNotas(contenido: string): Nota[] {
   const archivo: unknown = JSON.parse(contenido)
-  if (typeof archivo !== 'object' || archivo === null) throw new Error('El archivo no tiene un formato válido.')
+  if (typeof archivo !== 'object' || archivo === null)
+    throw new Error('El archivo no tiene un formato válido.')
 
   const sobre = archivo as { formato?: unknown; version?: unknown; notas?: unknown }
-  if (sobre.formato !== FORMATO_ARCHIVO_NOTAS || sobre.version !== VERSION_ARCHIVO_NOTAS || !Array.isArray(sobre.notas)) {
+  if (
+    sobre.formato !== FORMATO_ARCHIVO_NOTAS ||
+    sobre.version !== VERSION_ARCHIVO_NOTAS ||
+    !Array.isArray(sobre.notas)
+  ) {
     throw new Error('El archivo no es una exportación compatible de notas.')
   }
 
   const ids = new Set<string>()
   const notas = sobre.notas.map((valor): Nota => {
-    if (typeof valor !== 'object' || valor === null) throw new Error('El archivo contiene una nota inválida.')
+    if (typeof valor !== 'object' || valor === null)
+      throw new Error('El archivo contiene una nota inválida.')
     const n = valor as Partial<Nota>
     if (
-      typeof n.id !== 'string' || !n.id || ids.has(n.id) ||
+      typeof n.id !== 'string' ||
+      !n.id ||
+      ids.has(n.id) ||
       typeof n.origen !== 'string' ||
       (n.vista !== 'guia' && n.vista !== 'rebt') ||
       typeof n.titulo !== 'string' ||
       (n.color !== 'amarillo' && n.color !== 'verde' && n.color !== 'rojo') ||
-      !Array.isArray(n.tags) || !n.tags.every((tag) => typeof tag === 'string') ||
+      !Array.isArray(n.tags) ||
+      !n.tags.every((tag) => typeof tag === 'string') ||
       typeof n.texto !== 'string' ||
       typeof n.antes !== 'string' ||
       typeof n.despues !== 'string' ||
-      typeof n.creado !== 'number' || !Number.isFinite(n.creado)
+      typeof n.creado !== 'number' ||
+      !Number.isFinite(n.creado)
     ) {
       throw new Error('El archivo contiene una nota inválida.')
     }
@@ -369,12 +385,15 @@ export function useNotas(): ControlNotas {
     })
   }, [])
 
-  const combinar = useCallback((importadas: Nota[]) => {
-    const resultado = combinarNotas(notas, importadas)
-    guardarNotas(resultado.notas)
-    setNotas(resultado.notas)
-    return { agregadas: resultado.agregadas, duplicadas: resultado.duplicadas }
-  }, [notas])
+  const combinar = useCallback(
+    (importadas: Nota[]) => {
+      const resultado = combinarNotas(notas, importadas)
+      guardarNotas(resultado.notas)
+      setNotas(resultado.notas)
+      return { agregadas: resultado.agregadas, duplicadas: resultado.duplicadas }
+    },
+    [notas],
+  )
 
   const quitar = useCallback((id: string) => {
     setNotas((actual) => {

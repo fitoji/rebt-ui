@@ -32,7 +32,7 @@ export default {
       try {
         const response = await fetch(apiUrl, {
           headers: {
-            'Accept': request.headers.get('Accept') || 'application/xml',
+            Accept: request.headers.get('Accept') || 'application/xml',
             'User-Agent': 'REBT-Viewer/1.0',
           },
         })

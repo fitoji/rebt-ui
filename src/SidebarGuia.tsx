@@ -92,13 +92,22 @@ export default function SidebarGuia({
             </span>
           </span>
         </button>
-        <BotonFavorito id={doc.id} titulo={doc.titulo} favoritos={favoritos} className="absolute top-[0.3rem] right-[0.4rem]" />
+        <BotonFavorito
+          id={doc.id}
+          titulo={doc.titulo}
+          favoritos={favoritos}
+          className="absolute top-[0.3rem] right-[0.4rem]"
+        />
       </li>
     )
   }
 
   return (
-    <SidebarUI collapsible="offcanvas" className="min-h-0 border-r border-linea" aria-label="Índice de las guías">
+    <SidebarUI
+      collapsible="offcanvas"
+      className="min-h-0 border-r border-linea"
+      aria-label="Índice de las guías"
+    >
       <SidebarHeader className="border-b border-linea px-[1.1rem] pt-[1.1rem] pb-[0.9rem]">
         <div className="flex items-baseline justify-between gap-[0.75rem]">
           <p className="m-0 text-[1.9rem] font-semibold leading-none tracking-[0.05em]">Guías</p>
@@ -110,7 +119,11 @@ export default function SidebarGuia({
           Las {documentos.length} guías de aplicación del REBT
         </p>
         <div className="relative">
-          <Search aria-hidden="true" className="pointer-events-none absolute left-[0.6rem] top-1/2 size-3.5 -translate-y-1/2 text-tinta-2" strokeWidth={1.75} />
+          <Search
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[0.6rem] top-1/2 size-3.5 -translate-y-1/2 text-tinta-2"
+            strokeWidth={1.75}
+          />
           <input
             type="search"
             value={query}
@@ -124,29 +137,31 @@ export default function SidebarGuia({
 
       <SidebarContent className="flex-1 overflow-y-auto pt-[0.4rem] pb-[2rem]">
         <nav>
-        <CajaNotas
-          notas={notas}
-          total={totalNotas}
-          abierto={notasAbierto}
-          onAlternar={() => setNotasAbierto((v) => !v)}
-          onIr={onIrANota}
-          onQuitar={onQuitarNota}
-          onVerTodas={onVerTodasNotas}
-        />
+          <CajaNotas
+            notas={notas}
+            total={totalNotas}
+            abierto={notasAbierto}
+            onAlternar={() => setNotasAbierto((v) => !v)}
+            onIr={onIrANota}
+            onQuitar={onQuitarNota}
+            onVerTodas={onVerTodasNotas}
+          />
 
-        {marcados.length > 0 && (
-          <section className="mt-[1.2rem] mb-[1.4rem]">
-            <h2 className="rotulo mx-[1.1rem] mt-0 mb-[0.35rem] text-fase">Favoritos ({marcados.length})</h2>
-            <ul className="m-0 list-none p-0">{marcados.map((d) => fila(d, true))}</ul>
-          </section>
-        )}
-        <h2 className="rotulo mx-[1.1rem] mt-[1.1rem] mb-[0.35rem] text-fase">
-          Documentos
-        </h2>
-        <ul className="m-0 list-none p-0">{visibles.map((d) => fila(d))}</ul>
-        {visibles.length === 0 && (
-          <p className="mx-[1.1rem] my-[1rem] text-tinta-2">Ningún documento coincide con «{q}».</p>
-        )}
+          {marcados.length > 0 && (
+            <section className="mt-[1.2rem] mb-[1.4rem]">
+              <h2 className="rotulo mx-[1.1rem] mt-0 mb-[0.35rem] text-fase">
+                Favoritos ({marcados.length})
+              </h2>
+              <ul className="m-0 list-none p-0">{marcados.map((d) => fila(d, true))}</ul>
+            </section>
+          )}
+          <h2 className="rotulo mx-[1.1rem] mt-[1.1rem] mb-[0.35rem] text-fase">Documentos</h2>
+          <ul className="m-0 list-none p-0">{visibles.map((d) => fila(d))}</ul>
+          {visibles.length === 0 && (
+            <p className="mx-[1.1rem] my-[1rem] text-tinta-2">
+              Ningún documento coincide con «{q}».
+            </p>
+          )}
         </nav>
       </SidebarContent>
     </SidebarUI>

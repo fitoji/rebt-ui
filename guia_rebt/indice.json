@@ -64,9 +64,7 @@
       "id": "BT-04",
       "md": "md/BT-04.md",
       "tablas": 10,
-      "imgs": [
-        "imgs/BT-04_p06_tabla.png"
-      ],
+      "imgs": ["imgs/BT-04_p06_tabla.png"],
       "titulo": "BT-04. Documentación y puesta en servicio de las instalaciones",
       "edicion": "sep 03",
       "revision": "1",
@@ -78,10 +76,7 @@
       "id": "BT-05",
       "md": "md/BT-05.md",
       "tablas": 0,
-      "imgs": [
-        "imgs/BT-05_p05_i01.png",
-        "imgs/BT-05_p06_i01.png"
-      ],
+      "imgs": ["imgs/BT-05_p05_i01.png", "imgs/BT-05_p06_i01.png"],
       "titulo": "BT-05. Verificaciones e Inspecciones",
       "edicion": "sep 03",
       "revision": "1",
@@ -105,9 +100,7 @@
       "id": "BT-12",
       "md": "md/BT-12.md",
       "tablas": 2,
-      "imgs": [
-        "imgs/BT-12_p08_tabla.png"
-      ],
+      "imgs": ["imgs/BT-12_p08_tabla.png"],
       "titulo": "BT-12. Esquemas",
       "edicion": "sep 03",
       "revision": "1",
@@ -155,9 +148,7 @@
       "id": "BT-16",
       "md": "md/BT-16.md",
       "tablas": 5,
-      "imgs": [
-        "imgs/BT-16_p12_i01.png"
-      ],
+      "imgs": ["imgs/BT-16_p12_i01.png"],
       "titulo": "BT-16. Contadores: Ubicación y sistemas de Instalación",
       "edicion": "sep 03",
       "revision": "1",
@@ -210,10 +201,7 @@
       "id": "BT-21",
       "md": "md/BT-21.md",
       "tablas": 16,
-      "imgs": [
-        "imgs/BT-21_p13_i01.png",
-        "imgs/BT-21_p16_tabla.png"
-      ],
+      "imgs": ["imgs/BT-21_p13_i01.png", "imgs/BT-21_p16_tabla.png"],
       "titulo": "BT-21. Tubos y canales protectoras",
       "edicion": "sep 03",
       "revision": "1",
@@ -247,9 +235,7 @@
       "id": "BT-26",
       "md": "md/BT-26.md",
       "tablas": 13,
-      "imgs": [
-        "imgs/BT-26_p04_i01.png"
-      ],
+      "imgs": ["imgs/BT-26_p04_i01.png"],
       "titulo": "BT-26. Instalaciones interiores en viviendas. Prescripciones generales de instalaciones",
       "edicion": "sep 03",
       "revision": "1",
@@ -261,10 +247,7 @@
       "id": "BT-27",
       "md": "md/BT-27.md",
       "tablas": 2,
-      "imgs": [
-        "imgs/BT-27_p08_tabla.png",
-        "imgs/BT-27_p10_tabla.png"
-      ],
+      "imgs": ["imgs/BT-27_p08_tabla.png", "imgs/BT-27_p10_tabla.png"],
       "titulo": "BT-27. Locales que contienen una bañera o ducha",
       "edicion": "sep 03",
       "revision": "1",
@@ -288,10 +271,7 @@
       "id": "BT-28",
       "md": "md/BT-28.md",
       "tablas": 9,
-      "imgs": [
-        "imgs/BT-28_p21_i01.png",
-        "imgs/BT-28_p22_tabla.png"
-      ],
+      "imgs": ["imgs/BT-28_p21_i01.png", "imgs/BT-28_p22_tabla.png"],
       "titulo": "BT-28. Instalaciones en locales de pública concurrencia",
       "edicion": "mar 15",
       "revision": "3",
@@ -342,11 +322,7 @@
       "id": "BT-18",
       "md": "md/BT-18.md",
       "tablas": 16,
-      "imgs": [
-        "imgs/BT-18_p03_i01.png",
-        "imgs/BT-18_p06_i01.png",
-        "imgs/BT-18_p14_i01.png"
-      ],
+      "imgs": ["imgs/BT-18_p03_i01.png", "imgs/BT-18_p06_i01.png", "imgs/BT-18_p14_i01.png"],
       "titulo": "BT-18. Instalaciones de puesta a tierra",
       "edicion": "Oct 05",
       "revision": "1",
@@ -370,10 +346,7 @@
       "id": "BT-23",
       "md": "md/BT-23.md",
       "tablas": 5,
-      "imgs": [
-        "imgs/BT-23_p06_i01.png",
-        "imgs/BT-23_p08_tabla.png"
-      ],
+      "imgs": ["imgs/BT-23_p06_i01.png", "imgs/BT-23_p08_tabla.png"],
       "titulo": "BT-23. Protección contra sobretensiones",
       "edicion": "nov 19",
       "revision": "4",
@@ -408,9 +381,7 @@
       "id": "BT-29",
       "md": "md/BT-29.md",
       "tablas": 52,
-      "imgs": [
-        "imgs/BT-29_p29_tabla.png"
-      ],
+      "imgs": ["imgs/BT-29_p29_tabla.png"],
       "titulo": "BT-29. Instalaciones eléctricas de los locales con riesgo de incendio o explosión",
       "edicion": "nov 19",
       "revision": "4",
@@ -553,9 +524,7 @@
       "id": "BT-Anexo-2",
       "md": "md/BT-Anexo-2.md",
       "tablas": 8,
-      "imgs": [
-        "imgs/BT-Anexo-2_p06_tabla.png"
-      ],
+      "imgs": ["imgs/BT-Anexo-2_p06_tabla.png"],
       "titulo": "Cálculos de caídas de tensión",
       "edicion": "",
       "revision": "2",
@@ -579,9 +548,7 @@
       "id": "BT-Anexo-4",
       "md": "md/BT-Anexo-4.md",
       "tablas": 3,
-      "imgs": [
-        "imgs/BT-Anexo-4_p09_i01.png"
-      ],
+      "imgs": ["imgs/BT-Anexo-4_p09_i01.png"],
       "titulo": "Verificación de las instalaciones eléctricas",
       "edicion": "sep 03",
       "revision": "1",

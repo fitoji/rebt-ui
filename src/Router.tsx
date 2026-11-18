@@ -17,7 +17,11 @@ const Guia = lazy(() => import('./Guia.tsx'))
 const App = lazy(() => import('./App.tsx'))
 
 function VistaCargando() {
-  return <div className="pantalla" role="status">Cargando…</div>
+  return (
+    <div className="pantalla" role="status">
+      Cargando…
+    </div>
+  )
 }
 
 export default function Router() {
@@ -103,12 +107,7 @@ export default function Router() {
       )}
       {route.name === 'rebt' && (
         <Suspense fallback={<VistaCargando />}>
-          <App
-            docId={route.id ?? undefined}
-            nota={route.nota}
-            notas={notas}
-            onNavigate={ir}
-          />
+          <App docId={route.id ?? undefined} nota={route.nota} notas={notas} onNavigate={ir} />
         </Suspense>
       )}
       <Toaster />

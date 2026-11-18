@@ -76,8 +76,8 @@ export default function LectorDiario({
         </p>
         <p className="mt-[0.8rem] mb-0 flex flex-wrap items-baseline gap-x-[0.6rem] text-[0.85rem] text-tinta-2">
           <span>
-            Texto original publicado en el BOE el {fecha}. No está consolidado: lo que sigue es
-            el documento tal como salió, sin los cambios posteriores.
+            Texto original publicado en el BOE el {fecha}. No está consolidado: lo que sigue es el
+            documento tal como salió, sin los cambios posteriores.
           </span>
           <a className="enlace-externo" href={url} target="_blank" rel="noreferrer">
             Ver en el BOE
@@ -94,7 +94,10 @@ export default function LectorDiario({
       )}
 
       {estado.status === 'error' && (
-        <div className="medida rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]" role="alert">
+        <div
+          className="medida rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]"
+          role="alert"
+        >
           <p className="rotulo mt-0 mb-[0.4rem] text-fase">No se puede leer acá</p>
           <p className="mt-0 mb-[0.9rem] text-[0.95rem] text-tinta-2">{estado.error.message}</p>
           <a className="enlace-externo" href={url} target="_blank" rel="noreferrer">

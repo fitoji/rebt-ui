@@ -28,10 +28,8 @@ export function Toaster(props: ToasterProps) {
           toast: 'group toast border border-linea bg-hoja text-tinta shadow-lg',
           // Fondo teñido + tinta propia: el veredicto se lee de un vistazo, no solo por el
           // filo. Los cuatro valores salen de tokens, así que siguen el tema.
-          success:
-            'bg-(--aviso-exito-fondo)! text-(--aviso-exito-tinta)! border-(--aviso-exito)!',
-          error:
-            'bg-(--aviso-error-fondo)! text-(--aviso-error-tinta)! border-(--aviso-error)!',
+          success: 'bg-(--aviso-exito-fondo)! text-(--aviso-exito-tinta)! border-(--aviso-exito)!',
+          error: 'bg-(--aviso-error-fondo)! text-(--aviso-error-tinta)! border-(--aviso-error)!',
           title: 'font-semibold',
           description: 'text-tinta-2',
           actionButton: 'bg-neutro text-hoja',

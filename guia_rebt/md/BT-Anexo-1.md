@@ -4,7 +4,7 @@ titulo: Significado y explicación de los códigos IP, IK
 edicion: sep 03
 revision: 1
 paginas: 5
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_1_sep03R1.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_1_sep03R1.pdf'
 sha256: 3fa27ca3e55b202dba27cfe46375286f87b17ade87ebb0b3e9b0c2be3ad215c8
 convertido: 2026-10-18
 ---
@@ -45,18 +45,17 @@ Protegida contra cuerpos sólidos Cuerpos sólidos con un diámetro superior a 1
 
 Tabla 2 - Grados de protección indicados por la segunda cifra característica
 
-
 <!-- tabla: ../tablas/BT-Anexo-1_t01.csv -->
 
-| Cifra | Grado de protección |  |
-|---|---|---|
-|  | Descripción abreviada | Tipo de protección proporcionada por la envolvente |
-| 0 | No protegida | Sin protección particular |
-| 1 | Protegida contra la caída vertical de gotas de agua | La caída vertical de gotas de agua no deberán tener efectos perjudiciales |
-| 2 | Protegida contra la caída de gotas de agua con una inclinación máxima de 15º | Las caídas verticales de gotas de agua no deberán tener efectos perjudiciales cuando la envolvente está inclinada hasta 15º con respecto a la posición normal |
-| 3 | Protegida contra la lluvia fina (pul- verizada) | El agua pulverizada de lluvia que cae en una dirección que forma un ángulo de hasta 60º con la vertical, no deberá tener efectos perjudiciales |
-| 4 | Protegida contra las proyecciones de agua | El agua proyectada en todas las direcciones sobre la envolvente no deberá tener efectos perjudiciales |
-| 5 | Protegida contra los chorros de agua | El agua proyectada con la ayuda de una boquilla, en todas las direcciones, sobre la envolvente, no deberá tener efectos perju- diciales |
+| Cifra | Grado de protección                                                          |                                                                                                                                                               |
+| ----- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|       | Descripción abreviada                                                        | Tipo de protección proporcionada por la envolvente                                                                                                            |
+| 0     | No protegida                                                                 | Sin protección particular                                                                                                                                     |
+| 1     | Protegida contra la caída vertical de gotas de agua                          | La caída vertical de gotas de agua no deberán tener efectos perjudiciales                                                                                     |
+| 2     | Protegida contra la caída de gotas de agua con una inclinación máxima de 15º | Las caídas verticales de gotas de agua no deberán tener efectos perjudiciales cuando la envolvente está inclinada hasta 15º con respecto a la posición normal |
+| 3     | Protegida contra la lluvia fina (pul- verizada)                              | El agua pulverizada de lluvia que cae en una dirección que forma un ángulo de hasta 60º con la vertical, no deberá tener efectos perjudiciales                |
+| 4     | Protegida contra las proyecciones de agua                                    | El agua proyectada en todas las direcciones sobre la envolvente no deberá tener efectos perjudiciales                                                         |
+| 5     | Protegida contra los chorros de agua                                         | El agua proyectada con la ayuda de una boquilla, en todas las direcciones, sobre la envolvente, no deberá tener efectos perju- diciales                       |
 
 - 2 -
 
@@ -68,33 +67,31 @@ Cuando se sumerge la envolvente en agua en unas condiciones Protegida contra los
 
 Tabla 3 – Descripción de la protección proporcionada por las letras adicionales
 
-
 <!-- tabla: ../tablas/BT-Anexo-1_t02.csv -->
 
-| Letra | La envolvente impide la accesibilidad a partes peligrosas con: |
-|---|---|
-| A | Una gran superficie del cuerpo humano tal como la mano (pero no impide una penetración deliberada). Prueba con: Esfera de 50 mm. |
-| B | Los dedos u objetos análogos que no excedan en una longitud de 80 mm. Prueba con: Dedo de Φ12 mm y L= 80 mm |
-| C | Herramientas, alambres, etc., con diámetro o espesor superior a 2,5 mm. Prueba con: Varilla de Φ2,5 mm y L= 100 mm |
-| D | Alambres o cintas con un espesor superior a 1 mm. Prueba con: Varilla de Φ1 mm y L= 100 mm |
+| Letra | La envolvente impide la accesibilidad a partes peligrosas con:                                                                   |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------- |
+| A     | Una gran superficie del cuerpo humano tal como la mano (pero no impide una penetración deliberada). Prueba con: Esfera de 50 mm. |
+| B     | Los dedos u objetos análogos que no excedan en una longitud de 80 mm. Prueba con: Dedo de Φ12 mm y L= 80 mm                      |
+| C     | Herramientas, alambres, etc., con diámetro o espesor superior a 2,5 mm. Prueba con: Varilla de Φ2,5 mm y L= 100 mm               |
+| D     | Alambres o cintas con un espesor superior a 1 mm. Prueba con: Varilla de Φ1 mm y L= 100 mm                                       |
 
 En ocasiones, algunas envolventes no tienen especificada una cifra característica, bien por que no es necesaria para una aplicación concreta, o bien por que no ha sido ensayada en ese aspecto. En este caso, la cifra característica correspondiente se sustituye por una “X”, como por ejemplo, IP2X, que indica que la envolvente proporciona una determinada protección contra la penetración de cuerpos sólidos, pero que no ha sido ensayada en lo referente a la protección contra la penetración del agua. Puede darse el caso que una determinada envolvente proporciones dos grados de protección diferentes en función de la posición de montaje de la misma. Si este fuera el caso, siempre deberá indicarse este aspecto en las instrucciones que suministre el fabricante. El marcado del grado de protección IP en las envolventes suele ser adoptar la forma de las mismas cifras, por ejemplo “IP 54”. No obstante, en algunas ocasiones las cifras características pueden sustituirse por símbolos como se indica en la tabla 4 siguiente. Tabla 4 – Símbolo utilizados normalmente para los grados de protección
 
 - 3 -
 
-
 <!-- tabla: ../tablas/BT-Anexo-1_t03.csv -->
 
-| arfic aremirP | IP5X |  | Malla sin recuadro |
-|---|---|---|---|
-|  | IP6X |  | Malla con recuadro |
-| arfic adnugeS | IPX1 |  | Una gota |
-|  | IPX3 |  | Una gota dentro de un cuadrado |
-|  | IPX4 |  | Una gota dentro de un triángulo |
-|  | IPX5 |  | Dos gotas, cada una dentro de un triángulo |
-|  | IPX7 |  | Dos gotas |
-|  | IPX8 |  | Dos gotas seguidas de una indicación de la profundidad máxima de inmersión en metros |
-| NOTA: Los grados de protección no incluidos en esta tabla no tienen símbolo para su representación. |  |  |  |
+| arfic aremirP                                                                                       | IP5X |     | Malla sin recuadro                                                                   |
+| --------------------------------------------------------------------------------------------------- | ---- | --- | ------------------------------------------------------------------------------------ |
+|                                                                                                     | IP6X |     | Malla con recuadro                                                                   |
+| arfic adnugeS                                                                                       | IPX1 |     | Una gota                                                                             |
+|                                                                                                     | IPX3 |     | Una gota dentro de un cuadrado                                                       |
+|                                                                                                     | IPX4 |     | Una gota dentro de un triángulo                                                      |
+|                                                                                                     | IPX5 |     | Dos gotas, cada una dentro de un triángulo                                           |
+|                                                                                                     | IPX7 |     | Dos gotas                                                                            |
+|                                                                                                     | IPX8 |     | Dos gotas seguidas de una indicación de la profundidad máxima de inmersión en metros |
+| NOTA: Los grados de protección no incluidos en esta tabla no tienen símbolo para su representación. |      |     |                                                                                      |
 
 ### 4 Código IK
 

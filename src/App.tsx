@@ -109,15 +109,20 @@ export default function App({ docId, nota, onNavigate, notas }: AppProps) {
     mark.classList.add('nota-aviso')
   }, [])
 
-  if (index.status === 'loading') return <p className="pantalla" role="status">Cargando el índice del BOE…</p>
+  if (index.status === 'loading')
+    return (
+      <p className="pantalla" role="status">
+        Cargando el índice del BOE…
+      </p>
+    )
   if (index.status === 'error') {
     return (
       <div className="pantalla error" role="alert">
         <h1>No se pudo leer el índice</h1>
         <p>{index.error.message}</p>
         <p>
-          Comprueba que ejecutas la app con <code>npm run dev</code> (el proxy de Vite es lo que permite
-          llamar al BOE desde el navegador) y que tienes conexión.
+          Comprueba que ejecutas la app con <code>npm run dev</code> (el proxy de Vite es lo que
+          permite llamar al BOE desde el navegador) y que tienes conexión.
         </p>
         <button onClick={loadIndex}>Reintentar</button>
       </div>

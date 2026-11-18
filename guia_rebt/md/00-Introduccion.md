@@ -2,7 +2,7 @@
 guia: 00-Introduccion
 titulo: Introducción
 paginas: 2
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_introduccion.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_introduccion.pdf'
 sha256: 9e6146f446cd92ae8eeb5d1572f658f94fe7a86e99ff5a0205b04d07c884f555
 convertido: 2026-10-18
 ---

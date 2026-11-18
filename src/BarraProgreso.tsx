@@ -53,8 +53,7 @@ export default function BarraProgreso({ desplazador }: BarraProgresoProps) {
       frame = 0
       // Una interpolación corta: el relleno sigue al scroll de cerca pero se asienta
       // con un poco de inercia al soltar la rueda.
-      const siguiente =
-        reducir || pintado < 0 ? destino : pintado + (destino - pintado) * 0.22
+      const siguiente = reducir || pintado < 0 ? destino : pintado + (destino - pintado) * 0.22
       const valor = Math.abs(siguiente - destino) < 0.0008 ? destino : siguiente
       pintado = valor
       barra.style.setProperty('--p', valor.toFixed(4))

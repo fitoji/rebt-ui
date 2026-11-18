@@ -69,7 +69,11 @@ export function parseFrontMatter(src: string): { data: Record<string, string>; b
     const key = line.slice(0, at).trim()
     if (!key) continue
     let value = line.slice(at + 1).trim()
-    if (value.length > 1 && ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'")))) {
+    if (
+      value.length > 1 &&
+      ((value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'")))
+    ) {
       value = value.slice(1, -1)
     }
     data[key] = value
@@ -78,7 +82,10 @@ export function parseFrontMatter(src: string): { data: Record<string, string>; b
 }
 
 /** Busca `[etiqueta](destino)` terminando en `start`. Devuelve null si no cierra bien. */
-function matchLink(text: string, start: number): { label: string; href: string; end: number } | null {
+function matchLink(
+  text: string,
+  start: number,
+): { label: string; href: string; end: number } | null {
   let depth = 1
   let i = start + 1
   while (i < text.length) {
@@ -125,7 +132,9 @@ function inline(text: string, ctx: Ctx): string {
       const m = matchLink(text, i + 1)
       if (m) {
         const src = safeHref(m.href, ctx, 'image')
-        out += src ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(m.label)}">` : escapeHtml(m.label)
+        out += src
+          ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(m.label)}">`
+          : escapeHtml(m.label)
         i = m.end
         continue
       }
@@ -135,7 +144,9 @@ function inline(text: string, ctx: Ctx): string {
       const m = matchLink(text, i)
       if (m) {
         const href = safeHref(m.href, ctx, 'link')
-        out += href ? `<a href="${escapeHtml(href)}">${inline(m.label, ctx)}</a>` : escapeHtml(m.label)
+        out += href
+          ? `<a href="${escapeHtml(href)}">${inline(m.label, ctx)}</a>`
+          : escapeHtml(m.label)
         i = m.end
         continue
       }
@@ -172,8 +183,15 @@ function renderTable(header: string[], rows: string[][], ctx: Ctx, csv: string |
     row.length >= width ? row : [...row, ...new Array(width - row.length).fill('')]
   const cell = (tag: string, value: string): string => `<${tag}>${escapeHtml(value)}</${tag}>`
 
-  const head = `<tr>${pad(header).map((c) => cell('th', c)).join('')}</tr>`
-  const body = rows.map((r) => `<tr>${pad(r).map((c) => cell('td', c)).join('')}</tr>`)
+  const head = `<tr>${pad(header)
+    .map((c) => cell('th', c))
+    .join('')}</tr>`
+  const body = rows.map(
+    (r) =>
+      `<tr>${pad(r)
+        .map((c) => cell('td', c))
+        .join('')}</tr>`,
+  )
 
   ctx.tablas += 1
 
@@ -210,7 +228,8 @@ function startsBlock(lines: string[], i: number): boolean {
   if (!trimmed) return true
   if (RE_HEADING.test(line) || RE_HR.test(trimmed) || RE_COMMENT.test(trimmed)) return true
   if (line.startsWith('>') || RE_LIST.test(line)) return true
-  if (line.startsWith('|') && i + 1 < lines.length && RE_TABLE_SEP.test(lines[i + 1].trim())) return true
+  if (line.startsWith('|') && i + 1 < lines.length && RE_TABLE_SEP.test(lines[i + 1].trim()))
+    return true
   return false
 }
 

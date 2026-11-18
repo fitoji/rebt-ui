@@ -34,7 +34,20 @@ function useBlock(id: string, attempt: number, norma: string): EstadoBloque {
 }
 
 /** Líneas del ancho de la columna de lectura: el hueco que va a llenar el texto. */
-const ESQUELETO = ['92%', '100%', '96%', '88%', '98%', '93%', '70%', '97%', '94%', '86%', '99%', '62%']
+const ESQUELETO = [
+  '92%',
+  '100%',
+  '96%',
+  '88%',
+  '98%',
+  '93%',
+  '70%',
+  '97%',
+  '94%',
+  '86%',
+  '99%',
+  '62%',
+]
 
 function EsqueletoTexto() {
   return (
@@ -171,7 +184,9 @@ export default function Reader({
                     ))}
                   </select>
                 ) : (
-                  <span className="dato text-[0.85rem] text-tinta">{formatDate(version.vigencia)}</span>
+                  <span className="dato text-[0.85rem] text-tinta">
+                    {formatDate(version.vigencia)}
+                  </span>
                 )}
               </dd>
             </div>
@@ -198,10 +213,17 @@ export default function Reader({
 
       {estado.status === 'loading' && <EsqueletoTexto />}
       {estado.status === 'error' && (
-        <div className="medida rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]" role="alert">
+        <div
+          className="medida rounded-[4px] border border-linea bg-hoja py-[1rem] px-[1.2rem]"
+          role="alert"
+        >
           <p className="rotulo mt-0 mb-[0.4rem] text-fase">Error de lectura</p>
-          <p className="mt-0 mb-[0.35rem] font-lectura text-[1.05rem] text-tinta">No se pudo cargar este bloque.</p>
-          <p className="mt-0 mb-[0.9rem] font-lectura text-[0.95rem] text-tinta-2">{estado.error.message}</p>
+          <p className="mt-0 mb-[0.35rem] font-lectura text-[1.05rem] text-tinta">
+            No se pudo cargar este bloque.
+          </p>
+          <p className="mt-0 mb-[0.9rem] font-lectura text-[0.95rem] text-tinta-2">
+            {estado.error.message}
+          </p>
           <button
             className="rounded-[4px] border border-linea bg-neutro-fondo py-[0.4rem] px-[0.9rem] transition-colors duration-150 ease-plano hover:border-neutro"
             onClick={() => setAttempt((n) => n + 1)}
@@ -214,7 +236,9 @@ export default function Reader({
       {estado.status === 'ok' && (
         <Highlight.Provider value={highlight}>
           <article className="texto lectura lamina" ref={articulo} key={version.vigencia}>
-            {version.items.length === 0 && <p className="text-tinta-2">Este bloque no tiene texto.</p>}
+            {version.items.length === 0 && (
+              <p className="text-tinta-2">Este bloque no tiene texto.</p>
+            )}
             {version.items.map((item, i) => (
               <Item
                 key={i}
@@ -225,7 +249,17 @@ export default function Reader({
                 onAgregarNota={(grid, _name) => {
                   if (!conNotas) return
                   notas.agregar(
-                    crearNota('rebt', entry.id, entry.titulo, gridToMarkdown(grid), '', '', Date.now(), COLOR_POR_DEFECTO, ['tablas']),
+                    crearNota(
+                      'rebt',
+                      entry.id,
+                      entry.titulo,
+                      gridToMarkdown(grid),
+                      '',
+                      '',
+                      Date.now(),
+                      COLOR_POR_DEFECTO,
+                      ['tablas'],
+                    ),
                   )
                 }}
               />
@@ -234,15 +268,26 @@ export default function Reader({
         </Highlight.Provider>
       )}
 
-      {conNotas && <BotonNota
-        seleccion={seleccion}
-        onGuardar={(sel, color) => {
-          notas.agregar(
-            crearNota('rebt', entry.id, entry.titulo, sel.texto, sel.antes, sel.despues, Date.now(), color),
-          )
-          limpiar()
-        }}
-      />}
+      {conNotas && (
+        <BotonNota
+          seleccion={seleccion}
+          onGuardar={(sel, color) => {
+            notas.agregar(
+              crearNota(
+                'rebt',
+                entry.id,
+                entry.titulo,
+                sel.texto,
+                sel.antes,
+                sel.despues,
+                Date.now(),
+                color,
+              ),
+            )
+            limpiar()
+          }}
+        />
+      )}
 
       <nav
         className="lamina mt-[3rem] flex justify-between gap-[1rem] border-t border-linea pt-[1.2rem] max-[860px]:flex-col"

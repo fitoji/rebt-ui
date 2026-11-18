@@ -9,14 +9,14 @@ Tensión** que publica el Ministerio de Industria y Turismo, generado desde los 
 
 ## Qué hay
 
-| Carpeta / archivo | Contenido | ¿En git? |
-|---|---|---|
-| `md/` | un `.md` por guía (texto, encabezados y tablas reales) | sí |
-| `tablas/` | un `.csv` por tabla detectada, enlazado desde el `.md` | sí |
-| `imgs/` | figuras extraídas o páginas solo-figura rasterizadas | sí |
-| `indice.json` | documentos, edición, revisión, páginas, tablas, figuras y `sha256` del PDF | sí |
-| `pdf/` | los PDF originales descargados (tu copia de respaldo) | **no** (`gitignore`) |
-| `cache/` | intermedios de conversión | **no** |
+| Carpeta / archivo | Contenido                                                                  | ¿En git?             |
+| ----------------- | -------------------------------------------------------------------------- | -------------------- |
+| `md/`             | un `.md` por guía (texto, encabezados y tablas reales)                     | sí                   |
+| `tablas/`         | un `.csv` por tabla detectada, enlazado desde el `.md`                     | sí                   |
+| `imgs/`           | figuras extraídas o páginas solo-figura rasterizadas                       | sí                   |
+| `indice.json`     | documentos, edición, revisión, páginas, tablas, figuras y `sha256` del PDF | sí                   |
+| `pdf/`            | los PDF originales descargados (tu copia de respaldo)                      | **no** (`gitignore`) |
+| `cache/`          | intermedios de conversión                                                  | **no**               |
 
 Los PDF no se versionan: son descargas públicas y el script los vuelve a bajar. El `sha256` de
 `indice.json` avisa si el ministerio publicó un archivo distinto.
@@ -125,7 +125,7 @@ una:
 - El resto son **símbolos de fórmulas con subíndice** (`pvivienda`, `gmax`, `raux1`), **etiquetas
   dentro de figuras** y **texto que `pdftotext` entrevera** entre dos corridas (`mmeeto`, `toddoolo`,
   `inssppeeccccio`). Ninguna es pérdida: en los casos de `BT-03`, `BT-04` y `BT-05` (los porcentajes
-  más altos, 12,9%, 11,2% y 5,4%) la referencia está *peor* que el corpus, con glifos duplicados
+  más altos, 12,9%, 11,2% y 5,4%) la referencia está _peor_ que el corpus, con glifos duplicados
   (`ddee`, `mmeeto`, `dessde`) mientras el `.md` sale limpio.
 
 La tabla crítica se verificó a mano contra el PDF original: la tabla de intensidades admisibles para

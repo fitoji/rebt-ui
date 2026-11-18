@@ -8,7 +8,10 @@ const ROOT = path.resolve(process.cwd(), 'guia_rebt')
 test('resuelve las rutas que el visor necesita', () => {
   assert.equal(resolveCorpusPath('/indice.json'), path.join(ROOT, 'indice.json'))
   assert.equal(resolveCorpusPath('/md/BT-19.md'), path.join(ROOT, 'md', 'BT-19.md'))
-  assert.equal(resolveCorpusPath('/imgs/BT-19_p07_i01.png'), path.join(ROOT, 'imgs', 'BT-19_p07_i01.png'))
+  assert.equal(
+    resolveCorpusPath('/imgs/BT-19_p07_i01.png'),
+    path.join(ROOT, 'imgs', 'BT-19_p07_i01.png'),
+  )
 })
 
 test('ignora query string y fragmento', () => {
@@ -33,7 +36,11 @@ test('rechaza path traversal con segmentos', () => {
 })
 
 test('rechaza traversal codificado en percent-encoding', () => {
-  for (const attack of ['/%2e%2e/package.json', '/md/%2e%2e%2f%2e%2e%2fpackage.json', '/..%2fpackage.json']) {
+  for (const attack of [
+    '/%2e%2e/package.json',
+    '/md/%2e%2e%2f%2e%2e%2fpackage.json',
+    '/..%2fpackage.json',
+  ]) {
     assert.equal(resolveCorpusPath(attack), null, `debería rechazar ${attack}`)
   }
 })

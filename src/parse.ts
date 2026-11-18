@@ -18,8 +18,7 @@ const kids = (el: Element, name: string): Element[] =>
 const attrOrChild = (el: Element, name: string): string =>
   el.getAttribute(name) ?? kids(el, name)[0]?.textContent ?? ''
 
-export const fold = (s: string): string =>
-  s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+export const fold = (s: string): string => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 
 export function formatDate(yyyymmdd: string): string {
   const m = /^(\d{4})(\d{2})(\d{2})$/.exec(yyyymmdd || '')
@@ -50,7 +49,8 @@ export function parseIndex(doc: Document): Bloque[] {
 }
 
 // Separa "ITC-BT-19. Instalaciones interiores" en { itc: 'BT-19', nombre: 'Instalaciones interiores' }
-const ITC_RE = /^(?:instrucci[óo]n t[ée]cnica complementaria\s+)?ITC[-\s]*BT[-\s]*0?(\d{1,2})\b[.\s:–-]*(.*)$/i
+const ITC_RE =
+  /^(?:instrucci[óo]n t[ée]cnica complementaria\s+)?ITC[-\s]*BT[-\s]*0?(\d{1,2})\b[.\s:–-]*(.*)$/i
 export function splitTitle(titulo: string): TituloPartido {
   const m = ITC_RE.exec(titulo)
   if (!m) return { itc: null, nombre: titulo }
@@ -73,7 +73,10 @@ export function inlineText(el: Element): string {
     }
   }
   walk(el)
-  return out.join('').replace(/[ \t ]+/g, ' ').trim()
+  return out
+    .join('')
+    .replace(/[ \t ]+/g, ' ')
+    .trim()
 }
 
 // Rejilla rectangular con colspan/rowspan expandidos (para copiar a hoja de cálculo, CSV o Markdown)
@@ -111,7 +114,9 @@ export function tableGrid(table: Element): Rejilla {
 
 export const gridToTsv = (g: Rejilla): string => g.map((r) => r.join('\t')).join('\n')
 export const gridToCsv = (g: Rejilla): string =>
-  g.map((r) => r.map((c) => (/[",\n;]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c)).join(',')).join('\n')
+  g
+    .map((r) => r.map((c) => (/[",\n;]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c)).join(','))
+    .join('\n')
 export function gridToMarkdown(g: Rejilla): string {
   if (!g.length) return ''
   const esc = (s: string) => s.replace(/\|/g, '\\|')
@@ -135,7 +140,8 @@ export function collectItems(parent: Element, out: Item[] = []): Item[] {
     if (t === 'p') {
       const text = inlineText(el)
       const hasImg = el.getElementsByTagName('img').length > 0
-      if (text || hasImg) out.push({ kind: paragraphKind(el.getAttribute('class')), node: el, text })
+      if (text || hasImg)
+        out.push({ kind: paragraphKind(el.getAttribute('class')), node: el, text })
     } else if (t === 'table') {
       const grid = tableGrid(el)
       out.push({ kind: 'table', node: el, grid, text: grid.flat().join(' ') })

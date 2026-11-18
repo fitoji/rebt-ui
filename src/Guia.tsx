@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { MouseEvent, RefObject } from 'react'
 import { gridToCsv, gridToMarkdown, gridToTsv, tableGrid } from './parse.ts'
-import { AVISO_CSV, AVISO_COPIAR, AVISO_ERROR, AVISO_MARKDOWN, copiarAlPortapapeles, descargar } from './tablas.ts'
+import {
+  AVISO_CSV,
+  AVISO_COPIAR,
+  AVISO_ERROR,
+  AVISO_MARKDOWN,
+  copiarAlPortapapeles,
+  descargar,
+} from './tablas.ts'
 import InicioBoton from './InicioBoton.tsx'
 import TemaBoton from './TemaBoton.tsx'
 import { useTheme } from './useTheme.ts'
@@ -43,7 +50,12 @@ function avisar(span: Element | null | undefined, mensaje: string): void {
   if (!span) return
   span.textContent = mensaje
   window.clearTimeout(avisos.get(span))
-  avisos.set(span, window.setTimeout(() => { span.textContent = '' }, 1600))
+  avisos.set(
+    span,
+    window.setTimeout(() => {
+      span.textContent = ''
+    }, 1600),
+  )
 }
 
 // El conversor nombra cada tabla (`<!-- tabla: ../tablas/BT-03_t01.csv -->`) y ese nombre es
@@ -104,7 +116,9 @@ function GuiaInicio({
         <InicioBoton onInicio={onInicio} />
         <TemaBoton tema={theme} onToggle={onToggleTheme} />
       </div>
-      <h1 className="mt-0 mb-[0.4rem] text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.01em]">Guías técnicas</h1>
+      <h1 className="mt-0 mb-[0.4rem] text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.01em]">
+        Guías técnicas
+      </h1>
       <p className="mt-0 mb-[1.4rem] max-w-[38rem] font-lectura text-[1.05rem] leading-[1.55] text-tinta-2">
         Las {documentos.length} guías de aplicación del REBT publicadas por el Ministerio de
         Industria y Turismo, convertidas a texto buscable.
@@ -113,7 +127,9 @@ function GuiaInicio({
         <dl className="cajetin mb-[1.6rem]">
           <div>
             <dt className="rotulo">Documentos</dt>
-            <dd className="dato m-0 text-[0.95rem] text-tinta">{indice.total_documentos ?? documentos.length}</dd>
+            <dd className="dato m-0 text-[0.95rem] text-tinta">
+              {indice.total_documentos ?? documentos.length}
+            </dd>
           </div>
           <div>
             <dt className="rotulo">Páginas</dt>
@@ -126,9 +142,9 @@ function GuiaInicio({
         </dl>
       )}
       <p className="mt-0 max-w-[36rem] font-lectura text-[1rem] leading-[1.55] text-tinta-2">
-        Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede
-        copiar a hoja de cálculo, copiar como Markdown o descargar como CSV, y lo que subrayes
-        queda guardado como nota.
+        Elegí un documento en el índice, o filtralo por título o código. Cada tabla se puede copiar
+        a hoja de cálculo, copiar como Markdown o descargar como CSV, y lo que subrayes queda
+        guardado como nota.
       </p>
     </div>
   )
@@ -174,10 +190,7 @@ function GuiaDocumento({
   const fuentePdf = doc?.fuente_pdf
 
   // Las notas de este documento, y el botón que aparece al seleccionar texto.
-  const notasDoc = useMemo(
-    () => notas.notas.filter((n) => n.origen === id),
-    [notas.notas, id],
-  )
+  const notasDoc = useMemo(() => notas.notas.filter((n) => n.origen === id), [notas.notas, id])
   const { seleccion, limpiar } = useSeleccion(articulo)
 
   // El texto de la guía se inyecta como HTML y React no lo controla, así que los
@@ -262,7 +275,17 @@ function GuiaDocumento({
 
       if (accion === 'nota') {
         notas.agregar(
-          crearNota('guia', id, doc?.titulo ?? id, gridToMarkdown(grid), '', '', Date.now(), COLOR_POR_DEFECTO, ['tablas']),
+          crearNota(
+            'guia',
+            id,
+            doc?.titulo ?? id,
+            gridToMarkdown(grid),
+            '',
+            '',
+            Date.now(),
+            COLOR_POR_DEFECTO,
+            ['tablas'],
+          ),
         )
         avisar(aviso, 'Agregada a notas')
         return
@@ -285,14 +308,21 @@ function GuiaDocumento({
         <span className="sr-only">Cargando la guía…</span>
         <div aria-hidden="true" className="medida">
           <span className="hueso mb-[1.4rem] block h-[2rem] w-[60%]" />
-          {['96%', '100%', '92%', '98%', '88%', '74%', '97%', '91%', '99%', '56%'].map((ancho, i) => (
-            <span key={i} className="hueso mb-[0.55rem] block h-[0.95rem]" style={{ width: ancho }} />
-          ))}
+          {['96%', '100%', '92%', '98%', '88%', '74%', '97%', '91%', '99%', '56%'].map(
+            (ancho, i) => (
+              <span
+                key={i}
+                className="hueso mb-[0.55rem] block h-[0.95rem]"
+                style={{ width: ancho }}
+              />
+            ),
+          )}
         </div>
       </div>
     )
   }
-  if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={onVolver} />
+  if (state.status === 'error')
+    return <IndicadorError error={state.error} onReintentar={onVolver} />
 
   const meta = state.frontMatter ?? {}
 
@@ -338,7 +368,9 @@ function GuiaDocumento({
             </div>
             <div>
               <dt className="rotulo">Revisión</dt>
-              <dd className="dato m-0 truncate text-[0.82rem] text-tinta">{meta.revision ?? '—'}</dd>
+              <dd className="dato m-0 truncate text-[0.82rem] text-tinta">
+                {meta.revision ?? '—'}
+              </dd>
             </div>
             <div>
               <dt className="rotulo">Páginas</dt>
@@ -477,7 +509,12 @@ export default function Guia({
     [onSelect],
   )
 
-  if (state.status === 'loading') return <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-lectura" role="status">Cargando el índice de la guía…</p>
+  if (state.status === 'loading')
+    return (
+      <p className="mx-auto my-[12vh] max-w-[36rem] px-[1rem] font-lectura" role="status">
+        Cargando el índice de la guía…
+      </p>
+    )
   if (state.status === 'error') return <IndicadorError error={state.error} onReintentar={reload} />
 
   const documentos = state.indice.documentos ?? []
@@ -506,29 +543,29 @@ export default function Guia({
       <SidebarInset className="h-[100svh] overflow-hidden">
         <BotonBarra />
         <main className="lector min-h-0 flex-1 overflow-y-auto" ref={lector}>
-        {id ? (
-          <GuiaDocumento
-            indice={state.indice}
-            id={id}
-            nota={nota}
-            articulo={articulo}
-            onSelect={onSelect}
-            onInicio={onInicio}
-            onVolver={onVolver}
-            theme={theme}
-            onToggleTheme={toggle}
-            favoritos={favoritos}
-            notas={notas}
-            onVerNotas={onVerNotas}
-          />
-        ) : (
-          <GuiaInicio
-            indice={state.indice}
-            onInicio={onInicio}
-            theme={theme}
-            onToggleTheme={toggle}
-          />
-        )}
+          {id ? (
+            <GuiaDocumento
+              indice={state.indice}
+              id={id}
+              nota={nota}
+              articulo={articulo}
+              onSelect={onSelect}
+              onInicio={onInicio}
+              onVolver={onVolver}
+              theme={theme}
+              onToggleTheme={toggle}
+              favoritos={favoritos}
+              notas={notas}
+              onVerNotas={onVerNotas}
+            />
+          ) : (
+            <GuiaInicio
+              indice={state.indice}
+              onInicio={onInicio}
+              theme={theme}
+              onToggleTheme={toggle}
+            />
+          )}
           {id && <BarraProgreso desplazador={lector} />}
         </main>
       </SidebarInset>

@@ -33,7 +33,9 @@ function valor(bloque: string, token: string): string {
 function luminancia(hex: string): number {
   const canales = [0, 2, 4].map((indice) => parseInt(hex.slice(1 + indice, 3 + indice), 16) / 255)
   const lineal = canales.map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
-  return 0.2126 * (lineal[0] as number) + 0.7152 * (lineal[1] as number) + 0.0722 * (lineal[2] as number)
+  return (
+    0.2126 * (lineal[0] as number) + 0.7152 * (lineal[1] as number) + 0.0722 * (lineal[2] as number)
+  )
 }
 
 function contraste(a: string, b: string): number {

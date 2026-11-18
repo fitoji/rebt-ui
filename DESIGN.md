@@ -2,115 +2,115 @@
 name: REBT
 description: Lectura fiel del reglamento eléctrico, compuesta como una lámina técnica.
 colors:
-  papel-de-plano: "#e8edf0"
-  hoja: "#fbfcfc"
-  tinta-de-plano: "#17252e"
-  tinta-secundaria: "#4a5c67"
-  linea-de-reticula: "#c9d4da"
-  azul-de-plano: "#1f5f85"
-  azul-de-plano-lavado: "#dcebf3"
-  marron-de-fase: "#7a4a2b"
-  amarillo-de-marca: "#ffe49a"
-  verde-de-proteccion: "#6fae00"
-  amarillo-de-proteccion: "#f2c500"
-  nota-verde: "#cbeaa2"
-  nota-roja: "#f6c3bb"
-  aviso-exito: "#2f7a3a"
-  aviso-exito-fondo: "#e4f3e6"
-  aviso-error: "#b3392e"
-  aviso-error-fondo: "#fbe8e4"
-  papel-de-plano-oscuro: "#0f1a20"
-  hoja-oscura: "#16232b"
-  tinta-oscura: "#e3ebee"
-  tinta-secundaria-oscura: "#9db0ba"
-  linea-oscura: "#2b3c46"
-  azul-de-plano-oscuro: "#86c1e3"
-  azul-de-plano-lavado-oscuro: "#1e3441"
-  marron-de-fase-oscuro: "#d9a47c"
-  amarillo-de-marca-oscuro: "#5c4b12"
-  aviso-exito-oscuro: "#7fce8b"
-  aviso-error-oscuro: "#f09189"
+  papel-de-plano: '#e8edf0'
+  hoja: '#fbfcfc'
+  tinta-de-plano: '#17252e'
+  tinta-secundaria: '#4a5c67'
+  linea-de-reticula: '#c9d4da'
+  azul-de-plano: '#1f5f85'
+  azul-de-plano-lavado: '#dcebf3'
+  marron-de-fase: '#7a4a2b'
+  amarillo-de-marca: '#ffe49a'
+  verde-de-proteccion: '#6fae00'
+  amarillo-de-proteccion: '#f2c500'
+  nota-verde: '#cbeaa2'
+  nota-roja: '#f6c3bb'
+  aviso-exito: '#2f7a3a'
+  aviso-exito-fondo: '#e4f3e6'
+  aviso-error: '#b3392e'
+  aviso-error-fondo: '#fbe8e4'
+  papel-de-plano-oscuro: '#0f1a20'
+  hoja-oscura: '#16232b'
+  tinta-oscura: '#e3ebee'
+  tinta-secundaria-oscura: '#9db0ba'
+  linea-oscura: '#2b3c46'
+  azul-de-plano-oscuro: '#86c1e3'
+  azul-de-plano-lavado-oscuro: '#1e3441'
+  marron-de-fase-oscuro: '#d9a47c'
+  amarillo-de-marca-oscuro: '#5c4b12'
+  aviso-exito-oscuro: '#7fce8b'
+  aviso-error-oscuro: '#f09189'
 typography:
   display:
-    fontFamily: "Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif"
-    fontSize: "2.1rem"
+    fontFamily: 'Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif'
+    fontSize: '2.1rem'
     fontWeight: 600
     lineHeight: 1.1
-    letterSpacing: "0em"
+    letterSpacing: '0em'
   titular:
-    fontFamily: "Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif"
-    fontSize: "1.5rem"
+    fontFamily: 'Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif'
+    fontSize: '1.5rem'
     fontWeight: 600
     lineHeight: 1.15
   cuerpo:
-    fontFamily: "Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif"
-    fontSize: "1rem"
+    fontFamily: 'Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif'
+    fontSize: '1rem'
     fontWeight: 400
     lineHeight: 1.5
   lectura:
-    fontFamily: "IBM Plex Sans, Segoe UI, system-ui, sans-serif"
-    fontSize: "clamp(1.0625rem, 0.62vw + 0.62rem, 1.25rem)"
+    fontFamily: 'IBM Plex Sans, Segoe UI, system-ui, sans-serif'
+    fontSize: 'clamp(1.0625rem, 0.62vw + 0.62rem, 1.25rem)'
     fontWeight: 400
     lineHeight: 1.62
   rotulo:
-    fontFamily: "Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif"
-    fontSize: "0.68rem"
+    fontFamily: 'Barlow Semi Condensed, Arial Narrow, system-ui, sans-serif'
+    fontSize: '0.68rem'
     fontWeight: 600
     lineHeight: 1.2
-    letterSpacing: "0.13em"
+    letterSpacing: '0.13em'
   dato:
-    fontFamily: "ui-monospace, SF Mono, SFMono-Regular, Menlo, Consolas, monospace"
-    fontSize: "0.9rem"
+    fontFamily: 'ui-monospace, SF Mono, SFMono-Regular, Menlo, Consolas, monospace'
+    fontSize: '0.9rem'
     fontWeight: 400
     lineHeight: 1.4
-    letterSpacing: "-0.01em"
+    letterSpacing: '-0.01em'
 rounded:
-  xs: "2px"
-  sm: "3px"
-  md: "4px"
-  lg: "6px"
-  full: "999px"
+  xs: '2px'
+  sm: '3px'
+  md: '4px'
+  lg: '6px'
+  full: '999px'
 spacing:
-  xs: "4px"
-  sm: "8px"
-  md: "16px"
-  lg: "24px"
-  xl: "48px"
-  reticula: "120px"
+  xs: '4px'
+  sm: '8px'
+  md: '16px'
+  lg: '24px'
+  xl: '48px'
+  reticula: '120px'
 components:
   boton-primario:
-    backgroundColor: "{colors.azul-de-plano}"
-    textColor: "{colors.hoja}"
-    typography: "{typography.cuerpo}"
-    rounded: "{rounded.md}"
-    padding: "8px 16px"
+    backgroundColor: '{colors.azul-de-plano}'
+    textColor: '{colors.hoja}'
+    typography: '{typography.cuerpo}'
+    rounded: '{rounded.md}'
+    padding: '8px 16px'
   boton-secundario:
-    backgroundColor: "{colors.papel-de-plano}"
-    textColor: "{colors.tinta-de-plano}"
-    typography: "{typography.cuerpo}"
-    rounded: "{rounded.md}"
-    padding: "8px 16px"
+    backgroundColor: '{colors.papel-de-plano}'
+    textColor: '{colors.tinta-de-plano}'
+    typography: '{typography.cuerpo}'
+    rounded: '{rounded.md}'
+    padding: '8px 16px'
   campo-busqueda:
-    backgroundColor: "{colors.hoja}"
-    textColor: "{colors.tinta-de-plano}"
-    typography: "{typography.cuerpo}"
-    rounded: "{rounded.md}"
-    padding: "6px 10px"
+    backgroundColor: '{colors.hoja}'
+    textColor: '{colors.tinta-de-plano}'
+    typography: '{typography.cuerpo}'
+    rounded: '{rounded.md}'
+    padding: '6px 10px'
   cajetin:
-    backgroundColor: "{colors.hoja}"
-    textColor: "{colors.tinta-de-plano}"
-    typography: "{typography.rotulo}"
-    rounded: "{rounded.xs}"
+    backgroundColor: '{colors.hoja}'
+    textColor: '{colors.tinta-de-plano}'
+    typography: '{typography.rotulo}'
+    rounded: '{rounded.xs}'
   rotulo:
-    textColor: "{colors.tinta-secundaria}"
-    typography: "{typography.rotulo}"
+    textColor: '{colors.tinta-secundaria}'
+    typography: '{typography.rotulo}'
   dato:
-    textColor: "{colors.tinta-de-plano}"
-    typography: "{typography.dato}"
+    textColor: '{colors.tinta-de-plano}'
+    typography: '{typography.dato}'
   nota-de-texto:
-    backgroundColor: "{colors.amarillo-de-marca}"
-    textColor: "{colors.tinta-de-plano}"
-    rounded: "{rounded.xs}"
+    backgroundColor: '{colors.amarillo-de-marca}'
+    textColor: '{colors.tinta-de-plano}'
+    rounded: '{rounded.xs}'
 ---
 
 # Design System: REBT
@@ -126,6 +126,7 @@ El color no es una paleta inventada: sale del propio reglamento. El azul del con
 El sistema es plano. La profundidad se construye por capas tonales —plano, hoja— y una sola sombra existe en toda la app, para el popover de notas y los diálogos. La calidez no viene del ornamento sino del color de resalte: las notas amarillas, verdes y rojas tienen peso visible y son la parte del sistema donde el lector deja su marca.
 
 **Key Characteristics:**
+
 - Retícula de 24 px con línea mayor cada 5 como fondo de toda la app, fija al scroll.
 - Jerarquía por línea de 1 px y capa tonal, no por sombra ni por relleno.
 - Dos familias: Barlow Semi Condensed para la interfaz, IBM Plex Sans para el texto que se lee de corrido.
@@ -139,17 +140,21 @@ El sistema es plano. La profundidad se construye por capas tonales —plano, hoj
 Paleta de plano: grises azulados de bajo contraste para el papel, un azul de conducto para la acción, y tres familias de resalte que pertenecen al lector.
 
 ### Primary
+
 - **Azul de plano** (#1f5f85): enlaces, cabeceras de grupo, foco visible y el botón primario. Es el azul del conductor neutro del reglamento, no un azul de marca.
 - **Azul de plano lavado** (#dcebf3): fondo inducido para hover, resplandor superior del body y estados seleccionados. Nunca como texto.
 
 ### Secondary
+
 - **Marrón de fase** (#7a4a2b): acentos secundarios y el estado de favorito marcado. Aparece poco, y por eso señala.
 
 ### Tertiary
+
 - **Amarillo de marca** (#ffe49a): el resaltado de texto y la nota amarilla. Es el mismo token: lo que el lector subraya y lo que el lector anota se ven igual.
 - **Verde de protección** (#6fae00) y **Amarillo de protección** (#f2c500): exclusivos de la franja del conductor de protección —la marca de posición, la barra de indexado y el logotipo.
 
 ### Neutral
+
 - **Papel de plano** (#e8edf0): fondo de la aplicación.
 - **Hoja** (#fbfcfc): superficie de tarjeta, barra lateral, cajetín y popover. Un paso más claro que el papel; ahí está toda la elevación del sistema.
 - **Tinta de plano** (#17252e): texto principal.
@@ -157,12 +162,15 @@ Paleta de plano: grises azulados de bajo contraste para el papel, un azul de con
 - **Línea de retícula** (#c9d4da): bordes, separadores y la propia retícula del fondo.
 
 ### Avisos
+
 - **Verde de acierto** (#2f7a3a sobre #e4f3e6) y **rojo de fallo** (#b3392e sobre #fbe8e4): el veredicto del cuestionario y los errores de carga. Fondo teñido más tinta propia, con el color de filo como acento.
 
 ### Dark
+
 El tema oscuro no invierte: recalibra. El papel baja a #0f1a20 y la hoja a #16232b (la hoja sigue siendo más clara que el papel, para conservar la capa tonal). El azul sube a #86c1e3 porque el original no alcanza contraste sobre fondo oscuro, y los resaltes de nota se oscurecen para no encandilar. Los avisos cambian de valor, no de rol.
 
 ### Named Rules
+
 **The Resalte Is Not Ink Rule.** Los colores de nota y de protección son fondos. Como tinta sobre papel dan alrededor de 1,5:1. Para texto de veredicto se usan los tokens de aviso, nunca `--nota-rojo`, `--tierra-a` ni `--marca`.
 
 **The Marca Única Rule.** La franja verde-amarilla significa "estás acá" y no otra cosa. No se usa como borde decorativo, fondo de tarjeta ni acento genérico. Si aparece, hay una posición que señalar.
@@ -178,6 +186,7 @@ El tema oscuro no invierte: recalibra. El papel baja a #0f1a20 y la hoja a #1623
 **Character:** Barlow Semi Condensed es una condensed de señalética: entra mucho texto en poco ancho y se lee como rótulo, no como prosa. IBM Plex Sans aparece donde hay párrafos que se leen de corrido —el cuerpo del reglamento y la guía—: es una grotesca humanista de origen técnico, de aperturas abiertas y formas suaves, que aguanta párrafos largos sin el ruido de una serif ni la frialdad de una geométrica. El cambio de familia, más un cuerpo mayor, es la señal de que empezó el texto oficial. El mono no es decoración técnica: es la tipografía de las cifras del plano.
 
 ### Hierarchy
+
 - **Display** (600, 2.1rem, 1.1): título de bloque del reglamento y cabecera de la portada. Equilibrado con `text-wrap: balance`.
 - **Titular** (600, 1.5rem, 1.15): capítulo de la guía y títulos de sección.
 - **Título** (600, 1.2rem, 1.3): subtítulo dentro de un bloque, cabecera de tarjeta.
@@ -187,6 +196,7 @@ El tema oscuro no invierte: recalibra. El papel baja a #0f1a20 y la hoja a #1623
 - **Dato** (400, 0.9rem, tabular): números de artículo, medidas, porcentajes, códigos ITC-BT. `font-variant-numeric: tabular-nums` y cero barrado.
 
 ### Named Rules
+
 **The Mono Is For Data Rule.** El mono se usa para códigos, medidas y cifras; nunca para frases. Una oración en mono se lee como consola, no como plano.
 
 **The Reading Face Rule.** La lectura de corrido va en IBM Plex Sans con un cuerpo propio, más grande que la interfaz. Es lo que marca el texto que viene del BOE o del Ministerio: si algo se lee como documento y no como herramienta, está en la tipografía de lectura.
@@ -212,9 +222,11 @@ El sistema es plano por defecto. La profundidad se comunica por capa tonal: pape
 Existe una sola sombra en toda la aplicación, y es para lo que de verdad flota: el popover de creación de nota y los diálogos.
 
 ### Shadow Vocabulary
+
 - **Popover flotante** (`0 2px 10px rgb(0 0 0 / 0.4)`): sólo el menú de nota sobre la selección y los diálogos modales. En ningún otro lugar.
 
 ### Named Rules
+
 **The Flat-By-Default Rule.** Una superficie en reposo no proyecta sombra. Si algo parece necesitar una, necesita una línea de 1 px o un paso tonal, no una sombra.
 
 **The One Shadow Rule.** Un solo valor de sombra en todo el proyecto. Una segunda sombra es una decisión de sistema, no un ajuste local.
@@ -230,6 +242,7 @@ El cajetín lleva la lógica al extremo: sus celdas se separan con un `gap` de 1
 ## Components
 
 ### Buttons
+
 - **Shape:** esquina de 4 px, padding de 8 px × 16 px, peso 600.
 - **Primary:** fondo azul de plano, texto hoja. En hover sube 1 px (`translateY(-1px)`) y sube el brillo; nunca cambia de color.
 - **Secondary:** fondo papel de plano, borde de línea, texto tinta. En hover el borde pasa a azul de plano y el fondo a azul lavado.
@@ -237,11 +250,13 @@ El cajetín lleva la lógica al extremo: sus celdas se separan con un `gap` de 1
 - **Disabled:** opacidad 0.45 y sin `pointer-events`.
 
 ### Chips
+
 - **Style:** las muestras de color de nota son círculos de 0.8rem con borde de hoja al 50 % y escala 110 % en hover.
 - **State:** seleccionado se marca con el anillo de foco, no con un borde extra.
 - **Estado y relación:** el chip de estado es un borde de 1 px con el texto adentro —`Vigente`, `Derogada`, `SE MODIFICA`, `SE ACTUALIZA`, `SE DEROGA`, `SE DECLARA`—, nunca sólo color: el color refuerza lo que el texto ya dice. Lo vigente y lo que modifica o actualiza van en `--neutro`; lo derogado, lo derogado por sentencia y lo que declara una nulidad, en `--fase`.
 
 ### Cards / Containers
+
 - **Corner Style:** 4 px.
 - **Background:** hoja sobre papel de plano.
 - **Shadow Strategy:** ninguna en reposo.
@@ -249,35 +264,43 @@ El cajetín lleva la lógica al extremo: sus celdas se separan con un `gap` de 1
 - **Internal Padding:** 16 px en densidad normal, 20 px en paneles de contenido.
 
 ### Inputs / Fields
+
 - **Style:** fondo hoja, borde de 1 px de línea, radio 4 px, padding 6 px × 10 px, tipografía de cuerpo.
 - **Focus:** anillo de 2 px del azul de plano con offset 2. Sin `outline: none`, nunca.
 - **Error / Disabled:** el error usa el rojo de aviso en borde y texto; el disabled baja a opacidad 0.55.
 
 ### Navigation
+
 La barra lateral es el índice de la lámina: fondo hoja, borde derecho de 1 px, filas de una línea. La fila activa se marca con la franja del conductor de protección —un elemento único que se desplaza entre filas con `transform`, medido con `ResizeObserver`— y no con un fondo de color por fila. Si la fila activa cae dentro de un grupo plegado, la marca desaparece: no miente sobre dónde está el bloque abierto.
 
 Los grupos se pliegan con `grid-template-rows` de `0fr` a `1fr` en 300 ms; el contenido queda montado y se marca `inert` + `aria-hidden` para el lector de pantalla.
 
 ### Cajetín (signature)
+
 El bloque de rótulos que cierra cada lámina: una retícula de celdas de 1 px sobre fondo de línea, cada celda con un rótulo en versalita y un valor en tinta. Encabeza cada bloque del reglamento, cada guía y la portada. Es la pieza que más rápido comunica de qué sistema se trata, y la que hay que respetar cuando se agregue una vista nueva.
 
 ### Pie de lámina (signature)
+
 El cajetín que cierra la portada: la firma del proyecto a la izquierda —marca, nombre y una línea de qué es— y cuatro campos de dato a la derecha (licencia, código, correcciones, fuente), con la letra pequeña como última fila de la placa. Usa la misma retícula de 1 px del cajetín y el ancho de la lámina. Los valores van en `.dato` y en tinta; el azul y el subrayado aparecen sólo al pasar por encima, porque son enlaces de consulta, no llamadas a la acción. El pie del landing es el único sitio del sistema donde esto ocurre.
 
 ### Esqueleto de carga (signature)
+
 Mientras carga un bloque o una guía se muestra una lámina de líneas del ancho real del texto con un barrido de 1.5 s, no un "Cargando…" en texto corrido. La barra de indexado usa la franja verde-amarilla en movimiento continuo: es la única animación en bucle del sistema cuando nadie toca nada, y vive dentro de una barra de 6 px.
 
 ### Barra de progreso de lectura (signature)
+
 En el lector y en la guía, el borde derecho de la ventana es la barra de scroll: 6 px de la franja del conductor de protección que avanzan hasta el punto de lectura, sobre una vía de 6 px del color de la línea, siempre dibujada, con el hilo de 1 px de la retícula como canto interior. No hay barra nativa en esas vistas —el progreso dice más que un tirador— y por eso la franja aparece con un significado literal: **estás acá**. La vía se ve desde el primer píxel del documento, así la barra está ahí aunque todavía no se haya leído nada; la franja la va cubriendo. Mientras se scrollea, la franja marcha (la misma animación de la barra de indexado) y aparece una cifra en mono a su lado; al detenerse, la cifra se retira y la franja se queda quieta. En pantallas de menos de 1200 px la cifra no se muestra: no hay margen donde ponerla sin tapar el texto.
 
 La barra se monta en el `body`, fuera del contenedor que scrollea: cualquier `transform` de la vista —la animación de entrada lo deja puesto— lo convertiría en el bloque contenedor de un `position: fixed` y la barra se iría con el texto al bajar.
 
 ### Lectura que entra
+
 Cada bloque del texto —párrafo, título, tabla, figura— aparece cuando llega al borde inferior de la ventana: sube 0.62rem y se aclara en 420 ms, con una cascada de 35 ms entre hermanos que entran juntos, tope de cuatro. Lo que ya está a la vista no se anima nunca, y lo que se salta de golpe (una coincidencia de búsqueda, una nota) se suelta sin animación. Con movimiento reducido el texto aparece ya puesto.
 
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** separar con una línea de 1 px del color de retícula o con un paso tonal de papel a hoja.
 - **Do** usar `.rotulo` para etiquetas de campo y `.dato` para cifras, códigos y medidas.
 - **Do** mover la marca del conductor de protección con `transform` entre filas; el estado se desplaza, no parpadea.
@@ -288,12 +311,13 @@ Cada bloque del texto —párrafo, título, tabla, figura— aparece cuando lleg
 - **Do** dejar el borde derecho libre en las vistas de lectura: ahí van la barra de progreso y nada más.
 
 ### Don't:
+
 - **Don't** usar `--nota-rojo`, `--tierra-a` ni `--marca` como color de texto: son fondos de resalte y no alcanzan contraste como tinta.
 - **Don't** devolver la topografía al fondo de la aplicación. Compite con el texto corrido y se retiró por eso; sobrevive sólo en la portada, al 20 %, anclada a una esquina.
 - **Don't** agregar sombras a tarjetas, filas ni paneles, ni un segundo valor de sombra al sistema.
 - **Don't** usar bordes laterales gruesos de color (`border-left: 4px`) como acento: es el patrón de tarjeta genérica del que este sistema se separó.
 - **Don't** poner frases en mono, ni subir el radio de un control por encima de 6 px.
 - **Don't** usar rebotes, springs ni overshoot en el movimiento: una sola curva, desaceleración larga.
-- **Don't** emplear la franja verde-amarilla como decoración; sólo señala una posición. La barra de progreso es el único sitio donde puede llenar una tira entera, porque esa tira *es* la posición.
+- **Don't** emplear la franja verde-amarilla como decoración; sólo señala una posición. La barra de progreso es el único sitio donde puede llenar una tira entera, porque esa tira _es_ la posición.
 - **Don't** devolver la barra de scroll nativa a las vistas de lectura: dos barras a la derecha dicen lo mismo y no dicen cuánto falta.
 - **Don't** quitar el anillo de foco de un campo de texto para "limpiar" el diseño.

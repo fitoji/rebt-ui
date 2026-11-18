@@ -32,10 +32,8 @@ export async function etagDe(body: ArrayBuffer): Promise<string> {
 /** ¿El ETag que manda el cliente sigue siendo el del cuerpo? */
 export function coincide(ifNoneMatch: string | null, etag: string): boolean {
   if (!ifNoneMatch) return false
-  return ifNoneMatch
-    .split(',')
-    .some((t) => {
-      const valor = t.trim()
-      return valor === etag || valor === `W/${etag}`
-    })
+  return ifNoneMatch.split(',').some((t) => {
+    const valor = t.trim()
+    return valor === etag || valor === `W/${etag}`
+  })
 }

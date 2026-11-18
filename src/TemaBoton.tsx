@@ -13,7 +13,11 @@ export default function TemaBoton({ tema, onToggle }: { tema: Tema; onToggle: ()
       aria-label={tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
       title={tema === 'dark' ? 'Modo claro' : 'Modo oscuro'}
     >
-      {tema === 'dark' ? <Sun aria-hidden="true" className="size-4" /> : <Moon aria-hidden="true" className="size-4" />}
+      {tema === 'dark' ? (
+        <Sun aria-hidden="true" className="size-4" />
+      ) : (
+        <Moon aria-hidden="true" className="size-4" />
+      )}
     </button>
   )
 }

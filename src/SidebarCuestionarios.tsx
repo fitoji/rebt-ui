@@ -82,7 +82,11 @@ export default function SidebarCuestionarios({
   const total = cuestionarios.length + cargados.length
 
   return (
-    <SidebarUI collapsible="offcanvas" className="min-h-0 border-r border-linea" aria-label="Cuestionarios disponibles">
+    <SidebarUI
+      collapsible="offcanvas"
+      className="min-h-0 border-r border-linea"
+      aria-label="Cuestionarios disponibles"
+    >
       <SidebarHeader className="border-b border-linea px-[1.1rem] pt-[1.1rem] pb-[0.9rem]">
         <div className="flex items-baseline justify-between gap-[0.75rem]">
           <p className="m-0 text-[1.9rem] font-semibold leading-none tracking-[0.05em]">Tests</p>
@@ -98,13 +102,9 @@ export default function SidebarCuestionarios({
       <SidebarContent className="flex-1 overflow-y-auto pt-[0.4rem] pb-[2rem]">
         <nav>
           {cargados.length > 0 && (
-            <h2 className="rotulo mx-[1.1rem] mt-[1.1rem] mb-[0.35rem] text-fase">
-              De la app
-            </h2>
+            <h2 className="rotulo mx-[1.1rem] mt-[1.1rem] mb-[0.35rem] text-fase">De la app</h2>
           )}
-          <ul className="m-0 list-none p-0">
-            {cuestionarios.map((item) => fila(item))}
-          </ul>
+          <ul className="m-0 list-none p-0">{cuestionarios.map((item) => fila(item))}</ul>
 
           {cargados.length > 0 && (
             <>
@@ -112,9 +112,7 @@ export default function SidebarCuestionarios({
               <h2 className="rotulo mx-[1.1rem] mt-[0.9rem] mb-[0.35rem] text-fase">
                 Cargados ({cargados.length})
               </h2>
-              <ul className="m-0 list-none p-0">
-                {cargados.map((item) => fila(item, true))}
-              </ul>
+              <ul className="m-0 list-none p-0">{cargados.map((item) => fila(item, true))}</ul>
             </>
           )}
 

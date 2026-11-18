@@ -32,10 +32,9 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
         REBT anteriores
       </h1>
       <p className="mt-0 mb-[1.6rem] max-w-[42rem] font-lectura text-[1.05rem] leading-[1.55] text-tinta-2">
-        Las normas que rigieron antes del reglamento vigente. Las que el BOE digitalizó se
-        leen acá, con el texto tal como se publicó ese día; las de 1973 y 1974 existen solo
-        como escaneo de la Gaceta, y para esas queda el PDF oficial. El reglamento actual se
-        lee en el lector.
+        Las normas que rigieron antes del reglamento vigente. Las que el BOE digitalizó se leen acá,
+        con el texto tal como se publicó ese día; las de 1973 y 1974 existen solo como escaneo de la
+        Gaceta, y para esas queda el PDF oficial. El reglamento actual se lee en el lector.
       </p>
 
       <table className="tabla-archivo">
@@ -96,7 +95,10 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
                   >
                     PDF
                     <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.75} />
-                    <span className="sr-only"> de {norma.referencia}, en el BOE, se abre en otra pestaña</span>
+                    <span className="sr-only">
+                      {' '}
+                      de {norma.referencia}, en el BOE, se abre en otra pestaña
+                    </span>
                   </a>
                 )}
               </td>
@@ -106,8 +108,8 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
       </table>
 
       <p className="mt-[1.2rem] mb-0 max-w-[42rem] text-[0.85rem] text-tinta-2">
-        Fuente: Boletín Oficial del Estado. Los títulos son literales; las fechas y las
-        páginas salen del registro del BOE.
+        Fuente: Boletín Oficial del Estado. Los títulos son literales; las fechas y las páginas
+        salen del registro del BOE.
       </p>
 
       {/* Las instrucciones del reglamento de 1973. Van aparte de la tabla porque no son
@@ -118,11 +120,11 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
           Las instrucciones complementarias (MI BT)
         </h2>
         <p className="mt-0 mb-[1.1rem] max-w-[42rem] font-lectura text-[1rem] leading-[1.55] text-tinta-2">
-          El reglamento de 1973 no traía sus instrucciones repartidas: se aprobaron todas
-          juntas en una sola orden, a diferencia de las ITC-BT del 2002, que viven cada una
-          en su bloque. Después recibieron {INSTRUCCIONES.length - 1} modificaciones hasta
-          1998 —la MI BT 026 sola recibió cuatro—, y una instalación de esa época se juzga
-          con la redacción que estaba en vigor entonces.
+          El reglamento de 1973 no traía sus instrucciones repartidas: se aprobaron todas juntas en
+          una sola orden, a diferencia de las ITC-BT del 2002, que viven cada una en su bloque.
+          Después recibieron {INSTRUCCIONES.length - 1} modificaciones hasta 1998 —la MI BT 026 sola
+          recibió cuatro—, y una instalación de esa época se juzga con la redacción que estaba en
+          vigor entonces.
         </p>
 
         <ol className="lista-instrucciones">
@@ -136,7 +138,9 @@ export default function Antiguos({ onInicio }: { onInicio: () => void }) {
                 {instruccion.fecha}
               </span>
               <span>
-                <span className="dato block text-[0.82rem] text-tinta">{instruccion.referencia}</span>
+                <span className="dato block text-[0.82rem] text-tinta">
+                  {instruccion.referencia}
+                </span>
                 <span className="mt-[0.1rem] block text-[0.88rem] leading-[1.4] text-tinta-2">
                   {instruccion.titulo}
                 </span>

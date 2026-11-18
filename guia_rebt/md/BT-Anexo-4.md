@@ -4,7 +4,7 @@ titulo: Verificación de las instalaciones eléctricas
 edicion: sep 03
 revision: 1
 paginas: 11
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_4_sep03R1.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_4_sep03R1.pdf'
 sha256: e462f0990576010abdb8eedc93c12bc527961c5bdbbb66f615a249eb6287076d
 convertido: 2026-10-18
 ---
@@ -55,8 +55,8 @@ Figura 1. Medida de la resistencia de un conductor de protección.
 
 - 2 -
 
-
 <!-- figura vectorial en la pág. 2 del PDF original -->
+
 > Figura en la pág. 2 del PDF original: [ver en el PDF](../pdf/BT-Anexo-4.pdf#page=2)
 
 Con la lectura del ohmímetro, y supuesta conocida la longitud de los conductores se puede deducir la sección. La ITC-BT-38, aplicable a quirófanos y salas de intervención, requiere unos límites especiales para los valores de resistencia de los conductores de protección y de los conductores utilizados para las uniones de equipotencialidad. En concreto la impedancia entre el embarrado común de puesta a tierra de cada quirófano o sala de intervención y las conexiones a masa, o los contactos de tierra de las bases de toma de corriente, no deberá exceder de 0,2 ohmios. Además todas las partes metálicas accesibles han de estar unidas al embarrado de equipotencialidad mediante conductores de cobre aislados e independientes con una impedancia entre estas partes y el embarrado de equipotencialidad que no deberá exceder de 0,1 ohmios.
@@ -73,22 +73,21 @@ E
 
 20m 20m RE - 3 -
 
-
 <!-- figura vectorial en la pág. 3 del PDF original -->
+
 > Figura en la pág. 3 del PDF original: [ver en el PDF](../pdf/BT-Anexo-4.pdf#page=3)
 
 Figura 2. Medida de la resistencia de puesta a tierra R . E
 
 2.3 Medida de la resistencia de aislamiento de la instalación. Las instalaciones deberán presentar una resistencia de aislamiento al menos igual a los valores indicados en la tabla siguiente:
 
-
 <!-- tabla: ../tablas/BT-Anexo-4_t01.csv -->
 
-| Tensión nominal de la instalación | Tensión de ensayo en corriente continua (V) | Resistencia de aislamiento (MΩ) |
-|---|---|---|
-| Muy Baja Tensión de Seguridad (MBTS) Muy Baja Tensión de protección (MBTP) | 250 | ≥ 0,25 |
-| Inferior o igual a 500 V, excepto caso anterior | 500 | ≥ 0,5 |
-| Superior a 500 V | 1000 | ≥ 1,0 |
+| Tensión nominal de la instalación                                          | Tensión de ensayo en corriente continua (V) | Resistencia de aislamiento (MΩ) |
+| -------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------- |
+| Muy Baja Tensión de Seguridad (MBTS) Muy Baja Tensión de protección (MBTP) | 250                                         | ≥ 0,25                          |
+| Inferior o igual a 500 V, excepto caso anterior                            | 500                                         | ≥ 0,5                           |
+| Superior a 500 V                                                           | 1000                                        | ≥ 1,0                           |
 
 Tabla1. Valores mínimos de resistencia de aislamiento de una instalación.
 
@@ -122,8 +121,8 @@ El electrodo de medida tipo 2 está constituido por un triángulo metálico, don
 
 - 6 -
 
-
 <!-- figura vectorial en la pág. 6 del PDF original -->
+
 > Figura en la pág. 6 del PDF original: [ver en el PDF](../pdf/BT-Anexo-4.pdf#page=6)
 
 Este ensayo no se realizará en instalaciones correspondientes a locales que presenten riesgo de incendio o explosión. Durante este ensayo, la corriente suministrada por el generador, que es la que se fuga a tierra a través del aislamiento, no será superior para el conjunto de la instalación o para cada uno de los circuitos en que ésta pueda dividirse a efectos de su protección, a la sensibilidad que presenten los interruptores diferenciales instalados como protección contra los contactos indirectos.
@@ -132,21 +131,19 @@ Este ensayo no se realizará en instalaciones correspondientes a locales que pre
 
 2.7 Medida de la impedancia de bucle. La medida del valor de la impedancia de bucle es necesaria para comprobar el correcto funcionamiento de los sistemas de protección basados en la utilización de fusibles o interruptores automáticos en sistemas de distribución TN, e IT principalmente. Estos sistemas de protección requieren determinar la intensidad de cortocircuito prevista fase tierra, para comprobar que para ese valor de intensidad de cortocircuito el tiempo de actuación del dispositivo de protección de máxima intensidad es menor que un tiempo especificado. Este tiempo depende del esquema de distribución utilizado y de la tensión nominal entre fase y tierra, U , de la 0 instalación, tal y como se especifica en la ITC-BT-24.
 
-
 <!-- tabla: ../tablas/BT-Anexo-4_t02.csv -->
 
-| U 0 (V) | Tiempos de interrupción (s) |
-|---|---|
-| 230 400 > 400 | 0,4 0,2 0,1 |
+| U 0 (V)       | Tiempos de interrupción (s) |
+| ------------- | --------------------------- |
+| 230 400 > 400 | 0,4 0,2 0,1                 |
 
 Tabla 2. Tiempos de interrupción máximos especificados para esquemas TN.
-
 
 <!-- tabla: ../tablas/BT-Anexo-4_t03.csv -->
 
 | Tensión nominal de la instalación (U /U) 0 | Tiempo de interrupción (s) |
-|---|---|
-|  | Neutro no distribuido |
+| ------------------------------------------ | -------------------------- |
+|                                            | Neutro no distribuido      |
 
 - 7 -
 
@@ -179,7 +176,6 @@ Figura 5. Instalación TT con un defecto a tierra.
 Para garantizar la seguridad de la instalación se tienen que dar dos condiciones, la primera que la tensión de contacto que se pueda presentar en la instalación en función de los diferenciales instalados sea menor que el valor límite convencional (50 V ó 24 V), y la segunda que los diferenciales funcionen correctamente. a) Medida de la tensión de contacto. En la práctica los medidores de impedancia de bucle que sirven también para medir el valor de la tensión de contacto no suelen ser capaces de medir únicamente el valor de la resistencia R , sino que A miden el valor de la impedancia de todo el bucle indicado en la figura anterior incluyendo la resistencia de tierra del centro de transformación (R ), de forma que se obtiene un valor superior al B
 
 - 9 -
-
 
 ![figura pág 9](../imgs/BT-Anexo-4_p09_i01.png)
 

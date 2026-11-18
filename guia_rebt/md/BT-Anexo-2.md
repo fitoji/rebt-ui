@@ -3,7 +3,7 @@ guia: BT-Anexo-2
 titulo: Cálculos de caídas de tensión
 revision: 2
 paginas: 14
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_2_sep03R1.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_2_sep03R1.pdf'
 sha256: a74a5690b4e3c89327b6161f6dbdfea57b1cfb416bb76a3470347a16bbf905a5
 convertido: 2026-10-18
 ---
@@ -24,27 +24,25 @@ Figura 1. Circuito equivalente de una línea corta.
 
 - 1 -
 
-
 <!-- figura vectorial en la pág. 1 del PDF original -->
+
 > Figura en la pág. 1 del PDF original: [ver en el PDF](../pdf/BT-Anexo-2.pdf#page=1)
 
 U 1
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t01.csv -->
 
-|  |  | θ |
-|---|---|---|
-|  |  | U 2 |
-|  | U 2 | U 2 |
-| I |  |  |
-
+|     |     | θ   |
+| --- | --- | --- |
+|     |     | U 2 |
+|     | U 2 | U 2 |
+| I   |     |     |
 
 <!-- tabla: ../tablas/BT-Anexo-2_t02.csv -->
 
-|  | C |
-|---|---|
-| XI |  |
+|     | C   |
+| --- | --- |
+| XI  |     |
 
 Figura 2. Diagrama vectorial.
 
@@ -62,21 +60,20 @@ P= 3 U I cos (en trifásico) [2] 1 P= U I cos (en monofásico) [3] 1 Ba
 
 - 2 -
 
-
 <!-- figura vectorial en la pág. 2 del PDF original -->
+
 > Figura en la pág. 2 del PDF original: [ver en el PDF](../pdf/BT-Anexo-2.pdf#page=2)
 
 En ausencia de datos se puede estimar el valor de la reactancia inductiva como 0,1 /km, o bien como un incremento adicional de la resistencia. Así podemos suponer que para un conductor cuya sección sea:
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t03.csv -->
 
-| Sección | Reactancia inductiva (X) |
-|---|---|
-| S  120 mm2 | X  0 |
-| S = 150 mm2 | X  0,15 R |
-| S = 185 mm2 | X  0,20 R |
-| S = 240 mm2 | X  0,25 R |
+| Sección     | Reactancia inductiva (X) |
+| ----------- | ------------------------ |
+| S  120 mm2 | X  0                    |
+| S = 150 mm2 | X  0,15 R               |
+| S = 185 mm2 | X  0,20 R               |
+| S = 240 mm2 | X  0,25 R               |
 
 Tabla1. Valores aproximados de la reactancia inductiva Para secciones menores o iguales de 120mm2, como es lo habitual tanto en instalaciones de enlace como en instalaciones interiores, la contribución a la caída de tensión por efecto de la inductancia es despreciable frente al efecto de la resistencia, y por lo tanto las fórmulas [4] y [5] anteriores se pueden simplificar de la siguiente forma:
 
@@ -90,14 +87,13 @@ R =  L / S [10] 20cc 20
 
  =  [1 +  ( -20)] [11]  20 Donde: R resistencia del conductor en corriente alterna a la temperatura  tca R resistencia del conductor en corriente continua a la temperatura  tcc R resistencia del conductor en corriente continua a la temperatura de 20ºC. 20cc Ys incremento de la resistencia debido al efecto piel (o efecto skin) Yp incremento de la resistencia debido al efecto proximidad.  coeficiente de variación de resistencia específica por temperatura del conductor en ºC-1.  resistividad del conductor a la temperatura    resistividad del conductor a 20ºC. 20 S sección del conductor en mm2. L longitud de la línea en m.
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t04.csv -->
 
-| Material |  ( mm2 /m)  |  ( mm2 /m)  |  ( mm2 /m)  |  (ºC –1) |
-|---|---|---|---|---|
-| Cobre | 0,018 | 0,021 | 0,023 | 0,00392 |
-| Aluminio | 0,029 | 0,033 | 0,036 | 0,00403 |
-| Almelec (Al-Mg-Si) | 0,032 | 0,038 | 0,041 | 0,00360 |
+| Material           |  ( mm2 /m)  |  ( mm2 /m)  |  ( mm2 /m)  |  (ºC –1) |
+| ------------------ | ---------------- | ---------------- | ---------------- | --------- |
+| Cobre              | 0,018            | 0,021            | 0,023            | 0,00392   |
+| Aluminio           | 0,029            | 0,033            | 0,036            | 0,00403   |
+| Almelec (Al-Mg-Si) | 0,032            | 0,038            | 0,041            | 0,00360   |
 
 Tabla 2. Valores de la resistividad y del coeficiente de temperatura de los conductores más utilizados. El efecto piel y el efecto proximidad son mucho más pronunciados en los conductores de gran sección. Su cálculo riguroso se detalla en la serie de normas UNE 21144. No obstante, y de forma aproximada para instalaciones de enlace e instalaciones interiores en baja tensión es factible suponer un incremento de resistencia inferior al 2% en alterna respecto del valor en continua.
 
@@ -115,13 +111,12 @@ En la práctica para instalaciones de baja tensión tanto interiores como de enl
 
 S = 𝛾 e U Donde la conductividad se puede tomar de la siguiente tabla:
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t05.csv -->
 
-| Material |   |   |   |
-|---|---|---|---|
-| Cobre | 56 | 48 | 44 |
-| Aluminio | 35 | 30 | 28 |
+| Material    |   |   |   |
+| ----------- | ---- | ---- | ---- |
+| Cobre       | 56   | 48   | 44   |
+| Aluminio    | 35   | 30   | 28   |
 | Temperatura | 20ºC | 70ºC | 90ºC |
 
 Tabla 3. Conductividades, , (en m/  mm2) para el cobre y el aluminio, a distintas temperaturas.
@@ -146,34 +141,32 @@ En las tablas siguientes se indican las caídas de tensión unitarias calculadas
 
 - 5 -
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t06.csv -->
 
-| S (mm2) | Caida de tensión por A y km. |  |  |  |  |  |  |  |  |  |  |  |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|  | Cos  = 0,8 |  |  |  | Cos  = 1 |  |  |  | Cos  = 0,9 |  |  |  |
-|  | 40ºC | 60ºC | 80ºC | 90ºC | 40ºC | 60ºC | 70ºC | 90ºC | 40ºC | 60ºC | 70ºC | 90ºC |
-| 1,5 | 18,255 | 19,573 | 20,891 | 21,550 | 22,604 | 24,252 | 25,899 | 26,723 | 20,469 | 21,951 | 23,434 | 24,175 |
-| 2,5 | 11,216 | 12,023 | 12,830 | 13,234 | 13,843 | 14,852 | 15,860 | 16,365 | 12,562 | 13,469 | 14,377 | 14,831 |
-| 4 | 7,024 | 7,526 | 8,028 | 8,279 | 8,612 | 9,240 | 9,867 | 10,181 | 7,848 | 8,413 | 8,978 | 9,261 |
-| 6 | 4,732 | 5,068 | 5,403 | 5,571 | 5,754 | 6,173 | 6,592 | 6,802 | 5,272 | 5,650 | 6,027 | 6,216 |
-| 10 | 2,846 | 3,045 | 3,244 | 3,344 | 3,419 | 3,668 | 3,917 | 4,042 | 3,157 | 3,382 | 3,606 | 3,718 |
-| 16 | 1,820 | 1,945 | 2,070 | 2,133 | 2,148 | 2,305 | 2,461 | 2,540 | 2,007 | 2,148 | 2,289 | 2,359 |
-| 25 | 1,184 | 1,263 | 1,342 | 1,382 | 1,358 | 1,457 | 1,556 | 1,606 | 1,293 | 1,382 | 1,471 | 1,516 |
-| 35 | 0,878 | 0,935 | 0,992 | 1,020 | 0,979 | 1,050 | 1,122 | 1,157 | 0,950 | 1,014 | 1,078 | 1,110 |
-| 50 | 0,672 | 0,714 | 0,757 | 0,778 | 0,723 | 0,776 | 0,828 | 0,855 | 0,719 | 0,766 | 0,814 | 0,837 |
-| 70 | 0,491 | 0,520 | 0,549 | 0,564 | 0,501 | 0,537 | 0,574 | 0,592 | 0,516 | 0,549 | 0,582 | 0,598 |
-| 95 | 0,378 | 0,399 | 0,420 | 0,431 | 0,361 | 0,387 | 0,413 | 0,426 | 0,390 | 0,413 | 0,437 | 0,449 |
-| 120 | 0,315 | 0,332 | 0,349 | 0,357 | 0,286 | 0,307 | 0,327 | 0,338 | 0,320 | 0,339 | 0,358 | 0,367 |
-| 150 | 0,271 | 0,284 | 0,298 | 0,304 | 0,232 | 0,249 | 0,265 | 0,274 | 0,271 | 0,286 | 0,301 | 0,309 |
-| 185 | 0,234 | 0,244 | 0,255 | 0,261 | 0,185 | 0,199 | 0,212 | 0,219 | 0,229 | 0,241 | 0,253 | 0,259 |
-| 240 | 0,197 | 0,205 | 0,213 | 0,217 | 0,141 | 0,151 | 0,161 | 0,167 | 0,188 | 0,197 | 0,206 | 0,211 |
-
+| S (mm2) | Caida de tensión por A y km. |        |        |        |           |        |        |        |             |        |        |        |
+| ------- | ---------------------------- | ------ | ------ | ------ | --------- | ------ | ------ | ------ | ----------- | ------ | ------ | ------ |
+|         | Cos  = 0,8                  |        |        |        | Cos  = 1 |        |        |        | Cos  = 0,9 |        |        |        |
+|         | 40ºC                         | 60ºC   | 80ºC   | 90ºC   | 40ºC      | 60ºC   | 70ºC   | 90ºC   | 40ºC        | 60ºC   | 70ºC   | 90ºC   |
+| 1,5     | 18,255                       | 19,573 | 20,891 | 21,550 | 22,604    | 24,252 | 25,899 | 26,723 | 20,469      | 21,951 | 23,434 | 24,175 |
+| 2,5     | 11,216                       | 12,023 | 12,830 | 13,234 | 13,843    | 14,852 | 15,860 | 16,365 | 12,562      | 13,469 | 14,377 | 14,831 |
+| 4       | 7,024                        | 7,526  | 8,028  | 8,279  | 8,612     | 9,240  | 9,867  | 10,181 | 7,848       | 8,413  | 8,978  | 9,261  |
+| 6       | 4,732                        | 5,068  | 5,403  | 5,571  | 5,754     | 6,173  | 6,592  | 6,802  | 5,272       | 5,650  | 6,027  | 6,216  |
+| 10      | 2,846                        | 3,045  | 3,244  | 3,344  | 3,419     | 3,668  | 3,917  | 4,042  | 3,157       | 3,382  | 3,606  | 3,718  |
+| 16      | 1,820                        | 1,945  | 2,070  | 2,133  | 2,148     | 2,305  | 2,461  | 2,540  | 2,007       | 2,148  | 2,289  | 2,359  |
+| 25      | 1,184                        | 1,263  | 1,342  | 1,382  | 1,358     | 1,457  | 1,556  | 1,606  | 1,293       | 1,382  | 1,471  | 1,516  |
+| 35      | 0,878                        | 0,935  | 0,992  | 1,020  | 0,979     | 1,050  | 1,122  | 1,157  | 0,950       | 1,014  | 1,078  | 1,110  |
+| 50      | 0,672                        | 0,714  | 0,757  | 0,778  | 0,723     | 0,776  | 0,828  | 0,855  | 0,719       | 0,766  | 0,814  | 0,837  |
+| 70      | 0,491                        | 0,520  | 0,549  | 0,564  | 0,501     | 0,537  | 0,574  | 0,592  | 0,516       | 0,549  | 0,582  | 0,598  |
+| 95      | 0,378                        | 0,399  | 0,420  | 0,431  | 0,361     | 0,387  | 0,413  | 0,426  | 0,390       | 0,413  | 0,437  | 0,449  |
+| 120     | 0,315                        | 0,332  | 0,349  | 0,357  | 0,286     | 0,307  | 0,327  | 0,338  | 0,320       | 0,339  | 0,358  | 0,367  |
+| 150     | 0,271                        | 0,284  | 0,298  | 0,304  | 0,232     | 0,249  | 0,265  | 0,274  | 0,271       | 0,286  | 0,301  | 0,309  |
+| 185     | 0,234                        | 0,244  | 0,255  | 0,261  | 0,185     | 0,199  | 0,212  | 0,219  | 0,229       | 0,241  | 0,253  | 0,259  |
+| 240     | 0,197                        | 0,205  | 0,213  | 0,217  | 0,141     | 0,151  | 0,161  | 0,167  | 0,188       | 0,197  | 0,206  | 0,211  |
 
 <!-- tabla no extraíble en la pág. 6 -->
+
 > La tabla de esta página no se puede extraer como texto (pdfplumber la lee como
 > caracteres sueltos): se muestra la imagen de la página. También está en [pdf/BT-Anexo-2.pdf](../pdf/BT-Anexo-2.pdf#page=6).
-
 
 ![tabla pág 6](../imgs/BT-Anexo-2_p06_tabla.png)
 
@@ -195,20 +188,19 @@ Si se quiere efectuar el cálculo con una segunda iteración, aplicando la tempe
 
 Los límites caída de tensión vienen detallados en las ITC-BT-14, ITC-BT-15 e ITC-BT-19, y son los siguientes.
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t07.csv -->
 
-| Parte de la instalación | Para alimentar a : | Caída de tensión máxima en % de la tensión de suministro. | e=U  | e=U  |
-|---|---|---|---|---|
-| LGA: (Línea General de Alimentación) | Suministros de un único usuario | No existe LGA | -- | -- |
-|  | Contadores totalmente concentrados | 0,5% | 2 V | -- |
-|  | Centralizaciones parciales de contadores | 1,0% | 4 V | -- |
-| DI (Derivación Individual) | Suministros de un único usuario | 1,5% | 6 V | 3,45 V |
-|  | Contadores totalmente concentrados | 1,0% | 4 V | 2,3 V |
-|  | Centralizaciones parciales de contadores | 0,5% | 2 V | 1,15 V |
-| Circuitos interiores | Circuitos interiores en viviendas | 3% | 12 V | 6,9 V |
-|  | Circuitos de alumbrado que no sean viviendas | 3% | 12 V | 6,9 V |
-|  | Circuitos de fuerza que no sean viviendas | 5% | 20 V | 11,5 V |
+| Parte de la instalación              | Para alimentar a :                           | Caída de tensión máxima en % de la tensión de suministro. | e=U  | e=U  |
+| ------------------------------------ | -------------------------------------------- | --------------------------------------------------------- | -------- | ------ |
+| LGA: (Línea General de Alimentación) | Suministros de un único usuario              | No existe LGA                                             | --       | --     |
+|                                      | Contadores totalmente concentrados           | 0,5%                                                      | 2 V      | --     |
+|                                      | Centralizaciones parciales de contadores     | 1,0%                                                      | 4 V      | --     |
+| DI (Derivación Individual)           | Suministros de un único usuario              | 1,5%                                                      | 6 V      | 3,45 V |
+|                                      | Contadores totalmente concentrados           | 1,0%                                                      | 4 V      | 2,3 V  |
+|                                      | Centralizaciones parciales de contadores     | 0,5%                                                      | 2 V      | 1,15 V |
+| Circuitos interiores                 | Circuitos interiores en viviendas            | 3%                                                        | 12 V     | 6,9 V  |
+|                                      | Circuitos de alumbrado que no sean viviendas | 3%                                                        | 12 V     | 6,9 V  |
+|                                      | Circuitos de fuerza que no sean viviendas    | 5%                                                        | 20 V     | 11,5 V |
 
 Tabla 6. Límites de caídas de tensión reglamentarios. Nota: la LGA es siempre trifásica.
 
@@ -240,14 +232,13 @@ Por consiguiente, la temperatura real del conductor a la intensidad prevista en 
 
 Ejemplo 2: Se debe calcular la sección de una derivación individual (DI) que alimenta a una vivienda con nivel de electrificación básico (5750 W), cuya longitud desde el embarrado del cuarto de contadores hasta el cuadro privado de los dispositivos generales de mando y protección es de 10 metros (segunda planta). El sistema de instalación es el de conductores aislados en el interior de conductos cerrados de obra de fábrica. Elección del tipo de conductores a utilizar: Según la ITC-BT-15, para el sistema de instalación del ejemplo los cables a utilizar serán unipolares o multiconductores de tensión asignada mínima 450/750 V los unipolares, y 0,6/1 kV los multiconductores, no propagadores del incendio y con emisión de humos y opacidad reducida. Por tanto, se utilizarán cables normalizados de uno de los tipos siguientes:
 
-
 <!-- tabla: ../tablas/BT-Anexo-2_t08.csv -->
 
-| Producto |  | Norma de aplicación |
-|---|---|---|
-| Cable ES07Z1-K | Cable de tensión asignada 450/750 V, con conductor de cobre clase 5 (-K) y aislamiento de compuesto termoplástico a base de poliolefina (Z1) | UNE 211 002 |
-| Cable tipo RZ1-K | Cable de tensión asignada 0,6/1 kV, con conductor de cobre clase 5 (-K), aislamiento de polietileno reticulado (R) y cubierta de compuesto termoplástico a base de poliolefina (Z1) | UNE 21.123-4 |
-| Cable tipo DZ1-K | Cable de tensión asignada 0,6/1 kV, con conductor de cobre clase 5 (-K), aislamiento de etileno propileno (D) y cubierta de compuesto termoplástico a base de poliolefina (Z1) | UNE 21.123-5 |
+| Producto         |                                                                                                                                                                                     | Norma de aplicación |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| Cable ES07Z1-K   | Cable de tensión asignada 450/750 V, con conductor de cobre clase 5 (-K) y aislamiento de compuesto termoplástico a base de poliolefina (Z1)                                        | UNE 211 002         |
+| Cable tipo RZ1-K | Cable de tensión asignada 0,6/1 kV, con conductor de cobre clase 5 (-K), aislamiento de polietileno reticulado (R) y cubierta de compuesto termoplástico a base de poliolefina (Z1) | UNE 21.123-4        |
+| Cable tipo DZ1-K | Cable de tensión asignada 0,6/1 kV, con conductor de cobre clase 5 (-K), aislamiento de etileno propileno (D) y cubierta de compuesto termoplástico a base de poliolefina (Z1)      | UNE 21.123-5        |
 
 Se eligen conductores unipolares de cobre con aislamiento de compuesto termoplástico, cuya temperatura máxima admisible en servicio continuo es de T = 70ºC. (tipo ES07Z1-K) máx
 

@@ -4,7 +4,7 @@ titulo: Cálculo de corrientes de cortocircuito
 edicion: sep 03
 revision: 1
 paginas: 1
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_3_sep03R1.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/Documents/bt/guia_bt_anexo_3_sep03R1.pdf'
 sha256: 9607cad276e569bccafa88fc2842bf03bc58a88ff4ba9dbc4e24cd1f94d9816e
 convertido: 2026-10-18
 ---

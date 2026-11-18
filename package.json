@@ -1,20 +1,18 @@
 {
   "name": "rebt-viewer",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "npm run typecheck && vite build",
-    "preview": "vite preview",
+    "dev": "vp dev",
+    "build": "npm run typecheck && vp build",
+    "preview": "vp preview",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.worker.json",
     "check": "npm run typecheck && npm test",
     "test": "node --test \"test/*.test.ts\"",
     "mock": "node mock/server.ts",
-    "dev:mock": "BOE_TARGET=http://localhost:8787 BOE_PREFIX= vite"
-  },
-  "engines": {
-    "node": ">=22.18"
+    "dev:mock": "BOE_TARGET=http://localhost:8787 BOE_PREFIX= vp dev",
+    "prepare": "vp config"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -40,6 +38,10 @@
     "@vitejs/plugin-react": "5.2.0",
     "tailwindcss": "^4.3.3",
     "typescript": "7.0.2",
-    "vite": "8.3.8"
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "engines": {
+    "node": ">=22.18"
   }
 }

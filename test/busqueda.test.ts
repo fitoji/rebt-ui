@@ -76,7 +76,9 @@ test('los resultados crecen a medida que llegan los bloques', () => {
 })
 
 test('el fragmento muestra el texto alrededor de la coincidencia', () => {
-  const descargados = new Map([['a1', bloque('a1', 'antes de todo el texto, un cable de cobre, y después')]])
+  const descargados = new Map([
+    ['a1', bloque('a1', 'antes de todo el texto, un cable de cobre, y después')],
+  ])
   const filas = buscarEnBloques(BLOQUES, 'cobre', TITULOS, (id) => descargados.get(id))
   assert.match(filas[0].snippet ?? '', /cable de cobre/)
 })

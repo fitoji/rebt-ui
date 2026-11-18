@@ -40,8 +40,8 @@ export default function DialogoCambioTest({
             ¿Cambiar de test?
           </DialogPrimitive.Title>
           <DialogPrimitive.Description className="mt-2 mb-0 font-lectura leading-[1.5] text-tinta-2">
-            Vas a empezar «{nombreSiguiente}». Si cambias, perderás el avance de «
-            {nombreActual}»: llevas {avance}.
+            Vas a empezar «{nombreSiguiente}». Si cambias, perderás el avance de «{nombreActual}»:
+            llevas {avance}.
           </DialogPrimitive.Description>
           <div className="mt-5 flex flex-wrap justify-end gap-3">
             <button

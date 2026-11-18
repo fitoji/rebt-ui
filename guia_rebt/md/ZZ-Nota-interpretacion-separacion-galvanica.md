@@ -2,7 +2,7 @@
 guia: ZZ-Nota-interpretacion-separacion-galvanica
 titulo: Nota de Interpretación Técnica de la Equivalencia de la Separación Galvánica
 paginas: 4
-fuente_pdf: "https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/notas/nota_interpretacion_separacion_galvanica.pdf"
+fuente_pdf: 'https://industria.gob.es/Calidad-Industrial/seguridadindustrial/instalacionesindustriales/baja-tension/notas/nota_interpretacion_separacion_galvanica.pdf'
 sha256: 1750c37bafc9ec8463c34b35ccc83d63752709958c9b91c0bca9989c36fcbe25
 convertido: 2026-10-18
 ---
@@ -55,9 +55,7 @@ Figura 1. (*1) La unión equipotencial entre tierras de diferentes edificios est
 
 - 3 -
 
-
 ![figura pág 3](../imgs/ZZ-Nota-interpretacion-separacion-galvanica_p03_i01.png)
-
 
 ![figura pág 3](../imgs/ZZ-Nota-interpretacion-separacion-galvanica_p03_i02.png)
 

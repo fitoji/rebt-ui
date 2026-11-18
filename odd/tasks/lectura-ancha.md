@@ -5,25 +5,25 @@ Rama `main` (directo, como el resto del historial). Verificación: `npm run chec
 
 ## Specs
 
-- **S1** — *"revisa el ancho de los textos, me parece muy estrecho, quizás que aproveche más la
-  pantalla"* (pedido original, 03/11/2026).
-- **S2** — *"me gustaría que los textos del reglamento tengan otra fuente, más suave y técnica"*.
-- **S3** — *"cuando hago scroll el texto que va surgiendo de abajo esté animado"*, también en la guía.
-- **S4** — *"una barra de scroll vertical animada mostrando el progreso de lectura del texto"*.
+- **S1** — _"revisa el ancho de los textos, me parece muy estrecho, quizás que aproveche más la
+  pantalla"_ (pedido original, 03/11/2026).
+- **S2** — _"me gustaría que los textos del reglamento tengan otra fuente, más suave y técnica"_.
+- **S3** — _"cuando hago scroll el texto que va surgiendo de abajo esté animado"_, también en la guía.
+- **S4** — _"una barra de scroll vertical animada mostrando el progreso de lectura del texto"_.
 - **S5** — Vale para las dos superficies de lectura: el lector del REBT y el visor de la guía.
   La portada, las notas y los cuestionarios quedan como estaban salvo la tipografía.
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo |
-|---|-------|-------|------|--------|
-| T1 | IBM Plex Sans como tipografía de lectura; tokens `--lectura`, `--lectura-tam`, `--medida`, `--lamina` | S2,S1 | inline | Entrega de la fuente (Google Fonts) |
-| T2 | Medida en `em` del cuerpo y lámina = medida + margen fijo; cajetín, tablas y navegación al ancho de la lámina | S1 | inline | Que la medida quede demasiado larga |
-| T3 | `src/hooks/useRevelar.ts`: la cascada del texto al entrar | S3 | inline | Texto invisible si el observador falla |
-| T4 | `src/BarraProgreso.tsx`: la franja de progreso en el borde derecho | S4 | inline | Coste por frame |
-| T5 | Estilos: escalas en `em`, cajetín a una columna sólo con control, partición de palabras | S1,S2 | inline | — |
-| T6 | `DESIGN.md`: tipografía, medida, movimiento y componentes nuevos | — | inline | — |
-| T7 | Verificación en navegador de las cuatro anchuras y los dos temas | S1–S5 | inline | — |
+| #   | Tarea                                                                                                         | Specs | Ruta   | Riesgo                                 |
+| --- | ------------------------------------------------------------------------------------------------------------- | ----- | ------ | -------------------------------------- |
+| T1  | IBM Plex Sans como tipografía de lectura; tokens `--lectura`, `--lectura-tam`, `--medida`, `--lamina`         | S2,S1 | inline | Entrega de la fuente (Google Fonts)    |
+| T2  | Medida en `em` del cuerpo y lámina = medida + margen fijo; cajetín, tablas y navegación al ancho de la lámina | S1    | inline | Que la medida quede demasiado larga    |
+| T3  | `src/hooks/useRevelar.ts`: la cascada del texto al entrar                                                     | S3    | inline | Texto invisible si el observador falla |
+| T4  | `src/BarraProgreso.tsx`: la franja de progreso en el borde derecho                                            | S4    | inline | Coste por frame                        |
+| T5  | Estilos: escalas en `em`, cajetín a una columna sólo con control, partición de palabras                       | S1,S2 | inline | —                                      |
+| T6  | `DESIGN.md`: tipografía, medida, movimiento y componentes nuevos                                              | —     | inline | —                                      |
+| T7  | Verificación en navegador de las cuatro anchuras y los dos temas                                              | S1–S5 | inline | —                                      |
 
 ## Decisiones
 

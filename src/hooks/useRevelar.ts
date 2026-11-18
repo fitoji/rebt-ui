@@ -85,9 +85,7 @@ export function useRevelar(
     const rescatar = () => {
       frame = 0
       if (pendientes.size === 0) return
-      const arriba = scroller
-        ? scroller.getBoundingClientRect().top
-        : 0
+      const arriba = scroller ? scroller.getBoundingClientRect().top : 0
       for (const el of Array.from(pendientes)) {
         if (el.getBoundingClientRect().bottom < arriba + 8) soltar(el, 0)
       }

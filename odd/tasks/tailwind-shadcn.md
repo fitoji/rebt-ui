@@ -5,8 +5,8 @@ Rama `feat/tailwind` (se.mergea a `main` cuando el usuario lo decida). Runner de
 
 ## Specs
 
-- **S1** — *"utiliza la sidebar de shadcn"* (pedido original).
-- **S2** — *"Migrar todo a Tailwind"* (decisión del usuario entre las tres opciones que se le
+- **S1** — _"utiliza la sidebar de shadcn"_ (pedido original).
+- **S2** — _"Migrar todo a Tailwind"_ (decisión del usuario entre las tres opciones que se le
   ofrecieron: su API en nuestro CSS, el componente literal de shadcn, o migrar todo a Tailwind).
 - **S3** — La paleta y las tipografías del proyecto siguen siendo las del reglamento: la
   migración no puede cambiar la identidad visual.
@@ -16,14 +16,14 @@ Rama `feat/tailwind` (se.mergea a `main` cuando el usuario lo decida). Runner de
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | Tailwind v4 + `@theme inline` con la paleta del proyecto | S2,S3 | inline | 3 | 1 |
-| T2 | `shadcn init` + `add sidebar`, con las variables mapeadas a la paleta | S1,S2 | inline | 3 | 1 |
-| T3 | Lector: `SidebarProvider` + `Sidebar` + `SidebarInset` | S1,S4 | inline | 3 | 1 |
-| T4 | Guía: lo mismo que el lector | S1,S4 | inline | 3 | 1 |
-| T5 | El tirador y el atajo ⌘B para plegar y desplegar | S1,S5 | inline | — | 1 |
-| T6 | El CSS viejo, a utilities de Tailwind | S2 | inline | 3 | 2,3,4,5 |
+| #   | Tarea                                                                 | Specs | Ruta   | Riesgo | Commit  |
+| --- | --------------------------------------------------------------------- | ----- | ------ | ------ | ------- |
+| T1  | Tailwind v4 + `@theme inline` con la paleta del proyecto              | S2,S3 | inline | 3      | 1       |
+| T2  | `shadcn init` + `add sidebar`, con las variables mapeadas a la paleta | S1,S2 | inline | 3      | 1       |
+| T3  | Lector: `SidebarProvider` + `Sidebar` + `SidebarInset`                | S1,S4 | inline | 3      | 1       |
+| T4  | Guía: lo mismo que el lector                                          | S1,S4 | inline | 3      | 1       |
+| T5  | El tirador y el atajo ⌘B para plegar y desplegar                      | S1,S5 | inline | —      | 1       |
+| T6  | El CSS viejo, a utilities de Tailwind                                 | S2    | inline | 3      | 2,3,4,5 |
 
 **Trazabilidad de ruta**: ninguna tarea dispara un trigger de delegación (ni paralelismo ni
 backstop de contexto). Todo inline, con verificación por captura de pantalla en cada paso.
@@ -50,15 +50,15 @@ backstop de contexto). Todo inline, con verificación por captura de pantalla en
 - **El contenido sigue scrolleando en su propia columna.** Con el `SidebarInset` de shadcn, la
   página entera scrollea; se fija `height: 100svh` en el inset para que el lector y la guía
   conserven el comportamiento de antes.
-- **La barra plegada deja un tirador en el borde izquierdo.** En modo *offcanvas* no queda nada
+- **La barra plegada deja un tirador en el borde izquierdo.** En modo _offcanvas_ no queda nada
   visible al plegarla: sin ese tirador, la única forma de volver a abrirla sería el atajo de
   teclado.
 
 ## Log
 
-- **L1** (22/10/2026) — *"utiliza la sidebar de shadcn"*.
-- **L2** (22/10/2026) — Preguntadas las tres vías posibles; el usuario elige *"Migrar todo a
-  Tailwind"*.
+- **L1** (22/10/2026) — _"utiliza la sidebar de shadcn"_.
+- **L2** (22/10/2026) — Preguntadas las tres vías posibles; el usuario elige _"Migrar todo a
+  Tailwind"_.
 - **L3** (22/10/2026) — Línea base: cuatro capturas del proyecto antes de tocar nada
   (`inicio`, `lector`, `guia`, `notas`).
 - **L4** (22/10/2026) — Tailwind v4 instalado. Al activarlo, el preflight cambia el

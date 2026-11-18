@@ -50,10 +50,7 @@ export default function Accordion({ title, open, onToggle, children, variante = 
         />
         <span className="flex-1">{title}</span>
       </button>
-      <div
-        className="acordeon"
-        data-abierto={open ? 'true' : 'false'}
-      >
+      <div className="acordeon" data-abierto={open ? 'true' : 'false'}>
         <div {...plegado}>
           <div
             className={

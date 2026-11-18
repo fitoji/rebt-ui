@@ -22,7 +22,8 @@ const ACCESOS = [
   {
     href: '#/rebt',
     titulo: 'Leer el REBT',
-    descripcion: 'El reglamento vigente del BOE, con tablas reales, buscador y selector de redacción.',
+    descripcion:
+      'El reglamento vigente del BOE, con tablas reales, buscador y selector de redacción.',
   },
   {
     href: '#/cambios',
@@ -32,12 +33,14 @@ const ACCESOS = [
   {
     href: '#/antiguos',
     titulo: 'REBT anteriores',
-    descripcion: 'El reglamento de 1973 y sus instrucciones, para consultar lo que regía antes del 2002.',
+    descripcion:
+      'El reglamento de 1973 y sus instrucciones, para consultar lo que regía antes del 2002.',
   },
   {
     href: '#/guia',
     titulo: 'Guía técnica',
-    descripcion: 'Las 38 guías del ministerio en texto buscable, con acceso directo por instrucción.',
+    descripcion:
+      'Las 38 guías del ministerio en texto buscable, con acceso directo por instrucción.',
   },
   {
     href: '#/cuestionarios',
@@ -113,14 +116,19 @@ export default function Landing() {
         </nav>
 
         {/* El cajetín: las cifras del corpus como los campos de una lámina técnica. */}
-        <dl className="cajetin mt-[clamp(1.4rem,4vh,2.2rem)] animate-vista-entra" style={{ animationDelay: '240ms' }}>
+        <dl
+          className="cajetin mt-[clamp(1.4rem,4vh,2.2rem)] animate-vista-entra"
+          style={{ animationDelay: '240ms' }}
+        >
           <div>
             <dt className="rotulo">Norma</dt>
             <dd className="dato m-0 text-[0.95rem] text-tinta">RD 842/2002</dd>
           </div>
           <div>
             <dt className="rotulo">Documentos</dt>
-            <dd className="dato m-0 text-[0.95rem] text-tinta">{cifra(totales?.total_documentos)}</dd>
+            <dd className="dato m-0 text-[0.95rem] text-tinta">
+              {cifra(totales?.total_documentos)}
+            </dd>
           </div>
           <div>
             <dt className="rotulo">Páginas</dt>
@@ -136,13 +144,7 @@ export default function Landing() {
       <footer className="pie relative z-10">
         <div className="pie__placa">
           <div className="pie__firma">
-            <img
-              src="/logo.svg"
-              alt=""
-              width={34}
-              height={34}
-              className="size-[34px] shrink-0"
-            />
+            <img src="/logo.svg" alt="" width={34} height={34} className="size-[34px] shrink-0" />
             <div className="min-w-0">
               <p className="m-0 flex flex-wrap items-baseline gap-x-[0.5rem] gap-y-[0.15rem]">
                 <span className="text-[1.05rem] font-semibold leading-none">REBT</span>
@@ -160,14 +162,13 @@ export default function Landing() {
               <div key={dato.rotulo} className="pie__celda">
                 <dt className="rotulo">{dato.rotulo}</dt>
                 <dd className="m-0">
-                  <a
-                    className="pie__enlace dato"
-                    href={dato.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="pie__enlace dato" href={dato.href} target="_blank" rel="noreferrer">
                     {dato.valor}
-                    <ArrowUpRight aria-hidden="true" className="pie__flecha size-3.5" strokeWidth={1.75} />
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="pie__flecha size-3.5"
+                      strokeWidth={1.75}
+                    />
                     <span className="sr-only"> (se abre en otra pestaña)</span>
                   </a>
                 </dd>
@@ -178,7 +179,9 @@ export default function Landing() {
           {/* La última fila del cajetín: la letra pequeña, dentro de la placa. */}
           <div className="pie__nota">
             <p className="m-0">© 2026 fitoji</p>
-            <p className="m-0">Sin cuentas ni servidor: tus notas y favoritos viven en este navegador.</p>
+            <p className="m-0">
+              Sin cuentas ni servidor: tus notas y favoritos viven en este navegador.
+            </p>
           </div>
         </div>
       </footer>

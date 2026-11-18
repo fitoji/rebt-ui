@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, lazyPlugins } from 'vite-plus'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
@@ -27,7 +27,28 @@ const proxy = {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), guiaCorpus()],
+  staged: {
+    '*': 'vp check --fix',
+  },
+  fmt: {
+    singleQuote: true,
+    semi: false,
+    overrides: [
+      {
+        files: ['**/*.css'],
+        options: { singleQuote: false },
+      },
+    ],
+  },
+  lint: {
+    jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+    // El type-aware de Oxlint no resuelve los globals ambientales de Cloudflare Workers
+    // (`@cloudflare/workers-types`); el typecheck real del worker corre con `tsc -p tsconfig.worker.json`.
+    ignorePatterns: ['worker/**'],
+    rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
+    options: { typeAware: true, typeCheck: true },
+  },
+  plugins: lazyPlugins(() => [react(), tailwindcss(), guiaCorpus()]),
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

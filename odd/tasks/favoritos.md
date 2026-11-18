@@ -5,10 +5,10 @@ Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Specs
 
-- **S1** — *"en rebt tengo acordion para preambulo, reglamento e itc, quisiera tener uno que sea
+- **S1** — _"en rebt tengo acordion para preambulo, reglamento e itc, quisiera tener uno que sea
   Favoritos, y poder agregarle una estrella a las itc que quiero que esten en favoritos, para
   poder tener cerca los itc que busco mas frecuentemente, y guardar esas selecciones en
-  localstorage"* (pedido original, 21/10/2026).
+  localstorage"_ (pedido original, 21/10/2026).
 - **S2** — Los favoritos se guardan en el navegador (`localStorage`), sin servidor ni cuenta, y
   sobreviven a la sesión.
 - **S3** — El apartado de Favoritos se puede abrir a la vez que el de las ITC: el usuario quiere
@@ -16,13 +16,13 @@ Node, sin dependencias de test); type gate: `tsc --noEmit`.
 
 ## Tasks
 
-| # | Tarea | Specs | Ruta | Riesgo | Commit |
-|---|-------|-------|------|--------|--------|
-| T1 | `src/favoritos.ts`: la lógica de leer, alternar y guardar, con el hook | S1,S2 | inline | — | 1 |
-| T2 | `src/Sidebar.tsx`: la estrella en las filas y el acordeón de Favoritos | S1,S3 | inline | — | 1 |
-| T3 | `src/styles.css`: la estrella, que vive fuera del botón de la fila | S1 | inline | — | 1 |
-| T4 | Tests de la lógica de leer y alternar | S2 | inline | — | 1 |
-| T5 | Verificación en el navegador: marcar, recargar, desmarcar | S1,S2 | inline | — | 1 |
+| #   | Tarea                                                                  | Specs | Ruta   | Riesgo | Commit |
+| --- | ---------------------------------------------------------------------- | ----- | ------ | ------ | ------ |
+| T1  | `src/favoritos.ts`: la lógica de leer, alternar y guardar, con el hook | S1,S2 | inline | —      | 1      |
+| T2  | `src/Sidebar.tsx`: la estrella en las filas y el acordeón de Favoritos | S1,S3 | inline | —      | 1      |
+| T3  | `src/styles.css`: la estrella, que vive fuera del botón de la fila     | S1    | inline | —      | 1      |
+| T4  | Tests de la lógica de leer y alternar                                  | S2    | inline | —      | 1      |
+| T5  | Verificación en el navegador: marcar, recargar, desmarcar              | S1,S2 | inline | —      | 1      |
 
 **Trazabilidad de ruta**: no hay trigger de delegación (ni paralelismo ni backstop de contexto).
 Todo inline.
@@ -43,10 +43,10 @@ Todo inline.
 
 ## Log
 
-- **L1** (2026-10-21) — *"en rebt tengo acordion para preambulo, reglamento e itc, quisiera tener uno
+- **L1** (2026-10-21) — _"en rebt tengo acordion para preambulo, reglamento e itc, quisiera tener uno
   que sea Favoritos, y poder agregarle una estrella a las itc que quiero que esten en favoritos,
   para poder tener cerca los itc que busco mas frecuentemente, y guardar esas selecciones en
-  localstorage"*.
+  localstorage"_.
 - **L2** (2026-10-21) — **Dónde va la estrella**: en las filas del acordeón de ITCs, que es donde
   están las que el usuario quiere tener cerca. Las de Favoritos llevan la suya también, para
   poder desmarcar sin volver a la lista.
@@ -60,8 +60,8 @@ Todo inline.
   pero como la comparación es lexicográfica, `'id' < 'da'` es falso y el grupo "normales" queda
   vacío. No afecta a nada: los dos grupos se concatenan y la lista final es la misma. Queda
   anotado por si algún día se toca esa clasificación.
-- **L5** (2026-10-21) — *"podemos poner un subacordion para que esten todas las disposiciones
-  cerradas por default dentro de instrucciones"*: las disposiciones (13: adicionales,
+- **L5** (2026-10-21) — _"podemos poner un subacordion para que esten todas las disposiciones
+  cerradas por default dentro de instrucciones"_: las disposiciones (13: adicionales,
   transitorias, derogatoria, finales, firma y el Reglamento) van en un sub-acordeón **plegado**
   dentro de las ITC, y la lista de ITC-BT queda arriba, que es lo que se usa todos los días.
 - **L6** (2026-10-21) — **Al tocar la clasificación, se arregla el bug de L4**: el reparto se

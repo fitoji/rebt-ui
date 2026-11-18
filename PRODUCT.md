@@ -11,7 +11,7 @@ web
 Two situations, confirmed by the maintainer, over the same corpus:
 
 - **Exam candidate** preparing the REBT / baja-tensión exam (oposiciones): reads a specific ITC-BT or guide, drills the bundled quizzes, and repeats only the questions missed.
-- **Working technician** who needs the authoritative clause or table quickly during an installation or inspection: jumps straight to an ITC-BT or guide section, copies a table into a spreadsheet, star-favourites what gets reused. Also checks what the regulation said *before* it changed, to judge an installation built under a previous edition.
+- **Working technician** who needs the authoritative clause or table quickly during an installation or inspection: jumps straight to an ITC-BT or guide section, copies a table into a spreadsheet, star-favourites what gets reused. Also checks what the regulation said _before_ it changed, to judge an installation built under a previous edition.
 
 Success is the same in both: reach the exact official clause, table or figure within seconds, and be able to come back to it later.
 
