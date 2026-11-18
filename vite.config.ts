@@ -47,6 +47,15 @@ export default defineConfig({
     ignorePatterns: ['worker/**'],
     rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
     options: { typeAware: true, typeCheck: true },
+    overrides: [
+      {
+        files: ['test/**'],
+        rules: {
+          // `test()` de node:test devuelve una Promise que maneja el runner: no es flotante.
+          'typescript/no-floating-promises': 'off',
+        },
+      },
+    ],
   },
   plugins: lazyPlugins(() => [react(), tailwindcss(), guiaCorpus()]),
   resolve: {

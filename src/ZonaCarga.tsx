@@ -26,8 +26,13 @@ function leerJson(archivo: File): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const lector = new FileReader()
     lector.onload = (evento) => {
+      const texto = evento.target?.result
+      if (typeof texto !== 'string') {
+        reject(new Error('No se pudo leer el archivo'))
+        return
+      }
       try {
-        resolve(JSON.parse(String(evento.target?.result ?? '')))
+        resolve(JSON.parse(texto))
       } catch {
         reject(new Error('JSON inválido'))
       }

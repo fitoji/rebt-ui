@@ -180,7 +180,7 @@ function nombreCsv(ref: string): string | null {
 function renderTable(header: string[], rows: string[][], ctx: Ctx, csv: string | null): string {
   const width = Math.max(1, header.length, ...rows.map((r) => r.length))
   const pad = (row: string[]): string[] =>
-    row.length >= width ? row : [...row, ...new Array(width - row.length).fill('')]
+    row.length >= width ? row : [...row, ...Array.from({ length: width - row.length }, () => '')]
   const cell = (tag: string, value: string): string => `<${tag}>${escapeHtml(value)}</${tag}>`
 
   const head = `<tr>${pad(header)
